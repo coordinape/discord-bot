@@ -13,7 +13,7 @@ export default (): MessageOptions => {
 				},
 				{
 					name: '-> Useful Links',
-					value: '[BanklessDAO Product Support Center invite](https://discord.gg/85Kb6Qv6gd)\n',
+					value: '[The DAO Bot Garage](https://discord.gg/EWRMHjqQVf)\n',
 					inline: false,
 				},
 			],
