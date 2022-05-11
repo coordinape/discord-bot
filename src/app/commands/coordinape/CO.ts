@@ -5,7 +5,7 @@ import {
 	SlashCreator,
 } from 'slash-create';
 import { LogUtils } from '../../utils/Log';
-import { command } from '../../utils/Sentry';
+// import { command } from '../../utils/Sentry';
 import serviceSupport from '../../utils/ServiceSupport';
 
 export default class CO extends SlashCommand {
@@ -36,7 +36,7 @@ export default class CO extends SlashCommand {
 		});
 	}
 
-    @command
+	// @command
 	async run(ctx: CommandContext) {
 		LogUtils.logCommandStart(ctx);
 		if (ctx.user.bot) return;
