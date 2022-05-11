@@ -2,11 +2,11 @@ name: Deploy to Production Environment
 on:
   push:
     branches:
-      - 'main'
+      - 'develop'
 jobs:
   deploy-prod:
     environment:
-      name: production
+      name: development
       url: url-logdna-here
     runs-on: ubuntu-20.04
     steps:
@@ -25,8 +25,8 @@ jobs:
         with:
           heroku_api_key: ${{secrets.PROD_HEROKU_API_KEY}}
           heroku_app_name: 'heroku-app-name-here'
-          heroku_email: 'emaul-here'
-          procfile: 'worker: yarn prod'
+          heroku_email: 'email-here'
+          procfile: 'worker: npm prod'
         env:
           HD_DISCORD_BOT_TOKEN: ${{secrets.PROD_DISCORD_TOKEN}}
           HD_DISCORD_BOT_PUBLIC_KEY: ${{secrets.PROD_BOT_PUBLIC_KEY}}
@@ -44,6 +44,6 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
           sourcemaps: './dist'
         with:
-          environment: 'production'
+          environment: 'development'
           version: 'project-name@${{ steps.package-version.outputs.current-version }}'
           sourcemaps: './dist'
