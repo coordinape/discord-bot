@@ -16,14 +16,26 @@ export default class CO extends SlashCommand {
 			defaultPermission: true,
 			options: [
 				{
-					name: 'coordinape-discord',
+					name: 'link',
 					type: CommandOptionType.SUB_COMMAND,
-					description: 'Provides a link to Coordinape\'s Discord server.',
+					description: 'Link your Discord and Coordinape accounts.',
 				},
 				{
-					name: 'website',
-					type: CommandOptionType.SUB_COMMAND,
-					description: 'This drops a link to the Coordinape website.',
+					name: 'support',
+					type: CommandOptionType.SUB_COMMAND_GROUP,
+					description: 'Provides a link to Coordinape\'s Discord server.',
+					options: [
+						{
+							name: 'coordinape-discord',
+							type: CommandOptionType.SUB_COMMAND,
+							description: 'Provides a link to Coordinape\'s Discord server.',
+						},
+						{
+							name: 'website',
+							type: CommandOptionType.SUB_COMMAND,
+							description: 'This drops a link to the Coordinape website.',
+						},
+					],
 				},
 			],
 		});
@@ -38,10 +50,12 @@ export default class CO extends SlashCommand {
 
 		try {
 			switch (subCommand) {
-			case 'coordinape-discord':
-				return serviceSupport.ephemeralError(ctx, 'Join the Coordinape Discord Server!');
-			case 'website':
-				return serviceSupport.ephemeralWebsite(ctx);
+			case 'support':
+				if (ctx.subcommands[1] === 'coordinape-discord') {
+					return serviceSupport.ephemeralError(ctx, 'Join the Coordinape Discord Server!');
+				} else if (ctx.subcommands[1] === 'website') {
+					return serviceSupport.ephemeralWebsite(ctx);
+				}
 			}
 		} catch (e) {
 			LogUtils.logError('Welp, this is fucked.', e);
