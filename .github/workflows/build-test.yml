@@ -15,10 +15,8 @@ jobs:
               with:
                   node-version: '16.10.0'
             - name: Install dependencies
-              run: yarn install
+              run: npm install
             - name: Lint Code
-              run: yarn lint
+              run: npm lint
             - name: Build and Compile Typescript
-              run: yarn build
-            - name: Run test cases
-              run: yarn test --watchAll=false
+              run: npm build
