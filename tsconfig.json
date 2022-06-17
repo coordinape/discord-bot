@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+		"experimentalDecorators": true,
         "module": "commonjs",
         "target": "es6",
         "lib": ["es2020"],
@@ -10,7 +11,7 @@
         "esModuleInterop": true,
         "noEmitOnError": true,
         "moduleResolution": "node",
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
     },
     "include": ["src/**/*.ts"],
     "exclude": ["node_modules"]

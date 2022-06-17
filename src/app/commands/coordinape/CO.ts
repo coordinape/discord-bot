@@ -1,13 +1,12 @@
 import {
-	// CommandContext,
+	CommandContext,
 	CommandOptionType,
 	SlashCommand,
 	SlashCreator,
 } from 'slash-create';
-// import ServiceUtils from '../../utils/ServiceUtils';
-// import constants from '../../service/constants/constants';
-// import { GuildMember } from 'discord.js';
+import { LogUtils } from '../../utils/Log';
 // import { command } from '../../utils/Sentry';
+import serviceSupport from '../../utils/ServiceSupport';
 
 export default class CO extends SlashCommand {
 	constructor(creator: SlashCreator) {
@@ -17,77 +16,51 @@ export default class CO extends SlashCommand {
 			defaultPermission: true,
 			options: [
 				{
-					name: 'contribute',
-					type: CommandOptionType.SUB_COMMAND_GROUP,
-					description: 'What did you do this Epoch? Enter your contribution statement:',
-				},
-				{
-					name: 'create',
-					type: CommandOptionType.SUB_COMMAND_GROUP,
-					description: 'Create a new Circle for your Org',
-				},
-				{
-					name: 'discord',
-					type: CommandOptionType.SUB_COMMAND_GROUP,
-					description: 'Join the Coordinape Discord',
-				},
-				{
-					name: 'feedback',
-					type: CommandOptionType.SUB_COMMAND_GROUP,
-					description: 'How can Coordinpae improve? This drops a link to a feedback form.',
-				},
-				{
-					name: 'help',
-					type: CommandOptionType.SUB_COMMAND_GROUP,
-					description: 'This populates a list of available Coordinape commands and what they do.',
-				},
-				{
 					name: 'link',
-					type: CommandOptionType.SUB_COMMAND_GROUP,
-					description: 'Link your Discord account to your Coordinape account',
+					type: CommandOptionType.SUB_COMMAND,
+					description: 'Link your Discord and Coordinape accounts.',
 				},
 				{
-					name: 'nominate',
+					name: 'support',
 					type: CommandOptionType.SUB_COMMAND_GROUP,
-					description: 'Nominate a fellow contributor to be added to your Circle.',
+					description: 'Provides a link to Coordinape\'s Discord server.',
+					options: [
+						{
+							name: 'coordinape-discord',
+							type: CommandOptionType.SUB_COMMAND,
+							description: 'Provides a link to Coordinape\'s Discord server.',
+						},
+						{
+							name: 'website',
+							type: CommandOptionType.SUB_COMMAND,
+							description: 'This drops a link to the Coordinape website.',
+						},
+					],
 				},
-				{
-					name: 'note',
-					type: CommandOptionType.SUB_COMMAND_GROUP,
-					description: 'Leave a note for your fellow contributors!',
-				},
-				{
-					name: 'notes',
-					type: CommandOptionType.SUB_COMMAND_GROUP,
-					description: 'Review the notes you\'ve left your fellow contributors!',
-				},
-				{
-					name: 'opt-in',
-					type: CommandOptionType.SUB_COMMAND_GROUP,
-					description: 'Opt in to recieve GIVE',
-				},
-				{
-					name: 'opt-out',
-					type: CommandOptionType.SUB_COMMAND_GROUP,
-					description: 'Opt out of recieving GIVE',
-				},
-				{
-					name: 'summary',
-					type: CommandOptionType.SUB_COMMAND_GROUP,
-					description: 'Most recent Epoch summary',
-				},
-				{
-					name: 'vouch',
-					type: CommandOptionType.SUB_COMMAND_GROUP,
-					description: 'Vouch for a nominee.',
-				},
-				{
-					name: 'website',
-					type: CommandOptionType.SUB_COMMAND_GROUP,
-					description: 'This drops a link to the Coordinape website.',
-				},
-
 			],
 		});
+	}
+
+	// @command
+	async run(ctx: CommandContext) {
+		LogUtils.logCommandStart(ctx);
+		if (ctx.user.bot) return;
+		
+		const subCommand: string = ctx.subcommands[0];
+
+		try {
+			switch (subCommand) {
+			case 'support':
+				if (ctx.subcommands[1] === 'coordinape-discord') {
+					return serviceSupport.ephemeralError(ctx, 'Join the Coordinape Discord Server!');
+				} else if (ctx.subcommands[1] === 'website') {
+					return serviceSupport.ephemeralWebsite(ctx);
+				}
+			}
+		} catch (e) {
+			LogUtils.logError('Welp, this is fucked.', e);
+			await serviceSupport.ephemeralError(ctx);
+			return;
+		}
 	}
 }

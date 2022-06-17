@@ -2,7 +2,7 @@ name: Deploy to Production Environment
 on:
   push:
     branches:
-      - 'main'
+      - 'nonsense'
 jobs:
   deploy-prod:
     environment:
@@ -26,7 +26,7 @@ jobs:
           heroku_api_key: ${{secrets.PROD_HEROKU_API_KEY}}
           heroku_app_name: 'heroku-app-name-here'
           heroku_email: 'emaul-here'
-          procfile: 'worker: yarn prod'
+          procfile: 'worker: npm prod'
         env:
           HD_DISCORD_BOT_TOKEN: ${{secrets.PROD_DISCORD_TOKEN}}
           HD_DISCORD_BOT_PUBLIC_KEY: ${{secrets.PROD_BOT_PUBLIC_KEY}}
