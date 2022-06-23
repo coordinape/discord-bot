@@ -1,9 +1,9 @@
 import {
 	GuildMember,
 	PartialGuildMember,
-	Collection,
-	Snowflake,
-	Role,
+	// Collection,
+	// Snowflake,
+	// Role,
 } from 'discord.js';
 import { DiscordEvent } from '../types/discord/DiscordEvent';
 import Log, { LogUtils } from '../utils/Log';
@@ -45,11 +45,11 @@ export default class implements DiscordEvent {
 	 * @param guildMember member that roles were removed from
 	 * @param roles roles that were removed from member
 	 */
-	rolesRemoved = (guildMember: GuildMember, roles: Collection<Snowflake, Role>): void => {
+	/* rolesRemoved = (guildMember: GuildMember, roles: Collection<Snowflake, Role>): void => {
 		roles.each(async role => {
 			// logic for removing roles
 		});
-	};
+	}; */
 
 	/**
 	 * Handler for when roles are added to a member.
@@ -57,10 +57,10 @@ export default class implements DiscordEvent {
 	 * @param guildMember member to whom roles were added
 	 * @param roles roles added
 	 */
-	rolesAdded = (guildMember: GuildMember, roles: Collection<Snowflake, Role>): void => {
+	/* rolesAdded = (guildMember: GuildMember, roles: Collection<Snowflake, Role>): void => {
 		roles.each(async role => {
 			// logic for applying role addition
 		});
-	};
+	}; */
 	
 }
