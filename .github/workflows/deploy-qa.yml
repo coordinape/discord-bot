@@ -1,12 +1,12 @@
-name: Deploy to Production Environment
+name: Deploy to Staging Environment
 on:
   push:
     branches:
-      - 'release'
+      - 'main'
 jobs:
   deploy-prod:
     environment:
-      name: production
+      name: staging
       url: url-logdna-here
     runs-on: ubuntu-20.04
     steps:
@@ -23,27 +23,27 @@ jobs:
       - name: Deploy to Heroku Shared Test Environment
         uses: AkhileshNS/heroku-deploy@v3.12.12
         with:
-          heroku_api_key: ${{secrets.PROD_HEROKU_API_KEY}}
-          heroku_app_name: 'heroku-app-name-here'
-          heroku_email: 'emaul-here'
-          procfile: 'worker: yarn prod'
+          heroku_api_key: ${{secrets.QA_HEROKU_API_KEY}}
+          heroku_app_name: 'queen-kong'
+          heroku_email: 'joshua@nonsensecodes.io'
+          procfile: 'worker: npm run qa'
         env:
-          HD_DISCORD_BOT_TOKEN: ${{secrets.PROD_DISCORD_TOKEN}}
-          HD_DISCORD_BOT_PUBLIC_KEY: ${{secrets.PROD_BOT_PUBLIC_KEY}}
-          HD_DISCORD_BOT_APPLICATION_ID: ${{secrets.PROD_BOT_APPLICATION_ID}}
-          HD_LOGDNA_TOKEN: ${{secrets.PROD_LOGDNA_TOKEN}}
-          HD_SENTRY_IO_DSN: ${{secrets.PROD_SENTRY_IO_DSN}}
+          QA_DISCORD_BOT_TOKEN: ${{secrets.PROD_DISCORD_TOKEN}}
+          QA_DISCORD_BOT_PUBLIC_KEY: ${{secrets.PROD_BOT_PUBLIC_KEY}}
+          QA_DISCORD_BOT_APPLICATION_ID: ${{secrets.PROD_BOT_APPLICATION_ID}}
+          QA_LOGDNA_TOKEN: ${{secrets.PROD_LOGDNA_TOKEN}}
+          QA_SENTRY_IO_DSN: ${{secrets.PROD_SENTRY_IO_DSN}}
       - name: Get current package version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@v1.1.0
       - name: Sentry Release
         uses: getsentry/action-release@v1.1.6
         env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.QA_SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.QA_SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.QA_SENTRY_PROJECT }}
           sourcemaps: './dist'
         with:
-          environment: 'production'
+          environment: 'staging'
           version: 'project-name@${{ steps.package-version.outputs.current-version }}'
           sourcemaps: './dist'
