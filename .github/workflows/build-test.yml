@@ -17,6 +17,6 @@ jobs:
             - name: Install dependencies
               run: npm install
             - name: Lint Code
-              run: npm lint
+              run: npm run lint
             - name: Build and Compile Typescript
-              run: npm build
+              run: npm run build
