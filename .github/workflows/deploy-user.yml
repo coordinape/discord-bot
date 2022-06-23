@@ -1,4 +1,4 @@
-name: Deploy to Production Environment
+name: Deploy to Local Staging Environment
 on:
   push:
     branches:
@@ -6,7 +6,7 @@ on:
 jobs:
   deploy-prod:
     environment:
-      name: production
+      name: staging
       url: url-logdna-here
     runs-on: ubuntu-20.04
     steps:
@@ -17,22 +17,22 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Lint Code
-        run: npm lint
+        run: npm run lint
       - name: Build and Compile Typescript
-        run: npm build
+        run: npm run build
       - name: Deploy to Heroku Shared Test Environment
         uses: AkhileshNS/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.PROD_HEROKU_API_KEY}}
-          heroku_app_name: 'heroku-app-name-here'
-          heroku_email: 'emaul-here'
-          procfile: 'worker: npm prod'
+          heroku_app_name: 'baby-kong'
+          heroku_email: 'joshua@nonsensecodes.io'
+          procfile: 'worker: npm run qa'
         env:
-          HD_DISCORD_BOT_TOKEN: ${{secrets.PROD_DISCORD_TOKEN}}
-          HD_DISCORD_BOT_PUBLIC_KEY: ${{secrets.PROD_BOT_PUBLIC_KEY}}
-          HD_DISCORD_BOT_APPLICATION_ID: ${{secrets.PROD_BOT_APPLICATION_ID}}
-          HD_LOGDNA_TOKEN: ${{secrets.PROD_LOGDNA_TOKEN}}
-          HD_SENTRY_IO_DSN: ${{secrets.PROD_SENTRY_IO_DSN}}
+          QA_DISCORD_BOT_TOKEN: ${{secrets.QA_DISCORD_TOKEN}}
+          QA_DISCORD_BOT_PUBLIC_KEY: ${{secrets.QA_BOT_PUBLIC_KEY}}
+          QA_DISCORD_BOT_APPLICATION_ID: ${{secrets.QA_BOT_APPLICATION_ID}}
+          QA_LOGDNA_TOKEN: ${{secrets.QA_LOGDNA_TOKEN}}
+          QA_SENTRY_IO_DSN: ${{secrets.QA_SENTRY_IO_DSN}}
       - name: Get current package version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@v1.1.0
@@ -44,6 +44,6 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
           sourcemaps: './dist'
         with:
-          environment: 'production'
-          version: 'project-name@${{ steps.package-version.outputs.current-version }}'
+          environment: 'staging'
+          version: 'baby-kong@${{ steps.package-version.outputs.current-version }}'
           sourcemaps: './dist'
