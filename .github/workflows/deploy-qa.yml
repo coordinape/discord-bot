@@ -1,10 +1,10 @@
-name: Deploy to Local Staging Environment
+name: Deploy to Staging Environment
 on:
   push:
     branches:
-      - 'nonsense'
+      - 'main'
 jobs:
-  deploy-prod:
+  deploy-qa:
     environment:
       name: staging
       url: url-logdna-here
@@ -23,8 +23,8 @@ jobs:
       - name: Deploy to Heroku Shared Test Environment
         uses: AkhileshNS/heroku-deploy@v3.12.12
         with:
-          heroku_api_key: ${{secrets.PROD_HEROKU_API_KEY}}
-          heroku_app_name: 'baby-kong'
+          heroku_api_key: ${{secrets.QA_HEROKU_API_KEY}}
+          heroku_app_name: 'queen-kong'
           heroku_email: 'joshua@nonsensecodes.io'
           procfile: 'worker: npm run qa'
         env:
@@ -39,11 +39,11 @@ jobs:
       - name: Sentry Release
         uses: getsentry/action-release@v1.1.6
         env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.QA_SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.QA_SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.QA_SENTRY_PROJECT }}
           sourcemaps: './dist'
         with:
           environment: 'staging'
-          version: 'baby-kong@${{ steps.package-version.outputs.current-version }}'
+          version: 'queen-kong@${{ steps.package-version.outputs.current-version }}'
           sourcemaps: './dist'
