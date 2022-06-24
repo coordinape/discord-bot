@@ -7,7 +7,7 @@ jobs:
   deploy-qa:
     environment:
       name: staging
-      url: url-logdna-here
+      url: 'https://app.logdna.com/d68005618b/logs/view?apps=baby-kong'
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
