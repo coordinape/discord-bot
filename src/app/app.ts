@@ -1,6 +1,16 @@
 import * as Sentry from '@sentry/node';
-import { SlashCreator, GatewayServer, SlashCommand, CommandContext } from 'slash-create';
-import Discord, { Client, ClientOptions, Intents, WSEventType } from 'discord.js';
+import {
+	SlashCreator,
+	GatewayServer,
+	SlashCommand,
+	CommandContext,
+} from 'slash-create';
+import Discord, {
+	Client,
+	ClientOptions,
+	Intents,
+	WSEventType,
+} from 'discord.js';
 import path from 'path';
 import fs from 'fs';
 import Log, { LogUtils } from './utils/Log';
@@ -98,6 +108,7 @@ function initializeSentryIO() {
 	Sentry.init({
 		dsn: `${apiKeys.sentryDSN}`,
 		tracesSampleRate: 1.0,
+		debug: true,
 		release: `${constants.APP_NAME}@${constants.APP_VERSION}`,
 		environment: `${process.env.SENTRY_ENVIRONMENT}`,
 		integrations: [
