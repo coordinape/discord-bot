@@ -13,7 +13,7 @@ export const serviceSupport = {
 				type: ComponentType.BUTTON,
 				style: ButtonStyle.LINK,
 				label: 'Support',
-				url: 'https://discord.gg/z23P9yNvYs',
+				url: 'https://discord.coordinape.com/',
 			}],
 		};
 		try {
