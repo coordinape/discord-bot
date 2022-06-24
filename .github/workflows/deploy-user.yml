@@ -28,11 +28,11 @@ jobs:
           heroku_email: 'joshua@nonsensecodes.io'
           procfile: 'worker: npm run qa'
         env:
-          QA_DISCORD_BOT_TOKEN: ${{secrets.QA_DISCORD_TOKEN}}
-          QA_DISCORD_BOT_PUBLIC_KEY: ${{secrets.QA_BOT_PUBLIC_KEY}}
-          QA_DISCORD_BOT_APPLICATION_ID: ${{secrets.QA_BOT_APPLICATION_ID}}
-          QA_LOGDNA_TOKEN: ${{secrets.QA_LOGDNA_TOKEN}}
-          QA_SENTRY_IO_DSN: ${{secrets.QA_SENTRY_IO_DSN}}
+          HD_DISCORD_BOT_TOKEN: ${{secrets.QA_DISCORD_TOKEN}}
+          HD_DISCORD_BOT_PUBLIC_KEY: ${{secrets.QA_BOT_PUBLIC_KEY}}
+          HD_DISCORD_BOT_APPLICATION_ID: ${{secrets.QA_BOT_APPLICATION_ID}}
+          HD_LOGDNA_TOKEN: ${{secrets.QA_LOGDNA_TOKEN}}
+          HD_SENTRY_IO_DSN: ${{secrets.QA_SENTRY_IO_DSN}}
       - name: Get current package version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@v1.1.0
