@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - 'nonsense'
+  pull_request:
+      branches:
+        - 'nonsense'
 jobs:
   deploy-qa:
     environment:
