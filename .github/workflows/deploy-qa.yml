@@ -42,6 +42,7 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.QA_SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.QA_SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.QA_SENTRY_PROJECT }}
+          SENTRY_ENVIRONMENT: 'staging'
           sourcemaps: './dist'
         with:
           environment: 'staging'
