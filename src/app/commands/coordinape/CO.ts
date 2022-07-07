@@ -16,6 +16,11 @@ export default class CO extends SlashCommand {
 			defaultPermission: true,
 			options: [
 				{
+					name: 'configuration',
+					type: CommandOptionType.SUB_COMMAND,
+					description: 'Configure the bot.',
+				},
+				{
 					name: 'link',
 					type: CommandOptionType.SUB_COMMAND,
 					description: 'Link your Discord and Coordinape accounts.',
@@ -50,6 +55,10 @@ export default class CO extends SlashCommand {
 
 		try {
 			switch (subCommand) {
+			case 'configuration':
+				// TODO put config flow here, which will go through the different modals
+				// and at the end present a confirmation modal with all the details inserted
+				return serviceSupport.configModalAlerts(ctx);
 			case 'support':
 				if (ctx.subcommands[1] === 'coordinape-discord') {
 					return serviceSupport.ephemeralError(ctx, 'Join the Coordinape Discord Server!');
