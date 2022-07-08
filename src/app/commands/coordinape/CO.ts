@@ -17,8 +17,20 @@ export default class CO extends SlashCommand {
 			options: [
 				{
 					name: 'configuration',
-					type: CommandOptionType.SUB_COMMAND,
+					type: CommandOptionType.SUB_COMMAND_GROUP,
 					description: 'Configure the bot.',
+					options: [
+						{
+							name: 'permissions',
+							type: CommandOptionType.SUB_COMMAND,
+							description: 'Configure bot permission scopes.',
+						},
+						{
+							name: 'alerts',
+							type: CommandOptionType.SUB_COMMAND,
+							description: 'Configure bot alert types and frequency.',
+						},
+					],
 				},
 				{
 					name: 'link',
@@ -56,14 +68,20 @@ export default class CO extends SlashCommand {
 		try {
 			switch (subCommand) {
 			case 'configuration':
-				// TODO put config flow here, which will go through the different modals
-				// and at the end present a confirmation modal with all the details inserted
-				return serviceSupport.configModalAlerts(ctx);
+				if (ctx.subcommands[1] === 'permissions') {
+					return serviceSupport.configurationPermissions(ctx);
+				} else if (ctx.subcommands[1] === 'alerts') {
+					return serviceSupport.configurationAlerts(ctx);
+				} else {
+					throw Error(`Unexpected subcommand ${ctx.subcommands[1]}`);
+				}
 			case 'support':
 				if (ctx.subcommands[1] === 'coordinape-discord') {
 					return serviceSupport.ephemeralError(ctx, 'Join the Coordinape Discord Server!');
 				} else if (ctx.subcommands[1] === 'website') {
 					return serviceSupport.ephemeralWebsite(ctx);
+				} else {
+					throw Error(`Unexpected subcommand ${ctx.subcommands[1]}`);
 				}
 			}
 		} catch (e) {

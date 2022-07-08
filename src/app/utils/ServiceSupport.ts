@@ -49,11 +49,11 @@ export const serviceSupport = {
 		}
 	},
 
-	configModalIds: async (ctx: CommandContext): Promise<any> => {
+	configurationPermissions: async (ctx: CommandContext): Promise<any> => {
 		try {
 			await ctx.sendModal(
 				{
-					title: 'Roles and channels configuration',
+					title: 'Permissions configuration',
 					components: [
 						{
 							type: ComponentType.ACTION_ROW,
@@ -104,10 +104,20 @@ export const serviceSupport = {
 								},
 							],
 						},
+						{
+							type: ComponentType.ACTION_ROW,
+							components: [
+								{
+									type: ComponentType.TEXT_INPUT,
+									label: 'Circles to make available in this Discord?',
+									style: TextInputStyle.SHORT,
+									custom_id: 'circles_available',
+									placeholder: 'Insert comma separated Coordinape circle names',
+								},
+							],
+						},
 					],
 				},
-				// TODO Answer with a modal with a break-down of all the options inserted. Ask on that modal
-				// whether everything is correct. If not, give the user the option to edit.
 				(mctx) => {
 					mctx.send(`Your input: ${mctx.values.text_input}\nYour long input: ${mctx.values.long_text_input}`);
 				},
@@ -117,7 +127,7 @@ export const serviceSupport = {
 		}
 	},
 
-	configModalAlerts: async (ctx: CommandContext): Promise<any> => {
+	configurationAlerts: async (ctx: CommandContext): Promise<any> => {
 		try {
 			await ctx.sendModal(
 				{
@@ -157,7 +167,7 @@ export const serviceSupport = {
 							type: ComponentType.ACTION_ROW,
 							components: [
 								// TODO disable this if "off" is selected for updates
-								// didn't figure out yet how to do that yet
+								// didn't figure out yet how to do that
 								{
 									type: ComponentType.SELECT,
 									custom_id: 'alert_types',
