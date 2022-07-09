@@ -5,18 +5,17 @@
 - applications.commands
 
 ### General Permissions
+- Manage Channels
+- Manage Webhooks
 - Read Messages/View Channels
 
 ### Text Permissions
 - Send Messages
 - Send Messages in Threads
-- Embed Links
-- Attach Files
 - Read Message History
-- Add Reactions
 - Use Slash Commands
 
-Permission Integer: `277025508416`
+Permission Integer: `277562330128`
 
 ### Intents
 - Bot > Privileged Gateway Intents > Enable PRESENCE INTENT
