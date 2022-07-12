@@ -7,6 +7,8 @@ import {
 import { LogUtils } from '../../utils/Log';
 // import { command } from '../../utils/Sentry';
 import serviceSupport from '../../utils/ServiceSupport';
+import { configurationCommand } from '../../service/coordinape/configuration';
+import { assignCommand } from '../../service/coordinape/assign';
 
 export default class CO extends SlashCommand {
 	constructor(creator: SlashCreator) {
@@ -17,20 +19,13 @@ export default class CO extends SlashCommand {
 			options: [
 				{
 					name: 'configuration',
-					type: CommandOptionType.SUB_COMMAND_GROUP,
+					type: CommandOptionType.SUB_COMMAND,
 					description: 'Configure the bot.',
-					options: [
-						{
-							name: 'permissions',
-							type: CommandOptionType.SUB_COMMAND,
-							description: 'Configure bot permission scopes.',
-						},
-						{
-							name: 'alerts',
-							type: CommandOptionType.SUB_COMMAND,
-							description: 'Configure bot alert types and frequency.',
-						},
-					],
+				},
+				{
+					name: 'assign',
+					type: CommandOptionType.SUB_COMMAND,
+					description: 'Assign a Discord role to a circle.',
 				},
 				{
 					name: 'link',
@@ -68,13 +63,9 @@ export default class CO extends SlashCommand {
 		try {
 			switch (subCommand) {
 			case 'configuration':
-				if (ctx.subcommands[1] === 'permissions') {
-					return serviceSupport.configurationPermissions(ctx);
-				} else if (ctx.subcommands[1] === 'alerts') {
-					return serviceSupport.configurationAlerts(ctx);
-				} else {
-					throw Error(`Unexpected subcommand ${ctx.subcommands[1]}`);
-				}
+				return configurationCommand(ctx);
+			case 'assign':
+				return assignCommand(ctx);
 			case 'support':
 				if (ctx.subcommands[1] === 'coordinape-discord') {
 					return serviceSupport.ephemeralError(ctx, 'Join the Coordinape Discord Server!');

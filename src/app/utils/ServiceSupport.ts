@@ -2,7 +2,6 @@ import { ButtonStyle,
 	CommandContext,
 	ComponentType,
 	ComponentActionRow,
-	TextInputStyle,
 } from 'slash-create';
 import Log from './Log';
 
@@ -49,85 +48,7 @@ export const serviceSupport = {
 		}
 	},
 
-	configurationPermissions: async (ctx: CommandContext): Promise<any> => {
-		try {
-			await ctx.sendModal(
-				{
-					title: 'Permissions configuration',
-					components: [
-						{
-							type: ComponentType.ACTION_ROW,
-							components: [
-								{
-									type: ComponentType.TEXT_INPUT,
-									label: 'Which roles can change the bot settings?',
-									style: TextInputStyle.SHORT,
-									custom_id: 'roles_allow_change_settings',
-									placeholder: 'Insert comma separated role IDs',
-								},
-							],
-						},
-						{
-							type: ComponentType.ACTION_ROW,
-							components: [
-								{
-									type: ComponentType.TEXT_INPUT,
-									label: 'Which roles can create a circle?',
-									style: TextInputStyle.SHORT,
-									custom_id: 'roles_allow_create_circle',
-									placeholder: 'Insert comma separated role IDs',
-								},
-							],
-						},
-						{
-							type: ComponentType.ACTION_ROW,
-							components: [
-								{
-									type: ComponentType.TEXT_INPUT,
-									label: 'Which roles for contributors?',
-									style: TextInputStyle.SHORT,
-									custom_id: 'roles_contributors',
-									placeholder: 'Insert comma separated role IDs (leave blank if none)',
-									required: false,
-								},
-							],
-						},
-						{
-							type: ComponentType.ACTION_ROW,
-							components: [
-								{
-									type: ComponentType.TEXT_INPUT,
-									label: 'Which channels can the bot message in?',
-									style: TextInputStyle.SHORT,
-									custom_id: 'roles_allow_bot_message',
-									placeholder: 'Insert comma separated channel IDs',
-								},
-							],
-						},
-						{
-							type: ComponentType.ACTION_ROW,
-							components: [
-								{
-									type: ComponentType.TEXT_INPUT,
-									label: 'Circles to make available in this Discord?',
-									style: TextInputStyle.SHORT,
-									custom_id: 'circles_available',
-									placeholder: 'Insert comma separated Coordinape circle names',
-								},
-							],
-						},
-					],
-				},
-				(mctx) => {
-					mctx.send(`Your input: ${mctx.values.text_input}\nYour long input: ${mctx.values.long_text_input}`);
-				},
-			).catch(Log.error);
-		} catch (e) {
-			Log.error(e);
-		}
-	},
-
-	configurationAlerts: async (ctx: CommandContext): Promise<any> => {
+	alerts: async (ctx: CommandContext): Promise<any> => {
 		try {
 			await ctx.sendModal(
 				{
