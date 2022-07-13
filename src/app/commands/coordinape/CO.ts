@@ -55,10 +55,15 @@ export default class CO extends SlashCommand {
 
 	// @command
 	async run(ctx: CommandContext) {
+
 		LogUtils.logCommandStart(ctx);
 		if (ctx.user.bot) return;
 		
 		const subCommand: string = ctx.subcommands[0];
+
+		// TODO pre-validation of requirements before returning modals in
+		// 1. `configurationCommand`: user must be discord server admin 
+		// 2. `assignCommand` user must be admin in at least one circle && have linked their discord user account to coordinape
 
 		try {
 			switch (subCommand) {

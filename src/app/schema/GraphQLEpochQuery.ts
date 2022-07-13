@@ -4,7 +4,7 @@ import Log from '../utils/Log';
 const graphQLEpochQueryObj = {
 	fetchGraphQLEpoch: async function(operationsDoc: string, operationName: string, variables: Record<string, any>) {
 		const result = await fetch(
-			'https://coordinape-staging.hasura.app/v1/graphql',
+			process.env.NODE_HASURA_URL,
 			{
 				method: 'POST',
 				body: JSON.stringify({
@@ -12,6 +12,10 @@ const graphQLEpochQueryObj = {
 					variables: variables,
 					operationName: operationName,
 				}),
+				headers: {
+					'x-hasura-admin-secret': process.env.HASURA_GRAPHQL_ADMIN_SECRET,
+					'Hasura-Client-Name': process.env.HASURA_CLIENT_NAME,
+				},
 			},
 		);
   
