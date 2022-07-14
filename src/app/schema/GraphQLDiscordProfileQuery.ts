@@ -14,8 +14,8 @@ const operationsDoc = `
       }
     `;
 
-const graphQLDiscordProfileQuery = async function(discordId) {
-  return GraphQL.fetch(operationsDoc, 'GetProfileByDiscordId', { user_snowflake: discordId });
+const graphQLDiscordProfileQuery = async function(discordUserId) {
+	return GraphQL.fetch(operationsDoc, 'GetProfileByDiscordId', { user_snowflake: discordUserId });
 };
 
 export default graphQLDiscordProfileQuery;

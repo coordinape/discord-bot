@@ -4,9 +4,10 @@ import {
 	SlashCommand,
 	SlashCreator,
 } from 'slash-create';
-import { LogUtils } from '../../utils/Log';
+import Log, { LogUtils } from '../../utils/Log';
 // import { command } from '../../utils/Sentry';
 import serviceSupport from '../../utils/ServiceSupport';
+import { commandPreChecks } from '../../service/coordinape/commandPreChecks';
 import { configurationCommand } from '../../service/coordinape/configuration';
 import { assignCommand } from '../../service/coordinape/assign';
 
@@ -61,23 +62,28 @@ export default class CO extends SlashCommand {
 		
 		const subCommand: string = ctx.subcommands[0];
 
-		// TODO pre-validation of requirements before returning modals in
+		// Pre-validation of requirements before returning modals in
 		// 1. `configurationCommand`: user must be discord server admin 
 		// 2. `assignCommand` user must be admin in at least one circle && have linked their discord user account to coordinape
+		let preCheck;
+		if (subCommand == 'configuration' || subCommand == 'assign') {
+			preCheck = await commandPreChecks(ctx);
+			if (!preCheck.status) {
+				return serviceSupport.ephemeralError(ctx, preCheck.msg);
+			}
+		}
 
 		try {
 			switch (subCommand) {
 			case 'configuration':
 				return configurationCommand(ctx);
 			case 'assign':
-				return assignCommand(ctx);
+				return assignCommand(ctx, preCheck.data.userAdminCircleIds);
 			case 'support':
 				if (ctx.subcommands[1] === 'coordinape-discord') {
 					return serviceSupport.ephemeralError(ctx, 'Join the Coordinape Discord Server!');
 				} else if (ctx.subcommands[1] === 'website') {
 					return serviceSupport.ephemeralWebsite(ctx);
-				} else {
-					throw Error(`Unexpected subcommand ${ctx.subcommands[1]}`);
 				}
 			}
 		} catch (e) {
