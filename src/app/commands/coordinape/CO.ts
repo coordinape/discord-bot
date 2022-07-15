@@ -62,18 +62,17 @@ export default class CO extends SlashCommand {
 		
 		const subCommand: string = ctx.subcommands[0];
 
-		// Pre-validation of requirements before returning modals in
-		// 1. `configurationCommand`: user must be discord server admin 
-		// 2. `assignCommand` user must be admin in at least one circle && have linked their discord user account to coordinape
-		let preCheck;
-		if (subCommand == 'configuration' || subCommand == 'assign') {
-			preCheck = await commandPreChecks(ctx);
-			if (!preCheck.status) {
-				return serviceSupport.ephemeralError(ctx, preCheck.msg);
-			}
-		}
-
 		try {
+			// Pre-validation of requirements before returning modals in
+			// 1. `configurationCommand`: user must be discord server admin 
+			// 2. `assignCommand` user must be admin in at least one circle && have linked their discord user account to coordinape
+			let preCheck;
+			if (subCommand == 'configuration' || subCommand == 'assign') {
+				preCheck = await commandPreChecks(ctx);
+				if (!preCheck.status) {
+					return serviceSupport.ephemeralError(ctx, preCheck.msg);
+				}
+			}
 			switch (subCommand) {
 			case 'configuration':
 				return configurationCommand(ctx);

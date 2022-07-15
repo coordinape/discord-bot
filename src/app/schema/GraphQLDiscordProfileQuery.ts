@@ -1,8 +1,4 @@
-// import Log from '../utils/Log';
 import GraphQL from '../utils/GraphQL';
-
-// TODO logs
-// TODO think of a good refactoring to avoid code repetition here in `schema`
 
 const operationsDoc = `
       query GetProfileByDiscordId ($user_snowflake: String!) {

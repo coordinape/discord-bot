@@ -47,7 +47,7 @@ const modalInputSanityCheck = async (mctx: ModalInteractionContext) => {
 const validateDiscordRole = async (mctx: ModalInteractionContext, discordRoleId: string) => {
 	const roles = await mctx.creator.client.guilds.resolve(mctx.guildID).roles.fetch();
 	const roleIds = roles.map((r: { id: string; }) => r.id);
-	if (!roleIds.includes(mctx.values.discord_role_id)) {
+	if (!roleIds.includes(discordRoleId)) {
 		// TODO reusable method in ServiceSupport for this response?
 		mctx.send({
 			content: `**Error**: Role with ID ${discordRoleId} does not exist in this Discord server.`,
@@ -84,11 +84,10 @@ const handleSubmitModal = async (mctx: ModalInteractionContext, userAdminCircleI
 		// Check whether user that called the command admins the Coordinape circle
 		const isCircleValid = await validateCoordinapeCircle(mctx, userAdminCircleIds, circleId);
 		if(!isCircleValid) return;
-		// TODO handle and log hasura errors
 		const roleCircleMutationResult = await graphQLRoleCircleMutation(circleId, discordRoleId);
 		assert(roleCircleMutationResult.data.insert_discord_roles_circles_one.id, 'panic: Unexpected GQL response (graphQLRoleCircleMutation)');
 		// TODO reusable method in ServiceSupport for this response?
-		const successMsg = `Successfuly associated role ${mctx.values.discord_role_id} to circle with ID ${mctx.values.circle_id}`;
+		const successMsg = `Successfuly associated circle with ID ${circleId} to Discord role ${discordRoleId}.`;
 		mctx.send({
 			content: successMsg,
 			ephemeral: true,
