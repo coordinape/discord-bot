@@ -1,3 +1,6 @@
+// @nonsense, I refactored these methods here in schema to make the graphql call reusable, 
+// but let me know if you want to keep the pattern you made
+
 import GraphQL from '../utils/GraphQL';
 
 const operationsDoc = `
