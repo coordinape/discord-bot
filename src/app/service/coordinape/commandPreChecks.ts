@@ -11,7 +11,6 @@ export async function commandPreChecks(ctx: CommandContext): Promise<any> {
 	if (subCommand == 'configuration') {
 		const isDiscordAdmin = await ctx.creator.client.guilds
 			.resolve(ctx.guildID).members.resolve(ctx.user.id).permissions.has('ADMINISTRATOR');
-		Log.log({ isDiscordAdmin });
 		if (!isDiscordAdmin) {
 			return { status: false, msg: 'You must be an administrator in the Discord server to call this command.' };
 		} else {
@@ -24,7 +23,6 @@ export async function commandPreChecks(ctx: CommandContext): Promise<any> {
 			return { status: false, msg: 'You must first link your Discord account to your Coordinape profile.' };
 		}
 		const profileId = discordUsers[0].profile.id;
-		Log.log({ profileId });
 		const circleAdminQueryData = await graphQLCircleAdminQuery(profileId);
 		const _circleAdminIds = circleAdminQueryData.data.users;
 		if (_circleAdminIds.length === 0) {
