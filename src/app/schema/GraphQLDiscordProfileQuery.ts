@@ -1,4 +1,4 @@
-//import Log from '../utils/Log';
+// import Log from '../utils/Log';
 import GraphQL from '../utils/GraphQL';
 
 // TODO logs
@@ -14,7 +14,7 @@ const operationsDoc = `
       }
     `;
 
-const graphQLDiscordProfileQuery = async function(discordUserId) {
+const graphQLDiscordProfileQuery = async function(discordUserId: string) {
 	return GraphQL.fetch(operationsDoc, 'GetProfileByDiscordId', { user_snowflake: discordUserId });
 };
 

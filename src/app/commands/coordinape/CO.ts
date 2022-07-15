@@ -4,7 +4,7 @@ import {
 	SlashCommand,
 	SlashCreator,
 } from 'slash-create';
-import Log, { LogUtils } from '../../utils/Log';
+import { LogUtils } from '../../utils/Log';
 // import { command } from '../../utils/Sentry';
 import serviceSupport from '../../utils/ServiceSupport';
 import { commandPreChecks } from '../../service/coordinape/commandPreChecks';

@@ -1,4 +1,3 @@
-import Log from '../utils/Log';
 import GraphQL from '../utils/GraphQL';
 
 // TODO logs
@@ -12,7 +11,7 @@ const operationsDoc = `
       }
     `;
 
-const graphQLCircleAdminQuery = async function(profileId) {
+const graphQLCircleAdminQuery = async function(profileId: number) {
 	return GraphQL.fetch(operationsDoc, 'GetCircleAdminByProfileId', { profile_id: profileId });
 };
 

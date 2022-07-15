@@ -1,6 +1,5 @@
+import assert from 'assert';
 import { CommandContext } from 'slash-create';
-
-import Log from '../../utils/Log';
 
 import graphQLDiscordProfileQuery from '../../schema/GraphQLDiscordProfileQuery';
 import graphQLCircleAdminQuery from '../../schema/GraphQLCircleAdminQuery';
@@ -17,13 +16,17 @@ export async function commandPreChecks(ctx: CommandContext): Promise<any> {
 			return { status: true, data: {} };
 		}
 	} else if (subCommand == 'assign') {
+		// TODO handle and log hasura errors
 		const profileQueryData = await graphQLDiscordProfileQuery(ctx.user.id);
+		assert(profileQueryData.data.discord_users, 'panic: Unexpected GQL response (graphQLDiscordProfileQuery)');
 		const discordUsers = profileQueryData.data.discord_users;
 		if (discordUsers.length === 0) {
 			return { status: false, msg: 'You must first link your Discord account to your Coordinape profile.' };
 		}
 		const profileId = discordUsers[0].profile.id;
+		// TODO handle and log hasura errors
 		const circleAdminQueryData = await graphQLCircleAdminQuery(profileId);
+		assert(circleAdminQueryData.data.users, 'panic: Unexpected GQL response (graphQLCircleAdminQuery)');
 		const _circleAdminIds = circleAdminQueryData.data.users;
 		if (_circleAdminIds.length === 0) {
 			return { status: false, msg: 'You must be the administrator of at least one circle to call this command.' };

@@ -1,3 +1,4 @@
+import { assert } from 'console';
 import {
 	CommandContext,
 	ComponentType,
@@ -5,23 +6,16 @@ import {
 	ModalInteractionContext,
 } from 'slash-create';
 
+import graphQLRoleCircleMutation from '../../schema/graphQLRoleCircleMutation';
+
 import Log from '../../utils/Log';
 
-// Make sure the inputs to the modal are in the right format
+
+// Make sure the text inputs to the modal are in the right format
 // If the format is right, return those inputs with spaces stripped out, if there were any
 const modalInputSanityCheck = async (mctx: ModalInteractionContext) => {
-	let parsedDiscordRoleId: string = null;
 	let parsedCircleId: number = null;
-	// Just make sure that the role ID parses correctly to number. We're gonna return it as string
-	const roleNr = Number(mctx.values.discord_role_id);
-	if (isNaN(roleNr)) {
-		mctx.send({
-			content: 'Invalid format for Discord Role ID.',
-			ephemeral: true,
-		});
-	} else {
-		parsedDiscordRoleId = mctx.values.discord_role_id.trim();
-	}
+	let parsedDiscordRoleId: string = null;
 
 	// Make sure that the circle ID parses correctly to number, and return it as an int
 	const circleNr = Number(mctx.values.circle_id);
@@ -34,9 +28,22 @@ const modalInputSanityCheck = async (mctx: ModalInteractionContext) => {
 		parsedCircleId = circleNr.valueOf();
 	}
 
-	return { discordRoleId: parsedDiscordRoleId, circleId: parsedCircleId };
+	// Just make sure that the role ID parses correctly to number. We're gonna return it as string
+	const roleNr = Number(mctx.values.discord_role_id);
+	if (isNaN(roleNr)) {
+		mctx.send({
+			content: 'Invalid format for Discord Role ID.',
+			ephemeral: true,
+		});
+	} else {
+		parsedDiscordRoleId = mctx.values.discord_role_id.trim();
+	}
+
+	return { circleId: parsedCircleId, discordRoleId: parsedDiscordRoleId };
 };
 
+// TODO should we restrict the roles each user can assign? 
+// Currently if a user administers a Coordinape circle, they can assign any Discord role to it.
 const validateDiscordRole = async (mctx: ModalInteractionContext, discordRoleId: string) => {
 	const roles = await mctx.creator.client.guilds.resolve(mctx.guildID).roles.fetch();
 	const roleIds = roles.map((r: { id: string; }) => r.id);
@@ -68,7 +75,7 @@ const validateCoordinapeCircle = async (mctx: ModalInteractionContext, userAdmin
 
 const handleSubmitModal = async (mctx: ModalInteractionContext, userAdminCircleIds: number[]) => {
 	// Input sanity check and space stripping
-	const { discordRoleId, circleId } = await modalInputSanityCheck(mctx);
+	const { circleId, discordRoleId } = await modalInputSanityCheck(mctx);
 
 	if (discordRoleId && circleId) {
 		// Check whether provided Discord role exists in this server
@@ -77,12 +84,16 @@ const handleSubmitModal = async (mctx: ModalInteractionContext, userAdminCircleI
 		// Check whether user that called the command admins the Coordinape circle
 		const isCircleValid = await validateCoordinapeCircle(mctx, userAdminCircleIds, circleId);
 		if(!isCircleValid) return;
+		// TODO handle and log hasura errors
+		const roleCircleMutationResult = await graphQLRoleCircleMutation(circleId, discordRoleId);
+		assert(roleCircleMutationResult.data.insert_discord_roles_circles_one.id, 'panic: Unexpected GQL response (graphQLRoleCircleMutation)');
 		// TODO reusable method in ServiceSupport for this response?
+		const successMsg = `Successfuly associated role ${mctx.values.discord_role_id} to circle with ID ${mctx.values.circle_id}`;
 		mctx.send({
-			content:`Successfuly associated role ${mctx.values.discord_role_id} to circle with ID ${mctx.values.circle_id} [TODO show name here]`,
+			content: successMsg,
 			ephemeral: true,
 		});
-		Log.log(`Successfuly associated role ${mctx.values.discord_role_id} to circle with ID ${mctx.values.circle_id}`);
+		Log.log(successMsg);
 	}
 };
 
