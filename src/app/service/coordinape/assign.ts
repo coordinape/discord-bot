@@ -45,9 +45,8 @@ const modalInputSanityCheck = async (mctx: ModalInteractionContext) => {
 // TODO should we restrict the roles each user can assign? 
 // Currently if a user administers a Coordinape circle, they can assign any Discord role to it.
 const validateDiscordRole = async (mctx: ModalInteractionContext, discordRoleId: string) => {
-	const roles = await mctx.creator.client.guilds.resolve(mctx.guildID).roles.fetch();
-	const roleIds = roles.map((r: { id: string; }) => r.id);
-	if (!roleIds.includes(discordRoleId)) {
+	const role = await mctx.creator.client.guilds.resolve(mctx.guildID).roles.resolve(discordRoleId);
+	if (!role) {
 		// TODO reusable method in ServiceSupport for this response?
 		mctx.send({
 			content: `**Error**: Role with ID ${discordRoleId} does not exist in this Discord server.`,
@@ -60,11 +59,10 @@ const validateDiscordRole = async (mctx: ModalInteractionContext, discordRoleId:
 };
 
 const validateCoordinapeCircle = async (mctx: ModalInteractionContext, userAdminCircleIds: number[], circleId: number) => {
-	// TODO check beforehand that the user has inserted an int for the `circle_id`
 	if (!userAdminCircleIds.includes(circleId)) {
 		// TODO reusable method in ServiceSupport for this response?
 		mctx.send({
-			content: `**Error**: You're not an admin in circle with id ${circleId}.`,
+			content: `**Error**: You're not an admin in circle with ID ${circleId}.`,
 			ephemeral: true,
 		});
 		Log.log(`Discord user ${mctx.user.id} tried assign circle ${circleId} in which they're not an admin.`);
@@ -106,8 +104,6 @@ export async function assignCommand(ctx: CommandContext, userAdminCircleIds: num
 					{
 						type: ComponentType.ACTION_ROW,
 						components: [
-							// TODO switch to role name? the lookup in `submitModal` is trivial. 
-							// Up to Coordinape's preference
 							{
 								type: ComponentType.TEXT_INPUT,
 								label: 'Discord role ID?',
