@@ -49,8 +49,17 @@ const handleSubmitModal = async (mctx: ModalInteractionContext) => {
 		// Check whether provided Discord channel exists in this server
 		const isChannelValid = await validateDiscordChannel(mctx, channelId);
 		if (!isChannelValid) return;
-		// TODO remove, just debugging
-		mctx.send({ content: JSON.stringify(mctx.values) });
+		// Currently select options must be fetched like this because it's still not clear how
+		// Discord will handle selects in modals. 
+		// See https://github.com/Snazzah/slash-create/issues/339 
+		// and https://github.com/Snazzah/slash-create/issues/338
+		const alertTypesSelect : {
+			custom_id: string,
+			component_type: ComponentType,
+			values?: string[]
+		} = mctx.data.data.components[1].components[0] as never;
+		// TODO remove, just debugging the return of the select values
+		mctx.send({ content: JSON.stringify(alertTypesSelect.values) });
 		// TODO depending on how the webhook is configured, we might need either to pass the channel
 		// ID to it as well as alert types, so that we also receive it back in the message it sends, 
 		// or we need to store the channel ID + alert types in hasura so that every time we receive
