@@ -5,7 +5,7 @@ This discord bot development is platform agnostic. It can be installed locally o
 These tools can make development quick and are recommended:
 
 -   [git CLI](https://git-scm.com) - version control system
--   [nodejs v16.15.1](https://nodejs.org/en/) - js runtime built on chrome's v8 engine
+-   [nodejs v16.16.0](https://nodejs.org/en/) - js runtime built on chrome's v8 engine
 -   [n](https://github.com/tj/n) - easily change node versions
 -   [iterm2](https://iterm2.com/) - enhanced terminal for macOS
 -   [discord](https://discord.com/) - popular chat application used for gaming and organized communities
