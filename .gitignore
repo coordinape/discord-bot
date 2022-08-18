@@ -111,6 +111,9 @@ dist
 *.iml
 *.ipr
 
+# VSCode Local Dev folder
+.vscode/
+
 build
 
 .DS_Store

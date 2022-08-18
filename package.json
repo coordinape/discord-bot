@@ -1,5 +1,5 @@
 {
-    "name": "co-kong",
+    "name": "caesar",
     "version": "1.0.0",
     "description": "description here",
     "main": "app.ts",
@@ -16,7 +16,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/wenHELP/"
+        "url": "git+https://github.com/coordinape/caesar"
     },
     "keywords": [
         "coordinape",
@@ -30,9 +30,9 @@
     "author": "wenHELP",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/wenHELP/"
+        "url": "https://github.com/coordinape/caesar"
     },
-    "homepage": "https://github.com/wenHELP/",
+    "homepage": "https://github.com/coordinape/caesar",
     "dependencies": {
         "@logdna/logger": "^2.6.0",
         "@sentry/integrations": "^6.16.1",
