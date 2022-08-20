@@ -15,7 +15,7 @@ export default class implements DiscordEvent {
 				Log.info(`Bot is active for: ${guild.id}, ${guild.name}`);
 			});
 			
-			Log.info('CO Kong is ready to Coordinape!');
+			Log.info('Caesar is ready to Coordinape!');
 		} catch (e) {
 			LogUtils.logError('Error processing event ready', e);
 		}
