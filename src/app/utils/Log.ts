@@ -18,7 +18,7 @@ const logger = createLogger({
 const Log = {
 	
 	debug(statement: string | any, options?: Omit<null, 'level'>): void {
-		if (process.env.NODE_ENV != 'production' || !logger.debug) {
+		if (process.env.NODE_ENV != 'production' || 'staging' || !logger.debug) {
 			// eslint-disable-next-line no-console
 			console.debug(statement);
 		} else {
@@ -27,7 +27,7 @@ const Log = {
 	},
 	
 	info(statement: string | any, options?: Omit<null, 'level'>): void {
-		if (process.env.NODE_ENV != 'production' || !logger.info) {
+		if (process.env.NODE_ENV != 'production' || 'staging' || !logger.info) {
 			// eslint-disable-next-line no-console
 			console.log(statement);
 		} else {

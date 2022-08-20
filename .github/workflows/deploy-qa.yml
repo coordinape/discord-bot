@@ -7,7 +7,6 @@ jobs:
   deploy-qa:
     environment:
       name: staging
-      url: https://app.logdna.com/d68005618b/logs/view?apps=queen-kong
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -24,14 +23,14 @@ jobs:
         uses: AkhileshNS/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.QA_HEROKU_API_KEY}}
-          heroku_app_name: 'queen-kong'
+          heroku_app_name: 'co-cornelia'
           heroku_email: 'joshua@nonsensecodes.io'
           procfile: 'worker: npm run qa'
         env:
           HD_DISCORD_BOT_TOKEN: ${{secrets.QA_DISCORD_BOT_TOKEN}}
           HD_DISCORD_BOT_PUBLIC_KEY: ${{secrets.QA_DISCORD_BOT_PUBLIC_KEY}}
           HD_DISCORD_BOT_APPLICATION_ID: ${{secrets.QA_DISCORD_BOT_APPLICATION_ID}}
-          HD_LOGDNA_TOKEN: ${{secrets.QA_LOGDNA_TOKEN}}
+          HD_DD_API_KEY: ${{secrets.QA_DD_API_KEY}}
           HD_SENTRY_IO_DSN: ${{secrets.QA_SENTRY_IO_DSN}}
       - name: Get current package version
         id: package-version
@@ -46,5 +45,5 @@ jobs:
           sourcemaps: './dist'
         with:
           environment: 'staging'
-          version: 'queen-kong@${{ steps.package-version.outputs.current-version }}'
+          version: 'cornelia@${{ steps.package-version.outputs.current-version }}'
           sourcemaps: './dist'
