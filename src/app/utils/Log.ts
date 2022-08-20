@@ -15,19 +15,22 @@ const logger = createLogger({
 	],
 });
 
+const envCond = `${process.env.NODE_ENV != 'production'}
+					&& ${process.env.NODE_ENV != 'staging'}`;
+
 const Log = {
 	
 	debug(statement: string | any, options?: Omit<null, 'level'>): void {
-		if (process.env.NODE_ENV != 'production' || 'staging' || !logger.debug) {
+		if (envCond || !logger.debug) {
 			// eslint-disable-next-line no-console
-			console.debug(statement);
+			console.log(statement);
 		} else {
 			logger.debug(statement, options);
 		}
 	},
 	
 	info(statement: string | any, options?: Omit<null, 'level'>): void {
-		if (process.env.NODE_ENV != 'production' || 'staging' || !logger.info) {
+		if (envCond || !logger.info) {
 			// eslint-disable-next-line no-console
 			console.log(statement);
 		} else {
