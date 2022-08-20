@@ -16,7 +16,7 @@ const logger = createLogger({
 });
 
 const envCond = `${process.env.NODE_ENV != 'production'}
-					&& ${process.env.NODE_ENV != 'staging'}`;
+				&& ${process.env.NODE_ENV != 'staging'}`;
 
 const Log = {
 	
@@ -40,7 +40,7 @@ const Log = {
 	
 	// Trace is used to denote 'notice'-level logs
 	trace(statement: string | any, options?: Omit<null, 'level'>): void {
-		if (process.env.NODE_ENV != 'production' || !logger.notice) {
+		if (envCond || !logger.notice) {
 			// eslint-disable-next-line no-console
 			console.debug(statement);
 		} else {
@@ -49,7 +49,7 @@ const Log = {
 	},
 
 	warn(statement: string | any, options?: Omit<null, 'level'>): void {
-		if (process.env.NODE_ENV != 'production' || !logger.warn) {
+		if (envCond || !logger.warn) {
 			// eslint-disable-next-line no-console
 			console.log(statement);
 		} else {
@@ -58,7 +58,7 @@ const Log = {
 	},
 	
 	error(statement: string | any, options?: Omit<null, 'level'>): void {
-		if (process.env.NODE_ENV != 'production' || !logger.error) {
+		if (envCond || !logger.error) {
 			// eslint-disable-next-line no-console
 			console.error(statement);
 		} else {
@@ -67,7 +67,7 @@ const Log = {
 	},
 	
 	crit(statement: string | any, options?: Omit<null, 'level'>): void {
-		if (process.env.NODE_ENV != 'production' || !logger.crit) {
+		if (envCond || !logger.crit) {
 			// eslint-disable-next-line no-console
 			console.error(statement);
 		} else {
@@ -76,7 +76,7 @@ const Log = {
 	},
 	
 	log(statement: string | any, options?: Omit<null, 'level'>): void {
-		if (process.env.NODE_ENV != 'production') {
+		if (envCond) {
 			// eslint-disable-next-line no-console
 			console.log(statement);
 		}
