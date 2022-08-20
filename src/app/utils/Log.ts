@@ -1,32 +1,25 @@
-import logdna, { Logger, LogOptions } from '@logdna/logger';
+import {
+	createLogger,
+	format,
+	transports,
+} from 'winston';
 import apiKeys from '../service/constants/apiKeys';
 import { CommandContext } from 'slash-create';
 import * as Sentry from '@sentry/node';
 
-let logger: Logger;
+const logger = createLogger({
+	level: 'info',
+	exitOnError: false,
+	format: format.json(),
+	transports: [
+		new transports.File({ filename: `./../../../logs/<FILE_NAME>.log` }),
+	],
+});
 
-try {
-	logger = logdna.createLogger(apiKeys.logDNAToken, {
-		app: apiKeys.logDNAAppName,
-		level: apiKeys.logDNADefault,
-	});
-	if (process.env.NODE_ENV != 'production' || !logger.info) {
-		// eslint-disable-next-line no-console
-		console.log('Logger initialized!');
-	} else {
-		logger.log('Logger initialized!');
-	}
-} catch (e) {
-	// eslint-disable-next-line no-console
-	console.log('Please setup LogDNA token.');
-	// eslint-disable-next-line no-console
-	console.log(e);
-	throw new Error();
-}
-
+/* TODO: Configure log level messaging
 const Log = {
 	
-	info(statement: string | any, options?: Omit<LogOptions, 'level'>): void {
+	info(statement: string | any, options?: Omit<null, 'level'>): void {
 		if (process.env.NODE_ENV != 'production' || !logger.info) {
 			// eslint-disable-next-line no-console
 			console.log(statement);
@@ -35,7 +28,7 @@ const Log = {
 		}
 	},
 	
-	warn(statement: string | any, options?: Omit<LogOptions, 'level'>): void {
+	warn(statement: string | any, options?: Omit<null, 'level'>): void {
 		if (process.env.NODE_ENV != 'production' || !logger.warn) {
 			// eslint-disable-next-line no-console
 			console.log(statement);
@@ -44,7 +37,7 @@ const Log = {
 		}
 	},
 	
-	debug(statement: string | any, options?: Omit<LogOptions, 'level'>): void {
+	debug(statement: string | any, options?: Omit<null, 'level'>): void {
 		if (process.env.NODE_ENV != 'production' || !logger.debug) {
 			// eslint-disable-next-line no-console
 			console.debug(statement);
@@ -53,7 +46,7 @@ const Log = {
 		}
 	},
 	
-	error(statement: string | any, options?: Omit<LogOptions, 'level'>): void {
+	error(statement: string | any, options?: Omit<null, 'level'>): void {
 		if (process.env.NODE_ENV != 'production' || !logger.error) {
 			// eslint-disable-next-line no-console
 			console.error(statement);
@@ -62,7 +55,7 @@ const Log = {
 		}
 	},
 	
-	fatal(statement: string | any, options?: Omit<LogOptions, 'level'>): void {
+	fatal(statement: string | any, options?: Omit<null, 'level'>): void {
 		if (process.env.NODE_ENV != 'production' || !logger.fatal) {
 			// eslint-disable-next-line no-console
 			console.error(statement);
@@ -71,7 +64,7 @@ const Log = {
 		}
 	},
 	
-	trace(statement: string | any, options?: Omit<LogOptions, 'level'>): void {
+	trace(statement: string | any, options?: Omit<null, 'level'>): void {
 		if (process.env.NODE_ENV != 'production' || !logger.trace) {
 			// eslint-disable-next-line no-console
 			console.log(statement);
@@ -80,7 +73,7 @@ const Log = {
 		}
 	},
 	
-	log(statement: string | any, options?: Omit<LogOptions, 'level'>): void {
+	log(statement: string | any, options?: Omit<null, 'level'>): void {
 		if (process.env.NODE_ENV != 'production') {
 			// eslint-disable-next-line no-console
 			console.log(statement);
@@ -101,6 +94,7 @@ const Log = {
 		logger.flush();
 	},
 };
+*/
 
 export const LogUtils = {
 	logCommandStart(ctx: CommandContext): void {
