@@ -16,8 +16,17 @@ const logger = createLogger({
 	],
 });
 
-/* TODO: Configure log level messaging
+
 const Log = {
+	
+	debug(statement: string | any, options?: Omit<null, 'level'>): void {
+		if (process.env.NODE_ENV != 'production' || !logger.debug) {
+			// eslint-disable-next-line no-console
+			console.debug(statement);
+		} else {
+			logger.debug(statement, options);
+		}
+	},
 	
 	info(statement: string | any, options?: Omit<null, 'level'>): void {
 		if (process.env.NODE_ENV != 'production' || !logger.info) {
@@ -28,21 +37,22 @@ const Log = {
 		}
 	},
 	
+	// Trace is used to denote 'notice'-level logs
+	trace(statement: string | any, options?: Omit<null, 'level'>): void {
+		if (process.env.NODE_ENV != 'production' || !logger.notice) {
+			// eslint-disable-next-line no-console
+			console.debug(statement);
+		} else {
+			logger.debug(statement, options);
+		}
+	},
+
 	warn(statement: string | any, options?: Omit<null, 'level'>): void {
 		if (process.env.NODE_ENV != 'production' || !logger.warn) {
 			// eslint-disable-next-line no-console
 			console.log(statement);
 		} else {
 			logger.warn(statement, options);
-		}
-	},
-	
-	debug(statement: string | any, options?: Omit<null, 'level'>): void {
-		if (process.env.NODE_ENV != 'production' || !logger.debug) {
-			// eslint-disable-next-line no-console
-			console.debug(statement);
-		} else {
-			logger.debug(statement, options);
 		}
 	},
 	
@@ -55,21 +65,12 @@ const Log = {
 		}
 	},
 	
-	fatal(statement: string | any, options?: Omit<null, 'level'>): void {
-		if (process.env.NODE_ENV != 'production' || !logger.fatal) {
+	crit(statement: string | any, options?: Omit<null, 'level'>): void {
+		if (process.env.NODE_ENV != 'production' || !logger.crit) {
 			// eslint-disable-next-line no-console
 			console.error(statement);
 		} else {
-			logger.fatal(statement, options);
-		}
-	},
-	
-	trace(statement: string | any, options?: Omit<null, 'level'>): void {
-		if (process.env.NODE_ENV != 'production' || !logger.trace) {
-			// eslint-disable-next-line no-console
-			console.log(statement);
-		} else {
-			logger.trace(statement, options);
+			logger.crit(statement, options);
 		}
 	},
 	
@@ -81,20 +82,7 @@ const Log = {
 		logger.log(statement, options);
 	},
 	
-	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-	addMetaProperty(key: string, value: any): void {
-		logger.addMetaProperty(key, value);
-	},
-	
-	removeMetaProperty(key: string): void {
-		logger.removeMetaProperty(key);
-	},
-	
-	flush(): void {
-		logger.flush();
-	},
 };
-*/
 
 export const LogUtils = {
 	logCommandStart(ctx: CommandContext): void {
