@@ -3,7 +3,6 @@ import {
 	format,
 	transports,
 } from 'winston';
-import apiKeys from '../service/constants/apiKeys';
 import { CommandContext } from 'slash-create';
 import * as Sentry from '@sentry/node';
 
@@ -12,10 +11,9 @@ const logger = createLogger({
 	exitOnError: false,
 	format: format.json(),
 	transports: [
-		new transports.File({ filename: `./../../../logs/<FILE_NAME>.log` }),
+		new transports.File({ filename: './../../../logs/<FILE_NAME>.log' }),
 	],
 });
-
 
 const Log = {
 	
@@ -81,7 +79,7 @@ const Log = {
 		}
 		logger.log(statement, options);
 	},
-	
+
 };
 
 export const LogUtils = {
