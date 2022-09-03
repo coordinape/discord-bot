@@ -1,8 +1,8 @@
 import {
 	CommandContext,
 	ComponentType,
-	TextInputStyle,
 	ModalInteractionContext,
+	ButtonStyle,
 } from 'slash-create';
 
 import Log from '../../utils/Log';
@@ -41,7 +41,7 @@ const validateDiscordChannel = async (mctx: ModalInteractionContext, channelId: 
 	return true;
 };
 
-const handleSubmitModal = async (mctx: ModalInteractionContext) => {
+const handleSubmit = async (mctx: ModalInteractionContext) => {
 	// Input sanity check and space stripping
 	const { channelId } = await modalInputSanityCheck(mctx);
 
@@ -71,25 +71,12 @@ const handleSubmitModal = async (mctx: ModalInteractionContext) => {
 export async function configurationCommand(ctx: CommandContext): Promise<any> {
 	try {
 		if (ctx.subcommands[1] == 'alerts') {
-			await ctx.send('Configure Alerts',
+			await ctx.send(
 				{
+					content: 'Which alerts should be sent?',
+					ephemeral: true,
+					// embeds: // if necessary we can put some additional info here
 					components: [
-						{
-							type: ComponentType.ACTION_ROW,
-							components: [
-								// Currently, channel must already exist, but we
-								// can add the option for the user to provide a channel
-								// name and create it, instead of providing the ID of an
-								// already existing channel
-								{
-									type: ComponentType.TEXT_INPUT,
-									label: 'Which channel to send alerts to?',
-									style: TextInputStyle.SHORT,
-									custom_id: 'channel_id',
-									placeholder: 'Insert channel ID',
-								},
-							],
-						},
 						{
 							type: ComponentType.ACTION_ROW,
 							components: [
@@ -119,6 +106,18 @@ export async function configurationCommand(ctx: CommandContext): Promise<any> {
 											value: 'nominations_vouches',
 										},
 									],
+								},
+							],
+						},
+						{
+							type: ComponentType.ACTION_ROW,
+							components: [
+								{
+									type: ComponentType.BUTTON,
+									label: 'Confirm',
+									custom_id: 'confirm',
+									style: ButtonStyle.PRIMARY,
+
 								},
 							],
 						},
