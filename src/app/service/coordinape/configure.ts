@@ -70,65 +70,64 @@ const handleSubmitModal = async (mctx: ModalInteractionContext) => {
 
 export async function configurationCommand(ctx: CommandContext): Promise<any> {
 	try {
-		await ctx.sendModal(
-			{
-				title: 'Bot Configuration',
-				components: [
-					{
-						type: ComponentType.ACTION_ROW,
-						components: [
-							// Currently, channel must already exist, but we
-							// can add the option for the user to provide a channel
-							// name and create it, instead of providing the ID of an
-							// already existing channel
-							{
-								type: ComponentType.TEXT_INPUT,
-								label: 'Which channel to send alerts to?',
-								style: TextInputStyle.SHORT,
-								custom_id: 'channel_id',
-								placeholder: 'Insert channel ID',
-							},
-						],
-					},
-					{
-						type: ComponentType.ACTION_ROW,
-						components: [
-							// These events will be sent by the webhook, and their frequency
-							// is determined by how often the webhook sends events for each event type.
-							{
-								type: ComponentType.SELECT,
-								custom_id: 'alert_types',
-								min_values: 1,
-								max_values: 4,
-								placeholder: 'Alert types',
-								options: [
-									{
-										label: 'Epoch start/end',
-										value: 'epoch_start_end',
-									},
-									{
-										label: 'Periodically during the Epoch',
-										value: 'epoch_periodically',
-									},
-									{
-										label: 'Epoch ending warnings',
-										value: 'epoch_end_warning',
-									},
-									{
-										label: 'Nominations/Vouches',
-										value: 'nominations_vouches',
-									},
-								],
-							},
-						],
-					},
-				],
-			},
-			// TODO send ephemeral message with the inserted inputs
-			async (mctx) => {
-				await handleSubmitModal(mctx);
-			},
-		).catch(Log.error);
+		if (ctx.subcommands[1] == 'alerts') {
+			await ctx.send('Configure Alerts',
+				{
+					components: [
+						{
+							type: ComponentType.ACTION_ROW,
+							components: [
+								// Currently, channel must already exist, but we
+								// can add the option for the user to provide a channel
+								// name and create it, instead of providing the ID of an
+								// already existing channel
+								{
+									type: ComponentType.TEXT_INPUT,
+									label: 'Which channel to send alerts to?',
+									style: TextInputStyle.SHORT,
+									custom_id: 'channel_id',
+									placeholder: 'Insert channel ID',
+								},
+							],
+						},
+						{
+							type: ComponentType.ACTION_ROW,
+							components: [
+								// These events will be sent by the webhook, and their frequency
+								// is determined by how often the webhook sends events for each event type.
+								{
+									type: ComponentType.SELECT,
+									custom_id: 'alert_types',
+									min_values: 1,
+									max_values: 4,
+									placeholder: 'Alert types',
+									options: [
+										{
+											label: 'Epoch start/end',
+											value: 'epoch_start_end',
+										},
+										{
+											label: 'Periodically during the Epoch',
+											value: 'epoch_periodically',
+										},
+										{
+											label: 'Epoch ending warnings',
+											value: 'epoch_end_warning',
+										},
+										{
+											label: 'Nominations/Vouches',
+											value: 'nominations_vouches',
+										},
+									],
+								},
+							],
+						},
+					],
+				},
+			);
+		} else if (ctx.subcommands[1] == 'roles') {
+			await ctx.send('bla');
+		}
 	} catch (e) {
 		Log.error(e);
 	}

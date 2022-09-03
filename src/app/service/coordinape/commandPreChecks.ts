@@ -7,7 +7,7 @@ import graphQLCircleAdminQuery from '../../schema/GraphQLCircleAdminQuery';
 export async function commandPreChecks(ctx: CommandContext): Promise<any> {
 	const subCommand: string = ctx.subcommands[0];
 
-	if (subCommand == 'configuration') {
+	if (subCommand == 'configure') {
 		const isDiscordAdmin = await ctx.creator.client.guilds
 			.resolve(ctx.guildID).members.resolve(ctx.user.id).permissions.has('ADMINISTRATOR');
 		if (!isDiscordAdmin) {
