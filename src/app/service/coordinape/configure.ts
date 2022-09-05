@@ -7,24 +7,7 @@ import {
 
 import Log from '../../utils/Log';
 
-// Make sure the text inputs to the modal are in the right format
-// If the format is right, return those inputs with spaces stripped out, if there were any
-const modalInputSanityCheck = async (mctx: ModalInteractionContext) => {
-	let parsedChannelId: string = null;
-
-	// Just make sure that the channel ID parses correctly to number. We're gonna return it as string
-	const channel = Number(mctx.values.channel_id);
-	if (isNaN(channel)) {
-		mctx.send({
-			content: 'Invalid format for Channel ID.',
-			ephemeral: true,
-		});
-	} else {
-		parsedChannelId = mctx.values.channel_id.trim();
-	}
-
-	return { channelId: parsedChannelId };
-};
+// Examples for component registration here https://github.com/Snazzah/slash-create/blob/master/docs/examples/components.md
 
 const validateDiscordChannel = async (mctx: ModalInteractionContext, channelId: string) => {
 	const channel = await mctx.creator.client.guilds.resolve(mctx.guildID).channels.resolve(channelId);
@@ -40,6 +23,8 @@ const validateDiscordChannel = async (mctx: ModalInteractionContext, channelId: 
 	}
 	return true;
 };
+
+/*
 
 const handleSubmit = async (mctx: ModalInteractionContext) => {
 	// Input sanity check and space stripping
@@ -68,62 +53,70 @@ const handleSubmit = async (mctx: ModalInteractionContext) => {
 	}
 };
 
+*/
+
 export async function configurationCommand(ctx: CommandContext): Promise<any> {
 	try {
 		if (ctx.subcommands[1] == 'alerts') {
-			await ctx.send(
-				{
-					content: 'Which alerts should be sent?',
-					ephemeral: true,
-					// embeds: // if necessary we can put some additional info here
-					components: [
-						{
-							type: ComponentType.ACTION_ROW,
-							components: [
-								// These events will be sent by the webhook, and their frequency
-								// is determined by how often the webhook sends events for each event type.
-								{
-									type: ComponentType.SELECT,
-									custom_id: 'alert_types',
-									min_values: 1,
-									max_values: 4,
-									placeholder: 'Alert types',
-									options: [
-										{
-											label: 'Epoch start/end',
-											value: 'epoch_start_end',
-										},
-										{
-											label: 'Periodically during the Epoch',
-											value: 'epoch_periodically',
-										},
-										{
-											label: 'Epoch ending warnings',
-											value: 'epoch_end_warning',
-										},
-										{
-											label: 'Nominations/Vouches',
-											value: 'nominations_vouches',
-										},
-									],
-								},
-							],
-						},
-						{
-							type: ComponentType.ACTION_ROW,
-							components: [
-								{
-									type: ComponentType.BUTTON,
-									label: 'Confirm',
-									custom_id: 'confirm',
-									style: ButtonStyle.PRIMARY,
+			await ctx.defer();
+			await ctx.send({
+				content: 'Which alerts should be sent?',
+				ephemeral: true,
+				// embeds: // if necessary we can put some additional info here
+				components: [
+					{
+						type: ComponentType.ACTION_ROW,
+						components: [
+							// These events will be sent by the webhook, and their frequency
+							// is determined by how often the webhook sends events for each event type.
+							{
+								type: ComponentType.SELECT,
+								custom_id: 'alert_types',
+								min_values: 1,
+								max_values: 4,
+								placeholder: 'Alert types',
+								options: [
+									{
+										label: 'Epoch start/end',
+										value: 'epoch_start_end',
+									},
+									{
+										label: 'Periodically during the Epoch',
+										value: 'epoch_periodically',
+									},
+									{
+										label: 'Epoch ending warnings',
+										value: 'epoch_end_warning',
+									},
+									{
+										label: 'Nominations/Vouches',
+										value: 'nominations_vouches',
+									},
+								],
+							},
+						],
+					},
+					{
+						type: ComponentType.ACTION_ROW,
+						components: [
+							{
+								type: ComponentType.BUTTON,
+								label: 'Confirm',
+								custom_id: 'confirm-btn',
+								style: ButtonStyle.PRIMARY,
+							},
+						],
+					},
+				],
+			});
 
-								},
-							],
-						},
-					],
-				},
-			);
+			/**
+			 * This function handles component contexts within a command, so you
+			 * can use the previous context aswell.
+			 */
+			ctx.registerComponent('confirm-btn', async (btnCtx) => {
+				await btnCtx.editOriginal('Clicked button');
+			});
 		} else if (ctx.subcommands[1] == 'roles') {
 			await ctx.send('bla');
 		}
