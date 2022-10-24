@@ -53,9 +53,12 @@ export default class CO extends SlashCommand {
 			case 'support':
 				if (ctx.subcommands[1] === 'coordinape-discord') {
 					return serviceSupport.ephemeralError(ctx, 'Join the Coordinape Discord Server!');
-				} else if (ctx.subcommands[1] === 'website') {
+				}
+
+				if (ctx.subcommands[1] === 'website') {
 					return serviceSupport.ephemeralWebsite(ctx);
 				}
+				break;
 			}
 		} catch (e) {
 			LogUtils.logError('Welp, this is fucked.', e);
