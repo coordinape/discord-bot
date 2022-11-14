@@ -6,7 +6,7 @@ import {
 } from 'slash-create';
 import { LogUtils } from '../../utils/Log';
 // import { command } from '../../utils/Sentry';
-import serviceSupport from '../../utils/ServiceSupport';
+import { ServiceSupport } from '../../service/ServiceSupport';
 
 export default class CO extends SlashCommand {
 	constructor(creator: SlashCreator) {
@@ -15,6 +15,11 @@ export default class CO extends SlashCommand {
 			description: 'Coordinape commands for managing your Epochs and/or Epoch participation.',
 			defaultPermission: true,
 			options: [
+				{
+					name: 'ping',
+					type: CommandOptionType.SUB_COMMAND,
+					description: 'Testing',
+				},
 				{
 					name: 'link',
 					type: CommandOptionType.SUB_COMMAND,
@@ -44,23 +49,45 @@ export default class CO extends SlashCommand {
 	// @command
 	async run(ctx: CommandContext) {
 		LogUtils.logCommandStart(ctx);
+
 		if (ctx.user.bot) return;
 		
-		const subCommand: string = ctx.subcommands[0];
+		const service = new ServiceSupport(ctx);
 
 		try {
-			switch (subCommand) {
+			switch (ctx.subcommands[0]) {
+			case 'ping':
+				service.ephemeralText({ text: 'pong' });
+				break;
+			case 'link':
+				service.ephemeralText({ text: 'TODO' });
+				break;
 			case 'support':
-				if (ctx.subcommands[1] === 'coordinape-discord') {
-					return serviceSupport.ephemeralError(ctx, 'Join the Coordinape Discord Server!');
-				} else if (ctx.subcommands[1] === 'website') {
-					return serviceSupport.ephemeralWebsite(ctx);
+				switch(ctx.subcommands[1]) {
+				case 'coordinape-discord':
+					service.ephemeralWebsite({
+						label: 'Coordinape on Discord',
+						url: 'https://discord.coordinape.com/',
+						content: 'Join the Coordinape Discord Server!',
+					});
+					break;
+				case 'website':
+					service.ephemeralWebsite({
+						label: 'Coordinape on the Web',
+						url: 'https://coordinape.com',
+						content: 'Visit us on the interwebs to access your Circles!',
+					});
+					break;
 				}
+				break;
+			default:
+				service.ephemeralError({ msg: `Command "${ctx.subcommands[0]}" not recognized` });
+				break;
 			}
+
 		} catch (e) {
-			LogUtils.logError('Welp, this is fucked.', e);
-			await serviceSupport.ephemeralError(ctx);
-			return;
+			LogUtils.logError('Welp, something went wrong', e);
+			await service.ephemeralError({ msg: JSON.stringify(e) });
 		}
 	}
 }
