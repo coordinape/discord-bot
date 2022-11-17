@@ -23,10 +23,13 @@ initializeSentryIO();
 const client: Client = initializeClient();
 initializeEvents();
 
-const creator = new SlashCreator({
+export type SlashCreatorWithDiscordJS = Omit<SlashCreator, 'client'> & { client?: Client };
+
+const creator: SlashCreatorWithDiscordJS = new SlashCreator({
 	applicationID: process.env.DISCORD_BOT_APPLICATION_ID,
 	publicKey: process.env.DISCORD_BOT_PUBLIC_KEY,
 	token: process.env.DISCORD_BOT_TOKEN,
+	client,
 });
 
 creator.on('debug', (message) => Log.debug(`debug: ${ message }`));

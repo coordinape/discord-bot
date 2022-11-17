@@ -1,0 +1,11 @@
+# .graphqlrc.yml
+schema: [
+	{
+		'http://localhost:8080/v1/graphql': {
+			headers: {
+				'x-hasura-admin-secret': 'admin-secret',
+			},
+		}
+	}
+]
+documents: 'src/**/*.{graphql,js,ts,jsx,tsx}'

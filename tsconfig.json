@@ -5,7 +5,7 @@
         "target": "es6",
         "lib": ["es2020", "DOM"],
         "sourceMap": true,
-        "outDir": "./dist/",
+        "outDir": "./dist",
         "allowJs": true,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
@@ -13,6 +13,6 @@
         "moduleResolution": "node",
         "resolveJsonModule": true,
     },
-    "include": ["src/**/*.ts"],
-    "exclude": ["node_modules"]
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist"]
 }

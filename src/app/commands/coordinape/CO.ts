@@ -5,8 +5,9 @@ import {
 	SlashCreator,
 } from 'slash-create';
 import { LogUtils } from '../../utils/Log';
-// import { command } from '../../utils/Sentry';
 import { ServiceSupport } from '../../service/ServiceSupport';
+import { getCirclesQueryDocument, getOrganizationsQueryDocument } from '../../graphql';
+import { GraphQLClient } from 'graphql-request';
 
 export default class CO extends SlashCommand {
 	constructor(creator: SlashCreator) {
@@ -15,15 +16,30 @@ export default class CO extends SlashCommand {
 			description: 'Coordinape commands for managing your Epochs and/or Epoch participation.',
 			defaultPermission: true,
 			options: [
+				// {
+				// 	name: 'init',
+				// 	type: CommandOptionType.SUB_COMMAND,
+				// 	description: 'Initiate',
+				// },
 				{
-					name: 'ping',
+					name: 'circles',
 					type: CommandOptionType.SUB_COMMAND,
-					description: 'Testing',
+					description: 'Get Circles',
 				},
 				{
-					name: 'link',
+					name: 'roles',
 					type: CommandOptionType.SUB_COMMAND,
-					description: 'Link your Discord and Coordinape accounts.',
+					description: 'Get Roles',
+				},
+				{
+					name: 'channels',
+					type: CommandOptionType.SUB_COMMAND,
+					description: 'Get Channels',
+				},
+				{
+					name: 'organizations',
+					type: CommandOptionType.SUB_COMMAND,
+					description: 'Get Organizations',
 				},
 				{
 					name: 'support',
@@ -52,16 +68,39 @@ export default class CO extends SlashCommand {
 
 		if (ctx.user.bot) return;
 		
+		const client = new GraphQLClient('http://localhost:8080/v1/graphql', { headers: {
+			'x-hasura-admin-secret': 'admin-secret',
+		} });
+
 		const service = new ServiceSupport(ctx);
 
 		try {
 			switch (ctx.subcommands[0]) {
-			case 'ping':
-				service.ephemeralText({ text: 'pong' });
+			// case 'init': {
+			// 	const { organizations } = await client.request(getInitQueryDocument, {});
+			// 	service.init(organizations);
+			// 	break;
+			// }
+			case 'circles': {
+				const { circles } = await client.request(getCirclesQueryDocument, {});
+				service.ephemeralText({ text: circles.map(({ name }) => name).join(', ') });
 				break;
-			case 'link':
-				service.ephemeralText({ text: 'TODO' });
+			}
+			case 'roles': {
+				const roles = await service.roles();
+				service.ephemeralText({ text: roles.map(({ name }) => name).join(', ') });
 				break;
+			}
+			case 'channels': {
+				const channels = await service.channels();
+				service.ephemeralText({ text: channels.map(({ name }) => name).join(', ') });
+				break;
+			}
+			case 'organizations': {
+				const { organizations } = await client.request(getOrganizationsQueryDocument, {});
+				service.ephemeralText({ text: organizations.map(({ name }) => name).join(', ') });
+				break;
+			}
 			case 'support':
 				switch(ctx.subcommands[1]) {
 				case 'coordinape-discord':
