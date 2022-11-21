@@ -6,7 +6,7 @@ import { ButtonStyle,
 	AnyComponentButton,
 	ComponentContext,
 } from 'slash-create';
-import { Discord_Users } from '../graphql/gql/graphql';
+import { Discord_Users } from '../api/graphql/gql/graphql';
 import Log from '../utils/Log';
 import { DiscordService } from './DiscordService';
 

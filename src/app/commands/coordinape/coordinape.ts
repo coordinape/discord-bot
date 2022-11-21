@@ -6,7 +6,7 @@ import {
 import { LogUtils } from '../../utils/Log';
 import { ServiceSupport } from '../../service/ServiceSupport';
 import { GraphQLClient } from 'graphql-request';
-import { getDiscordUsersQueryDocument } from '../../graphql/getDiscordUserBySnowflake';
+import { getDiscordUsersQueryDocument } from '../../api/graphql/getDiscordUserBySnowflake';
 
 export default class Coordinape extends SlashCommand {
 	constructor(creator: SlashCreator) {

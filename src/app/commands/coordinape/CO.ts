@@ -6,7 +6,7 @@ import {
 } from 'slash-create';
 import { LogUtils } from '../../utils/Log';
 import { ServiceSupport } from '../../service/ServiceSupport';
-import { getCirclesQueryDocument, getOrganizationsQueryDocument } from '../../graphql';
+import { getCirclesQueryDocument, getOrganizationsQueryDocument } from '../../api/graphql';
 import { GraphQLClient } from 'graphql-request';
 
 export default class CO extends SlashCommand {
