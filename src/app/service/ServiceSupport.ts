@@ -1,4 +1,5 @@
 import { Collection, GuildBasedChannel, Role } from 'discord.js';
+import { GraphQLClient } from 'graphql-request';
 import { ButtonStyle,
 	CommandContext,
 	ComponentType,
@@ -6,6 +7,7 @@ import { ButtonStyle,
 	AnyComponentButton,
 	ComponentContext,
 } from 'slash-create';
+import { getDiscordUsersQueryDocument } from '../api/graphql/getDiscordUserBySnowflake';
 import { Discord_Users } from '../api/graphql/gql/graphql';
 import Log from '../utils/Log';
 import { DiscordService } from './DiscordService';
@@ -103,10 +105,19 @@ export class ServiceSupport {
 		try {
 			await this._ctx.defer();
 			await this._ctx.send('Link discord/coordinape', { components });
-			const callback = async ({ customID }: ComponentContext) => this._ctx.send(`You selected: ${customID}`);
-			const onExpire = () => this._ctx.send('You cannot use that component anymore. Please run the command again.');
-			this._ctx.registerComponent('LINK_BUTTON', callback, 5000, onExpire);
-			this._ctx.registerComponent('UNLINK_BUTTON', callback, 5000, onExpire);
+			const { request } = new GraphQLClient('http://localhost:8080/v1/graphql', { headers: {
+				'x-hasura-admin-secret': 'admin-secret',
+			} });
+			this._ctx.registerComponent('LINK_BUTTON', async (ctx: ComponentContext) => {
+				// TODO Link mutation
+				const { discord_users } = await request(getDiscordUsersQueryDocument, { userSnowflake: ctx.user.id });
+				await ctx.send({ content: JSON.stringify(discord_users) });
+			});
+			this._ctx.registerComponent('UNLINK_BUTTON', async (ctx: ComponentContext) => {
+				// TODO Unlink mutation
+				const { discord_users } = await request(getDiscordUsersQueryDocument, { userSnowflake: ctx.user.id });
+				await ctx.send({ content: JSON.stringify(discord_users) });
+			});
 		} catch (error) {
 			Log.log(error);
 		}
