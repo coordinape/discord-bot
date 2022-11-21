@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as Sentry from '@sentry/node';
 import {
 	SlashCreator,
@@ -34,6 +35,28 @@ const creator: SlashCreatorWithDiscordJS = new SlashCreator({
 
 creator.on('debug', (message) => Log.debug(`debug: ${ message }`));
 creator.on('warn', (message) => Log.warn(`warn: ${ message }`));
+creator.on('rawInteraction', (message) => Log.warn(`rawInteraction: ${ message }`));
+creator.on('modalInteraction', (message) => Log.warn(`modalInteraction: ${ message }`));
+creator.on('commandInteraction', (message) => Log.warn(`commandInteraction: ${ message }`));
+creator.on('unknownInteraction', (message) => Log.warn(`unknownInteraction: ${ message }`));
+creator.on('componentInteraction', (message) => {
+	const user = message.message.interaction.user;
+	console.log({
+		message: {
+			interactionToken: message.interactionToken,
+			interactionID: message.interactionID,
+			channelID: message.channelID,
+			guildID: message.guildID,
+			customID: message.customID,
+		},
+		user: {
+			id: user.id,
+			username: user.username,
+		},
+	});
+	Log.warn(`componentInteraction: ${ message }`);
+});
+creator.on('autocompleteInteraction', (message) => Log.warn(`autocompleteInteraction: ${ message }`));
 creator.on('error', (error: Error) => Log.error(`error: ${ error }`));
 creator.on('synced', () => Log.debug('Commands synced!'));
 creator.on('commandRegister', (command: SlashCommand) => Log.debug(`Registered command ${command.commandName}`));

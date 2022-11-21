@@ -4,6 +4,7 @@ import { ButtonStyle,
 	ComponentType,
 	ComponentActionRow,
 	AnyComponentButton,
+	ComponentContext,
 } from 'slash-create';
 import { Discord_Users } from '../graphql/gql/graphql';
 import Log from '../utils/Log';
@@ -100,7 +101,12 @@ export class ServiceSupport {
 			},
 		];
 		try {
+			await this._ctx.defer();
 			await this._ctx.send('Link discord/coordinape', { components });
+			const callback = async ({ customID }: ComponentContext) => this._ctx.send(`You selected: ${customID}`);
+			const onExpire = () => this._ctx.send('You cannot use that component anymore. Please run the command again.');
+			this._ctx.registerComponent('LINK_BUTTON', callback, 5000, onExpire);
+			this._ctx.registerComponent('UNLINK_BUTTON', callback, 5000, onExpire);
 		} catch (error) {
 			Log.log(error);
 		}
