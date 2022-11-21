@@ -208,9 +208,11 @@ export type EpochResponse = {
 
 export type GenerateApiKeyInput = {
   circle_id: Scalars['Int'];
+  create_contributions?: InputMaybe<Scalars['Boolean']>;
   create_vouches?: InputMaybe<Scalars['Boolean']>;
   name: Scalars['String'];
   read_circle?: InputMaybe<Scalars['Boolean']>;
+  read_contributions?: InputMaybe<Scalars['Boolean']>;
   read_discord?: InputMaybe<Scalars['Boolean']>;
   read_epochs?: InputMaybe<Scalars['Boolean']>;
   read_member_profiles?: InputMaybe<Scalars['Boolean']>;
@@ -2585,6 +2587,7 @@ export type Circles = {
   pending_token_gifts: Array<Pending_Token_Gifts>;
   /** An aggregate relationship */
   pending_token_gifts_aggregate: Pending_Token_Gifts_Aggregate;
+  show_pending_gives: Scalars['Boolean'];
   team_sel_text?: Maybe<Scalars['String']>;
   team_selection: Scalars['Boolean'];
   telegram_id?: Maybe<Scalars['String']>;
@@ -2929,6 +2932,7 @@ export type Circles_Bool_Exp = {
   organization?: InputMaybe<Organizations_Bool_Exp>;
   organization_id?: InputMaybe<Int_Comparison_Exp>;
   pending_token_gifts?: InputMaybe<Pending_Token_Gifts_Bool_Exp>;
+  show_pending_gives?: InputMaybe<Boolean_Comparison_Exp>;
   team_sel_text?: InputMaybe<String_Comparison_Exp>;
   team_selection?: InputMaybe<Boolean_Comparison_Exp>;
   telegram_id?: InputMaybe<String_Comparison_Exp>;
@@ -2985,6 +2989,7 @@ export type Circles_Insert_Input = {
   organization?: InputMaybe<Organizations_Obj_Rel_Insert_Input>;
   organization_id?: InputMaybe<Scalars['Int']>;
   pending_token_gifts?: InputMaybe<Pending_Token_Gifts_Arr_Rel_Insert_Input>;
+  show_pending_gives?: InputMaybe<Scalars['Boolean']>;
   team_sel_text?: InputMaybe<Scalars['String']>;
   team_selection?: InputMaybe<Scalars['Boolean']>;
   telegram_id?: InputMaybe<Scalars['String']>;
@@ -3139,6 +3144,7 @@ export type Circles_Order_By = {
   organization?: InputMaybe<Organizations_Order_By>;
   organization_id?: InputMaybe<Order_By>;
   pending_token_gifts_aggregate?: InputMaybe<Pending_Token_Gifts_Aggregate_Order_By>;
+  show_pending_gives?: InputMaybe<Order_By>;
   team_sel_text?: InputMaybe<Order_By>;
   team_selection?: InputMaybe<Order_By>;
   telegram_id?: InputMaybe<Order_By>;
@@ -3193,6 +3199,8 @@ export enum Circles_Select_Column {
   /** column name */
   OrganizationId = 'organization_id',
   /** column name */
+  ShowPendingGives = 'show_pending_gives',
+  /** column name */
   TeamSelText = 'team_sel_text',
   /** column name */
   TeamSelection = 'team_selection',
@@ -3227,6 +3235,7 @@ export type Circles_Set_Input = {
   nomination_days_limit?: InputMaybe<Scalars['Int']>;
   only_giver_vouch?: InputMaybe<Scalars['Boolean']>;
   organization_id?: InputMaybe<Scalars['Int']>;
+  show_pending_gives?: InputMaybe<Scalars['Boolean']>;
   team_sel_text?: InputMaybe<Scalars['String']>;
   team_selection?: InputMaybe<Scalars['Boolean']>;
   telegram_id?: InputMaybe<Scalars['String']>;
@@ -3320,6 +3329,7 @@ export type Circles_Stream_Cursor_Value_Input = {
   nomination_days_limit?: InputMaybe<Scalars['Int']>;
   only_giver_vouch?: InputMaybe<Scalars['Boolean']>;
   organization_id?: InputMaybe<Scalars['Int']>;
+  show_pending_gives?: InputMaybe<Scalars['Boolean']>;
   team_sel_text?: InputMaybe<Scalars['String']>;
   team_selection?: InputMaybe<Scalars['Boolean']>;
   telegram_id?: InputMaybe<Scalars['String']>;
@@ -3384,6 +3394,8 @@ export enum Circles_Update_Column {
   OnlyGiverVouch = 'only_giver_vouch',
   /** column name */
   OrganizationId = 'organization_id',
+  /** column name */
+  ShowPendingGives = 'show_pending_gives',
   /** column name */
   TeamSelText = 'team_sel_text',
   /** column name */
@@ -5574,6 +5586,7 @@ export type Epochs = {
   circle_id: Scalars['Int'];
   created_at: Scalars['timestamp'];
   days?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
   /** An array relationship */
   distributions: Array<Distributions>;
   /** An aggregate relationship */
@@ -5768,6 +5781,7 @@ export type Epochs_Bool_Exp = {
   circle_id?: InputMaybe<Int_Comparison_Exp>;
   created_at?: InputMaybe<Timestamp_Comparison_Exp>;
   days?: InputMaybe<Int_Comparison_Exp>;
+  description?: InputMaybe<String_Comparison_Exp>;
   distributions?: InputMaybe<Distributions_Bool_Exp>;
   end_date?: InputMaybe<Timestamptz_Comparison_Exp>;
   ended?: InputMaybe<Boolean_Comparison_Exp>;
@@ -5811,6 +5825,7 @@ export type Epochs_Insert_Input = {
   circle_id?: InputMaybe<Scalars['Int']>;
   created_at?: InputMaybe<Scalars['timestamp']>;
   days?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
   distributions?: InputMaybe<Distributions_Arr_Rel_Insert_Input>;
   end_date?: InputMaybe<Scalars['timestamptz']>;
   ended?: InputMaybe<Scalars['Boolean']>;
@@ -5835,6 +5850,7 @@ export type Epochs_Max_Fields = {
   circle_id?: Maybe<Scalars['Int']>;
   created_at?: Maybe<Scalars['timestamp']>;
   days?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
   end_date?: Maybe<Scalars['timestamptz']>;
   grant?: Maybe<Scalars['numeric']>;
   id?: Maybe<Scalars['bigint']>;
@@ -5854,6 +5870,7 @@ export type Epochs_Max_Order_By = {
   circle_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   days?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
   end_date?: InputMaybe<Order_By>;
   grant?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -5874,6 +5891,7 @@ export type Epochs_Min_Fields = {
   circle_id?: Maybe<Scalars['Int']>;
   created_at?: Maybe<Scalars['timestamp']>;
   days?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
   end_date?: Maybe<Scalars['timestamptz']>;
   grant?: Maybe<Scalars['numeric']>;
   id?: Maybe<Scalars['bigint']>;
@@ -5893,6 +5911,7 @@ export type Epochs_Min_Order_By = {
   circle_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   days?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
   end_date?: InputMaybe<Order_By>;
   grant?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -5937,6 +5956,7 @@ export type Epochs_Order_By = {
   circle_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   days?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
   distributions_aggregate?: InputMaybe<Distributions_Aggregate_Order_By>;
   end_date?: InputMaybe<Order_By>;
   ended?: InputMaybe<Order_By>;
@@ -5968,6 +5988,8 @@ export enum Epochs_Select_Column {
   CreatedAt = 'created_at',
   /** column name */
   Days = 'days',
+  /** column name */
+  Description = 'description',
   /** column name */
   EndDate = 'end_date',
   /** column name */
@@ -6001,6 +6023,7 @@ export type Epochs_Set_Input = {
   circle_id?: InputMaybe<Scalars['Int']>;
   created_at?: InputMaybe<Scalars['timestamp']>;
   days?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
   end_date?: InputMaybe<Scalars['timestamptz']>;
   ended?: InputMaybe<Scalars['Boolean']>;
   grant?: InputMaybe<Scalars['numeric']>;
@@ -6104,6 +6127,7 @@ export type Epochs_Stream_Cursor_Value_Input = {
   circle_id?: InputMaybe<Scalars['Int']>;
   created_at?: InputMaybe<Scalars['timestamp']>;
   days?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
   end_date?: InputMaybe<Scalars['timestamptz']>;
   ended?: InputMaybe<Scalars['Boolean']>;
   grant?: InputMaybe<Scalars['numeric']>;
@@ -6152,6 +6176,8 @@ export enum Epochs_Update_Column {
   CreatedAt = 'created_at',
   /** column name */
   Days = 'days',
+  /** column name */
+  Description = 'description',
   /** column name */
   EndDate = 'end_date',
   /** column name */
@@ -12125,7 +12151,6 @@ export type Query_Root = {
   personal_access_tokens_aggregate: Personal_Access_Tokens_Aggregate;
   /** fetch data from the table: "personal_access_tokens" using primary key columns */
   personal_access_tokens_by_pk?: Maybe<Personal_Access_Tokens>;
-  price_per_share: Scalars['Float'];
   /** fetch data from the table: "profiles" */
   profiles: Array<Profiles>;
   /** fetch aggregated fields from the table: "profiles" */
@@ -12670,12 +12695,6 @@ export type Query_RootPersonal_Access_Tokens_AggregateArgs = {
 
 export type Query_RootPersonal_Access_Tokens_By_PkArgs = {
   id: Scalars['bigint'];
-};
-
-
-export type Query_RootPrice_Per_ShareArgs = {
-  chain_id: Scalars['Int'];
-  token_address?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -16648,7 +16667,6 @@ export type Vaults = {
   org_id: Scalars['bigint'];
   /** An object relationship */
   organization: Organizations;
-  price_per_share: Scalars['Float'];
   /** An object relationship */
   profile: Profiles;
   simple_token_address: Scalars['String'];

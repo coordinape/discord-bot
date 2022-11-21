@@ -7,9 +7,9 @@ const config: CodegenConfig = {
 			'x-hasura-admin-secret': 'admin-secret',
 		},
 	} }],
-	documents: 'src/app/graphql/*.ts',
+	documents: 'src/app/api/graphql/*.ts',
 	generates: {
-		'src/app/graphql/gql/': {
+		'src/app/api/graphql/gql/': {
 			preset: 'client',
 			plugins: [],
 		},
