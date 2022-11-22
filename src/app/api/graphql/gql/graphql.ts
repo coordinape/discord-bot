@@ -147,6 +147,12 @@ export type CreateNomineeResponse = {
   nominee?: Maybe<Nominees>;
 };
 
+export type CreateSampleCircleResponse = {
+  __typename?: 'CreateSampleCircleResponse';
+  circle?: Maybe<Circles>;
+  id: Scalars['Int'];
+};
+
 export type CreateUserInput = {
   address: Scalars['String'];
   circle_id: Scalars['Int'];
@@ -183,6 +189,10 @@ export type DeleteCircleInput = {
 
 export type DeleteContributionInput = {
   contribution_id: Scalars['Int'];
+};
+
+export type DeleteDiscordUserInput = {
+  user_snowflake: Scalars['String'];
 };
 
 export type DeleteEpochInput = {
@@ -7220,6 +7230,7 @@ export type Mutation_Root = {
   createCircle?: Maybe<CreateCircleResponse>;
   createEpoch?: Maybe<EpochResponse>;
   createNominee?: Maybe<CreateNomineeResponse>;
+  createSampleCircle?: Maybe<CreateSampleCircleResponse>;
   createUser?: Maybe<UserResponse>;
   createUserWithToken?: Maybe<UserResponse>;
   createUsers?: Maybe<Array<Maybe<UserResponse>>>;
@@ -7228,6 +7239,7 @@ export type Mutation_Root = {
   createVaultTx?: Maybe<LogVaultTxResponse>;
   deleteCircle?: Maybe<ConfirmationResponse>;
   deleteContribution?: Maybe<ConfirmationResponse>;
+  deleteDiscordUser?: Maybe<ConfirmationResponse>;
   deleteEpoch?: Maybe<DeleteEpochResponse>;
   deleteUser?: Maybe<ConfirmationResponse>;
   /** delete data from the table: "burns" */
@@ -7730,6 +7742,12 @@ export type Mutation_RootDeleteCircleArgs = {
 /** mutation root */
 export type Mutation_RootDeleteContributionArgs = {
   payload: DeleteContributionInput;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteDiscordUserArgs = {
+  payload: DeleteDiscordUserInput;
 };
 
 
@@ -9819,12 +9837,15 @@ export type Organizations = {
   /** An aggregate relationship */
   circles_aggregate: Circles_Aggregate;
   created_at: Scalars['timestamp'];
+  created_by?: Maybe<Scalars['Int']>;
   id: Scalars['bigint'];
   is_verified: Scalars['Boolean'];
   logo?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  /** An object relationship */
+  profile?: Maybe<Profiles>;
   /** Indicates a test/sample/sandbox org */
-  sandbox: Scalars['Boolean'];
+  sample: Scalars['Boolean'];
   telegram_id?: Maybe<Scalars['String']>;
   updated_at: Scalars['timestamp'];
   /** An array relationship */
@@ -9906,6 +9927,7 @@ export type Organizations_Aggregate_FieldsCountArgs = {
 /** aggregate avg on columns */
 export type Organizations_Avg_Fields = {
   __typename?: 'organizations_avg_fields';
+  created_by?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -9916,11 +9938,13 @@ export type Organizations_Bool_Exp = {
   _or?: InputMaybe<Array<Organizations_Bool_Exp>>;
   circles?: InputMaybe<Circles_Bool_Exp>;
   created_at?: InputMaybe<Timestamp_Comparison_Exp>;
+  created_by?: InputMaybe<Int_Comparison_Exp>;
   id?: InputMaybe<Bigint_Comparison_Exp>;
   is_verified?: InputMaybe<Boolean_Comparison_Exp>;
   logo?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
-  sandbox?: InputMaybe<Boolean_Comparison_Exp>;
+  profile?: InputMaybe<Profiles_Bool_Exp>;
+  sample?: InputMaybe<Boolean_Comparison_Exp>;
   telegram_id?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamp_Comparison_Exp>;
   vaults?: InputMaybe<Vaults_Bool_Exp>;
@@ -9934,6 +9958,7 @@ export enum Organizations_Constraint {
 
 /** input type for incrementing numeric columns in table "organizations" */
 export type Organizations_Inc_Input = {
+  created_by?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['bigint']>;
 };
 
@@ -9941,12 +9966,14 @@ export type Organizations_Inc_Input = {
 export type Organizations_Insert_Input = {
   circles?: InputMaybe<Circles_Arr_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars['timestamp']>;
+  created_by?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['bigint']>;
   is_verified?: InputMaybe<Scalars['Boolean']>;
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
+  profile?: InputMaybe<Profiles_Obj_Rel_Insert_Input>;
   /** Indicates a test/sample/sandbox org */
-  sandbox?: InputMaybe<Scalars['Boolean']>;
+  sample?: InputMaybe<Scalars['Boolean']>;
   telegram_id?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamp']>;
   vaults?: InputMaybe<Vaults_Arr_Rel_Insert_Input>;
@@ -9956,6 +9983,7 @@ export type Organizations_Insert_Input = {
 export type Organizations_Max_Fields = {
   __typename?: 'organizations_max_fields';
   created_at?: Maybe<Scalars['timestamp']>;
+  created_by?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['bigint']>;
   logo?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -9967,6 +9995,7 @@ export type Organizations_Max_Fields = {
 export type Organizations_Min_Fields = {
   __typename?: 'organizations_min_fields';
   created_at?: Maybe<Scalars['timestamp']>;
+  created_by?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['bigint']>;
   logo?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -10001,11 +10030,13 @@ export type Organizations_On_Conflict = {
 export type Organizations_Order_By = {
   circles_aggregate?: InputMaybe<Circles_Aggregate_Order_By>;
   created_at?: InputMaybe<Order_By>;
+  created_by?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   is_verified?: InputMaybe<Order_By>;
   logo?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
-  sandbox?: InputMaybe<Order_By>;
+  profile?: InputMaybe<Profiles_Order_By>;
+  sample?: InputMaybe<Order_By>;
   telegram_id?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   vaults_aggregate?: InputMaybe<Vaults_Aggregate_Order_By>;
@@ -10021,6 +10052,8 @@ export enum Organizations_Select_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  CreatedBy = 'created_by',
+  /** column name */
   Id = 'id',
   /** column name */
   IsVerified = 'is_verified',
@@ -10029,7 +10062,7 @@ export enum Organizations_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  Sandbox = 'sandbox',
+  Sample = 'sample',
   /** column name */
   TelegramId = 'telegram_id',
   /** column name */
@@ -10039,12 +10072,13 @@ export enum Organizations_Select_Column {
 /** input type for updating data in table "organizations" */
 export type Organizations_Set_Input = {
   created_at?: InputMaybe<Scalars['timestamp']>;
+  created_by?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['bigint']>;
   is_verified?: InputMaybe<Scalars['Boolean']>;
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   /** Indicates a test/sample/sandbox org */
-  sandbox?: InputMaybe<Scalars['Boolean']>;
+  sample?: InputMaybe<Scalars['Boolean']>;
   telegram_id?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamp']>;
 };
@@ -10052,18 +10086,21 @@ export type Organizations_Set_Input = {
 /** aggregate stddev on columns */
 export type Organizations_Stddev_Fields = {
   __typename?: 'organizations_stddev_fields';
+  created_by?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Organizations_Stddev_Pop_Fields = {
   __typename?: 'organizations_stddev_pop_fields';
+  created_by?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Organizations_Stddev_Samp_Fields = {
   __typename?: 'organizations_stddev_samp_fields';
+  created_by?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -10078,12 +10115,13 @@ export type Organizations_Stream_Cursor_Input = {
 /** Initial value of the column from where the streaming should start */
 export type Organizations_Stream_Cursor_Value_Input = {
   created_at?: InputMaybe<Scalars['timestamp']>;
+  created_by?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['bigint']>;
   is_verified?: InputMaybe<Scalars['Boolean']>;
   logo?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   /** Indicates a test/sample/sandbox org */
-  sandbox?: InputMaybe<Scalars['Boolean']>;
+  sample?: InputMaybe<Scalars['Boolean']>;
   telegram_id?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamp']>;
 };
@@ -10091,6 +10129,7 @@ export type Organizations_Stream_Cursor_Value_Input = {
 /** aggregate sum on columns */
 export type Organizations_Sum_Fields = {
   __typename?: 'organizations_sum_fields';
+  created_by?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['bigint']>;
 };
 
@@ -10098,6 +10137,8 @@ export type Organizations_Sum_Fields = {
 export enum Organizations_Update_Column {
   /** column name */
   CreatedAt = 'created_at',
+  /** column name */
+  CreatedBy = 'created_by',
   /** column name */
   Id = 'id',
   /** column name */
@@ -10107,7 +10148,7 @@ export enum Organizations_Update_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  Sandbox = 'sandbox',
+  Sample = 'sample',
   /** column name */
   TelegramId = 'telegram_id',
   /** column name */
@@ -10125,18 +10166,21 @@ export type Organizations_Updates = {
 /** aggregate var_pop on columns */
 export type Organizations_Var_Pop_Fields = {
   __typename?: 'organizations_var_pop_fields';
+  created_by?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate var_samp on columns */
 export type Organizations_Var_Samp_Fields = {
   __typename?: 'organizations_var_samp_fields';
+  created_by?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate variance on columns */
 export type Organizations_Variance_Fields = {
   __typename?: 'organizations_variance_fields';
+  created_by?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -17575,6 +17619,13 @@ export type Vouches_Variance_Order_By = {
   voucher_id?: InputMaybe<Order_By>;
 };
 
+export type DeleteDiscordUsersMutationVariables = Exact<{
+  userSnowflake: Scalars['String'];
+}>;
+
+
+export type DeleteDiscordUsersMutation = { __typename?: 'mutation_root', delete_discord_users?: { __typename?: 'discord_users_mutation_response', affected_rows: number } | null };
+
 export type GetCirclesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -17598,6 +17649,7 @@ export type GetOrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetOrganizationsQuery = { __typename?: 'query_root', organizations: Array<{ __typename?: 'organizations', id: any, name: string }> };
 
 
+export const DeleteDiscordUsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteDiscordUsers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userSnowflake"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"delete_discord_users"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"user_snowflake"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userSnowflake"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affected_rows"}}]}}]}}]} as unknown as DocumentNode<DeleteDiscordUsersMutation, DeleteDiscordUsersMutationVariables>;
 export const GetCirclesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getCircles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"circles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"users"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"role"}}]}}]}}]}}]} as unknown as DocumentNode<GetCirclesQuery, GetCirclesQueryVariables>;
 export const GetDiscordUsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getDiscordUsers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userSnowflake"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"discord_users"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"user_snowflake"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userSnowflake"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user_snowflake"}}]}}]}}]} as unknown as DocumentNode<GetDiscordUsersQuery, GetDiscordUsersQueryVariables>;
 export const GetInitDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getInit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"organizations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"circles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetInitQuery, GetInitQueryVariables>;

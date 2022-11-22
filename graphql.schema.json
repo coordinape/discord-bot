@@ -1141,6 +1141,45 @@
         "possibleTypes": null
       },
       {
+        "kind": "OBJECT",
+        "name": "CreateSampleCircleResponse",
+        "description": null,
+        "fields": [
+          {
+            "name": "circle",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "circles",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "INPUT_OBJECT",
         "name": "CreateUserInput",
         "description": null,
@@ -1494,6 +1533,33 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "DeleteDiscordUserInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "user_snowflake",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -54818,6 +54884,18 @@
             "deprecationReason": null
           },
           {
+            "name": "createSampleCircle",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CreateSampleCircleResponse",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "createUser",
             "description": null,
             "args": [
@@ -55008,6 +55086,35 @@
                   "ofType": {
                     "kind": "INPUT_OBJECT",
                     "name": "DeleteContributionInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ConfirmationResponse",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "deleteDiscordUser",
+            "description": null,
+            "args": [
+              {
+                "name": "payload",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DeleteDiscordUserInput",
                     "ofType": null
                   }
                 },
@@ -68892,6 +68999,18 @@
             "deprecationReason": null
           },
           {
+            "name": "created_by",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": null,
             "args": [],
@@ -68952,7 +69071,19 @@
             "deprecationReason": null
           },
           {
-            "name": "sandbox",
+            "name": "profile",
+            "description": "An object relationship",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "profiles",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sample",
             "description": "Indicates a test/sample/sandbox org",
             "args": [],
             "type": {
@@ -69428,6 +69559,18 @@
         "description": "aggregate avg on columns",
         "fields": [
           {
+            "name": "created_by",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": null,
             "args": [],
@@ -69528,6 +69671,18 @@
             "deprecationReason": null
           },
           {
+            "name": "created_by",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Int_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": null,
             "type": {
@@ -69576,7 +69731,19 @@
             "deprecationReason": null
           },
           {
-            "name": "sandbox",
+            "name": "profile",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "profiles_bool_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sample",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -69652,6 +69819,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "created_by",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": null,
             "type": {
@@ -69692,6 +69871,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "timestamp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created_by",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "defaultValue": null,
@@ -69747,7 +69938,19 @@
             "deprecationReason": null
           },
           {
-            "name": "sandbox",
+            "name": "profile",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "profiles_obj_rel_insert_input",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sample",
             "description": "Indicates a test/sample/sandbox org",
             "type": {
               "kind": "SCALAR",
@@ -69811,6 +70014,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "timestamp",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created_by",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "isDeprecated": false,
@@ -69894,6 +70109,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "timestamp",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created_by",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "isDeprecated": false,
@@ -70149,6 +70376,18 @@
             "deprecationReason": null
           },
           {
+            "name": "created_by",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": null,
             "type": {
@@ -70197,7 +70436,19 @@
             "deprecationReason": null
           },
           {
-            "name": "sandbox",
+            "name": "profile",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "profiles_order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sample",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -70291,6 +70542,12 @@
             "deprecationReason": null
           },
           {
+            "name": "created_by",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": "column name",
             "isDeprecated": false,
@@ -70315,7 +70572,7 @@
             "deprecationReason": null
           },
           {
-            "name": "sandbox",
+            "name": "sample",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -70347,6 +70604,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "timestamp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created_by",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "defaultValue": null,
@@ -70402,7 +70671,7 @@
             "deprecationReason": null
           },
           {
-            "name": "sandbox",
+            "name": "sample",
             "description": "Indicates a test/sample/sandbox org",
             "type": {
               "kind": "SCALAR",
@@ -70448,6 +70717,18 @@
         "description": "aggregate stddev on columns",
         "fields": [
           {
+            "name": "created_by",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": null,
             "args": [],
@@ -70471,6 +70752,18 @@
         "description": "aggregate stddev_pop on columns",
         "fields": [
           {
+            "name": "created_by",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": null,
             "args": [],
@@ -70493,6 +70786,18 @@
         "name": "organizations_stddev_samp_fields",
         "description": "aggregate stddev_samp on columns",
         "fields": [
+          {
+            "name": "created_by",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "id",
             "description": null,
@@ -70569,6 +70874,18 @@
             "deprecationReason": null
           },
           {
+            "name": "created_by",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": null,
             "type": {
@@ -70617,7 +70934,7 @@
             "deprecationReason": null
           },
           {
-            "name": "sandbox",
+            "name": "sample",
             "description": "Indicates a test/sample/sandbox org",
             "type": {
               "kind": "SCALAR",
@@ -70663,6 +70980,18 @@
         "description": "aggregate sum on columns",
         "fields": [
           {
+            "name": "created_by",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": null,
             "args": [],
@@ -70695,6 +71024,12 @@
             "deprecationReason": null
           },
           {
+            "name": "created_by",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": "column name",
             "isDeprecated": false,
@@ -70719,7 +71054,7 @@
             "deprecationReason": null
           },
           {
-            "name": "sandbox",
+            "name": "sample",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -70796,6 +71131,18 @@
         "description": "aggregate var_pop on columns",
         "fields": [
           {
+            "name": "created_by",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": null,
             "args": [],
@@ -70819,6 +71166,18 @@
         "description": "aggregate var_samp on columns",
         "fields": [
           {
+            "name": "created_by",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": null,
             "args": [],
@@ -70841,6 +71200,18 @@
         "name": "organizations_variance_fields",
         "description": "aggregate variance on columns",
         "fields": [
+          {
+            "name": "created_by",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "id",
             "description": null,

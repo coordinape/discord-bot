@@ -7,6 +7,7 @@ import { ButtonStyle,
 	AnyComponentButton,
 	ComponentContext,
 } from 'slash-create';
+import { deleteDiscordUserMutationDocument } from '../api/graphql/deleteDiscordUser';
 import { getDiscordUsersQueryDocument } from '../api/graphql/getDiscordUserBySnowflake';
 import { Discord_Users } from '../api/graphql/gql/graphql';
 import Log from '../utils/Log';
@@ -105,22 +106,21 @@ export class ServiceSupport {
 		try {
 			await this._ctx.defer();
 			await this._ctx.send('Link discord/coordinape', { components });
-			const { request } = new GraphQLClient('http://localhost:8080/v1/graphql', { headers: {
+			const client = new GraphQLClient('http://localhost:8080/v1/graphql', { headers: {
 				'x-hasura-admin-secret': 'admin-secret',
 			} });
 			this._ctx.registerComponent('LINK_BUTTON', async (ctx: ComponentContext) => {
-				// TODO Link mutation
 				try {
-					const response = await request(getDiscordUsersQueryDocument, { userSnowflake: ctx.user.id });
+					const response = await client.request(getDiscordUsersQueryDocument, { userSnowflake: ctx.user.id });
+					// TODO Link subscription
 					await ctx.send({ content: JSON.stringify(response) });
 				} catch (error) {
 					Log.error(error);
 				}
 			});
 			this._ctx.registerComponent('UNLINK_BUTTON', async (ctx: ComponentContext) => {
-				// TODO Unlink mutation
 				try {
-					const response = await request(getDiscordUsersQueryDocument, { userSnowflake: ctx.user.id });
+					const response = await client.request(deleteDiscordUserMutationDocument, { userSnowflake: ctx.user.id });
 					await ctx.send({ content: JSON.stringify(response) });
 				} catch (error) {
 					Log.error(error);
