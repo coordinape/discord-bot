@@ -8,10 +8,12 @@ import { ButtonStyle,
 	ComponentContext,
 } from 'slash-create';
 import { deleteDiscordUserMutationDocument } from '../api/graphql/deleteDiscordUser';
-import { getDiscordUsersQueryDocument } from '../api/graphql/getDiscordUserBySnowflake';
 import { Discord_Users } from '../api/graphql/gql/graphql';
 import Log from '../utils/Log';
 import { DiscordService } from './DiscordService';
+
+import type { Client } from '../api/generated';
+import { createClient, everything } from '../api/generated';
 
 export class ServiceSupport {
 	private _ctx: CommandContext;
@@ -106,15 +108,33 @@ export class ServiceSupport {
 		try {
 			await this._ctx.defer();
 			await this._ctx.send('Link discord/coordinape', { components });
+			// FIXME graphql-request doesn't support subscriptions 
 			const client = new GraphQLClient('http://localhost:8080/v1/graphql', { headers: {
 				'x-hasura-admin-secret': 'admin-secret',
 			} });
+			const gqlClient: Client = createClient({
+				subscription: {
+					url: 'ws://localhost:8080/v1/graphql',
+					headers: {
+						'x-hasura-admin-secret': 'admin-secret',
+					},
+				},
+			});
 			this._ctx.registerComponent('LINK_BUTTON', async (ctx: ComponentContext) => {
 				try {
-					const response = await client.request(getDiscordUsersQueryDocument, { userSnowflake: ctx.user.id });
-					// TODO Link subscription
-					await ctx.send({ content: JSON.stringify(response) });
+					// TODO Complete after the first new result
+					const { unsubscribe } = gqlClient.chain.subscription
+						.discord_users({ where: { user_snowflake: { _eq: ctx.user.id } } })
+						.get({ ...everything })
+						.subscribe({
+							next: async (data) => {
+								await ctx.send({ content: JSON.stringify(data) });
+								unsubscribe();
+							},
+							error: Log.error,
+						});
 				} catch (error) {
+					await ctx.send({ content: JSON.stringify(error) });
 					Log.error(error);
 				}
 			});

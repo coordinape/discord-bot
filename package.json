@@ -35,6 +35,7 @@
     },
     "homepage": "https://github.com/wenHELP/",
     "dependencies": {
+        "@genql/runtime": "^2.10.0",
         "@logdna/logger": "^2.6.6",
         "@sentry/integrations": "^7.16.0",
         "@sentry/node": "^7.16.0",
@@ -49,7 +50,10 @@
         "uuid": "^9.0.0"
     },
     "devDependencies": {
+        "@genql/cli": "^2.10.0",
         "@graphql-codegen/cli": "2.13.8",
+        "@graphql-codegen/client-preset": "1.1.1",
+        "@graphql-codegen/introspection": "2.2.1",
         "@types/node": "^18.11.3",
         "@typescript-eslint/eslint-plugin": "^5.40.0",
         "@typescript-eslint/parser": "^5.40.1",
@@ -57,9 +61,7 @@
         "eslint": "^8.26.0",
         "ts-jest": "^29.0.3",
         "ts-loader": "^9.4.1",
-        "typescript": "^4.8.4",
-        "@graphql-codegen/introspection": "2.2.1",
-        "@graphql-codegen/client-preset": "1.1.1"
+        "typescript": "^4.8.4"
     },
     "eslintIgnore": [
         "GuildMemberUpdate.ts"
