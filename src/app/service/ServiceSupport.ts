@@ -82,9 +82,9 @@ export class ServiceSupport {
 
 		const LINK_BUTTON: AnyComponentButton = {
 			type: ComponentType.BUTTON,
-			style: ButtonStyle.LINK,
+			style: ButtonStyle.PRIMARY,
 			label: 'LINK',
-			url: 'http://coordinape.com',
+			custom_id: 'LINK_BUTTON',
 			disabled: isLinked,
 		};
 
@@ -110,13 +110,21 @@ export class ServiceSupport {
 			} });
 			this._ctx.registerComponent('LINK_BUTTON', async (ctx: ComponentContext) => {
 				// TODO Link mutation
-				const { discord_users } = await request(getDiscordUsersQueryDocument, { userSnowflake: ctx.user.id });
-				await ctx.send({ content: JSON.stringify(discord_users) });
+				try {
+					const response = await request(getDiscordUsersQueryDocument, { userSnowflake: ctx.user.id });
+					await ctx.send({ content: JSON.stringify(response) });
+				} catch (error) {
+					Log.error(error);
+				}
 			});
 			this._ctx.registerComponent('UNLINK_BUTTON', async (ctx: ComponentContext) => {
 				// TODO Unlink mutation
-				const { discord_users } = await request(getDiscordUsersQueryDocument, { userSnowflake: ctx.user.id });
-				await ctx.send({ content: JSON.stringify(discord_users) });
+				try {
+					const response = await request(getDiscordUsersQueryDocument, { userSnowflake: ctx.user.id });
+					await ctx.send({ content: JSON.stringify(response) });
+				} catch (error) {
+					Log.error(error);
+				}
 			});
 		} catch (error) {
 			Log.log(error);
