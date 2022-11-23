@@ -8,9 +8,11 @@ export default class implements DiscordEvent {
 
 	async execute(client: Client): Promise<any> {
 		try {
+			if (!client.user) return;
+
 			Log.info('Starting up the bot...');
 			
-			client.user.setActivity(process.env.DISCORD_BOT_ACTIVITY);
+			client.user.setActivity(process.env.DISCORD_BOT_ACTIVITY || '');
 			client.guilds.cache.forEach((guild: Guild) => {
 				Log.info(`Bot is active for: ${guild.id}, ${guild.name}`);
 			});

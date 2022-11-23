@@ -1,5 +1,4 @@
 import { Collection, GuildBasedChannel, Role } from 'discord.js';
-import { GraphQLClient } from 'graphql-request';
 import { ButtonStyle,
 	CommandContext,
 	ComponentType,
@@ -7,13 +6,10 @@ import { ButtonStyle,
 	AnyComponentButton,
 	ComponentContext,
 } from 'slash-create';
-import { deleteDiscordUserMutationDocument } from '../api/graphql/deleteDiscordUser';
-import { Discord_Users } from '../api/graphql/gql/graphql';
 import Log from '../utils/Log';
 import { DiscordService } from './DiscordService';
 
-import type { Client } from '../api/generated';
-import { createClient, everything } from '../api/generated';
+import { Chain, Subscription } from '../api/zeus';
 
 export class ServiceSupport {
 	private _ctx: CommandContext;
@@ -23,22 +19,6 @@ export class ServiceSupport {
 		this._ctx = ctx;
 		this._client = new DiscordService(ctx);
 	}
-
-	// async init(organizations: GetInitQuery['organizations']) {
-	// 	try {
-	// 		for (const organization of organizations) {
-	// 			const category = await this._client.createCategory({ name: organization.name });
-	// 			this._client.createChannel({ name: 'admin', parent: category });
-
-	// 			for (const circle of organization.circles) {
-	// 				this._client.createChannel({ name: circle.name, parent: category });
-	// 			}
-	// 		}
-	// 		await this._ctx.send({ ephemeral: true, content: 'Initiated successfully!' });
-	// 	} catch (e) {
-	// 		Log.error(e);
-	// 	}
-	// }
 
 	async ephemeralError({ msg }: {msg?: string}): Promise<void> {
 		const row: ComponentActionRow = {
@@ -76,7 +56,7 @@ export class ServiceSupport {
 		}
 	}
 
-	async link(discordUsers: Partial<Discord_Users>[]): Promise<void> {
+	async link(discordUsers: { user_snowflake: string; }[]): Promise<void> {
 		const isLinked = discordUsers.length > 0;
 
 		if (discordUsers.length > 1) {
@@ -108,41 +88,55 @@ export class ServiceSupport {
 		try {
 			await this._ctx.defer();
 			await this._ctx.send('Link discord/coordinape', { components });
-			// FIXME graphql-request doesn't support subscriptions 
-			const client = new GraphQLClient('http://localhost:8080/v1/graphql', { headers: {
-				'x-hasura-admin-secret': 'admin-secret',
-			} });
-			const gqlClient: Client = createClient({
-				subscription: {
-					url: 'ws://localhost:8080/v1/graphql',
-					headers: {
-						'x-hasura-admin-secret': 'admin-secret',
-					},
+
+			const chain = Chain('http://localhost:8080/v1/graphql', {
+				headers: {
+					'x-hasura-admin-secret': 'admin-secret',
 				},
 			});
+
+			const wsChain = Subscription('ws://localhost:8080/v1/graphql', {
+				get headers() {
+					return { 'x-hasura-admin-secret': 'admin-secret' };
+				},
+			});
+
 			this._ctx.registerComponent('LINK_BUTTON', async (ctx: ComponentContext) => {
 				try {
-					// TODO Complete after the first new result
-					const { unsubscribe } = gqlClient.chain.subscription
-						.discord_users({ where: { user_snowflake: { _eq: ctx.user.id } } })
-						.get({ ...everything })
-						.subscribe({
-							next: async (data) => {
-								await ctx.send({ content: JSON.stringify(data) });
-								unsubscribe();
-							},
-							error: Log.error,
-						});
+					const onDiscordUsers = wsChain('subscription')({
+						discord_users: [
+							{ where: { user_snowflake: { _eq: ctx.user.id } } },
+							{ user_snowflake: true },
+						],
+					});
+					onDiscordUsers.on(async ({ discord_users }) => {
+						if (!discord_users.length) return;
+
+						if (discord_users.find(({ user_snowflake }) => user_snowflake === ctx.user.id)) {
+							await ctx.send({ content: `@${ctx.user} you've linked successfully!` });
+							onDiscordUsers.ws.close();
+						}
+					});
+					onDiscordUsers.error(Log.error);
 				} catch (error) {
-					await ctx.send({ content: JSON.stringify(error) });
+					await ctx.send({ content: 'Failed to link. Please run the command again' });
 					Log.error(error);
 				}
 			});
 			this._ctx.registerComponent('UNLINK_BUTTON', async (ctx: ComponentContext) => {
 				try {
-					const response = await client.request(deleteDiscordUserMutationDocument, { userSnowflake: ctx.user.id });
-					await ctx.send({ content: JSON.stringify(response) });
+					const { delete_discord_users } = await chain('mutation')({
+						delete_discord_users: [
+							{ where: { user_snowflake: { _eq: ctx.user.id } } },
+							{ affected_rows: true },
+						],
+					});
+					
+					if (delete_discord_users) {
+						await ctx.send({ content: delete_discord_users.affected_rows === 1 ? 'Successfully unlinked!' : 'Failed to unlink' });
+					}
 				} catch (error) {
+					await ctx.send({ content: 'Failed to unlink. Please run the command again' });
 					Log.error(error);
 				}
 			});
@@ -151,11 +145,11 @@ export class ServiceSupport {
 		}
 	}
 
-	async channels(): Promise<GuildBasedChannel[]> {
+	async channels(): Promise<GuildBasedChannel[] | undefined> {
 		return this._client.channels;
 	}
 
-	async roles(): Promise<Collection<string, Role>> {
+	async roles(): Promise<Collection<string, Role> | undefined> {
 		return this._client.roles;
 	}
 }

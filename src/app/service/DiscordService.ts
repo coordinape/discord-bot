@@ -13,12 +13,16 @@ export class DiscordService {
 		return this._ctx.creator.client;
 	}
 
-	get guild(): Guild {
+	get guild(): Guild | undefined {
+		if (!this._ctx.guildID) return;
+
 		return this.client.guilds.cache.get(this._ctx.guildID);
 	}
 
-	get channels(): GuildBasedChannel[] {
-		return this.guild.channels.cache.reduce((a, v) => {
+	get channels(): GuildBasedChannel[] | undefined {
+		if (!this.guild) return;
+
+		return this.guild.channels.cache.reduce((a, v): any => {
 			if (v.type === ChannelType.GuildCategory) {
 				return a;
 			}
@@ -27,11 +31,15 @@ export class DiscordService {
 		}, []);
 	}
 
-	get roles(): Collection<string, Role> {
+	get roles(): Collection<string, Role> | undefined {
+		if (!this.guild) return;
+
 		return this.guild.roles.cache;
 	}
 
-	async createCategory({ name }: { name: string }): Promise<CategoryChannel> {
+	async createCategory({ name }: { name: string }): Promise<CategoryChannel | undefined> {
+		if (!this.guild) return;
+
 		try {
 			return this.guild.channels.create({ name, type: ChannelType.GuildCategory });
 		} catch (e) {
@@ -39,7 +47,9 @@ export class DiscordService {
 		}
 	}
 
-	async createChannel({ name, parent }: { name: string; parent?: CategoryChannel }): Promise<TextChannel> {
+	async createChannel({ name, parent }: { name: string; parent?: CategoryChannel }): Promise<TextChannel | undefined> {
+		if (!this.guild) return;
+		
 		try {
 			return this.guild.channels.create({ name, parent });
 		} catch (e) {

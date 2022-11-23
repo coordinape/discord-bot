@@ -6,6 +6,10 @@ import * as Sentry from '@sentry/node';
 let logger: Logger;
 
 try {
+	if (!apiKeys.logDNAToken) {
+		throw new Error('logDNAToken is missing');
+	}
+
 	logger = logdna.createLogger(apiKeys.logDNAToken, {
 		app: apiKeys.logDNAAppName,
 		level: apiKeys.logDNADefault,

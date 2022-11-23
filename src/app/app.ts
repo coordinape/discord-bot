@@ -26,7 +26,7 @@ initializeEvents();
 export type SlashCreatorWithDiscordJS = Omit<SlashCreator, 'client'> & { client?: Client };
 
 const creator: SlashCreatorWithDiscordJS = new SlashCreator({
-	applicationID: process.env.DISCORD_BOT_APPLICATION_ID,
+	applicationID: process.env.DISCORD_BOT_APPLICATION_ID || '',
 	publicKey: process.env.DISCORD_BOT_PUBLIC_KEY,
 	token: process.env.DISCORD_BOT_TOKEN,
 	client,
@@ -100,7 +100,7 @@ function initializeEvents(): void {
 			} else {
 				client.on(event.name, (...args) => event.execute(...args, client));
 			}
-		} catch (e) {
+		} catch (e: any) {
 			Log.error('Event failed to process', {
 				indexMeta: true,
 				meta: {

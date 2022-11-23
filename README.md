@@ -7,3 +7,17 @@ spend less time signing up members and more time producing and building.
 
 ## Caesar Development  
 
+## GraphQL
+
+### Schema
+
+2e51bbdf
+
+### Zeus
+
+`yarn zeus http://localhost:8080/v1/graphql ./src/app/api -n --ts -h=x-hasura-admin-secret:admin-secret -s graphql-ws`
+
+or without subscriptions
+
+`yarn zeus http://localhost:8080/v1/graphql ./src/app/api -n --ts -h=x-hasura-admin-secret:admin-secret`
+
