@@ -1,44 +1,81 @@
 /* eslint-disable */
 
 import { AllTypesProps, ReturnTypes, Ops } from './const';
-import fetch, { Response } from 'node-fetch';
+import fetch, { Response, Headers } from 'node-fetch';
 import WebSocket from 'ws';
+import { v4 as uuidv4 } from 'uuid';
 export const HOST = "http://localhost:8080/v1/graphql"
 
 
 export const HEADERS = {}
-export const apiSubscription = (options: chainOptions) => (query: string) => {
-  try {
-    const queryString = options[0] + '?query=' + encodeURIComponent(query);
-    const wsString = queryString.replace('http', 'ws');
-    const host = (options.length > 1 && options[1]?.websocket?.[0]) || wsString;
-    const webSocketOptions = options[1]?.websocket || [host];
-    const ws = new WebSocket(...webSocketOptions);
+import { createClient, type Sink } from 'graphql-ws'; // keep
+
+class HasuraWebSocket extends WebSocket {
+	constructor(address: string, protocols: string) {
+	  super(address, protocols, {
+		headers: {
+		  'x-hasura-admin-secret': 'admin-secret'
+		},
+	  });
+	}
+  }
+
+export const apiSubscription = (options: chainOptions) => {
+	const client = createClient({
+	  url: String(options[0]),
+	  webSocketImpl: HasuraWebSocket,
+	});
+
+  const ws = new Proxy(
+    {
+      close: () => client.dispose(),
+    } as WebSocket,
+    {
+      get(target, key) {
+        if (key === 'close') return target.close;
+        throw new Error(`Unimplemented property '${String(key)}', only 'close()' is available.`);
+      },
+    },
+  );
+
+  return (query: string) => {
+    let onMessage: ((event: any) => void) | undefined;
+    let onError: Sink['error'] | undefined;
+    let onClose: Sink['complete'] | undefined;
+
+    client.subscribe(
+      { query },
+      {
+        next({ data }) {
+          onMessage && onMessage(data);
+        },
+        error(error) {
+          onError && onError(error);
+        },
+        complete() {
+          onClose && onClose();
+        },
+      },
+    );
+
     return {
       ws,
-      on: (e: (args: any) => void) => {
-        ws.onmessage = (event: any) => {
-          if (event.data) {
-            const parsed = JSON.parse(event.data);
-            const data = parsed.data;
-            return e(data);
-          }
-        };
+      on(listener: typeof onMessage) {
+        onMessage = listener;
       },
-      off: (e: (args: any) => void) => {
-        ws.onclose = e;
+      error(listener: typeof onError) {
+        onError = listener;
       },
-      error: (e: (args: any) => void) => {
-        ws.onerror = e;
+      open(listener: (socket: unknown) => void) {
+        client.on('opened', listener);
       },
-      open: (e: () => void) => {
-        ws.onopen = e;
+      off(listener: typeof onClose) {
+        onClose = listener;
       },
     };
-  } catch {
-    throw new Error('No websockets implemented');
-  }
+  };
 };
+
 const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
   if (!response.ok) {
     return new Promise((_, reject) => {
