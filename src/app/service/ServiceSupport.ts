@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Collection, GuildBasedChannel, Role } from 'discord.js';
 import { ButtonStyle,
 	CommandContext,
@@ -10,6 +11,8 @@ import Log from '../utils/Log';
 import { DiscordService } from './DiscordService';
 
 import { Chain, Subscription } from '../api/zeus';
+
+const OAUTH2_URL = 'https://discord.com/api/oauth2/authorize?client_id=1031475126652383282&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fdiscord%2Flink&response_type=code&scope=identify';
 
 export class ServiceSupport {
 	private _ctx: CommandContext;
@@ -63,6 +66,12 @@ export class ServiceSupport {
 			throw new Error('Something is wrong, please contact coordinape');
 		}
 
+		/**
+		 * Link buttons must have a `url`, and cannot have a `custom_id`
+		 * Link buttons do not send an interaction to your app when clicked
+		 * 
+		 * https://discord.com/developers/docs/interactions/message-components#button-object-button-structure
+		 */
 		const LINK_BUTTON: AnyComponentButton = {
 			type: ComponentType.BUTTON,
 			style: ButtonStyle.PRIMARY,
@@ -110,14 +119,17 @@ export class ServiceSupport {
 						],
 					});
 					onDiscordUsers.on(async ({ discord_users }) => {
-						if (!discord_users.length) return;
-
 						if (discord_users.find(({ user_snowflake }) => user_snowflake === ctx.user.id)) {
-							await ctx.send({ content: `@${ctx.user} you've linked successfully!` });
+							await ctx.send({ content: `<@${ctx.user.id}>, you've been linked successfully!` });
 							onDiscordUsers.ws.close();
 						}
 					});
-					onDiscordUsers.error(Log.error);
+					await ctx.send({
+						embeds: [{
+							title: 'Click here to link coordinape',
+							url: OAUTH2_URL,
+						}],
+					});
 				} catch (error) {
 					await ctx.send({ content: 'Failed to link. Please run the command again' });
 					Log.error(error);
@@ -133,7 +145,8 @@ export class ServiceSupport {
 					});
 					
 					if (delete_discord_users) {
-						await ctx.send({ content: delete_discord_users.affected_rows === 1 ? 'Successfully unlinked!' : 'Failed to unlink' });
+						const isDiscordUserDeleted = delete_discord_users.affected_rows === 1;
+						await ctx.send({ content: isDiscordUserDeleted ? `<@${ctx.user.id}>, you've been unlinked successfully!` : 'Failed to unlink' });
 					}
 				} catch (error) {
 					await ctx.send({ content: 'Failed to unlink. Please run the command again' });

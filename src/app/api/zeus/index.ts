@@ -1,9 +1,8 @@
 /* eslint-disable */
 
 import { AllTypesProps, ReturnTypes, Ops } from './const';
-import fetch, { Response, Headers } from 'node-fetch';
+import fetch, { Response } from 'node-fetch';
 import WebSocket from 'ws';
-import { v4 as uuidv4 } from 'uuid';
 export const HOST = "http://localhost:8080/v1/graphql"
 
 
