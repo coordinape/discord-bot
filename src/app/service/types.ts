@@ -5,7 +5,7 @@ export type CallbackComponent = {
     callback: ComponentRegisterCallback;
 }
 
-export type CallbackComponentsWithActionRow = {
-    componentActionRow: ComponentActionRow;
+export type CallbackComponentsWithActionRows = {
+    componentActionRows: ComponentActionRow[];
     callbackComponents: CallbackComponent[];
 };

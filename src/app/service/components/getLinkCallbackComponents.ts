@@ -1,11 +1,11 @@
 import { AnyComponentButton, ComponentType, ButtonStyle, ComponentContext, CommandContext } from 'slash-create';
 import { wsChain, chain } from '../../api/gqlClients';
-import { CallbackComponentsWithActionRow } from '../types';
+import { CallbackComponent } from '../types';
 import Log from '../../utils/Log';
 
 const OAUTH2_URL = 'https://discord.com/api/oauth2/authorize?client_id=1031475126652383282&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fdiscord%2Flink&response_type=code&scope=identify';
 
-export async function getLinkRow(commandContext: CommandContext): Promise<CallbackComponentsWithActionRow> {
+export async function getLinkCallbackComponents(commandContext: CommandContext): Promise<CallbackComponent[]> {
 	const { discord_users: discordUsers } = await chain('query')({
 		discord_users: [
 			{ where: { user_snowflake: { _eq: commandContext.user.id } } },
@@ -89,8 +89,5 @@ export async function getLinkRow(commandContext: CommandContext): Promise<Callba
 		},
 	};
 
-	return {
-		componentActionRow: { type: ComponentType.ACTION_ROW, components },
-		callbackComponents: components.map(component => ({ component, callback: CALLBACKS[component.custom_id] })),
-	};
+	return components.map(component => ({ component, callback: CALLBACKS[component.custom_id] }));
 }
