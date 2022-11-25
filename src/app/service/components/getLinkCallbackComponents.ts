@@ -58,12 +58,8 @@ export async function getLinkCallbackComponents(commandContext: CommandContext):
 						onDiscordUsers.ws.close();
 					}
 				});
-				await componentContext.send({
-					embeds: [{
-						title: 'Click here to link coordinape',
-						url: OAUTH2_URL,
-					}],
-				});
+
+				await componentContext.send(`If you would like to interact with Coordinape within discord you will need to link your Coordinape account to your Discord. [Click here](${OAUTH2_URL}) to link your accounts. You will be asked to sign a message approving the bot to perform some Coordinape actions on your behalf.\n\nThis will not impact your ability to use the Coordinape app!`);
 			} catch (error) {
 				await componentContext.send({ content: 'Failed to link. Please run the command again' });
 				Log.error(error);
@@ -78,12 +74,13 @@ export async function getLinkCallbackComponents(commandContext: CommandContext):
 					],
 				});
 				
-				if (delete_discord_users) {
-					const isDiscordUserDeleted = delete_discord_users.affected_rows === 1;
-					await componentContext.send({ content: isDiscordUserDeleted ? `<@${componentContext.user.id}>, you've been unlinked successfully!` : 'Failed to unlink' });
+				if (delete_discord_users && delete_discord_users.affected_rows === 1) {
+					await componentContext.send({ content: 'I\'ve removed the link between Coordinape and Discord. I\'ll no longer be able to specifically notify you for any Coordinape events. You can still use the /coordinape Command in Discord severs where I\'m enabled!' });
+					return;
 				}
-			} catch (error) {
 				await componentContext.send({ content: 'Failed to unlink. Please run the command again' });
+			} catch (error) {
+				await componentContext.send({ content: 'An error has occured, please contact coordinape\'s support' });
 				Log.error(error);
 			}
 		},
