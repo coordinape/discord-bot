@@ -1,12 +1,7 @@
-import {
-	CommandContext,
-	SlashCommand,
-	SlashCreator,
-} from 'slash-create';
+import { CommandContext, ComponentActionRow, SlashCommand, SlashCreator } from 'slash-create';
 import { LogUtils } from '../utils/Log';
 import { ServiceSupport } from '../service/ServiceSupport';
-import { Chain } from '../api/zeus';
-
+import { CallbackComponent } from '../service/types';
 
 export default class Coordinape extends SlashCommand {
 	constructor(creator: SlashCreator) {
@@ -23,23 +18,20 @@ export default class Coordinape extends SlashCommand {
 
 		if (ctx.user.bot) return;
 
-		const chain = Chain('http://localhost:8080/v1/graphql', {
-			headers: {
-				'x-hasura-admin-secret': 'admin-secret',
-			},
-		});
-		
 		const service = new ServiceSupport(ctx);
 
 		try {
-			const { discord_users } = await chain('query')({
-				discord_users: [
-					{ where: { user_snowflake: { _eq: ctx.user.id } } },
-					{ user_snowflake: true },
-				],
-			});
+			const rows = await service.getRows();
+			
+			ctx.defer();
+			const componentActionRows: ComponentActionRow[] = rows.map(({ componentActionRow }) => componentActionRow);
+			await ctx.send('Coordinape Single Command', { components: componentActionRows });
 
-			service.link(discord_users);
+			const callbackComponents: CallbackComponent[] = rows.flatMap((row) => row.callbackComponents);
+			
+			for (const { component: { custom_id }, callback } of callbackComponents) {
+				ctx.registerComponent(custom_id, callback);
+			}
 		} catch (e) {
 			LogUtils.logError('Welp, something went wrong', e);
 			await service.ephemeralError({ msg: JSON.stringify(e) });
