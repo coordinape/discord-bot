@@ -5,7 +5,7 @@ import { ButtonStyle,
 	ComponentActionRow,
 } from 'slash-create';
 import Log from '../utils/Log';
-import { getLinkCallbackComponents } from './components/getLinkCallbackComponents';
+import { getAssignationComponents, getLinkingComponents } from './components';
 import { DiscordService } from './DiscordService';
 import { CallbackComponentsWithActionRows } from './types';
 
@@ -21,13 +21,15 @@ export class ServiceSupport {
 	async getCallbackComponentsWithRows(): Promise<CallbackComponentsWithActionRows> {
 		const componentActionRows: ComponentActionRow[] = [];
 
-		const linkComponents = await getLinkCallbackComponents(this._ctx);
-
+		const linkComponents = await getLinkingComponents(this._ctx);
 		componentActionRows.push({ type: ComponentType.ACTION_ROW, components: linkComponents.map(({ component }) => component) });
+
+		const assignComponents = await getAssignationComponents({ client: this._client });
+		componentActionRows.push({ type: ComponentType.ACTION_ROW, components: assignComponents.map(({ component }) => component) });
 
 		return {
 			componentActionRows,
-			callbackComponents: [...linkComponents],
+			callbackComponents: [...linkComponents, ...assignComponents],
 		};
 	}
 
