@@ -63,7 +63,7 @@ creator
 	.withServer(
 		new GatewayServer((handler) => client.ws.on(GatewayDispatchEvents.InteractionCreate, handler)),
 	)
-	.registerCommandsIn(path.join(__dirname, 'commands'))
+	.registerCommandsIn(path.join(__dirname, 'commands'), ['.ts'])
 	.syncCommands();
 
 // Log client errors
