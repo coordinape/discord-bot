@@ -118,7 +118,7 @@ function initializeSentryIO() {
 	Sentry.init({
 		dsn: `${apiKeys.sentryDSN}`,
 		tracesSampleRate: 1.0,
-		debug: true,
+		debug: false,
 		release: `${constants.APP_NAME}@${constants.APP_VERSION}`,
 		environment: `${process.env.SENTRY_ENVIRONMENT}`,
 		integrations: [
