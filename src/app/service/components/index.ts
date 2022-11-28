@@ -1,2 +1,2 @@
-export * from './getAssignationComponents';
+export * from './getChangeRoleComponents';
 export * from './getLinkingComponents';

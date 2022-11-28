@@ -1,11 +1,10 @@
-import { Collection, GuildBasedChannel, Role } from 'discord.js';
 import { ButtonStyle,
 	CommandContext,
 	ComponentType,
 	ComponentActionRow,
 } from 'slash-create';
 import Log from '../utils/Log';
-import { getAssignationComponents, getLinkingComponents } from './components';
+import { getChangeRoleComponents, getLinkingComponents } from './components';
 import { DiscordService } from './DiscordService';
 import { CallbackComponentsWithActionRows } from './types';
 
@@ -24,7 +23,7 @@ export class ServiceSupport {
 		const linkComponents = await getLinkingComponents(this._ctx);
 		componentActionRows.push({ type: ComponentType.ACTION_ROW, components: linkComponents.map(({ component }) => component) });
 
-		const assignComponents = await getAssignationComponents({ client: this._client });
+		const assignComponents = await getChangeRoleComponents({ client: this._client });
 		componentActionRows.push({ type: ComponentType.ACTION_ROW, components: assignComponents.map(({ component }) => component) });
 
 		return {
@@ -67,13 +66,5 @@ export class ServiceSupport {
 		} catch (e) {
 			Log.error(e);
 		}
-	}
-
-	async channels(): Promise<GuildBasedChannel[] | undefined> {
-		return this._client.channels;
-	}
-
-	async roles(): Promise<Collection<string, Role> | undefined> {
-		return this._client.roles;
 	}
 }

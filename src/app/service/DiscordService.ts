@@ -1,6 +1,7 @@
-import { CategoryChannel, ChannelType, Client, Collection, Guild, GuildBasedChannel, Role, TextChannel } from 'discord.js';
+import { CategoryChannel, ChannelType, Client, Collection, Guild, NonThreadGuildBasedChannel, TextBasedChannel, TextChannel } from 'discord.js';
 import { CommandContext } from 'slash-create';
 import Log from '../utils/Log';
+import { notNull } from '../utils/notNull';
 
 export class DiscordService {
 	private _ctx: CommandContext;
@@ -13,47 +14,53 @@ export class DiscordService {
 		return this._ctx.creator.client;
 	}
 
-	get guild(): Guild | undefined {
-		if (!this._ctx.guildID) return;
+	async findGuild(): Promise<Guild> {
+		if (!this._ctx.guildID) {
+			throw new Error('guildID is required');
+		}
 
-		return this.client.guilds.cache.get(this._ctx.guildID);
+		return this.client.guilds.fetch(this._ctx.guildID);
 	}
 
-	get channels(): GuildBasedChannel[] | undefined {
-		if (!this.guild) return;
+	async findTextChannelById(channelId: string): Promise<TextBasedChannel> {
+		const textChannels = await this.getContextTextChannels();
 
-		return this.guild.channels.cache.reduce((a, v): any => {
-			if (v.type === ChannelType.GuildCategory) {
-				return a;
-			}
+		const channel = textChannels.get(channelId);
 
-			return [...a, v];
-		}, []);
-	}
+		if (!channel) {
+			throw new Error(`No text channel found with id ${channelId}`);
+		}
 
-	get roles(): Collection<string, Role> | undefined {
-		if (!this.guild) return;
-
-		return this.guild.roles.cache;
+		return await channel.fetch();
 	}
 
 	async createCategory({ name }: { name: string }): Promise<CategoryChannel | undefined> {
-		if (!this.guild) return;
-
 		try {
-			return this.guild.channels.create({ name, type: ChannelType.GuildCategory });
+			const guild = await this.findGuild();
+			return guild.channels.create({ name, type: ChannelType.GuildCategory });
 		} catch (e) {
 			Log.error(e);
 		}
 	}
 
 	async createChannel({ name, parent }: { name: string; parent?: CategoryChannel }): Promise<TextChannel | undefined> {
-		if (!this.guild) return;
-		
 		try {
-			return this.guild.channels.create({ name, parent });
+			const guild = await this.findGuild();
+			return guild.channels.create({ name, parent });
 		} catch (e) {
 			Log.error(e);
 		}
 	}
+
+	private async getContextTextChannels(): Promise<Collection<string, TextChannel>> {
+		const guild = await this.findGuild();
+
+		const channels = await guild.channels.fetch();
+		
+		return channels.filter(notNull).filter(textChannel);
+	}
+}
+
+function textChannel(channel: NonThreadGuildBasedChannel): channel is TextChannel {
+	return channel.type === ChannelType.GuildText;
 }
