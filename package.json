@@ -7,7 +7,7 @@
     "scripts": {
         "build": "tsc -p tsconfig.json",
         "test": "jest",
-        "dev": "nodemon --watch src -r dotenv/config src/app/app.ts",
+        "dev": "nodemon -r dotenv/config src/app/app.ts",
         "generate": "zeus http://localhost:8080/v1/graphql ./src/app/api -n --ts -h=x-hasura-admin-secret:admin-secret -s graphql-ws",
         "prod": "node -r dotenv/config --trace-warnings dist/app.js dotenv_config_path=.env.prod",
         "start": "node --trace-warnings -r dotenv/config dist/app.js",
