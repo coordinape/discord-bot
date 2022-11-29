@@ -3,6 +3,7 @@ import { CallbackComponent } from '../types';
 import Log from '../../utils/Log';
 import { Message, MessageCollector } from 'discord.js';
 import { DiscordService } from '../DiscordService';
+import { getLinkingStatus, OAUTH2_URL } from './common';
 
 type Props = {
 	client: DiscordService;
@@ -44,6 +45,13 @@ export async function getChangeRoleComponents({ client }: Props): Promise<Callba
 				const user = message.mentions.users.first();
 				if (user) {
 					collector.stop();
+
+					const isLinked = await getLinkingStatus(user.id);
+
+					if (!isLinked) {
+						await ctx.send({ content: `<@${user.id}> hasn't linked their Discord Account to Coordinape yet, please ask them to go [here](${OAUTH2_URL}) and link their accounts. Then you can try again\n\nYou can also add them directly in coordinape [here](https://app.coordinape.com/profile/me)` });
+						return;
+					}
 
 					// TODO Get the role created by the bot
 					const roleFoo = { id: '1046402573273411716' };

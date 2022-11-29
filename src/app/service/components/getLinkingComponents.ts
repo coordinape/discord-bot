@@ -2,22 +2,10 @@ import { ComponentType, ButtonStyle, ComponentContext, CommandContext, Component
 import { wsChain, chain } from '../../api/gqlClients';
 import { CallbackComponent } from '../types';
 import Log from '../../utils/Log';
-
-const OAUTH2_URL = 'https://discord.com/api/oauth2/authorize?client_id=1031475126652383282&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fdiscord%2Flink&response_type=code&scope=identify';
+import { getLinkingStatus, OAUTH2_URL } from './common';
 
 export async function getLinkingComponents(commandContext: CommandContext): Promise<CallbackComponent[]> {
-	const { discord_users: discordUsers } = await chain('query')({
-		discord_users: [
-			{ where: { user_snowflake: { _eq: commandContext.user.id } } },
-			{ user_snowflake: true },
-		],
-	});
-
-	if (discordUsers.length > 1) {
-		throw new Error('Something is wrong, please contact coordinape');
-	}
-
-	const isLinked = discordUsers.length === 1;
+	const isLinked = await getLinkingStatus(commandContext.user.id);
 
 	/**
  	 * Link buttons must have a `url`, and cannot have a `custom_id`
