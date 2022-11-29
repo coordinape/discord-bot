@@ -1,4 +1,4 @@
-import { AnyComponentButton, ComponentType, ButtonStyle, ComponentContext, CommandContext } from 'slash-create';
+import { ComponentType, ButtonStyle, ComponentContext, CommandContext, ComponentButton } from 'slash-create';
 import { wsChain, chain } from '../../api/gqlClients';
 import { CallbackComponent } from '../types';
 import Log from '../../utils/Log';
@@ -25,7 +25,7 @@ export async function getLinkingComponents(commandContext: CommandContext): Prom
 	 * 
 	 * https://discord.com/developers/docs/interactions/message-components#button-object-button-structure
 	 */
-	const LINK_BUTTON: AnyComponentButton = {
+	const LINK_BUTTON: ComponentButton = {
 		type: ComponentType.BUTTON,
 		style: ButtonStyle.PRIMARY,
 		label: 'LINK',
@@ -33,7 +33,7 @@ export async function getLinkingComponents(commandContext: CommandContext): Prom
 		disabled: isLinked,
 	};
 
-	const UNLINK_BUTTON: AnyComponentButton = {
+	const UNLINK_BUTTON: ComponentButton = {
 		type: ComponentType.BUTTON,
 		style: ButtonStyle.DESTRUCTIVE,
 		label: 'UNLINK',

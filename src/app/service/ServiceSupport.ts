@@ -5,8 +5,9 @@ import { ButtonStyle,
 } from 'slash-create';
 import Log from '../utils/Log';
 import { getChangeRoleComponents, getLinkingComponents } from './components';
+import { getConfigureComponents } from './components/getConfigureComponents';
 import { DiscordService } from './DiscordService';
-import { CallbackComponentsWithActionRows } from './types';
+import { CallbackComponent, CallbackComponentsWithActionRows } from './types';
 
 export class ServiceSupport {
 	private _ctx: CommandContext;
@@ -19,17 +20,21 @@ export class ServiceSupport {
 
 	async getCallbackComponentsWithRows(): Promise<CallbackComponentsWithActionRows> {
 		const componentActionRows: ComponentActionRow[] = [];
+		const callbackComponents: CallbackComponent[] = [];
 
 		const linkComponents = await getLinkingComponents(this._ctx);
 		componentActionRows.push({ type: ComponentType.ACTION_ROW, components: linkComponents.map(({ component }) => component) });
-
+		callbackComponents.push(...linkComponents);
+		
 		const assignComponents = await getChangeRoleComponents({ client: this._client });
 		componentActionRows.push({ type: ComponentType.ACTION_ROW, components: assignComponents.map(({ component }) => component) });
+		callbackComponents.push(...assignComponents);
+		
+		const configComponents = await getConfigureComponents();
+		componentActionRows.push({ type: ComponentType.ACTION_ROW, components: configComponents.map(({ component }) => component) });
+		callbackComponents.push(...configComponents);
 
-		return {
-			componentActionRows,
-			callbackComponents: [...linkComponents, ...assignComponents],
-		};
+		return { componentActionRows, callbackComponents };
 	}
 
 	async ephemeralError({ msg }: {msg?: string}): Promise<void> {

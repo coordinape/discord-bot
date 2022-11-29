@@ -1,4 +1,4 @@
-import { AnyComponentButton, ComponentType, ButtonStyle, ComponentContext } from 'slash-create';
+import { ComponentType, ButtonStyle, ComponentContext, ComponentButton } from 'slash-create';
 import { CallbackComponent } from '../types';
 import Log from '../../utils/Log';
 import { Message, MessageCollector } from 'discord.js';
@@ -14,14 +14,14 @@ type ChangeRoleFlowProps = {
 }
 
 export async function getChangeRoleComponents({ client }: Props): Promise<CallbackComponent[]> {
-	const ASSIGN_BUTTON: AnyComponentButton = {
+	const ASSIGN_BUTTON: ComponentButton = {
 		type: ComponentType.BUTTON,
 		style: ButtonStyle.PRIMARY,
 		label: 'ASSIGN',
 		custom_id: 'ASSIGN_BUTTON',
 	};
 
-	const UNASSIGN_BUTTON: AnyComponentButton = {
+	const UNASSIGN_BUTTON: ComponentButton = {
 		type: ComponentType.BUTTON,
 		style: ButtonStyle.DESTRUCTIVE,
 		label: 'UNASSIGN',
