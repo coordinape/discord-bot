@@ -42,6 +42,10 @@ creator.on('componentInteraction', async (message) => {
 	handleComponentInteraction(message);
 	Log.warn(`componentInteraction: ${ message }`);
 });
+creator.on('modalInteraction', async (message) => {
+	message.send({ content: `<@${message.user.id}> you've typed\n> ||${message.values['TEXT_INPUT']}||\n in the \`TEXT_INPUT\` input field` });
+	Log.warn(`modalInteraction: ${ message }`);
+});
 creator.on('autocompleteInteraction', (message) => Log.warn(`autocompleteInteraction: ${ message }`));
 creator.on('error', (error: Error) => Log.error(`error: ${ error }`));
 creator.on('synced', () => Log.debug('Commands synced!'));

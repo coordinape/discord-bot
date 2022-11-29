@@ -1,3 +1,4 @@
+import { PermissionsBitField } from 'discord.js';
 import { AnyComponentButton, ComponentType, ButtonStyle, ComponentContext, ComponentButton } from 'slash-create';
 import { CallbackComponent } from '../types';
 
@@ -27,7 +28,13 @@ export async function getConfigureComponents(): Promise<CallbackComponent[]> {
 
 	const CALLBACKS = {
 		[CONFIGURE_BUTTON.custom_id]: async (ctx: ComponentContext) => {
-			await ctx.send({
+			const isServerAdmin = ctx.member?.permissions.has(PermissionsBitField.Flags.Administrator);
+
+			if (!isServerAdmin) {
+				return ctx.send('Sorry it seems you don\'t have permission to perform this action it\'s currently restricted to Server Admin.');
+			}
+
+			return ctx.send({
 				content: 'Do you want me to create channels for all of the Circles in your Organization, or do you already have channels for each circle? Any new Coordinape Circles created will automatically create a new Channel in the Coordinape Category from this point on.',
 				components: [{ type: ComponentType.ACTION_ROW, components: [NEW_CHANNELS_BUTTON, EXISTING_CHANNELS_BUTTON] }],
 			});

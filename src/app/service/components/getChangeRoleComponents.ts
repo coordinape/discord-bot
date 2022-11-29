@@ -59,7 +59,7 @@ export async function getChangeRoleComponents({ client }: Props): Promise<Callba
 	
 					if (type === 'add') {
 						const member = await guildMember.roles.add(role, 'add to circle');
-						await ctx.send({ content: `Role ${role} assigned from ${member}` });
+						await ctx.send({ content: `Role ${role} assigned to ${member}` });
 					}
 
 					if (type === 'remove') {
