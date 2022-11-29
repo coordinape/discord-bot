@@ -18,6 +18,7 @@ import Log, { LogUtils } from './utils/Log';
 import apiKeys from './service/constants/apiKeys';
 import constants from './service/constants/constants';
 import { RewriteFrames } from '@sentry/integrations';
+import { handleComponentInteraction } from './interactions/componentInteractions/handleComponentInteraction';
 
 initializeSentryIO();
 const client: Client = initializeClient();
@@ -34,11 +35,13 @@ const creator: SlashCreatorWithDiscordJS = new SlashCreator({
 
 creator.on('debug', (message) => Log.debug(`debug: ${ message }`));
 creator.on('warn', (message) => Log.warn(`warn: ${ message }`));
-creator.on('rawInteraction', (message) => Log.warn(`rawInteraction: ${ message }`));
 creator.on('modalInteraction', (message) => Log.warn(`modalInteraction: ${ message }`));
 creator.on('commandInteraction', (message) => Log.warn(`commandInteraction: ${ message }`));
 creator.on('unknownInteraction', (message) => Log.warn(`unknownInteraction: ${ message }`));
-creator.on('componentInteraction', (message) => Log.warn(`componentInteraction: ${ message }`));
+creator.on('componentInteraction', async (message) => {
+	handleComponentInteraction(message);
+	Log.warn(`componentInteraction: ${ message }`);
+});
 creator.on('autocompleteInteraction', (message) => Log.warn(`autocompleteInteraction: ${ message }`));
 creator.on('error', (error: Error) => Log.error(`error: ${ error }`));
 creator.on('synced', () => Log.debug('Commands synced!'));
