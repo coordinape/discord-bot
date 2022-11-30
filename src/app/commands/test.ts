@@ -84,10 +84,21 @@ export default class Help extends SlashCommand {
 		};
 		const STRING_SELECT: ComponentSelectMenu = {
 			type: ComponentType.STRING_SELECT,
-			options: ['foo', 'bar', 'baz'].map(str => ({ value: str, label: str })),
+			options: [
+				'Epoch Summary',
+				'Epoch Created',
+				'Epoch Start',
+				'Daily Change',
+				'Nominations',
+				'Vouching',
+				'New Circle Member',
+				'Member Leaves Circle',
+				'When a user opts out of a circle',
+			].map(str => ({ value: str, label: str })),
 			placeholder: 'string select component',
 			custom_id: 'STRING_SELECT',
-			max_values: 2,
+			min_values: 0,
+			max_values: 8,
 		};
 		const TEXT_INPUT: ComponentTextInput = {
 			type: ComponentType.TEXT_INPUT,
@@ -103,6 +114,18 @@ export default class Help extends SlashCommand {
 			custom_id: 'MODAL_BUTTON',
 			style: ButtonStyle.DESTRUCTIVE,
 		};
+		const NEXT_BUTTON: ComponentButton = {
+			type: ComponentType.BUTTON,
+			label: 'Next',
+			custom_id: 'NEXT_BUTTON',
+			style: ButtonStyle.SUCCESS,
+		};
+		const SKIP_BUTTON: ComponentButton = {
+			type: ComponentType.BUTTON,
+			label: 'Skip',
+			custom_id: 'SKIP_BUTTON',
+			style: ButtonStyle.DESTRUCTIVE,
+		};
 
 		try {
 			ctx.defer();
@@ -116,7 +139,9 @@ export default class Help extends SlashCommand {
 			case 'channel-select':
 				await ctx.send({
 					content: 'A channel select component:',
-					components: [{ type: ComponentType.ACTION_ROW, components: [CHANNEL_SELECT] }],
+					components: [
+						{ type: ComponentType.ACTION_ROW, components: [CHANNEL_SELECT] },
+						{ type: ComponentType.ACTION_ROW, components: [NEXT_BUTTON, SKIP_BUTTON] }],
 				});
 				break;
 			case 'mentionable-select':
@@ -133,9 +158,11 @@ export default class Help extends SlashCommand {
 				break;
 			case 'string-select':
 				await ctx.send({
-					content: 'A string select component (testing select 2 out of 3):',
-					components: [{ type: ComponentType.ACTION_ROW, components: [STRING_SELECT],
-					}] });
+					content: 'A string select component\n\n[Click here for docs](http://docs.com)',
+					components: [
+						{ type: ComponentType.ACTION_ROW, components: [STRING_SELECT] },
+						{ type: ComponentType.ACTION_ROW, components: [NEXT_BUTTON, SKIP_BUTTON] }],
+				});
 				break;
 			case 'modal':
 				await ctx.send({
