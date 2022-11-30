@@ -27,7 +27,7 @@ export class ServiceSupport {
 		componentActionRows.push({ type: ComponentType.ACTION_ROW, components: linkComponents.map(({ component }) => component) });
 		callbackComponents.push(...linkComponents);
 		
-		const assignComponents = await getChangeRoleSelect({ client: this._client });
+		const assignComponents = await getChangeRoleSelect();
 		componentActionRows.push({ type: ComponentType.ACTION_ROW, components: assignComponents.map(({ component }) => component) });
 		callbackComponents.push(...assignComponents);
 		

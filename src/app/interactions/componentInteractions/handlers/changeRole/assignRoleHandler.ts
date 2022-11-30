@@ -26,9 +26,9 @@ export async function assignRoleHandler({ componentContext }: { componentContext
 		if (!userId) {
 			throw new Error('Something went wrong, user id was not found');
 		}
-        
+
 		const confirmationMessage = await componentContext.send({
-			content: `You've selected <@${userId}>, are you sure that you want to remove them from the circle?`,
+			content: `You've selected <@${userId}>, are you sure that you want to add them to the circle?`,
 			components: [{
 				type: ComponentType.ACTION_ROW,
 				components: [ASSIGN_ROLE_USER_SELECT_CONFIRM_BUTTON, ASSIGN_ROLE_USER_SELECT_CANCEL_BUTTON],
