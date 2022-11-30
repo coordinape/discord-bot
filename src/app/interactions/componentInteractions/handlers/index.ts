@@ -1,3 +1,4 @@
+export * from './changeRole';
 export * from './1.1_handleCreateNewChannels';
 export * from './1.2_handleUseExistingChannels';
 export * from './2_handleManageDiscordRoles';

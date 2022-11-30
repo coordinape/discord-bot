@@ -4,6 +4,7 @@ import {
 	GatewayServer,
 	SlashCommand,
 	CommandContext,
+	ComponentType,
 } from 'slash-create';
 import Discord, {
 	Client,
@@ -19,6 +20,8 @@ import apiKeys from './service/constants/apiKeys';
 import constants from './service/constants/constants';
 import { RewriteFrames } from '@sentry/integrations';
 import { handleComponentInteraction } from './interactions/componentInteractions/handleComponentInteraction';
+import { assignRoleHandler, unassignRoleHandler } from './interactions/componentInteractions/handlers';
+import { ASSIGN_ROLE_USER_SELECT, UNASSIGN_ROLE_USER_SELECT } from './service/components/getChangeRoleSelect';
 
 initializeSentryIO();
 const client: Client = initializeClient();
@@ -38,9 +41,17 @@ creator.on('warn', (message) => Log.warn(`warn: ${ message }`));
 creator.on('modalInteraction', (message) => Log.warn(`modalInteraction: ${ message }`));
 creator.on('commandInteraction', (message) => Log.warn(`commandInteraction: ${ message }`));
 creator.on('unknownInteraction', (message) => Log.warn(`unknownInteraction: ${ message }`));
-creator.on('componentInteraction', async (message) => {
-	handleComponentInteraction(message);
-	Log.warn(`componentInteraction: ${ message }`);
+creator.on('componentInteraction', async (componentContext) => {
+	if (componentContext.componentType === ComponentType.USER_SELECT) {
+		if (componentContext.customID === ASSIGN_ROLE_USER_SELECT.custom_id) {
+			return assignRoleHandler({ componentContext });
+		}
+		if (componentContext.customID === UNASSIGN_ROLE_USER_SELECT.custom_id) {
+			return unassignRoleHandler({ componentContext });
+		}
+	}
+	handleComponentInteraction(componentContext);
+	Log.warn(`componentInteraction: ${ componentContext }`);
 });
 creator.on('modalInteraction', async (message) => {
 	message.send({ content: `<@${message.user.id}> you've typed\n> ||${message.values['TEXT_INPUT']}||\n in the \`TEXT_INPUT\` input field` });

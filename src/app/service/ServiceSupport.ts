@@ -4,7 +4,8 @@ import { ButtonStyle,
 	ComponentActionRow,
 } from 'slash-create';
 import Log from '../utils/Log';
-import { getChangeRoleComponents, getLinkingComponents } from './components';
+import { getLinkingComponents } from './components';
+import { getChangeRoleSelect } from './components/getChangeRoleSelect';
 import { getConfigureComponents } from './components/getConfigureComponents';
 import { DiscordService } from './DiscordService';
 import { CallbackComponent, CallbackComponentsWithActionRows } from './types';
@@ -26,7 +27,7 @@ export class ServiceSupport {
 		componentActionRows.push({ type: ComponentType.ACTION_ROW, components: linkComponents.map(({ component }) => component) });
 		callbackComponents.push(...linkComponents);
 		
-		const assignComponents = await getChangeRoleComponents({ client: this._client });
+		const assignComponents = await getChangeRoleSelect({ client: this._client });
 		componentActionRows.push({ type: ComponentType.ACTION_ROW, components: assignComponents.map(({ component }) => component) });
 		callbackComponents.push(...assignComponents);
 		
