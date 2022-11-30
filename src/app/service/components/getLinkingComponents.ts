@@ -1,8 +1,9 @@
 import { ComponentType, ButtonStyle, ComponentContext, CommandContext, ComponentButton } from 'slash-create';
-import { wsChain, chain } from '../../api/gqlClients';
+import { wsChain, chain } from '@api/gqlClients';
 import { CallbackComponent } from '../types';
 import Log from '../../utils/Log';
-import { getLinkingStatus, OAUTH2_URL } from './common';
+import { getLinkingStatus } from '@api/getLinkingStatus';
+import { OAUTH2_URL } from '@api/constants';
 
 export async function getLinkingComponents(commandContext: CommandContext): Promise<CallbackComponent[]> {
 	const isLinked = await getLinkingStatus(commandContext.user.id);

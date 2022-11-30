@@ -7,7 +7,7 @@
     "scripts": {
         "build": "tsc -p tsconfig.json",
         "test": "jest",
-        "dev": "nodemon -r dotenv/config src/app/app.ts",
+        "dev": "nodemon -r dotenv/config -r tsconfig-paths/register src/app/app.ts",
         "generate": "zeus http://localhost:8080/v1/graphql ./src/app/api -n --ts -h=x-hasura-admin-secret:admin-secret -s graphql-ws",
         "prod": "node -r dotenv/config --trace-warnings dist/app.js dotenv_config_path=.env.prod",
         "start": "node --trace-warnings -r dotenv/config dist/app.js",
@@ -45,6 +45,7 @@
         "graphql": "^16.6.0",
         "graphql-ws": "^5.11.2",
         "graphql-zeus": "^5.2.0",
+        "module-alias": "^2.2.2",
         "slash-create": "^5.10.0",
         "uuid": "^9.0.0"
     },
@@ -64,10 +65,14 @@
         "ts-loader": "^9.4.1",
         "ts-node": "^10.9.1",
         "ts-node-dev": "^2.0.0",
+        "tsconfig-paths": "^4.1.0",
         "typescript": "^4.8.4"
     },
     "engines": {
         "node": "16"
     },
-    "engineStrict": true
+    "engineStrict": true,
+    "_moduleAliases": {
+        "@api": "dist/api"
+    }
 }

@@ -1,4 +1,4 @@
-import { chain } from '../../../api/gqlClients';
+import { chain } from './gqlClients';
 
 export async function getLinkingStatus(userId: string) {
 	const { discord_users: discordUsers } = await chain('query')({

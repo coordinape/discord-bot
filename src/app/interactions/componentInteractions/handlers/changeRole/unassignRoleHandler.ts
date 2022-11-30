@@ -1,5 +1,6 @@
 import { ButtonStyle, ComponentActionRow, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentType, Message } from 'slash-create';
-import { getLinkingStatus, OAUTH2_URL } from '../../../../service/components/common';
+import { OAUTH2_URL } from '@api/constants';
+import { getLinkingStatus } from '@api/getLinkingStatus';
 import Log from '../../../../utils/Log';
 import { disableFirstRowComponentButtons } from './common';
 

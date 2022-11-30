@@ -3,6 +3,10 @@
     "compilerOptions": {
         "outDir": "./dist",
         "lib": ["DOM", "DOM.Iterable"],
+        "baseUrl": ".",
+        "paths": {
+            "@api/*": ["./src/app/api/*"],
+        },
     },
     "ts-node": {
         "swc": true
