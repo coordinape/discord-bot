@@ -2,7 +2,7 @@ import { OAUTH2_URL } from '@api/constants';
 import { getLinkingStatus } from '@api/getLinkingStatus';
 import { ButtonStyle, ComponentActionRow, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentType, Message } from 'slash-create';
 import Log from '../../../../utils/Log';
-import { disableFirstRowComponentButtons } from './common';
+import { disableFirstRowComponentButtons } from '../common';
 
 export const ASSIGN_ROLE_USER_SELECT_CONFIRM_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,

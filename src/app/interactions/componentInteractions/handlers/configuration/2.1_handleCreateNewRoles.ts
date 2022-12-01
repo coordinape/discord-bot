@@ -1,5 +1,5 @@
 import { ComponentContext } from 'slash-create';
-import { handleSendAlerts } from './3_handleSendAlerts';
+import { handleSendAlerts } from '.';
 
 /**
  * Create a new Role for each Circle
@@ -7,5 +7,7 @@ import { handleSendAlerts } from './3_handleSendAlerts';
  */
 export async function handleCreateNewRoles(message: ComponentContext) {
 	await message.send({ content: 'TODO: Create new roles flow', components: [] });
-	handleSendAlerts(message);
+
+	// Next
+	return handleSendAlerts(message);
 }

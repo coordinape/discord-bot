@@ -1,5 +1,5 @@
 import { ComponentContext } from 'slash-create';
-import { handleManageDiscordRoles } from './2_handleManageDiscordRoles';
+import { handleManageDiscordRoles } from '.';
 
 /**
  * For each Channel ask the user which Circle should map to it.
@@ -7,5 +7,7 @@ import { handleManageDiscordRoles } from './2_handleManageDiscordRoles';
  */
 export async function handleUseExistingChannels(message: ComponentContext) {
 	await message.send({ content: 'TODO: Existing channels flow', components: [] });
-	handleManageDiscordRoles(message);
+
+	// Next
+	return handleManageDiscordRoles(message);
 }

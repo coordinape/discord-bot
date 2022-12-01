@@ -2,7 +2,7 @@ import { ButtonStyle, ComponentActionRow, ComponentButton, ComponentContext, Com
 import { OAUTH2_URL } from '@api/constants';
 import { getLinkingStatus } from '@api/getLinkingStatus';
 import Log from '../../../../utils/Log';
-import { disableFirstRowComponentButtons } from './common';
+import { disableFirstRowComponentButtons } from '../common';
 
 export const UNASSIGN_ROLE_USER_SELECT_CONFIRM_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,

@@ -19,7 +19,7 @@ export const NOT_YET_NEW_ROLE_BUTTON: ComponentButton = {
  * @param message the component context
  */
 export async function handleManageDiscordRoles(message: ComponentContext) {
-	await message.send({
+	return message.send({
 		content: 'I will manage Circle membership through Discord Roles. These roles will be managed exclusively by me (the bot) to ensure circle membership and Discord roles are in sync. Do you want me to create those roles now?',
 		components: [{ type: ComponentType.ACTION_ROW, components: [YES_NEW_ROLE_BUTTON, NOT_YET_NEW_ROLE_BUTTON] }],
 	});

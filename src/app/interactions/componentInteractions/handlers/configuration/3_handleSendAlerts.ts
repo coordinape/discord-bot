@@ -19,7 +19,7 @@ export const NO_SEND_ALERTS_BUTTON: ComponentButton = {
  * @param message the component context
  */
 export async function handleSendAlerts(message: ComponentContext) {
-	await message.send({
+	return message.send({
 		content: 'Do you want me to send alerts based on Circle activity?',
 		components: [{ type: ComponentType.ACTION_ROW, components: [YES_SEND_ALERTS_BUTTON, NO_SEND_ALERTS_BUTTON] }],
 	});
