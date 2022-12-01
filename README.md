@@ -5,7 +5,11 @@ bringing Circle assignment and Epoch alert functionality to Discord! CO Kong
 is developed for the purpose of automating Circle assignment, so you can 
 spend less time signing up members and more time producing and building.  
 
-## Caesar Development  
+## Caesar Development
+
+```
+yarn && yarn dev
+```
 
 ## GraphQL
 
