@@ -21,3 +21,10 @@ or without subscriptions
 
 `yarn zeus http://localhost:8080/v1/graphql ./src/app/api -n --ts -h=x-hasura-admin-secret:admin-secret`
 
+### LogDNA
+
+LogDNA (now [mezmo.com](https://www.mezmo.com/)) was the service for logging that was implemented originally in the app.
+
+### Sentry
+
+[Sentry](https://sentry.io/) for application monitoring and error tracking
