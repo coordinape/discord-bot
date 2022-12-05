@@ -46,7 +46,7 @@ export default class implements DiscordEvent {
 	 * @param roles roles that were removed from member
 	 */
 	rolesRemoved = (guildMember: GuildMember, roles: Collection<Snowflake, Role>): void => {
-		roles.each(async role => {
+		roles.each(async _role => {
 			// logic for removing roles
 		});
 	};
@@ -58,7 +58,7 @@ export default class implements DiscordEvent {
 	 * @param roles roles added
 	 */
 	rolesAdded = (guildMember: GuildMember, roles: Collection<Snowflake, Role>): void => {
-		roles.each(async role => {
+		roles.each(async _role => {
 			// logic for applying role addition
 		});
 	};

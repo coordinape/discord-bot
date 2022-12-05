@@ -1,18 +1,15 @@
 {
+    "extends": "@tsconfig/node16/tsconfig.json",
     "compilerOptions": {
-		"experimentalDecorators": true,
-        "module": "commonjs",
-        "target": "es6",
-        "lib": ["es2020", "DOM"],
-        "sourceMap": true,
-        "outDir": "./dist/",
-        "allowJs": true,
-        "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true,
-        "noEmitOnError": true,
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
+        "outDir": "./dist",
+        "lib": ["DOM", "DOM.Iterable"],
+        "baseUrl": ".",
+        "paths": {
+            "@api/*": ["./src/app/api/*"],
+        },
     },
-    "include": ["src/**/*.ts"],
-    "exclude": ["node_modules"]
+    "ts-node": {
+        "swc": true
+    },
+    "include": ["src/**/*"],
 }

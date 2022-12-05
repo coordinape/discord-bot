@@ -4,8 +4,8 @@ import {
 	SlashCommand,
 	SlashCreator,
 } from 'slash-create';
-import HelpMe from '../../service/help/HelpMe';
-import { LogUtils } from '../../utils/Log';
+import HelpMe from '../service/help/HelpMe';
+import { LogUtils } from '../utils/Log';
 
 export default class Help extends SlashCommand {
 	constructor(creator: SlashCreator) {
@@ -35,8 +35,8 @@ export default class Help extends SlashCommand {
 		switch (ctx.subcommands[0]) {
 		case 'me':
 			messageOptions = HelpMe();
+			return ctx.send(messageOptions);
 			break;
 		}
-		return ctx.send(messageOptions);
 	}
 }

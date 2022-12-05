@@ -4,6 +4,7 @@ import {
 	GatewayServer,
 	SlashCommand,
 	CommandContext,
+	ComponentType,
 } from 'slash-create';
 import Discord, {
 	Client,
@@ -18,19 +19,45 @@ import Log, { LogUtils } from './utils/Log';
 import apiKeys from './service/constants/apiKeys';
 import constants from './service/constants/constants';
 import { RewriteFrames } from '@sentry/integrations';
+import { handleComponentInteraction } from './interactions/componentInteractions/handleComponentInteraction';
+import { assignRoleHandler, unassignRoleHandler } from './interactions/componentInteractions/handlers';
+import { ASSIGN_ROLE_USER_SELECT, UNASSIGN_ROLE_USER_SELECT } from './service/components/getChangeRoleSelect';
 
 initializeSentryIO();
 const client: Client = initializeClient();
 initializeEvents();
 
-const creator = new SlashCreator({
-	applicationID: process.env.DISCORD_BOT_APPLICATION_ID,
+export type SlashCreatorWithDiscordJS = Omit<SlashCreator, 'client'> & { client?: Client };
+
+const creator: SlashCreatorWithDiscordJS = new SlashCreator({
+	applicationID: process.env.DISCORD_BOT_APPLICATION_ID || '',
 	publicKey: process.env.DISCORD_BOT_PUBLIC_KEY,
 	token: process.env.DISCORD_BOT_TOKEN,
+	client,
 });
 
 creator.on('debug', (message) => Log.debug(`debug: ${ message }`));
 creator.on('warn', (message) => Log.warn(`warn: ${ message }`));
+creator.on('modalInteraction', (message) => Log.warn(`modalInteraction: ${ message }`));
+creator.on('commandInteraction', (message) => Log.warn(`commandInteraction: ${ message }`));
+creator.on('unknownInteraction', (message) => Log.warn(`unknownInteraction: ${ message }`));
+creator.on('componentInteraction', async (componentContext) => {
+	if (componentContext.componentType === ComponentType.USER_SELECT) {
+		if (componentContext.customID === ASSIGN_ROLE_USER_SELECT.custom_id) {
+			return assignRoleHandler({ componentContext });
+		}
+		if (componentContext.customID === UNASSIGN_ROLE_USER_SELECT.custom_id) {
+			return unassignRoleHandler({ componentContext });
+		}
+	}
+	handleComponentInteraction(componentContext);
+	Log.warn(`componentInteraction: ${ componentContext }`);
+});
+creator.on('modalInteraction', async (message) => {
+	message.send({ content: `<@${message.user.id}> you've typed\n> ||${message.values['TEXT_INPUT']}||\n in the \`TEXT_INPUT\` input field` });
+	Log.warn(`modalInteraction: ${ message }`);
+});
+creator.on('autocompleteInteraction', (message) => Log.warn(`autocompleteInteraction: ${ message }`));
 creator.on('error', (error: Error) => Log.error(`error: ${ error }`));
 creator.on('synced', () => Log.debug('Commands synced!'));
 creator.on('commandRegister', (command: SlashCommand) => Log.debug(`Registered command ${command.commandName}`));
@@ -54,7 +81,7 @@ creator
 	.withServer(
 		new GatewayServer((handler) => client.ws.on(GatewayDispatchEvents.InteractionCreate, handler)),
 	)
-	.registerCommandsIn(path.join(__dirname, 'commands'))
+	.registerCommandsIn(path.join(__dirname, 'commands'), ['.ts'])
 	.syncCommands();
 
 // Log client errors
@@ -91,7 +118,7 @@ function initializeEvents(): void {
 			} else {
 				client.on(event.name, (...args) => event.execute(...args, client));
 			}
-		} catch (e) {
+		} catch (e: any) {
 			Log.error('Event failed to process', {
 				indexMeta: true,
 				meta: {
@@ -109,7 +136,7 @@ function initializeSentryIO() {
 	Sentry.init({
 		dsn: `${apiKeys.sentryDSN}`,
 		tracesSampleRate: 1.0,
-		debug: true,
+		debug: false,
 		release: `${constants.APP_NAME}@${constants.APP_VERSION}`,
 		environment: `${process.env.SENTRY_ENVIRONMENT}`,
 		integrations: [
