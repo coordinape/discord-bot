@@ -1,12 +1,12 @@
-import { CategoryChannel, ChannelType, Client, Collection, Guild, NonThreadGuildBasedChannel, TextBasedChannel, TextChannel } from 'discord.js';
-import { CommandContext } from 'slash-create';
+import { CategoryChannel, ChannelType, Client, Collection, CreateRoleOptions, Guild, GuildChannelCreateOptions, NonThreadGuildBasedChannel, Role, TextBasedChannel, TextChannel } from 'discord.js';
+import { CommandContext, ComponentContext } from 'slash-create';
 import Log from '../utils/Log';
 import { notNull } from '../utils/notNull';
 
 export class DiscordService {
-	private _ctx: CommandContext;
+	private _ctx: CommandContext | ComponentContext;
 
-	constructor(ctx: CommandContext) {
+	constructor(ctx: CommandContext | ComponentContext) {
 		this._ctx = ctx;
 	}
 
@@ -43,10 +43,25 @@ export class DiscordService {
 		}
 	}
 
-	async createChannel({ name, parent }: { name: string; parent?: CategoryChannel }): Promise<TextChannel | undefined> {
+	async createChannel({ name, parent, ...rest }: GuildChannelCreateOptions): Promise<TextChannel | undefined> {
 		try {
 			const guild = await this.findGuild();
-			return guild.channels.create({ name, parent });
+			return guild.channels.create({ name, parent, ...rest });
+		} catch (e) {
+			Log.error(e);
+		}
+	}
+
+	async createRole({ name, ...rest }: Omit<CreateRoleOptions, 'icon'>): Promise<Role | undefined> {
+		try {
+			const guild = await this.findGuild();
+			return guild.roles.create({
+				name,
+				color: '#717c7f',
+				hoist: true,
+				mentionable: true,
+				...rest,
+			});
 		} catch (e) {
 			Log.error(e);
 		}
