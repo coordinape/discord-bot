@@ -20,7 +20,7 @@ export default class Coordinape extends SlashCommand {
 		const service = new ServiceSupport(ctx);
 
 		try {
-			ctx.defer();
+			await ctx.defer();
 
 			const { componentActionRows, callbackComponents } = await service.getCallbackComponentsWithRows();
 

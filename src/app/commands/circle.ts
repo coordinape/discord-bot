@@ -24,7 +24,7 @@ export default class Coordinape extends SlashCommand {
 		const service = new ServiceSupport(ctx);
 
 		try {
-			ctx.defer();
+			await ctx.defer();
 
 			await handleLinkCircles(ctx);
 		} catch (e) {

@@ -25,11 +25,11 @@ export default class Coordinape extends SlashCommand {
 		const discord = new DiscordService(ctx);
 
 		try {
-			ctx.defer();
+			await ctx.defer();
 
 			const role = await discord.createRole({ name: 'Foo Bar Member' });
 			if (role) {
-				ctx.send(`Role ${role} created!`);
+				await ctx.send(`Role ${role} created!`);
 			}
 
 		} catch (e) {

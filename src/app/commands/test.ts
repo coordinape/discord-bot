@@ -128,7 +128,8 @@ export default class Help extends SlashCommand {
 		};
 
 		try {
-			ctx.defer();
+			await ctx.defer();
+
 			switch (ctx.subcommands[0]) {
 			case 'user-select':
 				await ctx.send({
