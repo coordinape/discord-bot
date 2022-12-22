@@ -1,4 +1,5 @@
-import { ButtonStyle, ComponentActionRow, ComponentButton, ComponentButtonLink, ComponentContext, ComponentSelectMenu, ComponentType } from 'slash-create';
+import { ButtonStyle, ComponentActionRow, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentType } from 'slash-create';
+import { HELP_BUTTON } from 'src/app/common';
 import { buildCircleSelect } from './2_handleLinkCircles';
 
 export const CIRCLE_SELECT_HANDLER_INTERACTIONS = {
@@ -20,14 +21,6 @@ export const CIRCLE_SELECT_SKIP_BUTTON: ComponentButton = {
 	style: ButtonStyle.DESTRUCTIVE,
 };
 
-export const CIRCLE_SELECT_HELP_BUTTON: ComponentButtonLink = {
-	type: ComponentType.BUTTON,
-	label: 'Help',
-	style: ButtonStyle.LINK,
-	// TODO Add actual link
-	url: 'https://docs.coordinape.com',
-};
-
 /**
  * Handle circle select
  * @param ctx the component context
@@ -45,7 +38,7 @@ export async function handleCircleSelect(ctx: ComponentContext) {
 
 	const selectActionRow = { type: ComponentType.ACTION_ROW, components: [newSelectComponent] } as ComponentActionRow;
 
-	const nextButton = { type: ComponentType.ACTION_ROW, components: [ CIRCLE_SELECT_NEXT_BUTTON, CIRCLE_SELECT_SKIP_BUTTON, CIRCLE_SELECT_HELP_BUTTON ] } as ComponentActionRow;
+	const nextButton = { type: ComponentType.ACTION_ROW, components: [ CIRCLE_SELECT_NEXT_BUTTON, CIRCLE_SELECT_SKIP_BUTTON, HELP_BUTTON ] } as ComponentActionRow;
 
 	ctx.editParent({ components: [selectActionRow, nextButton] });
 }

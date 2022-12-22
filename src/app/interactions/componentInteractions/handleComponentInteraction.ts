@@ -1,5 +1,4 @@
 import { ComponentContext } from 'slash-create';
-import { NEW_CHANNELS_BUTTON, EXISTING_CHANNELS_BUTTON } from '../../service/components/getConfigureComponents';
 import { disableAllComponents } from './handlers/common';
 import {
 	ALERTS_FREQUENCY_SELECT_CANCEL_BUTTON,
@@ -16,10 +15,11 @@ import {
 	handleCreateNewEntities,
 	handleFinalMessage,
 	handleFrequencyOfAlertsToSend,
-	handleUseExistingChannels,
+	handleLinkCircles,
 } from './handlers';
 import { DiscordService } from 'src/app/service/DiscordService';
 import { extractCircleId } from 'src/app/utils/extractCircleId';
+import { CONFIG_NEXT_BUTTON } from 'src/app/service/components/getConfigureComponents';
 
 type Props = {
 	componentContext: ComponentContext;
@@ -28,11 +28,8 @@ type Props = {
 
 export async function handleComponentInteraction({ componentContext, discordService }: Props): Promise<void> {
 	switch (componentContext.customID) {
-	case NEW_CHANNELS_BUTTON.custom_id:
-		await handleCreateNewEntities(componentContext);
-		break;
-	case EXISTING_CHANNELS_BUTTON.custom_id:
-		await handleUseExistingChannels(componentContext);
+	case CONFIG_NEXT_BUTTON.custom_id:
+		await handleLinkCircles(componentContext);
 		break;
 	case YES_SEND_ALERTS_BUTTON.custom_id:
 		await handleAlertsToSend(componentContext);
