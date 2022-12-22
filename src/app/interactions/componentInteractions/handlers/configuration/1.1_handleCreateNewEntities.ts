@@ -61,7 +61,7 @@ export async function handleCreateNewEntities(componentContext: ComponentContext
 	
 	for (const { channel, role, circle } of newEntitites) {
 		await channel.send({
-			content: `<@${componentContext.user.id}> to manage \`${circle.label}\` in Discord I'll need to get the API Key for the circle. This will enable me to watch this circle so I can send alerts, to manage circle membership (with the role ${role}), and to let circle members interact with Coordinape from within Discord. With your permission I'll go get that now.`,
+			content: `<@${componentContext.user.id}> to manage \`${circle.label}\` (Circle ID: ${circle.value}) in Discord I'll need to get the API Key for the circle. This will enable me to watch this circle so I can send alerts, to manage circle membership (with the role ${role}), and to let circle members interact with Coordinape from within Discord. With your permission I'll go get that now.`,
 			components: [linkCircleRow],
 		});
 	}

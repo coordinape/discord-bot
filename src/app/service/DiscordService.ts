@@ -22,16 +22,10 @@ export class DiscordService {
 		return this.client.guilds.fetch(this._ctx.guildID);
 	}
 
-	async findTextChannelById(channelId: string): Promise<TextBasedChannel> {
+	async findTextChannelById(channelId: string): Promise<TextBasedChannel | undefined> {
 		const textChannels = await this.getContextTextChannels();
 
-		const channel = textChannels.get(channelId);
-
-		if (!channel) {
-			throw new Error(`No text channel found with id ${channelId}`);
-		}
-
-		return await channel.fetch();
+		return textChannels.get(channelId);
 	}
 
 	async createCategory({ name }: { name: string }): Promise<CategoryChannel | undefined> {

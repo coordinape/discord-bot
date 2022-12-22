@@ -1,10 +1,6 @@
 import { CommandContext, ComponentContext, ComponentSelectMenu, ComponentSelectOption, ComponentType } from 'slash-create';
 import _ from 'lodash';
-
-export type Circle = {
-	name: string;
-	id: number;
-};
+import { Circle, getCircles } from '@api/getCircles';
 
 export const LINK_CIRCLE_HANDLER_INTERACTIONS = {
 	Select: 'CIRCLE_SELECT',
@@ -24,16 +20,22 @@ export const buildCircleSelect = ({ circles, options }: {circles?: Circle[]; opt
  * @param ctx the context
  */
 export async function handleLinkCircles(ctx: CommandContext | ComponentContext) {
-	// TODO Fetch dynamically
-	const circles = [{ name: 'Circle X', id: 1 }, { name: 'Circle Y', id: 2 	}, { name: 'Circle Z', id: 3 }];
+	const circles = await getCircles();
 
-	if (circles.length === 1) {
-		// TODO Single circle flow
+	if (circles.length === 0) {
+		ctx.send('All your circles are linked!');
 		return;
 	}
 
 	ctx.send({
-		content: `I see you have ${circles.length} Circles that aren't yet linked to Discord.\n\nI'll need to create a new channel and role in this server to link these Circles following this schema:\n\n> Channel = \`#circle-name\`\n> Role = \`@Circle Name Member\`\n\nFor example, for your circle "${circles[0].name}" I will create the channel \`#${_.kebabCase(circles[0].name)}\` and the role \`@${circles[0].name} Member\`\n\nPlease select the Circles that you want me to manage from the **dropdown list** and click Next`,
+		content: `I see you have ${getLinkedCirclesText(circles)}.\n\nI'll need to create a new channel and role in this server to link these Circles following this schema:\n\n> Channel = \`#circle-name\`\n> Role = \`@Circle Name Member\`\n\nFor example, for your circle "${circles[0].name}" I will create the channel \`#${_.kebabCase(circles[0].name)}\` and the role \`@${circles[0].name} Member\`\n\nPlease select the Circles that you want me to manage from the **dropdown list** and click Next`,
 		components: [{ type: ComponentType.ACTION_ROW, components: [buildCircleSelect({ circles })] }],
 	});
+}
+
+function getLinkedCirclesText(circles: Circle[]) {
+	if (circles.length === 1) {
+		return '1 Circle that isn\'t yet linked to Discord';
+	}
+	return `${circles.length} Circles that aren't yet linked to Discord`;
 }

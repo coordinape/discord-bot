@@ -18,8 +18,15 @@ import {
 	handleFrequencyOfAlertsToSend,
 	handleUseExistingChannels,
 } from './handlers';
+import { DiscordService } from 'src/app/service/DiscordService';
+import { extractCircleId } from 'src/app/utils/extractCircleId';
 
-export async function handleComponentInteraction(componentContext: ComponentContext): Promise<void> {
+type Props = {
+	componentContext: ComponentContext;
+	discordService: DiscordService;
+}
+
+export async function handleComponentInteraction({ componentContext, discordService }: Props): Promise<void> {
 	switch (componentContext.customID) {
 	case NEW_CHANNELS_BUTTON.custom_id:
 		await handleCreateNewEntities(componentContext);
@@ -66,9 +73,20 @@ export async function handleComponentInteraction(componentContext: ComponentCont
 		await handleCreateNewEntities(componentContext);
 		break;
 	}
-	case CREATE_NEW_ENTITIES_HANDLER_INTERACTIONS.Link:
-		await componentContext.editParent({ components: disableAllComponents(componentContext) });
+	case CREATE_NEW_ENTITIES_HANDLER_INTERACTIONS.Link: {
+		try {
+			const channel = await discordService.findTextChannelById(componentContext.channelID);
+			const circleId = extractCircleId(componentContext.message.content);
+			// the bot inserts a row in the discord.circle_api_tokens table
+			// containing a `circle_id` and the `channel_snowflake` and begins listening for the token to be added
+			// to that row via a subscription
+			// await componentContext.editParent({ components: disableAllComponents(componentContext) });
+			await componentContext.send(`(mutation) Inserting a row in \`discord.circle_api_tokens\` with \`{ channel_snowflake: ${channel?.id}, circleId: ${circleId} }\``);
+		} catch (error) {
+			await componentContext.send('Something went wrong, please contact coordinape support');
+		}
 		break;
+	}
 	case CREATE_NEW_ENTITIES_HANDLER_INTERACTIONS.Skip:
 		await componentContext.editParent({ components: disableAllComponents(componentContext) });
 		break;

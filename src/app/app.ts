@@ -22,6 +22,7 @@ import { RewriteFrames } from '@sentry/integrations';
 import { handleComponentInteraction } from './interactions/componentInteractions/handleComponentInteraction';
 import { assignRoleHandler, unassignRoleHandler } from './interactions/componentInteractions/handlers';
 import { ASSIGN_ROLE_USER_SELECT, UNASSIGN_ROLE_USER_SELECT } from './service/components/getChangeRoleSelect';
+import { DiscordService } from './service/DiscordService';
 
 initializeSentryIO();
 const client: Client = initializeClient();
@@ -42,6 +43,7 @@ creator.on('modalInteraction', (message) => Log.warn(`modalInteraction: ${ messa
 creator.on('commandInteraction', (message) => Log.warn(`commandInteraction: ${ message }`));
 creator.on('unknownInteraction', (message) => Log.warn(`unknownInteraction: ${ message }`));
 creator.on('componentInteraction', async (componentContext) => {
+	const discordService = new DiscordService(componentContext);
 	if (componentContext.componentType === ComponentType.USER_SELECT) {
 		if (componentContext.customID === ASSIGN_ROLE_USER_SELECT.custom_id) {
 			return assignRoleHandler({ componentContext });
@@ -50,7 +52,7 @@ creator.on('componentInteraction', async (componentContext) => {
 			return unassignRoleHandler({ componentContext });
 		}
 	}
-	handleComponentInteraction(componentContext);
+	handleComponentInteraction({ componentContext, discordService });
 	Log.warn(`componentInteraction: ${ componentContext }`);
 });
 creator.on('modalInteraction', async (message) => {
