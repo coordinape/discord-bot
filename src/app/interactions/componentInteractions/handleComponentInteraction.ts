@@ -1,4 +1,4 @@
-import { ComponentContext } from 'slash-create';
+import { ButtonStyle, ComponentButtonLink, ComponentContext, ComponentType, Message } from 'slash-create';
 import { disableAllComponents } from './handlers/common';
 import {
 	ALERTS_FREQUENCY_SELECT_CANCEL_BUTTON,
@@ -21,6 +21,7 @@ import { DiscordService } from 'src/app/service/DiscordService';
 import { extractCircleId } from 'src/app/utils/extractCircleId';
 import { CONFIG_NEXT_BUTTON } from 'src/app/service/components/getConfigureComponents';
 import { insertCircleApiTokens } from '@api/insertCircleApiTokens';
+import { wsChain } from '@api/gqlClients';
 
 type Props = {
 	componentContext: ComponentContext;
@@ -86,7 +87,36 @@ export async function handleComponentInteraction({ componentContext, discordServ
 			if (!success) {
 				throw new Error('Something went wrong, please contact coordinape support');
 			}
-			await componentContext.send(`Click in the following link to authorise [http://localhost:3000/discord/link?id=${rowId}&circleId=${circleId}](http://localhost:3000/discord/link?id=${rowId}&circleId=${circleId})`);
+
+			const AUTHORIZE_LINK_CIRCLE_BUTTON: ComponentButtonLink = {
+				type: ComponentType.BUTTON,
+				label: 'Authorize',
+				style: ButtonStyle.LINK,
+				url: `http://localhost:3000/discord/link?id=${rowId}&circleId=${circleId}`,
+			};
+
+			const message = await componentContext.send({
+				content: 'Click on the button below to authorize', components: [
+					{ type: ComponentType.ACTION_ROW, components: [AUTHORIZE_LINK_CIRCLE_BUTTON] },
+				],
+			});
+
+			const onDiscordCircleApiToken = wsChain('subscription')({
+				discord_circle_api_tokens: [
+					{ where: { circle_id: { _eq: circleId } } },
+					{ circle_id: true, token: true },
+				],
+			});
+			onDiscordCircleApiToken.on(async ({ discord_circle_api_tokens }) => {
+				const circleApiToken = discord_circle_api_tokens.find(({ circle_id }) => circle_id === circleId);
+				if (circleApiToken && circleApiToken.token) {
+					onDiscordCircleApiToken.ws.close();
+					if (isMessage(message)) {
+						message.edit({ components: [{ type: ComponentType.ACTION_ROW, components: [{ ...AUTHORIZE_LINK_CIRCLE_BUTTON, disabled: true }] }] });
+					}
+					await componentContext.send({ content: `<@${componentContext.user.id}>, you've linked the circle successfully!` });
+				}
+			});
 		} catch (error) {
 			await componentContext.send('Something went wrong, please contact coordinape support');
 		}
@@ -98,4 +128,8 @@ export async function handleComponentInteraction({ componentContext, discordServ
 	default:
 		break;
 	}
+}
+
+function isMessage(message: boolean | Message): message is Message {
+	return (message as Message).edit !== undefined;
 }

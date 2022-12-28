@@ -1,6 +1,7 @@
 import { CommandContext, ComponentContext, ComponentSelectMenu, ComponentSelectOption, ComponentType } from 'slash-create';
 import _ from 'lodash';
 import { Circle, getCircles } from '@api/getCircles';
+import { getLinkedCircles } from '@api/getLinkedCircles';
 
 export const LINK_CIRCLE_HANDLER_INTERACTIONS = {
 	Select: 'CIRCLE_SELECT',
@@ -21,15 +22,23 @@ export const buildCircleSelect = ({ circles, options }: {circles?: Circle[]; opt
  */
 export async function handleLinkCircles(ctx: CommandContext | ComponentContext) {
 	const circles = await getCircles();
+	const linkedCircles = await getLinkedCircles();
 
-	if (circles.length === 0) {
+	const unlinkedCircles = circles.reduce((prev, curr) => {
+		if (linkedCircles.includes(curr.id)) {
+			return prev;
+		}
+		return [...prev, curr];
+	}, [] as Circle[]);
+
+	if (unlinkedCircles.length === 0) {
 		ctx.send('All your circles are linked!');
 		return;
 	}
 
 	ctx.send({
-		content: `I see you have ${getLinkedCirclesText(circles)}.\n\nI'll need to create a new channel and role in this server to link these Circles following this schema:\n\n> Channel = \`#circle-name\`\n> Role = \`@Circle Name Member\`\n\nFor example, for your circle "${circles[0].name}" I will create the channel \`#${_.kebabCase(circles[0].name)}\` and the role \`@${circles[0].name} Member\`\n\nPlease select the Circles that you want me to manage from the **dropdown list** and click Next`,
-		components: [{ type: ComponentType.ACTION_ROW, components: [buildCircleSelect({ circles })] }],
+		content: `I see you have ${getLinkedCirclesText(unlinkedCircles)}.\n\nI'll need to create a new channel and role in this server to link these Circles following this schema:\n\n> Channel = \`#circle-name\`\n> Role = \`@Circle Name Member\`\n\nFor example, for your circle "${unlinkedCircles[0].name}" I will create the channel \`#${_.kebabCase(unlinkedCircles[0].name)}\` and the role \`@${unlinkedCircles[0].name} Member\`\n\nPlease select the Circles that you want me to manage from the **dropdown list** and click Next`,
+		components: [{ type: ComponentType.ACTION_ROW, components: [buildCircleSelect({ circles: unlinkedCircles })] }],
 	});
 }
 
