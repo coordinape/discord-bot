@@ -1,5 +1,4 @@
 export * from './1.1_handleCreateNewEntities';
-export * from './1.2_handleUseExistingChannels';
 export * from './2_handleLinkCircles';
 export * from './2.1_handleCircleSelect';
 export * from './2.2_handleRequestApiKeys';

@@ -11,19 +11,19 @@ import { createClient, type Sink } from 'graphql-ws'; // keep
 
 class HasuraWebSocket extends WebSocket {
 	constructor(address: string, protocols: string) {
-	  super(address, protocols, {
-		headers: {
-		  'x-hasura-admin-secret': 'admin-secret'
-		},
-	  });
+		super(address, protocols, {
+			headers: {
+				'x-hasura-admin-secret': 'admin-secret'
+			},
+		});
 	}
-  }
+}
 
 export const apiSubscription = (options: chainOptions) => {
-	const client = createClient({
-	  url: String(options[0]),
-	  webSocketImpl: HasuraWebSocket,
-	});
+  const client = createClient({
+    url: String(options[0]),
+    webSocketImpl: HasuraWebSocket,
+  });
 
   const ws = new Proxy(
     {
@@ -74,7 +74,6 @@ export const apiSubscription = (options: chainOptions) => {
     };
   };
 };
-
 const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
   if (!response.ok) {
     return new Promise((_, reject) => {
@@ -860,6 +859,7 @@ export const $ = <Type extends GraphQLVariableType, Name extends string>(name: N
 type ZEUS_INTERFACES = never
 export type ScalarCoders = {
 	bigint?: ScalarResolver;
+	citext?: ScalarResolver;
 	date?: ScalarResolver;
 	json?: ScalarResolver;
 	jsonb?: ScalarResolver;
@@ -957,6 +957,7 @@ users_aggregate?: [{	/** distinct select on columns */
 	["CreateEpochInput"]: {
 	circle_id: number | Variable<any, string>,
 	days: number | Variable<any, string>,
+	description?: string | undefined | null | Variable<any, string>,
 	grant?: number | undefined | null | Variable<any, string>,
 	repeat: number | Variable<any, string>,
 	start_date: ValueTypes["timestamptz"] | Variable<any, string>
@@ -977,17 +978,6 @@ users_aggregate?: [{	/** distinct select on columns */
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["CreateUserInput"]: {
-	address: string | Variable<any, string>,
-	circle_id: number | Variable<any, string>,
-	fixed_non_receiver?: boolean | undefined | null | Variable<any, string>,
-	fixed_payment_amount?: number | undefined | null | Variable<any, string>,
-	name: string | Variable<any, string>,
-	non_giver?: boolean | undefined | null | Variable<any, string>,
-	non_receiver?: boolean | undefined | null | Variable<any, string>,
-	role?: number | undefined | null | Variable<any, string>,
-	starting_tokens?: number | undefined | null | Variable<any, string>
-};
 	["CreateUserWithTokenInput"]: {
 	name: string | Variable<any, string>,
 	token: string | Variable<any, string>
@@ -1142,6 +1132,7 @@ users_aggregate?: [{	/** distinct select on columns */
 	name?: string | undefined | null | Variable<any, string>,
 	nomination_days_limit?: number | undefined | null | Variable<any, string>,
 	only_giver_vouch?: boolean | undefined | null | Variable<any, string>,
+	show_pending_gives?: boolean | undefined | null | Variable<any, string>,
 	team_sel_text?: string | undefined | null | Variable<any, string>,
 	team_selection?: boolean | undefined | null | Variable<any, string>,
 	token_name?: string | undefined | null | Variable<any, string>,
@@ -1172,6 +1163,7 @@ users_aggregate?: [{	/** distinct select on columns */
 	["UpdateEpochInput"]: {
 	circle_id: number | Variable<any, string>,
 	days: number | Variable<any, string>,
+	description?: string | undefined | null | Variable<any, string>,
 	grant?: number | undefined | null | Variable<any, string>,
 	id: number | Variable<any, string>,
 	repeat: number | Variable<any, string>,
@@ -1180,6 +1172,14 @@ users_aggregate?: [{	/** distinct select on columns */
 	["UpdateOrgResponse"]: AliasType<{
 	id?:boolean | `@${string}`,
 	org?:ValueTypes["organizations"],
+		__typename?: boolean | `@${string}`
+}>;
+	["UpdateProfileNameInput"]: {
+	name: string | Variable<any, string>
+};
+	["UpdateProfileNameResponse"]: AliasType<{
+	id?:boolean | `@${string}`,
+	profileName?:ValueTypes["profiles"],
 		__typename?: boolean | `@${string}`
 }>;
 	["UpdateProfileResponse"]: AliasType<{
@@ -3526,6 +3526,39 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	nomination_days_limit?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	organization_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
 };
+	["citext"]:unknown;
+	/** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
+["citext_comparison_exp"]: {
+	_eq?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
+	_gt?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
+	_gte?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
+	/** does the column match the given case-insensitive pattern */
+	_ilike?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
+	_in?: Array<ValueTypes["citext"]> | undefined | null | Variable<any, string>,
+	/** does the column match the given POSIX regular expression, case insensitive */
+	_iregex?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
+	_is_null?: boolean | undefined | null | Variable<any, string>,
+	/** does the column match the given pattern */
+	_like?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
+	_lt?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
+	_lte?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
+	_neq?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
+	/** does the column NOT match the given case-insensitive pattern */
+	_nilike?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
+	_nin?: Array<ValueTypes["citext"]> | undefined | null | Variable<any, string>,
+	/** does the column NOT match the given POSIX regular expression, case insensitive */
+	_niregex?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
+	/** does the column NOT match the given pattern */
+	_nlike?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
+	/** does the column NOT match the given POSIX regular expression, case sensitive */
+	_nregex?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
+	/** does the column NOT match the given SQL regular expression */
+	_nsimilar?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
+	/** does the column match the given POSIX regular expression, case sensitive */
+	_regex?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
+	/** does the column match the given SQL regular expression */
+	_similar?: ValueTypes["citext"] | undefined | null | Variable<any, string>
+};
 	/** columns and relationships of "claims" */
 ["claims"]: AliasType<{
 	address?:boolean | `@${string}`,
@@ -4267,6 +4300,188 @@ count?: [{	columns?: Array<ValueTypes["contributions_select_column"]> | undefine
 	_neq?: ValueTypes["date"] | undefined | null | Variable<any, string>,
 	_nin?: Array<ValueTypes["date"]> | undefined | null | Variable<any, string>
 };
+	/** tokens the discord bot uses to operate on circles */
+["discord_circle_api_tokens"]: AliasType<{
+	channel_snowflake?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregated selection of "discord.circle_api_tokens" */
+["discord_circle_api_tokens_aggregate"]: AliasType<{
+	aggregate?:ValueTypes["discord_circle_api_tokens_aggregate_fields"],
+	nodes?:ValueTypes["discord_circle_api_tokens"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate fields of "discord.circle_api_tokens" */
+["discord_circle_api_tokens_aggregate_fields"]: AliasType<{
+	avg?:ValueTypes["discord_circle_api_tokens_avg_fields"],
+count?: [{	columns?: Array<ValueTypes["discord_circle_api_tokens_select_column"]> | undefined | null | Variable<any, string>,	distinct?: boolean | undefined | null | Variable<any, string>},boolean | `@${string}`],
+	max?:ValueTypes["discord_circle_api_tokens_max_fields"],
+	min?:ValueTypes["discord_circle_api_tokens_min_fields"],
+	stddev?:ValueTypes["discord_circle_api_tokens_stddev_fields"],
+	stddev_pop?:ValueTypes["discord_circle_api_tokens_stddev_pop_fields"],
+	stddev_samp?:ValueTypes["discord_circle_api_tokens_stddev_samp_fields"],
+	sum?:ValueTypes["discord_circle_api_tokens_sum_fields"],
+	var_pop?:ValueTypes["discord_circle_api_tokens_var_pop_fields"],
+	var_samp?:ValueTypes["discord_circle_api_tokens_var_samp_fields"],
+	variance?:ValueTypes["discord_circle_api_tokens_variance_fields"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate avg on columns */
+["discord_circle_api_tokens_avg_fields"]: AliasType<{
+	circle_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Boolean expression to filter rows from the table "discord.circle_api_tokens". All fields are combined with a logical 'AND'. */
+["discord_circle_api_tokens_bool_exp"]: {
+	_and?: Array<ValueTypes["discord_circle_api_tokens_bool_exp"]> | undefined | null | Variable<any, string>,
+	_not?: ValueTypes["discord_circle_api_tokens_bool_exp"] | undefined | null | Variable<any, string>,
+	_or?: Array<ValueTypes["discord_circle_api_tokens_bool_exp"]> | undefined | null | Variable<any, string>,
+	channel_snowflake?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
+	circle_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["timestamptz_comparison_exp"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	token?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>
+};
+	/** unique or primary key constraints on table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_constraint"]:discord_circle_api_tokens_constraint;
+	/** input type for incrementing numeric columns in table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_inc_input"]: {
+	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>
+};
+	/** input type for inserting data into table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_insert_input"]: {
+	channel_snowflake?: string | undefined | null | Variable<any, string>,
+	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	token?: string | undefined | null | Variable<any, string>
+};
+	/** aggregate max on columns */
+["discord_circle_api_tokens_max_fields"]: AliasType<{
+	channel_snowflake?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate min on columns */
+["discord_circle_api_tokens_min_fields"]: AliasType<{
+	channel_snowflake?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** response of any mutation on the table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_mutation_response"]: AliasType<{
+	/** number of rows affected by the mutation */
+	affected_rows?:boolean | `@${string}`,
+	/** data from the rows affected by the mutation */
+	returning?:ValueTypes["discord_circle_api_tokens"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** on_conflict condition type for table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_on_conflict"]: {
+	constraint: ValueTypes["discord_circle_api_tokens_constraint"] | Variable<any, string>,
+	update_columns: Array<ValueTypes["discord_circle_api_tokens_update_column"]> | Variable<any, string>,
+	where?: ValueTypes["discord_circle_api_tokens_bool_exp"] | undefined | null | Variable<any, string>
+};
+	/** Ordering options when selecting data from "discord.circle_api_tokens". */
+["discord_circle_api_tokens_order_by"]: {
+	channel_snowflake?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	circle_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	token?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** primary key columns input for table: discord.circle_api_tokens */
+["discord_circle_api_tokens_pk_columns_input"]: {
+	id: ValueTypes["bigint"] | Variable<any, string>
+};
+	/** select columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_select_column"]:discord_circle_api_tokens_select_column;
+	/** input type for updating data in table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_set_input"]: {
+	channel_snowflake?: string | undefined | null | Variable<any, string>,
+	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	token?: string | undefined | null | Variable<any, string>
+};
+	/** aggregate stddev on columns */
+["discord_circle_api_tokens_stddev_fields"]: AliasType<{
+	circle_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_pop on columns */
+["discord_circle_api_tokens_stddev_pop_fields"]: AliasType<{
+	circle_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_samp on columns */
+["discord_circle_api_tokens_stddev_samp_fields"]: AliasType<{
+	circle_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Streaming cursor of the table "discord_circle_api_tokens" */
+["discord_circle_api_tokens_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ValueTypes["discord_circle_api_tokens_stream_cursor_value_input"] | Variable<any, string>,
+	/** cursor ordering */
+	ordering?: ValueTypes["cursor_ordering"] | undefined | null | Variable<any, string>
+};
+	/** Initial value of the column from where the streaming should start */
+["discord_circle_api_tokens_stream_cursor_value_input"]: {
+	channel_snowflake?: string | undefined | null | Variable<any, string>,
+	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	token?: string | undefined | null | Variable<any, string>
+};
+	/** aggregate sum on columns */
+["discord_circle_api_tokens_sum_fields"]: AliasType<{
+	circle_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** update columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_update_column"]:discord_circle_api_tokens_update_column;
+	["discord_circle_api_tokens_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["discord_circle_api_tokens_inc_input"] | undefined | null | Variable<any, string>,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["discord_circle_api_tokens_set_input"] | undefined | null | Variable<any, string>,
+	where: ValueTypes["discord_circle_api_tokens_bool_exp"] | Variable<any, string>
+};
+	/** aggregate var_pop on columns */
+["discord_circle_api_tokens_var_pop_fields"]: AliasType<{
+	circle_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate var_samp on columns */
+["discord_circle_api_tokens_var_samp_fields"]: AliasType<{
+	circle_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate variance on columns */
+["discord_circle_api_tokens_variance_fields"]: AliasType<{
+	circle_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	/** link a discord role to a circle  to control membership of the circle */
 ["discord_roles_circles"]: AliasType<{
 	/** An object relationship */
@@ -4274,7 +4489,7 @@ count?: [{	columns?: Array<ValueTypes["contributions_select_column"]> | undefine
 	circle_id?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	role?:boolean | `@${string}`,
+	server_role?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
@@ -4314,7 +4529,7 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 	circle_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamptz_comparison_exp"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
-	role?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
+	server_role?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamptz_comparison_exp"] | undefined | null | Variable<any, string>
 };
 	/** unique or primary key constraints on table "discord.roles_circles" */
@@ -4330,7 +4545,7 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
-	role?: string | undefined | null | Variable<any, string>,
+	server_role?: string | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>
 };
 	/** aggregate max on columns */
@@ -4338,7 +4553,7 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 	circle_id?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	role?:boolean | `@${string}`,
+	server_role?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
@@ -4347,7 +4562,7 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 	circle_id?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	role?:boolean | `@${string}`,
+	server_role?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
@@ -4371,7 +4586,7 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 	circle_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
-	role?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	server_role?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
 };
 	/** primary key columns input for table: discord.roles_circles */
@@ -4385,7 +4600,7 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
-	role?: string | undefined | null | Variable<any, string>,
+	server_role?: string | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>
 };
 	/** aggregate stddev on columns */
@@ -4418,7 +4633,7 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
-	role?: string | undefined | null | Variable<any, string>,
+	server_role?: string | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>
 };
 	/** aggregate sum on columns */
@@ -5169,6 +5384,268 @@ count?: [{	columns?: Array<ValueTypes["distributions_select_column"]> | undefine
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	vault_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
 };
+	/** columns and relationships of "epoch_pgive_data" */
+["epoch_pgive_data"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	/** An object relationship */
+	epoch?:ValueTypes["epochs"],
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregated selection of "epoch_pgive_data" */
+["epoch_pgive_data_aggregate"]: AliasType<{
+	aggregate?:ValueTypes["epoch_pgive_data_aggregate_fields"],
+	nodes?:ValueTypes["epoch_pgive_data"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate fields of "epoch_pgive_data" */
+["epoch_pgive_data_aggregate_fields"]: AliasType<{
+	avg?:ValueTypes["epoch_pgive_data_avg_fields"],
+count?: [{	columns?: Array<ValueTypes["epoch_pgive_data_select_column"]> | undefined | null | Variable<any, string>,	distinct?: boolean | undefined | null | Variable<any, string>},boolean | `@${string}`],
+	max?:ValueTypes["epoch_pgive_data_max_fields"],
+	min?:ValueTypes["epoch_pgive_data_min_fields"],
+	stddev?:ValueTypes["epoch_pgive_data_stddev_fields"],
+	stddev_pop?:ValueTypes["epoch_pgive_data_stddev_pop_fields"],
+	stddev_samp?:ValueTypes["epoch_pgive_data_stddev_samp_fields"],
+	sum?:ValueTypes["epoch_pgive_data_sum_fields"],
+	var_pop?:ValueTypes["epoch_pgive_data_var_pop_fields"],
+	var_samp?:ValueTypes["epoch_pgive_data_var_samp_fields"],
+	variance?:ValueTypes["epoch_pgive_data_variance_fields"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate avg on columns */
+["epoch_pgive_data_avg_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Boolean expression to filter rows from the table "epoch_pgive_data". All fields are combined with a logical 'AND'. */
+["epoch_pgive_data_bool_exp"]: {
+	_and?: Array<ValueTypes["epoch_pgive_data_bool_exp"]> | undefined | null | Variable<any, string>,
+	_not?: ValueTypes["epoch_pgive_data_bool_exp"] | undefined | null | Variable<any, string>,
+	_or?: Array<ValueTypes["epoch_pgive_data_bool_exp"]> | undefined | null | Variable<any, string>,
+	active_months?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
+	active_months_bonus?: ValueTypes["numeric_comparison_exp"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["timestamptz_comparison_exp"] | undefined | null | Variable<any, string>,
+	epoch?: ValueTypes["epochs_bool_exp"] | undefined | null | Variable<any, string>,
+	epoch_id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
+	gives_receiver_base?: ValueTypes["numeric_comparison_exp"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
+	notes_bonus?: ValueTypes["numeric_comparison_exp"] | undefined | null | Variable<any, string>,
+	pgive?: ValueTypes["numeric_comparison_exp"] | undefined | null | Variable<any, string>
+};
+	/** unique or primary key constraints on table "epoch_pgive_data" */
+["epoch_pgive_data_constraint"]:epoch_pgive_data_constraint;
+	/** input type for incrementing numeric columns in table "epoch_pgive_data" */
+["epoch_pgive_data_inc_input"]: {
+	active_months?: number | undefined | null | Variable<any, string>,
+	active_months_bonus?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	epoch_id?: number | undefined | null | Variable<any, string>,
+	gives_receiver_base?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	id?: number | undefined | null | Variable<any, string>,
+	notes_bonus?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	pgive?: ValueTypes["numeric"] | undefined | null | Variable<any, string>
+};
+	/** input type for inserting data into table "epoch_pgive_data" */
+["epoch_pgive_data_insert_input"]: {
+	active_months?: number | undefined | null | Variable<any, string>,
+	active_months_bonus?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	epoch?: ValueTypes["epochs_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	epoch_id?: number | undefined | null | Variable<any, string>,
+	gives_receiver_base?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	id?: number | undefined | null | Variable<any, string>,
+	notes_bonus?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	pgive?: ValueTypes["numeric"] | undefined | null | Variable<any, string>
+};
+	/** aggregate max on columns */
+["epoch_pgive_data_max_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate min on columns */
+["epoch_pgive_data_min_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** response of any mutation on the table "epoch_pgive_data" */
+["epoch_pgive_data_mutation_response"]: AliasType<{
+	/** number of rows affected by the mutation */
+	affected_rows?:boolean | `@${string}`,
+	/** data from the rows affected by the mutation */
+	returning?:ValueTypes["epoch_pgive_data"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** input type for inserting object relation for remote table "epoch_pgive_data" */
+["epoch_pgive_data_obj_rel_insert_input"]: {
+	data: ValueTypes["epoch_pgive_data_insert_input"] | Variable<any, string>,
+	/** upsert condition */
+	on_conflict?: ValueTypes["epoch_pgive_data_on_conflict"] | undefined | null | Variable<any, string>
+};
+	/** on_conflict condition type for table "epoch_pgive_data" */
+["epoch_pgive_data_on_conflict"]: {
+	constraint: ValueTypes["epoch_pgive_data_constraint"] | Variable<any, string>,
+	update_columns: Array<ValueTypes["epoch_pgive_data_update_column"]> | Variable<any, string>,
+	where?: ValueTypes["epoch_pgive_data_bool_exp"] | undefined | null | Variable<any, string>
+};
+	/** Ordering options when selecting data from "epoch_pgive_data". */
+["epoch_pgive_data_order_by"]: {
+	active_months?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	active_months_bonus?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	epoch?: ValueTypes["epochs_order_by"] | undefined | null | Variable<any, string>,
+	epoch_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	gives_receiver_base?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	notes_bonus?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	pgive?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** primary key columns input for table: epoch_pgive_data */
+["epoch_pgive_data_pk_columns_input"]: {
+	id: number | Variable<any, string>
+};
+	/** select columns of table "epoch_pgive_data" */
+["epoch_pgive_data_select_column"]:epoch_pgive_data_select_column;
+	/** input type for updating data in table "epoch_pgive_data" */
+["epoch_pgive_data_set_input"]: {
+	active_months?: number | undefined | null | Variable<any, string>,
+	active_months_bonus?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	epoch_id?: number | undefined | null | Variable<any, string>,
+	gives_receiver_base?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	id?: number | undefined | null | Variable<any, string>,
+	notes_bonus?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	pgive?: ValueTypes["numeric"] | undefined | null | Variable<any, string>
+};
+	/** aggregate stddev on columns */
+["epoch_pgive_data_stddev_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_pop on columns */
+["epoch_pgive_data_stddev_pop_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_samp on columns */
+["epoch_pgive_data_stddev_samp_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Streaming cursor of the table "epoch_pgive_data" */
+["epoch_pgive_data_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ValueTypes["epoch_pgive_data_stream_cursor_value_input"] | Variable<any, string>,
+	/** cursor ordering */
+	ordering?: ValueTypes["cursor_ordering"] | undefined | null | Variable<any, string>
+};
+	/** Initial value of the column from where the streaming should start */
+["epoch_pgive_data_stream_cursor_value_input"]: {
+	active_months?: number | undefined | null | Variable<any, string>,
+	active_months_bonus?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	epoch_id?: number | undefined | null | Variable<any, string>,
+	gives_receiver_base?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	id?: number | undefined | null | Variable<any, string>,
+	notes_bonus?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	pgive?: ValueTypes["numeric"] | undefined | null | Variable<any, string>
+};
+	/** aggregate sum on columns */
+["epoch_pgive_data_sum_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** update columns of table "epoch_pgive_data" */
+["epoch_pgive_data_update_column"]:epoch_pgive_data_update_column;
+	["epoch_pgive_data_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["epoch_pgive_data_inc_input"] | undefined | null | Variable<any, string>,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["epoch_pgive_data_set_input"] | undefined | null | Variable<any, string>,
+	where: ValueTypes["epoch_pgive_data_bool_exp"] | Variable<any, string>
+};
+	/** aggregate var_pop on columns */
+["epoch_pgive_data_var_pop_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate var_samp on columns */
+["epoch_pgive_data_var_samp_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate variance on columns */
+["epoch_pgive_data_variance_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	/** columns and relationships of "epoches" */
 ["epochs"]: AliasType<{
 burns?: [{	/** distinct select on columns */
@@ -5221,6 +5698,8 @@ epoch_pending_token_gifts_aggregate?: [{	/** distinct select on columns */
 	notified_end?:boolean | `@${string}`,
 	notified_start?:boolean | `@${string}`,
 	number?:boolean | `@${string}`,
+	/** An object relationship */
+	pgive_data?:ValueTypes["epoch_pgive_data"],
 	regift_days?:boolean | `@${string}`,
 	repeat?:boolean | `@${string}`,
 	repeat_day_of_month?:boolean | `@${string}`,
@@ -5325,6 +5804,7 @@ count?: [{	columns?: Array<ValueTypes["epochs_select_column"]> | undefined | nul
 	notified_end?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	notified_start?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	number?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
+	pgive_data?: ValueTypes["epoch_pgive_data_bool_exp"] | undefined | null | Variable<any, string>,
 	regift_days?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	repeat?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	repeat_day_of_month?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
@@ -5363,6 +5843,7 @@ count?: [{	columns?: Array<ValueTypes["epochs_select_column"]> | undefined | nul
 	notified_end?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
 	notified_start?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
 	number?: number | undefined | null | Variable<any, string>,
+	pgive_data?: ValueTypes["epoch_pgive_data_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
 	regift_days?: number | undefined | null | Variable<any, string>,
 	repeat?: number | undefined | null | Variable<any, string>,
 	repeat_day_of_month?: number | undefined | null | Variable<any, string>,
@@ -5486,6 +5967,7 @@ count?: [{	columns?: Array<ValueTypes["epochs_select_column"]> | undefined | nul
 	notified_end?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	notified_start?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	number?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	pgive_data?: ValueTypes["epoch_pgive_data_order_by"] | undefined | null | Variable<any, string>,
 	regift_days?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	repeat?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	repeat_day_of_month?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -6446,6 +6928,840 @@ count?: [{	columns?: Array<ValueTypes["interaction_events_select_column"]> | und
 	_neq?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>,
 	_nin?: Array<ValueTypes["jsonb"]> | undefined | null | Variable<any, string>
 };
+	/** columns and relationships of "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	/** An object relationship */
+	locked_token_distribution?:ValueTypes["locked_token_distributions"],
+	locked_token_distribution_id?:boolean | `@${string}`,
+	/** An object relationship */
+	profile?:ValueTypes["profiles"],
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregated selection of "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_aggregate"]: AliasType<{
+	aggregate?:ValueTypes["locked_token_distribution_gifts_aggregate_fields"],
+	nodes?:ValueTypes["locked_token_distribution_gifts"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate fields of "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_aggregate_fields"]: AliasType<{
+	avg?:ValueTypes["locked_token_distribution_gifts_avg_fields"],
+count?: [{	columns?: Array<ValueTypes["locked_token_distribution_gifts_select_column"]> | undefined | null | Variable<any, string>,	distinct?: boolean | undefined | null | Variable<any, string>},boolean | `@${string}`],
+	max?:ValueTypes["locked_token_distribution_gifts_max_fields"],
+	min?:ValueTypes["locked_token_distribution_gifts_min_fields"],
+	stddev?:ValueTypes["locked_token_distribution_gifts_stddev_fields"],
+	stddev_pop?:ValueTypes["locked_token_distribution_gifts_stddev_pop_fields"],
+	stddev_samp?:ValueTypes["locked_token_distribution_gifts_stddev_samp_fields"],
+	sum?:ValueTypes["locked_token_distribution_gifts_sum_fields"],
+	var_pop?:ValueTypes["locked_token_distribution_gifts_var_pop_fields"],
+	var_samp?:ValueTypes["locked_token_distribution_gifts_var_samp_fields"],
+	variance?:ValueTypes["locked_token_distribution_gifts_variance_fields"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by aggregate values of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_aggregate_order_by"]: {
+	avg?: ValueTypes["locked_token_distribution_gifts_avg_order_by"] | undefined | null | Variable<any, string>,
+	count?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	max?: ValueTypes["locked_token_distribution_gifts_max_order_by"] | undefined | null | Variable<any, string>,
+	min?: ValueTypes["locked_token_distribution_gifts_min_order_by"] | undefined | null | Variable<any, string>,
+	stddev?: ValueTypes["locked_token_distribution_gifts_stddev_order_by"] | undefined | null | Variable<any, string>,
+	stddev_pop?: ValueTypes["locked_token_distribution_gifts_stddev_pop_order_by"] | undefined | null | Variable<any, string>,
+	stddev_samp?: ValueTypes["locked_token_distribution_gifts_stddev_samp_order_by"] | undefined | null | Variable<any, string>,
+	sum?: ValueTypes["locked_token_distribution_gifts_sum_order_by"] | undefined | null | Variable<any, string>,
+	var_pop?: ValueTypes["locked_token_distribution_gifts_var_pop_order_by"] | undefined | null | Variable<any, string>,
+	var_samp?: ValueTypes["locked_token_distribution_gifts_var_samp_order_by"] | undefined | null | Variable<any, string>,
+	variance?: ValueTypes["locked_token_distribution_gifts_variance_order_by"] | undefined | null | Variable<any, string>
+};
+	/** input type for inserting array relation for remote table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_arr_rel_insert_input"]: {
+	data: Array<ValueTypes["locked_token_distribution_gifts_insert_input"]> | Variable<any, string>,
+	/** upsert condition */
+	on_conflict?: ValueTypes["locked_token_distribution_gifts_on_conflict"] | undefined | null | Variable<any, string>
+};
+	/** aggregate avg on columns */
+["locked_token_distribution_gifts_avg_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by avg() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_avg_order_by"]: {
+	earnings?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** Boolean expression to filter rows from the table "locked_token_distribution_gifts". All fields are combined with a logical 'AND'. */
+["locked_token_distribution_gifts_bool_exp"]: {
+	_and?: Array<ValueTypes["locked_token_distribution_gifts_bool_exp"]> | undefined | null | Variable<any, string>,
+	_not?: ValueTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null | Variable<any, string>,
+	_or?: Array<ValueTypes["locked_token_distribution_gifts_bool_exp"]> | undefined | null | Variable<any, string>,
+	earnings?: ValueTypes["numeric_comparison_exp"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	locked_token_distribution?: ValueTypes["locked_token_distributions_bool_exp"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	profile?: ValueTypes["profiles_bool_exp"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>
+};
+	/** unique or primary key constraints on table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_constraint"]:locked_token_distribution_gifts_constraint;
+	/** input type for incrementing numeric columns in table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_inc_input"]: {
+	earnings?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>
+};
+	/** input type for inserting data into table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_insert_input"]: {
+	earnings?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	locked_token_distribution?: ValueTypes["locked_token_distributions_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	profile?: ValueTypes["profiles_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>
+};
+	/** aggregate max on columns */
+["locked_token_distribution_gifts_max_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by max() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_max_order_by"]: {
+	earnings?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** aggregate min on columns */
+["locked_token_distribution_gifts_min_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by min() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_min_order_by"]: {
+	earnings?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** response of any mutation on the table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_mutation_response"]: AliasType<{
+	/** number of rows affected by the mutation */
+	affected_rows?:boolean | `@${string}`,
+	/** data from the rows affected by the mutation */
+	returning?:ValueTypes["locked_token_distribution_gifts"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** on_conflict condition type for table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_on_conflict"]: {
+	constraint: ValueTypes["locked_token_distribution_gifts_constraint"] | Variable<any, string>,
+	update_columns: Array<ValueTypes["locked_token_distribution_gifts_update_column"]> | Variable<any, string>,
+	where?: ValueTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null | Variable<any, string>
+};
+	/** Ordering options when selecting data from "locked_token_distribution_gifts". */
+["locked_token_distribution_gifts_order_by"]: {
+	earnings?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	locked_token_distribution?: ValueTypes["locked_token_distributions_order_by"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile?: ValueTypes["profiles_order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** primary key columns input for table: locked_token_distribution_gifts */
+["locked_token_distribution_gifts_pk_columns_input"]: {
+	id: ValueTypes["bigint"] | Variable<any, string>
+};
+	/** select columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_select_column"]:locked_token_distribution_gifts_select_column;
+	/** input type for updating data in table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_set_input"]: {
+	earnings?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>
+};
+	/** aggregate stddev on columns */
+["locked_token_distribution_gifts_stddev_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by stddev() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_stddev_order_by"]: {
+	earnings?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** aggregate stddev_pop on columns */
+["locked_token_distribution_gifts_stddev_pop_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by stddev_pop() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_stddev_pop_order_by"]: {
+	earnings?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** aggregate stddev_samp on columns */
+["locked_token_distribution_gifts_stddev_samp_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by stddev_samp() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_stddev_samp_order_by"]: {
+	earnings?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** Streaming cursor of the table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ValueTypes["locked_token_distribution_gifts_stream_cursor_value_input"] | Variable<any, string>,
+	/** cursor ordering */
+	ordering?: ValueTypes["cursor_ordering"] | undefined | null | Variable<any, string>
+};
+	/** Initial value of the column from where the streaming should start */
+["locked_token_distribution_gifts_stream_cursor_value_input"]: {
+	earnings?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>
+};
+	/** aggregate sum on columns */
+["locked_token_distribution_gifts_sum_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by sum() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_sum_order_by"]: {
+	earnings?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** update columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_update_column"]:locked_token_distribution_gifts_update_column;
+	["locked_token_distribution_gifts_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["locked_token_distribution_gifts_inc_input"] | undefined | null | Variable<any, string>,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["locked_token_distribution_gifts_set_input"] | undefined | null | Variable<any, string>,
+	where: ValueTypes["locked_token_distribution_gifts_bool_exp"] | Variable<any, string>
+};
+	/** aggregate var_pop on columns */
+["locked_token_distribution_gifts_var_pop_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by var_pop() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_var_pop_order_by"]: {
+	earnings?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** aggregate var_samp on columns */
+["locked_token_distribution_gifts_var_samp_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by var_samp() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_var_samp_order_by"]: {
+	earnings?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** aggregate variance on columns */
+["locked_token_distribution_gifts_variance_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by variance() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_variance_order_by"]: {
+	earnings?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** columns and relationships of "locked_token_distributions" */
+["locked_token_distributions"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	/** An object relationship */
+	epoch?:ValueTypes["epochs"],
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+locked_token_distribution_gifts?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["locked_token_distribution_gifts_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["locked_token_distribution_gifts_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["locked_token_distribution_gifts"]],
+locked_token_distribution_gifts_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["locked_token_distribution_gifts_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["locked_token_distribution_gifts_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["locked_token_distribution_gifts_aggregate"]],
+	/** An object relationship */
+	profile?:ValueTypes["profiles"],
+	token_contract_address?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+	token_symbol?:boolean | `@${string}`,
+	tx_hash?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregated selection of "locked_token_distributions" */
+["locked_token_distributions_aggregate"]: AliasType<{
+	aggregate?:ValueTypes["locked_token_distributions_aggregate_fields"],
+	nodes?:ValueTypes["locked_token_distributions"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate fields of "locked_token_distributions" */
+["locked_token_distributions_aggregate_fields"]: AliasType<{
+	avg?:ValueTypes["locked_token_distributions_avg_fields"],
+count?: [{	columns?: Array<ValueTypes["locked_token_distributions_select_column"]> | undefined | null | Variable<any, string>,	distinct?: boolean | undefined | null | Variable<any, string>},boolean | `@${string}`],
+	max?:ValueTypes["locked_token_distributions_max_fields"],
+	min?:ValueTypes["locked_token_distributions_min_fields"],
+	stddev?:ValueTypes["locked_token_distributions_stddev_fields"],
+	stddev_pop?:ValueTypes["locked_token_distributions_stddev_pop_fields"],
+	stddev_samp?:ValueTypes["locked_token_distributions_stddev_samp_fields"],
+	sum?:ValueTypes["locked_token_distributions_sum_fields"],
+	var_pop?:ValueTypes["locked_token_distributions_var_pop_fields"],
+	var_samp?:ValueTypes["locked_token_distributions_var_samp_fields"],
+	variance?:ValueTypes["locked_token_distributions_variance_fields"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate avg on columns */
+["locked_token_distributions_avg_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Boolean expression to filter rows from the table "locked_token_distributions". All fields are combined with a logical 'AND'. */
+["locked_token_distributions_bool_exp"]: {
+	_and?: Array<ValueTypes["locked_token_distributions_bool_exp"]> | undefined | null | Variable<any, string>,
+	_not?: ValueTypes["locked_token_distributions_bool_exp"] | undefined | null | Variable<any, string>,
+	_or?: Array<ValueTypes["locked_token_distributions_bool_exp"]> | undefined | null | Variable<any, string>,
+	chain_id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
+	distributed_by?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	epoch?: ValueTypes["epochs_bool_exp"] | undefined | null | Variable<any, string>,
+	epoch_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	gift_amount?: ValueTypes["numeric_comparison_exp"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_gifts?: ValueTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null | Variable<any, string>,
+	profile?: ValueTypes["profiles_bool_exp"] | undefined | null | Variable<any, string>,
+	token_contract_address?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
+	token_decimals?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
+	token_symbol?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
+	tx_hash?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>
+};
+	/** unique or primary key constraints on table "locked_token_distributions" */
+["locked_token_distributions_constraint"]:locked_token_distributions_constraint;
+	/** input type for incrementing numeric columns in table "locked_token_distributions" */
+["locked_token_distributions_inc_input"]: {
+	chain_id?: number | undefined | null | Variable<any, string>,
+	distributed_by?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	epoch_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	gift_amount?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	token_decimals?: number | undefined | null | Variable<any, string>
+};
+	/** input type for inserting data into table "locked_token_distributions" */
+["locked_token_distributions_insert_input"]: {
+	chain_id?: number | undefined | null | Variable<any, string>,
+	distributed_by?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	epoch?: ValueTypes["epochs_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	epoch_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	gift_amount?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_gifts?: ValueTypes["locked_token_distribution_gifts_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
+	profile?: ValueTypes["profiles_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	token_contract_address?: string | undefined | null | Variable<any, string>,
+	token_decimals?: number | undefined | null | Variable<any, string>,
+	token_symbol?: string | undefined | null | Variable<any, string>,
+	tx_hash?: string | undefined | null | Variable<any, string>
+};
+	/** aggregate max on columns */
+["locked_token_distributions_max_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_contract_address?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+	token_symbol?:boolean | `@${string}`,
+	tx_hash?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate min on columns */
+["locked_token_distributions_min_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_contract_address?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+	token_symbol?:boolean | `@${string}`,
+	tx_hash?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** response of any mutation on the table "locked_token_distributions" */
+["locked_token_distributions_mutation_response"]: AliasType<{
+	/** number of rows affected by the mutation */
+	affected_rows?:boolean | `@${string}`,
+	/** data from the rows affected by the mutation */
+	returning?:ValueTypes["locked_token_distributions"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** input type for inserting object relation for remote table "locked_token_distributions" */
+["locked_token_distributions_obj_rel_insert_input"]: {
+	data: ValueTypes["locked_token_distributions_insert_input"] | Variable<any, string>,
+	/** upsert condition */
+	on_conflict?: ValueTypes["locked_token_distributions_on_conflict"] | undefined | null | Variable<any, string>
+};
+	/** on_conflict condition type for table "locked_token_distributions" */
+["locked_token_distributions_on_conflict"]: {
+	constraint: ValueTypes["locked_token_distributions_constraint"] | Variable<any, string>,
+	update_columns: Array<ValueTypes["locked_token_distributions_update_column"]> | Variable<any, string>,
+	where?: ValueTypes["locked_token_distributions_bool_exp"] | undefined | null | Variable<any, string>
+};
+	/** Ordering options when selecting data from "locked_token_distributions". */
+["locked_token_distributions_order_by"]: {
+	chain_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	distributed_by?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	epoch?: ValueTypes["epochs_order_by"] | undefined | null | Variable<any, string>,
+	epoch_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	gift_amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_gifts_aggregate?: ValueTypes["locked_token_distribution_gifts_aggregate_order_by"] | undefined | null | Variable<any, string>,
+	profile?: ValueTypes["profiles_order_by"] | undefined | null | Variable<any, string>,
+	token_contract_address?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	token_decimals?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	token_symbol?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	tx_hash?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** primary key columns input for table: locked_token_distributions */
+["locked_token_distributions_pk_columns_input"]: {
+	id: ValueTypes["bigint"] | Variable<any, string>
+};
+	/** select columns of table "locked_token_distributions" */
+["locked_token_distributions_select_column"]:locked_token_distributions_select_column;
+	/** input type for updating data in table "locked_token_distributions" */
+["locked_token_distributions_set_input"]: {
+	chain_id?: number | undefined | null | Variable<any, string>,
+	distributed_by?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	epoch_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	gift_amount?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	token_contract_address?: string | undefined | null | Variable<any, string>,
+	token_decimals?: number | undefined | null | Variable<any, string>,
+	token_symbol?: string | undefined | null | Variable<any, string>,
+	tx_hash?: string | undefined | null | Variable<any, string>
+};
+	/** aggregate stddev on columns */
+["locked_token_distributions_stddev_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_pop on columns */
+["locked_token_distributions_stddev_pop_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_samp on columns */
+["locked_token_distributions_stddev_samp_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Streaming cursor of the table "locked_token_distributions" */
+["locked_token_distributions_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ValueTypes["locked_token_distributions_stream_cursor_value_input"] | Variable<any, string>,
+	/** cursor ordering */
+	ordering?: ValueTypes["cursor_ordering"] | undefined | null | Variable<any, string>
+};
+	/** Initial value of the column from where the streaming should start */
+["locked_token_distributions_stream_cursor_value_input"]: {
+	chain_id?: number | undefined | null | Variable<any, string>,
+	distributed_by?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	epoch_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	gift_amount?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	token_contract_address?: string | undefined | null | Variable<any, string>,
+	token_decimals?: number | undefined | null | Variable<any, string>,
+	token_symbol?: string | undefined | null | Variable<any, string>,
+	tx_hash?: string | undefined | null | Variable<any, string>
+};
+	/** aggregate sum on columns */
+["locked_token_distributions_sum_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** update columns of table "locked_token_distributions" */
+["locked_token_distributions_update_column"]:locked_token_distributions_update_column;
+	["locked_token_distributions_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["locked_token_distributions_inc_input"] | undefined | null | Variable<any, string>,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["locked_token_distributions_set_input"] | undefined | null | Variable<any, string>,
+	where: ValueTypes["locked_token_distributions_bool_exp"] | Variable<any, string>
+};
+	/** aggregate var_pop on columns */
+["locked_token_distributions_var_pop_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate var_samp on columns */
+["locked_token_distributions_var_samp_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate variance on columns */
+["locked_token_distributions_variance_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** member allocated pgives per epoch */
+["member_epoch_pgives"]: AliasType<{
+	created_at?:boolean | `@${string}`,
+	/** An object relationship */
+	epoch?:ValueTypes["epochs"],
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	/** An object relationship */
+	user?:ValueTypes["users"],
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregated selection of "member_epoch_pgives" */
+["member_epoch_pgives_aggregate"]: AliasType<{
+	aggregate?:ValueTypes["member_epoch_pgives_aggregate_fields"],
+	nodes?:ValueTypes["member_epoch_pgives"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate fields of "member_epoch_pgives" */
+["member_epoch_pgives_aggregate_fields"]: AliasType<{
+	avg?:ValueTypes["member_epoch_pgives_avg_fields"],
+count?: [{	columns?: Array<ValueTypes["member_epoch_pgives_select_column"]> | undefined | null | Variable<any, string>,	distinct?: boolean | undefined | null | Variable<any, string>},boolean | `@${string}`],
+	max?:ValueTypes["member_epoch_pgives_max_fields"],
+	min?:ValueTypes["member_epoch_pgives_min_fields"],
+	stddev?:ValueTypes["member_epoch_pgives_stddev_fields"],
+	stddev_pop?:ValueTypes["member_epoch_pgives_stddev_pop_fields"],
+	stddev_samp?:ValueTypes["member_epoch_pgives_stddev_samp_fields"],
+	sum?:ValueTypes["member_epoch_pgives_sum_fields"],
+	var_pop?:ValueTypes["member_epoch_pgives_var_pop_fields"],
+	var_samp?:ValueTypes["member_epoch_pgives_var_samp_fields"],
+	variance?:ValueTypes["member_epoch_pgives_variance_fields"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate avg on columns */
+["member_epoch_pgives_avg_fields"]: AliasType<{
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Boolean expression to filter rows from the table "member_epoch_pgives". All fields are combined with a logical 'AND'. */
+["member_epoch_pgives_bool_exp"]: {
+	_and?: Array<ValueTypes["member_epoch_pgives_bool_exp"]> | undefined | null | Variable<any, string>,
+	_not?: ValueTypes["member_epoch_pgives_bool_exp"] | undefined | null | Variable<any, string>,
+	_or?: Array<ValueTypes["member_epoch_pgives_bool_exp"]> | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["timestamptz_comparison_exp"] | undefined | null | Variable<any, string>,
+	epoch?: ValueTypes["epochs_bool_exp"] | undefined | null | Variable<any, string>,
+	epoch_id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
+	gives_received?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
+	normalized_pgive?: ValueTypes["numeric_comparison_exp"] | undefined | null | Variable<any, string>,
+	opt_out_bonus?: ValueTypes["numeric_comparison_exp"] | undefined | null | Variable<any, string>,
+	pgive?: ValueTypes["numeric_comparison_exp"] | undefined | null | Variable<any, string>,
+	user?: ValueTypes["users_bool_exp"] | undefined | null | Variable<any, string>,
+	user_id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>
+};
+	/** unique or primary key constraints on table "member_epoch_pgives" */
+["member_epoch_pgives_constraint"]:member_epoch_pgives_constraint;
+	/** input type for incrementing numeric columns in table "member_epoch_pgives" */
+["member_epoch_pgives_inc_input"]: {
+	epoch_id?: number | undefined | null | Variable<any, string>,
+	gives_received?: number | undefined | null | Variable<any, string>,
+	id?: number | undefined | null | Variable<any, string>,
+	normalized_pgive?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	opt_out_bonus?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	pgive?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	user_id?: number | undefined | null | Variable<any, string>
+};
+	/** input type for inserting data into table "member_epoch_pgives" */
+["member_epoch_pgives_insert_input"]: {
+	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	epoch?: ValueTypes["epochs_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	epoch_id?: number | undefined | null | Variable<any, string>,
+	gives_received?: number | undefined | null | Variable<any, string>,
+	id?: number | undefined | null | Variable<any, string>,
+	normalized_pgive?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	opt_out_bonus?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	pgive?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	user?: ValueTypes["users_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	user_id?: number | undefined | null | Variable<any, string>
+};
+	/** aggregate max on columns */
+["member_epoch_pgives_max_fields"]: AliasType<{
+	created_at?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate min on columns */
+["member_epoch_pgives_min_fields"]: AliasType<{
+	created_at?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** response of any mutation on the table "member_epoch_pgives" */
+["member_epoch_pgives_mutation_response"]: AliasType<{
+	/** number of rows affected by the mutation */
+	affected_rows?:boolean | `@${string}`,
+	/** data from the rows affected by the mutation */
+	returning?:ValueTypes["member_epoch_pgives"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** on_conflict condition type for table "member_epoch_pgives" */
+["member_epoch_pgives_on_conflict"]: {
+	constraint: ValueTypes["member_epoch_pgives_constraint"] | Variable<any, string>,
+	update_columns: Array<ValueTypes["member_epoch_pgives_update_column"]> | Variable<any, string>,
+	where?: ValueTypes["member_epoch_pgives_bool_exp"] | undefined | null | Variable<any, string>
+};
+	/** Ordering options when selecting data from "member_epoch_pgives". */
+["member_epoch_pgives_order_by"]: {
+	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	epoch?: ValueTypes["epochs_order_by"] | undefined | null | Variable<any, string>,
+	epoch_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	gives_received?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	normalized_pgive?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	opt_out_bonus?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	pgive?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	user?: ValueTypes["users_order_by"] | undefined | null | Variable<any, string>,
+	user_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** primary key columns input for table: member_epoch_pgives */
+["member_epoch_pgives_pk_columns_input"]: {
+	id: number | Variable<any, string>
+};
+	/** select columns of table "member_epoch_pgives" */
+["member_epoch_pgives_select_column"]:member_epoch_pgives_select_column;
+	/** input type for updating data in table "member_epoch_pgives" */
+["member_epoch_pgives_set_input"]: {
+	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	epoch_id?: number | undefined | null | Variable<any, string>,
+	gives_received?: number | undefined | null | Variable<any, string>,
+	id?: number | undefined | null | Variable<any, string>,
+	normalized_pgive?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	opt_out_bonus?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	pgive?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	user_id?: number | undefined | null | Variable<any, string>
+};
+	/** aggregate stddev on columns */
+["member_epoch_pgives_stddev_fields"]: AliasType<{
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_pop on columns */
+["member_epoch_pgives_stddev_pop_fields"]: AliasType<{
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_samp on columns */
+["member_epoch_pgives_stddev_samp_fields"]: AliasType<{
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Streaming cursor of the table "member_epoch_pgives" */
+["member_epoch_pgives_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ValueTypes["member_epoch_pgives_stream_cursor_value_input"] | Variable<any, string>,
+	/** cursor ordering */
+	ordering?: ValueTypes["cursor_ordering"] | undefined | null | Variable<any, string>
+};
+	/** Initial value of the column from where the streaming should start */
+["member_epoch_pgives_stream_cursor_value_input"]: {
+	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	epoch_id?: number | undefined | null | Variable<any, string>,
+	gives_received?: number | undefined | null | Variable<any, string>,
+	id?: number | undefined | null | Variable<any, string>,
+	normalized_pgive?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	opt_out_bonus?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	pgive?: ValueTypes["numeric"] | undefined | null | Variable<any, string>,
+	user_id?: number | undefined | null | Variable<any, string>
+};
+	/** aggregate sum on columns */
+["member_epoch_pgives_sum_fields"]: AliasType<{
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** update columns of table "member_epoch_pgives" */
+["member_epoch_pgives_update_column"]:member_epoch_pgives_update_column;
+	["member_epoch_pgives_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["member_epoch_pgives_inc_input"] | undefined | null | Variable<any, string>,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["member_epoch_pgives_set_input"] | undefined | null | Variable<any, string>,
+	where: ValueTypes["member_epoch_pgives_bool_exp"] | Variable<any, string>
+};
+	/** aggregate var_pop on columns */
+["member_epoch_pgives_var_pop_fields"]: AliasType<{
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate var_samp on columns */
+["member_epoch_pgives_var_samp_fields"]: AliasType<{
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate variance on columns */
+["member_epoch_pgives_variance_fields"]: AliasType<{
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	/** mutation root */
 ["mutation_root"]: AliasType<{
 adminUpdateUser?: [{	payload: ValueTypes["AdminUpdateUserInput"] | Variable<any, string>},ValueTypes["UserResponse"]],
@@ -6454,7 +7770,6 @@ createCircle?: [{	payload: ValueTypes["CreateCircleInput"] | Variable<any, strin
 createEpoch?: [{	payload: ValueTypes["CreateEpochInput"] | Variable<any, string>},ValueTypes["EpochResponse"]],
 createNominee?: [{	payload: ValueTypes["CreateNomineeInput"] | Variable<any, string>},ValueTypes["CreateNomineeResponse"]],
 	createSampleCircle?:ValueTypes["CreateSampleCircleResponse"],
-createUser?: [{	payload: ValueTypes["CreateUserInput"] | Variable<any, string>},ValueTypes["UserResponse"]],
 createUserWithToken?: [{	payload: ValueTypes["CreateUserWithTokenInput"] | Variable<any, string>},ValueTypes["UserResponse"]],
 createUsers?: [{	payload: ValueTypes["CreateUsersInput"] | Variable<any, string>},ValueTypes["UserResponse"]],
 createVault?: [{	payload: ValueTypes["CreateVaultInput"] | Variable<any, string>},ValueTypes["VaultResponse"]],
@@ -6490,6 +7805,9 @@ delete_claims_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},Value
 delete_contributions?: [{	/** filter the rows which have to be deleted */
 	where: ValueTypes["contributions_bool_exp"] | Variable<any, string>},ValueTypes["contributions_mutation_response"]],
 delete_contributions_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["contributions"]],
+delete_discord_circle_api_tokens?: [{	/** filter the rows which have to be deleted */
+	where: ValueTypes["discord_circle_api_tokens_bool_exp"] | Variable<any, string>},ValueTypes["discord_circle_api_tokens_mutation_response"]],
+delete_discord_circle_api_tokens_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["discord_circle_api_tokens"]],
 delete_discord_roles_circles?: [{	/** filter the rows which have to be deleted */
 	where: ValueTypes["discord_roles_circles_bool_exp"] | Variable<any, string>},ValueTypes["discord_roles_circles_mutation_response"]],
 delete_discord_roles_circles_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["discord_roles_circles"]],
@@ -6499,6 +7817,9 @@ delete_discord_users_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>
 delete_distributions?: [{	/** filter the rows which have to be deleted */
 	where: ValueTypes["distributions_bool_exp"] | Variable<any, string>},ValueTypes["distributions_mutation_response"]],
 delete_distributions_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["distributions"]],
+delete_epoch_pgive_data?: [{	/** filter the rows which have to be deleted */
+	where: ValueTypes["epoch_pgive_data_bool_exp"] | Variable<any, string>},ValueTypes["epoch_pgive_data_mutation_response"]],
+delete_epoch_pgive_data_by_pk?: [{	id: number | Variable<any, string>},ValueTypes["epoch_pgive_data"]],
 delete_epochs?: [{	/** filter the rows which have to be deleted */
 	where: ValueTypes["epochs_bool_exp"] | Variable<any, string>},ValueTypes["epochs_mutation_response"]],
 delete_epochs_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["epochs"]],
@@ -6510,6 +7831,15 @@ delete_histories_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},Va
 delete_interaction_events?: [{	/** filter the rows which have to be deleted */
 	where: ValueTypes["interaction_events_bool_exp"] | Variable<any, string>},ValueTypes["interaction_events_mutation_response"]],
 delete_interaction_events_by_pk?: [{	id: number | Variable<any, string>},ValueTypes["interaction_events"]],
+delete_locked_token_distribution_gifts?: [{	/** filter the rows which have to be deleted */
+	where: ValueTypes["locked_token_distribution_gifts_bool_exp"] | Variable<any, string>},ValueTypes["locked_token_distribution_gifts_mutation_response"]],
+delete_locked_token_distribution_gifts_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["locked_token_distribution_gifts"]],
+delete_locked_token_distributions?: [{	/** filter the rows which have to be deleted */
+	where: ValueTypes["locked_token_distributions_bool_exp"] | Variable<any, string>},ValueTypes["locked_token_distributions_mutation_response"]],
+delete_locked_token_distributions_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["locked_token_distributions"]],
+delete_member_epoch_pgives?: [{	/** filter the rows which have to be deleted */
+	where: ValueTypes["member_epoch_pgives_bool_exp"] | Variable<any, string>},ValueTypes["member_epoch_pgives_mutation_response"]],
+delete_member_epoch_pgives_by_pk?: [{	id: number | Variable<any, string>},ValueTypes["member_epoch_pgives"]],
 delete_nominees?: [{	/** filter the rows which have to be deleted */
 	where: ValueTypes["nominees_bool_exp"] | Variable<any, string>},ValueTypes["nominees_mutation_response"]],
 delete_nominees_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["nominees"]],
@@ -6604,6 +7934,12 @@ insert_contributions?: [{	/** the rows to be inserted */
 insert_contributions_one?: [{	/** the row to be inserted */
 	object: ValueTypes["contributions_insert_input"] | Variable<any, string>,	/** upsert condition */
 	on_conflict?: ValueTypes["contributions_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["contributions"]],
+insert_discord_circle_api_tokens?: [{	/** the rows to be inserted */
+	objects: Array<ValueTypes["discord_circle_api_tokens_insert_input"]> | Variable<any, string>,	/** upsert condition */
+	on_conflict?: ValueTypes["discord_circle_api_tokens_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["discord_circle_api_tokens_mutation_response"]],
+insert_discord_circle_api_tokens_one?: [{	/** the row to be inserted */
+	object: ValueTypes["discord_circle_api_tokens_insert_input"] | Variable<any, string>,	/** upsert condition */
+	on_conflict?: ValueTypes["discord_circle_api_tokens_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["discord_circle_api_tokens"]],
 insert_discord_roles_circles?: [{	/** the rows to be inserted */
 	objects: Array<ValueTypes["discord_roles_circles_insert_input"]> | Variable<any, string>,	/** upsert condition */
 	on_conflict?: ValueTypes["discord_roles_circles_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["discord_roles_circles_mutation_response"]],
@@ -6622,6 +7958,12 @@ insert_distributions?: [{	/** the rows to be inserted */
 insert_distributions_one?: [{	/** the row to be inserted */
 	object: ValueTypes["distributions_insert_input"] | Variable<any, string>,	/** upsert condition */
 	on_conflict?: ValueTypes["distributions_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["distributions"]],
+insert_epoch_pgive_data?: [{	/** the rows to be inserted */
+	objects: Array<ValueTypes["epoch_pgive_data_insert_input"]> | Variable<any, string>,	/** upsert condition */
+	on_conflict?: ValueTypes["epoch_pgive_data_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["epoch_pgive_data_mutation_response"]],
+insert_epoch_pgive_data_one?: [{	/** the row to be inserted */
+	object: ValueTypes["epoch_pgive_data_insert_input"] | Variable<any, string>,	/** upsert condition */
+	on_conflict?: ValueTypes["epoch_pgive_data_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["epoch_pgive_data"]],
 insert_epochs?: [{	/** the rows to be inserted */
 	objects: Array<ValueTypes["epochs_insert_input"]> | Variable<any, string>,	/** upsert condition */
 	on_conflict?: ValueTypes["epochs_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["epochs_mutation_response"]],
@@ -6644,6 +7986,24 @@ insert_interaction_events?: [{	/** the rows to be inserted */
 insert_interaction_events_one?: [{	/** the row to be inserted */
 	object: ValueTypes["interaction_events_insert_input"] | Variable<any, string>,	/** upsert condition */
 	on_conflict?: ValueTypes["interaction_events_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["interaction_events"]],
+insert_locked_token_distribution_gifts?: [{	/** the rows to be inserted */
+	objects: Array<ValueTypes["locked_token_distribution_gifts_insert_input"]> | Variable<any, string>,	/** upsert condition */
+	on_conflict?: ValueTypes["locked_token_distribution_gifts_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["locked_token_distribution_gifts_mutation_response"]],
+insert_locked_token_distribution_gifts_one?: [{	/** the row to be inserted */
+	object: ValueTypes["locked_token_distribution_gifts_insert_input"] | Variable<any, string>,	/** upsert condition */
+	on_conflict?: ValueTypes["locked_token_distribution_gifts_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["locked_token_distribution_gifts"]],
+insert_locked_token_distributions?: [{	/** the rows to be inserted */
+	objects: Array<ValueTypes["locked_token_distributions_insert_input"]> | Variable<any, string>,	/** upsert condition */
+	on_conflict?: ValueTypes["locked_token_distributions_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["locked_token_distributions_mutation_response"]],
+insert_locked_token_distributions_one?: [{	/** the row to be inserted */
+	object: ValueTypes["locked_token_distributions_insert_input"] | Variable<any, string>,	/** upsert condition */
+	on_conflict?: ValueTypes["locked_token_distributions_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["locked_token_distributions"]],
+insert_member_epoch_pgives?: [{	/** the rows to be inserted */
+	objects: Array<ValueTypes["member_epoch_pgives_insert_input"]> | Variable<any, string>,	/** upsert condition */
+	on_conflict?: ValueTypes["member_epoch_pgives_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["member_epoch_pgives_mutation_response"]],
+insert_member_epoch_pgives_one?: [{	/** the row to be inserted */
+	object: ValueTypes["member_epoch_pgives_insert_input"] | Variable<any, string>,	/** upsert condition */
+	on_conflict?: ValueTypes["member_epoch_pgives_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["member_epoch_pgives"]],
 insert_nominees?: [{	/** the rows to be inserted */
 	objects: Array<ValueTypes["nominees_insert_input"]> | Variable<any, string>,	/** upsert condition */
 	on_conflict?: ValueTypes["nominees_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["nominees_mutation_response"]],
@@ -6734,6 +8094,7 @@ updateAllocations?: [{	payload: ValueTypes["Allocations"] | Variable<any, string
 updateCircle?: [{	payload: ValueTypes["UpdateCircleInput"] | Variable<any, string>},ValueTypes["UpdateCircleOutput"]],
 updateContribution?: [{	payload: ValueTypes["UpdateContributionInput"] | Variable<any, string>},ValueTypes["UpdateContributionResponse"]],
 updateEpoch?: [{	payload: ValueTypes["UpdateEpochInput"] | Variable<any, string>},ValueTypes["EpochResponse"]],
+updateProfileName?: [{	payload: ValueTypes["UpdateProfileNameInput"] | Variable<any, string>},ValueTypes["UpdateProfileNameResponse"]],
 updateTeammates?: [{	payload: ValueTypes["UpdateTeammatesInput"] | Variable<any, string>},ValueTypes["UpdateTeammatesResponse"]],
 updateUser?: [{	payload: ValueTypes["UpdateUserInput"] | Variable<any, string>},ValueTypes["UserResponse"]],
 update_burns?: [{	/** increments the numeric columns with given value of the filtered values */
@@ -6814,6 +8175,15 @@ update_contributions_by_pk?: [{	/** increments the numeric columns with given va
 	_set?: ValueTypes["contributions_set_input"] | undefined | null | Variable<any, string>,	pk_columns: ValueTypes["contributions_pk_columns_input"] | Variable<any, string>},ValueTypes["contributions"]],
 update_contributions_many?: [{	/** updates to execute, in order */
 	updates: Array<ValueTypes["contributions_updates"]> | Variable<any, string>},ValueTypes["contributions_mutation_response"]],
+update_discord_circle_api_tokens?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["discord_circle_api_tokens_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["discord_circle_api_tokens_set_input"] | undefined | null | Variable<any, string>,	/** filter the rows which have to be updated */
+	where: ValueTypes["discord_circle_api_tokens_bool_exp"] | Variable<any, string>},ValueTypes["discord_circle_api_tokens_mutation_response"]],
+update_discord_circle_api_tokens_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["discord_circle_api_tokens_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["discord_circle_api_tokens_set_input"] | undefined | null | Variable<any, string>,	pk_columns: ValueTypes["discord_circle_api_tokens_pk_columns_input"] | Variable<any, string>},ValueTypes["discord_circle_api_tokens"]],
+update_discord_circle_api_tokens_many?: [{	/** updates to execute, in order */
+	updates: Array<ValueTypes["discord_circle_api_tokens_updates"]> | Variable<any, string>},ValueTypes["discord_circle_api_tokens_mutation_response"]],
 update_discord_roles_circles?: [{	/** increments the numeric columns with given value of the filtered values */
 	_inc?: ValueTypes["discord_roles_circles_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["discord_roles_circles_set_input"] | undefined | null | Variable<any, string>,	/** filter the rows which have to be updated */
@@ -6851,6 +8221,15 @@ update_distributions_by_pk?: [{	/** append existing jsonb value of filtered colu
 	_set?: ValueTypes["distributions_set_input"] | undefined | null | Variable<any, string>,	pk_columns: ValueTypes["distributions_pk_columns_input"] | Variable<any, string>},ValueTypes["distributions"]],
 update_distributions_many?: [{	/** updates to execute, in order */
 	updates: Array<ValueTypes["distributions_updates"]> | Variable<any, string>},ValueTypes["distributions_mutation_response"]],
+update_epoch_pgive_data?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["epoch_pgive_data_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["epoch_pgive_data_set_input"] | undefined | null | Variable<any, string>,	/** filter the rows which have to be updated */
+	where: ValueTypes["epoch_pgive_data_bool_exp"] | Variable<any, string>},ValueTypes["epoch_pgive_data_mutation_response"]],
+update_epoch_pgive_data_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["epoch_pgive_data_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["epoch_pgive_data_set_input"] | undefined | null | Variable<any, string>,	pk_columns: ValueTypes["epoch_pgive_data_pk_columns_input"] | Variable<any, string>},ValueTypes["epoch_pgive_data"]],
+update_epoch_pgive_data_many?: [{	/** updates to execute, in order */
+	updates: Array<ValueTypes["epoch_pgive_data_updates"]> | Variable<any, string>},ValueTypes["epoch_pgive_data_mutation_response"]],
 update_epochs?: [{	/** increments the numeric columns with given value of the filtered values */
 	_inc?: ValueTypes["epochs_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["epochs_set_input"] | undefined | null | Variable<any, string>,	/** filter the rows which have to be updated */
@@ -6894,6 +8273,33 @@ update_interaction_events_by_pk?: [{	/** append existing jsonb value of filtered
 	_set?: ValueTypes["interaction_events_set_input"] | undefined | null | Variable<any, string>,	pk_columns: ValueTypes["interaction_events_pk_columns_input"] | Variable<any, string>},ValueTypes["interaction_events"]],
 update_interaction_events_many?: [{	/** updates to execute, in order */
 	updates: Array<ValueTypes["interaction_events_updates"]> | Variable<any, string>},ValueTypes["interaction_events_mutation_response"]],
+update_locked_token_distribution_gifts?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["locked_token_distribution_gifts_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["locked_token_distribution_gifts_set_input"] | undefined | null | Variable<any, string>,	/** filter the rows which have to be updated */
+	where: ValueTypes["locked_token_distribution_gifts_bool_exp"] | Variable<any, string>},ValueTypes["locked_token_distribution_gifts_mutation_response"]],
+update_locked_token_distribution_gifts_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["locked_token_distribution_gifts_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["locked_token_distribution_gifts_set_input"] | undefined | null | Variable<any, string>,	pk_columns: ValueTypes["locked_token_distribution_gifts_pk_columns_input"] | Variable<any, string>},ValueTypes["locked_token_distribution_gifts"]],
+update_locked_token_distribution_gifts_many?: [{	/** updates to execute, in order */
+	updates: Array<ValueTypes["locked_token_distribution_gifts_updates"]> | Variable<any, string>},ValueTypes["locked_token_distribution_gifts_mutation_response"]],
+update_locked_token_distributions?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["locked_token_distributions_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["locked_token_distributions_set_input"] | undefined | null | Variable<any, string>,	/** filter the rows which have to be updated */
+	where: ValueTypes["locked_token_distributions_bool_exp"] | Variable<any, string>},ValueTypes["locked_token_distributions_mutation_response"]],
+update_locked_token_distributions_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["locked_token_distributions_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["locked_token_distributions_set_input"] | undefined | null | Variable<any, string>,	pk_columns: ValueTypes["locked_token_distributions_pk_columns_input"] | Variable<any, string>},ValueTypes["locked_token_distributions"]],
+update_locked_token_distributions_many?: [{	/** updates to execute, in order */
+	updates: Array<ValueTypes["locked_token_distributions_updates"]> | Variable<any, string>},ValueTypes["locked_token_distributions_mutation_response"]],
+update_member_epoch_pgives?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["member_epoch_pgives_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["member_epoch_pgives_set_input"] | undefined | null | Variable<any, string>,	/** filter the rows which have to be updated */
+	where: ValueTypes["member_epoch_pgives_bool_exp"] | Variable<any, string>},ValueTypes["member_epoch_pgives_mutation_response"]],
+update_member_epoch_pgives_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["member_epoch_pgives_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["member_epoch_pgives_set_input"] | undefined | null | Variable<any, string>,	pk_columns: ValueTypes["member_epoch_pgives_pk_columns_input"] | Variable<any, string>},ValueTypes["member_epoch_pgives"]],
+update_member_epoch_pgives_many?: [{	/** updates to execute, in order */
+	updates: Array<ValueTypes["member_epoch_pgives_updates"]> | Variable<any, string>},ValueTypes["member_epoch_pgives_mutation_response"]],
 update_nominees?: [{	/** increments the numeric columns with given value of the filtered values */
 	_inc?: ValueTypes["nominees_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["nominees_set_input"] | undefined | null | Variable<any, string>,	/** filter the rows which have to be updated */
@@ -7050,6 +8456,8 @@ nominations_aggregate?: [{	/** distinct select on columns */
 	where?: ValueTypes["vouches_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["vouches_aggregate"]],
 	/** An object relationship */
 	nominator?:ValueTypes["users"],
+	/** An object relationship */
+	profile?:ValueTypes["profiles"],
 	updated_at?:boolean | `@${string}`,
 	/** An object relationship */
 	user?:ValueTypes["users"],
@@ -7133,6 +8541,7 @@ count?: [{	columns?: Array<ValueTypes["nominees_select_column"]> | undefined | n
 	nominated_date?: ValueTypes["date_comparison_exp"] | undefined | null | Variable<any, string>,
 	nominations?: ValueTypes["vouches_bool_exp"] | undefined | null | Variable<any, string>,
 	nominator?: ValueTypes["users_bool_exp"] | undefined | null | Variable<any, string>,
+	profile?: ValueTypes["profiles_bool_exp"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	user?: ValueTypes["users_bool_exp"] | undefined | null | Variable<any, string>,
 	user_id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
@@ -7163,6 +8572,7 @@ count?: [{	columns?: Array<ValueTypes["nominees_select_column"]> | undefined | n
 	nominated_date?: ValueTypes["date"] | undefined | null | Variable<any, string>,
 	nominations?: ValueTypes["vouches_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
 	nominator?: ValueTypes["users_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	profile?: ValueTypes["profiles_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
 	user?: ValueTypes["users_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
 	user_id?: number | undefined | null | Variable<any, string>,
@@ -7265,6 +8675,7 @@ count?: [{	columns?: Array<ValueTypes["nominees_select_column"]> | undefined | n
 	nominated_date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nominations_aggregate?: ValueTypes["vouches_aggregate_order_by"] | undefined | null | Variable<any, string>,
 	nominator?: ValueTypes["users_order_by"] | undefined | null | Variable<any, string>,
+	profile?: ValueTypes["profiles_order_by"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	user?: ValueTypes["users_order_by"] | undefined | null | Variable<any, string>,
 	user_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -8790,7 +10201,6 @@ count?: [{	columns?: Array<ValueTypes["personal_access_tokens_select_column"]> |
 	/** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
 ["profiles"]: AliasType<{
 	address?:boolean | `@${string}`,
-	ann_power?:boolean | `@${string}`,
 	avatar?:boolean | `@${string}`,
 	background?:boolean | `@${string}`,
 	bio?:boolean | `@${string}`,
@@ -8807,6 +10217,7 @@ claims_aggregate?: [{	/** distinct select on columns */
 	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
 	order_by?: Array<ValueTypes["claims_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
 	where?: ValueTypes["claims_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["claims_aggregate"]],
+	connector?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
 	discord_username?:boolean | `@${string}`,
 distributions?: [{	/** distinct select on columns */
@@ -8825,6 +10236,18 @@ distributions_aggregate?: [{	/** distinct select on columns */
 	id?:boolean | `@${string}`,
 	medium_username?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
+nominees?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["nominees_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["nominees_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["nominees_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["nominees"]],
+nominees_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["nominees_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["nominees_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["nominees_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["nominees_aggregate"]],
 	skills?:boolean | `@${string}`,
 	telegram_username?:boolean | `@${string}`,
 	twitter_username?:boolean | `@${string}`,
@@ -8900,19 +10323,20 @@ count?: [{	columns?: Array<ValueTypes["profiles_select_column"]> | undefined | n
 	_not?: ValueTypes["profiles_bool_exp"] | undefined | null | Variable<any, string>,
 	_or?: Array<ValueTypes["profiles_bool_exp"]> | undefined | null | Variable<any, string>,
 	address?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
-	ann_power?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	avatar?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	background?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	bio?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	chat_id?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	claims?: ValueTypes["claims_bool_exp"] | undefined | null | Variable<any, string>,
+	connector?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	discord_username?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	distributions?: ValueTypes["distributions_bool_exp"] | undefined | null | Variable<any, string>,
 	github_username?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
 	medium_username?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
-	name?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
+	name?: ValueTypes["citext_comparison_exp"] | undefined | null | Variable<any, string>,
+	nominees?: ValueTypes["nominees_bool_exp"] | undefined | null | Variable<any, string>,
 	skills?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	telegram_username?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	twitter_username?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
@@ -8931,19 +10355,20 @@ count?: [{	columns?: Array<ValueTypes["profiles_select_column"]> | undefined | n
 	/** input type for inserting data into table "profiles" */
 ["profiles_insert_input"]: {
 	address?: string | undefined | null | Variable<any, string>,
-	ann_power?: boolean | undefined | null | Variable<any, string>,
 	avatar?: string | undefined | null | Variable<any, string>,
 	background?: string | undefined | null | Variable<any, string>,
 	bio?: string | undefined | null | Variable<any, string>,
 	chat_id?: string | undefined | null | Variable<any, string>,
 	claims?: ValueTypes["claims_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
+	connector?: string | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
 	discord_username?: string | undefined | null | Variable<any, string>,
 	distributions?: ValueTypes["distributions_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
 	github_username?: string | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	medium_username?: string | undefined | null | Variable<any, string>,
-	name?: string | undefined | null | Variable<any, string>,
+	name?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
+	nominees?: ValueTypes["nominees_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
 	skills?: string | undefined | null | Variable<any, string>,
 	telegram_username?: string | undefined | null | Variable<any, string>,
 	twitter_username?: string | undefined | null | Variable<any, string>,
@@ -8960,6 +10385,7 @@ count?: [{	columns?: Array<ValueTypes["profiles_select_column"]> | undefined | n
 	background?:boolean | `@${string}`,
 	bio?:boolean | `@${string}`,
 	chat_id?:boolean | `@${string}`,
+	connector?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
 	discord_username?:boolean | `@${string}`,
 	github_username?:boolean | `@${string}`,
@@ -8980,6 +10406,7 @@ count?: [{	columns?: Array<ValueTypes["profiles_select_column"]> | undefined | n
 	background?:boolean | `@${string}`,
 	bio?:boolean | `@${string}`,
 	chat_id?:boolean | `@${string}`,
+	connector?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
 	discord_username?:boolean | `@${string}`,
 	github_username?:boolean | `@${string}`,
@@ -9016,12 +10443,12 @@ count?: [{	columns?: Array<ValueTypes["profiles_select_column"]> | undefined | n
 	/** Ordering options when selecting data from "profiles". */
 ["profiles_order_by"]: {
 	address?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
-	ann_power?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	avatar?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	background?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	bio?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	chat_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	claims_aggregate?: ValueTypes["claims_aggregate_order_by"] | undefined | null | Variable<any, string>,
+	connector?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	discord_username?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	distributions_aggregate?: ValueTypes["distributions_aggregate_order_by"] | undefined | null | Variable<any, string>,
@@ -9029,6 +10456,7 @@ count?: [{	columns?: Array<ValueTypes["profiles_select_column"]> | undefined | n
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	medium_username?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	nominees_aggregate?: ValueTypes["nominees_aggregate_order_by"] | undefined | null | Variable<any, string>,
 	skills?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	telegram_username?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	twitter_username?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -9047,17 +10475,17 @@ count?: [{	columns?: Array<ValueTypes["profiles_select_column"]> | undefined | n
 	/** input type for updating data in table "profiles" */
 ["profiles_set_input"]: {
 	address?: string | undefined | null | Variable<any, string>,
-	ann_power?: boolean | undefined | null | Variable<any, string>,
 	avatar?: string | undefined | null | Variable<any, string>,
 	background?: string | undefined | null | Variable<any, string>,
 	bio?: string | undefined | null | Variable<any, string>,
 	chat_id?: string | undefined | null | Variable<any, string>,
+	connector?: string | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
 	discord_username?: string | undefined | null | Variable<any, string>,
 	github_username?: string | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	medium_username?: string | undefined | null | Variable<any, string>,
-	name?: string | undefined | null | Variable<any, string>,
+	name?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
 	skills?: string | undefined | null | Variable<any, string>,
 	telegram_username?: string | undefined | null | Variable<any, string>,
 	twitter_username?: string | undefined | null | Variable<any, string>,
@@ -9089,17 +10517,17 @@ count?: [{	columns?: Array<ValueTypes["profiles_select_column"]> | undefined | n
 	/** Initial value of the column from where the streaming should start */
 ["profiles_stream_cursor_value_input"]: {
 	address?: string | undefined | null | Variable<any, string>,
-	ann_power?: boolean | undefined | null | Variable<any, string>,
 	avatar?: string | undefined | null | Variable<any, string>,
 	background?: string | undefined | null | Variable<any, string>,
 	bio?: string | undefined | null | Variable<any, string>,
 	chat_id?: string | undefined | null | Variable<any, string>,
+	connector?: string | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
 	discord_username?: string | undefined | null | Variable<any, string>,
 	github_username?: string | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	medium_username?: string | undefined | null | Variable<any, string>,
-	name?: string | undefined | null | Variable<any, string>,
+	name?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
 	skills?: string | undefined | null | Variable<any, string>,
 	telegram_username?: string | undefined | null | Variable<any, string>,
 	twitter_username?: string | undefined | null | Variable<any, string>,
@@ -9252,6 +10680,19 @@ contributions_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ValueTypes["contributions_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
 	where?: ValueTypes["contributions_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["contributions_aggregate"]],
 contributions_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["contributions"]],
+discord_circle_api_tokens?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["discord_circle_api_tokens_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["discord_circle_api_tokens_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["discord_circle_api_tokens_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["discord_circle_api_tokens"]],
+discord_circle_api_tokens_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["discord_circle_api_tokens_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["discord_circle_api_tokens_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["discord_circle_api_tokens_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["discord_circle_api_tokens_aggregate"]],
+discord_circle_api_tokens_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["discord_circle_api_tokens"]],
 discord_roles_circles?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["discord_roles_circles_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
 	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
@@ -9291,6 +10732,19 @@ distributions_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ValueTypes["distributions_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
 	where?: ValueTypes["distributions_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["distributions_aggregate"]],
 distributions_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["distributions"]],
+epoch_pgive_data?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["epoch_pgive_data_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["epoch_pgive_data_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["epoch_pgive_data_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["epoch_pgive_data"]],
+epoch_pgive_data_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["epoch_pgive_data_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["epoch_pgive_data_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["epoch_pgive_data_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["epoch_pgive_data_aggregate"]],
+epoch_pgive_data_by_pk?: [{	id: number | Variable<any, string>},ValueTypes["epoch_pgive_data"]],
 epochs?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["epochs_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
 	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
@@ -9342,6 +10796,45 @@ interaction_events_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ValueTypes["interaction_events_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
 	where?: ValueTypes["interaction_events_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["interaction_events_aggregate"]],
 interaction_events_by_pk?: [{	id: number | Variable<any, string>},ValueTypes["interaction_events"]],
+locked_token_distribution_gifts?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["locked_token_distribution_gifts_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["locked_token_distribution_gifts_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["locked_token_distribution_gifts"]],
+locked_token_distribution_gifts_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["locked_token_distribution_gifts_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["locked_token_distribution_gifts_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["locked_token_distribution_gifts_aggregate"]],
+locked_token_distribution_gifts_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["locked_token_distribution_gifts"]],
+locked_token_distributions?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["locked_token_distributions_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["locked_token_distributions_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["locked_token_distributions_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["locked_token_distributions"]],
+locked_token_distributions_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["locked_token_distributions_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["locked_token_distributions_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["locked_token_distributions_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["locked_token_distributions_aggregate"]],
+locked_token_distributions_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["locked_token_distributions"]],
+member_epoch_pgives?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["member_epoch_pgives_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["member_epoch_pgives_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["member_epoch_pgives_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["member_epoch_pgives"]],
+member_epoch_pgives_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["member_epoch_pgives_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["member_epoch_pgives_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["member_epoch_pgives_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["member_epoch_pgives_aggregate"]],
+member_epoch_pgives_by_pk?: [{	id: number | Variable<any, string>},ValueTypes["member_epoch_pgives"]],
 nominees?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["nominees_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
 	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
@@ -9419,6 +10912,7 @@ personal_access_tokens_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ValueTypes["personal_access_tokens_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
 	where?: ValueTypes["personal_access_tokens_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["personal_access_tokens_aggregate"]],
 personal_access_tokens_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["personal_access_tokens"]],
+price_per_share?: [{	chain_id: number | Variable<any, string>,	token_address?: string | undefined | null | Variable<any, string>},boolean | `@${string}`],
 profiles?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["profiles_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
 	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
@@ -9690,6 +11184,23 @@ contributions_stream?: [{	/** maximum number of rows returned in a single batch 
 	batch_size: number | Variable<any, string>,	/** cursor to stream the results returned by the query */
 	cursor: Array<ValueTypes["contributions_stream_cursor_input"] | undefined | null> | Variable<any, string>,	/** filter the rows returned */
 	where?: ValueTypes["contributions_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["contributions"]],
+discord_circle_api_tokens?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["discord_circle_api_tokens_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["discord_circle_api_tokens_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["discord_circle_api_tokens_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["discord_circle_api_tokens"]],
+discord_circle_api_tokens_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["discord_circle_api_tokens_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["discord_circle_api_tokens_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["discord_circle_api_tokens_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["discord_circle_api_tokens_aggregate"]],
+discord_circle_api_tokens_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["discord_circle_api_tokens"]],
+discord_circle_api_tokens_stream?: [{	/** maximum number of rows returned in a single batch */
+	batch_size: number | Variable<any, string>,	/** cursor to stream the results returned by the query */
+	cursor: Array<ValueTypes["discord_circle_api_tokens_stream_cursor_input"] | undefined | null> | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["discord_circle_api_tokens_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["discord_circle_api_tokens"]],
 discord_roles_circles?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["discord_roles_circles_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
 	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
@@ -9741,6 +11252,23 @@ distributions_stream?: [{	/** maximum number of rows returned in a single batch 
 	batch_size: number | Variable<any, string>,	/** cursor to stream the results returned by the query */
 	cursor: Array<ValueTypes["distributions_stream_cursor_input"] | undefined | null> | Variable<any, string>,	/** filter the rows returned */
 	where?: ValueTypes["distributions_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["distributions"]],
+epoch_pgive_data?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["epoch_pgive_data_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["epoch_pgive_data_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["epoch_pgive_data_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["epoch_pgive_data"]],
+epoch_pgive_data_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["epoch_pgive_data_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["epoch_pgive_data_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["epoch_pgive_data_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["epoch_pgive_data_aggregate"]],
+epoch_pgive_data_by_pk?: [{	id: number | Variable<any, string>},ValueTypes["epoch_pgive_data"]],
+epoch_pgive_data_stream?: [{	/** maximum number of rows returned in a single batch */
+	batch_size: number | Variable<any, string>,	/** cursor to stream the results returned by the query */
+	cursor: Array<ValueTypes["epoch_pgive_data_stream_cursor_input"] | undefined | null> | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["epoch_pgive_data_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["epoch_pgive_data"]],
 epochs?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["epochs_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
 	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
@@ -9808,6 +11336,57 @@ interaction_events_stream?: [{	/** maximum number of rows returned in a single b
 	batch_size: number | Variable<any, string>,	/** cursor to stream the results returned by the query */
 	cursor: Array<ValueTypes["interaction_events_stream_cursor_input"] | undefined | null> | Variable<any, string>,	/** filter the rows returned */
 	where?: ValueTypes["interaction_events_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["interaction_events"]],
+locked_token_distribution_gifts?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["locked_token_distribution_gifts_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["locked_token_distribution_gifts_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["locked_token_distribution_gifts"]],
+locked_token_distribution_gifts_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["locked_token_distribution_gifts_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["locked_token_distribution_gifts_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["locked_token_distribution_gifts_aggregate"]],
+locked_token_distribution_gifts_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["locked_token_distribution_gifts"]],
+locked_token_distribution_gifts_stream?: [{	/** maximum number of rows returned in a single batch */
+	batch_size: number | Variable<any, string>,	/** cursor to stream the results returned by the query */
+	cursor: Array<ValueTypes["locked_token_distribution_gifts_stream_cursor_input"] | undefined | null> | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["locked_token_distribution_gifts"]],
+locked_token_distributions?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["locked_token_distributions_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["locked_token_distributions_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["locked_token_distributions_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["locked_token_distributions"]],
+locked_token_distributions_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["locked_token_distributions_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["locked_token_distributions_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["locked_token_distributions_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["locked_token_distributions_aggregate"]],
+locked_token_distributions_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["locked_token_distributions"]],
+locked_token_distributions_stream?: [{	/** maximum number of rows returned in a single batch */
+	batch_size: number | Variable<any, string>,	/** cursor to stream the results returned by the query */
+	cursor: Array<ValueTypes["locked_token_distributions_stream_cursor_input"] | undefined | null> | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["locked_token_distributions_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["locked_token_distributions"]],
+member_epoch_pgives?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["member_epoch_pgives_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["member_epoch_pgives_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["member_epoch_pgives_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["member_epoch_pgives"]],
+member_epoch_pgives_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["member_epoch_pgives_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["member_epoch_pgives_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["member_epoch_pgives_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["member_epoch_pgives_aggregate"]],
+member_epoch_pgives_by_pk?: [{	id: number | Variable<any, string>},ValueTypes["member_epoch_pgives"]],
+member_epoch_pgives_stream?: [{	/** maximum number of rows returned in a single batch */
+	batch_size: number | Variable<any, string>,	/** cursor to stream the results returned by the query */
+	cursor: Array<ValueTypes["member_epoch_pgives_stream_cursor_input"] | undefined | null> | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["member_epoch_pgives_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["member_epoch_pgives"]],
 nominees?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["nominees_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
 	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
@@ -12094,6 +13673,7 @@ distributions_aggregate?: [{	/** distinct select on columns */
 	org_id?:boolean | `@${string}`,
 	/** An object relationship */
 	organization?:ValueTypes["organizations"],
+	price_per_share?:boolean | `@${string}`,
 	/** An object relationship */
 	profile?:ValueTypes["profiles"],
 	simple_token_address?:boolean | `@${string}`,
@@ -12887,6 +14467,7 @@ users_aggregate?: [{	/** distinct select on columns */
 	["CreateEpochInput"]: {
 	circle_id: number,
 	days: number,
+	description?: string | undefined | null,
 	grant?: number | undefined | null,
 	repeat: number,
 	start_date: ResolverInputTypes["timestamptz"]
@@ -12907,17 +14488,6 @@ users_aggregate?: [{	/** distinct select on columns */
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["CreateUserInput"]: {
-	address: string,
-	circle_id: number,
-	fixed_non_receiver?: boolean | undefined | null,
-	fixed_payment_amount?: number | undefined | null,
-	name: string,
-	non_giver?: boolean | undefined | null,
-	non_receiver?: boolean | undefined | null,
-	role?: number | undefined | null,
-	starting_tokens?: number | undefined | null
-};
 	["CreateUserWithTokenInput"]: {
 	name: string,
 	token: string
@@ -13072,6 +14642,7 @@ users_aggregate?: [{	/** distinct select on columns */
 	name?: string | undefined | null,
 	nomination_days_limit?: number | undefined | null,
 	only_giver_vouch?: boolean | undefined | null,
+	show_pending_gives?: boolean | undefined | null,
 	team_sel_text?: string | undefined | null,
 	team_selection?: boolean | undefined | null,
 	token_name?: string | undefined | null,
@@ -13102,6 +14673,7 @@ users_aggregate?: [{	/** distinct select on columns */
 	["UpdateEpochInput"]: {
 	circle_id: number,
 	days: number,
+	description?: string | undefined | null,
 	grant?: number | undefined | null,
 	id: number,
 	repeat: number,
@@ -13110,6 +14682,14 @@ users_aggregate?: [{	/** distinct select on columns */
 	["UpdateOrgResponse"]: AliasType<{
 	id?:boolean | `@${string}`,
 	org?:ResolverInputTypes["organizations"],
+		__typename?: boolean | `@${string}`
+}>;
+	["UpdateProfileNameInput"]: {
+	name: string
+};
+	["UpdateProfileNameResponse"]: AliasType<{
+	id?:boolean | `@${string}`,
+	profileName?:ResolverInputTypes["profiles"],
 		__typename?: boolean | `@${string}`
 }>;
 	["UpdateProfileResponse"]: AliasType<{
@@ -15456,6 +17036,39 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	nomination_days_limit?: ResolverInputTypes["order_by"] | undefined | null,
 	organization_id?: ResolverInputTypes["order_by"] | undefined | null
 };
+	["citext"]:unknown;
+	/** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
+["citext_comparison_exp"]: {
+	_eq?: ResolverInputTypes["citext"] | undefined | null,
+	_gt?: ResolverInputTypes["citext"] | undefined | null,
+	_gte?: ResolverInputTypes["citext"] | undefined | null,
+	/** does the column match the given case-insensitive pattern */
+	_ilike?: ResolverInputTypes["citext"] | undefined | null,
+	_in?: Array<ResolverInputTypes["citext"]> | undefined | null,
+	/** does the column match the given POSIX regular expression, case insensitive */
+	_iregex?: ResolverInputTypes["citext"] | undefined | null,
+	_is_null?: boolean | undefined | null,
+	/** does the column match the given pattern */
+	_like?: ResolverInputTypes["citext"] | undefined | null,
+	_lt?: ResolverInputTypes["citext"] | undefined | null,
+	_lte?: ResolverInputTypes["citext"] | undefined | null,
+	_neq?: ResolverInputTypes["citext"] | undefined | null,
+	/** does the column NOT match the given case-insensitive pattern */
+	_nilike?: ResolverInputTypes["citext"] | undefined | null,
+	_nin?: Array<ResolverInputTypes["citext"]> | undefined | null,
+	/** does the column NOT match the given POSIX regular expression, case insensitive */
+	_niregex?: ResolverInputTypes["citext"] | undefined | null,
+	/** does the column NOT match the given pattern */
+	_nlike?: ResolverInputTypes["citext"] | undefined | null,
+	/** does the column NOT match the given POSIX regular expression, case sensitive */
+	_nregex?: ResolverInputTypes["citext"] | undefined | null,
+	/** does the column NOT match the given SQL regular expression */
+	_nsimilar?: ResolverInputTypes["citext"] | undefined | null,
+	/** does the column match the given POSIX regular expression, case sensitive */
+	_regex?: ResolverInputTypes["citext"] | undefined | null,
+	/** does the column match the given SQL regular expression */
+	_similar?: ResolverInputTypes["citext"] | undefined | null
+};
 	/** columns and relationships of "claims" */
 ["claims"]: AliasType<{
 	address?:boolean | `@${string}`,
@@ -16197,6 +17810,188 @@ count?: [{	columns?: Array<ResolverInputTypes["contributions_select_column"]> | 
 	_neq?: ResolverInputTypes["date"] | undefined | null,
 	_nin?: Array<ResolverInputTypes["date"]> | undefined | null
 };
+	/** tokens the discord bot uses to operate on circles */
+["discord_circle_api_tokens"]: AliasType<{
+	channel_snowflake?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregated selection of "discord.circle_api_tokens" */
+["discord_circle_api_tokens_aggregate"]: AliasType<{
+	aggregate?:ResolverInputTypes["discord_circle_api_tokens_aggregate_fields"],
+	nodes?:ResolverInputTypes["discord_circle_api_tokens"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate fields of "discord.circle_api_tokens" */
+["discord_circle_api_tokens_aggregate_fields"]: AliasType<{
+	avg?:ResolverInputTypes["discord_circle_api_tokens_avg_fields"],
+count?: [{	columns?: Array<ResolverInputTypes["discord_circle_api_tokens_select_column"]> | undefined | null,	distinct?: boolean | undefined | null},boolean | `@${string}`],
+	max?:ResolverInputTypes["discord_circle_api_tokens_max_fields"],
+	min?:ResolverInputTypes["discord_circle_api_tokens_min_fields"],
+	stddev?:ResolverInputTypes["discord_circle_api_tokens_stddev_fields"],
+	stddev_pop?:ResolverInputTypes["discord_circle_api_tokens_stddev_pop_fields"],
+	stddev_samp?:ResolverInputTypes["discord_circle_api_tokens_stddev_samp_fields"],
+	sum?:ResolverInputTypes["discord_circle_api_tokens_sum_fields"],
+	var_pop?:ResolverInputTypes["discord_circle_api_tokens_var_pop_fields"],
+	var_samp?:ResolverInputTypes["discord_circle_api_tokens_var_samp_fields"],
+	variance?:ResolverInputTypes["discord_circle_api_tokens_variance_fields"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate avg on columns */
+["discord_circle_api_tokens_avg_fields"]: AliasType<{
+	circle_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Boolean expression to filter rows from the table "discord.circle_api_tokens". All fields are combined with a logical 'AND'. */
+["discord_circle_api_tokens_bool_exp"]: {
+	_and?: Array<ResolverInputTypes["discord_circle_api_tokens_bool_exp"]> | undefined | null,
+	_not?: ResolverInputTypes["discord_circle_api_tokens_bool_exp"] | undefined | null,
+	_or?: Array<ResolverInputTypes["discord_circle_api_tokens_bool_exp"]> | undefined | null,
+	channel_snowflake?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
+	circle_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	created_at?: ResolverInputTypes["timestamptz_comparison_exp"] | undefined | null,
+	id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	token?: ResolverInputTypes["String_comparison_exp"] | undefined | null
+};
+	/** unique or primary key constraints on table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_constraint"]:discord_circle_api_tokens_constraint;
+	/** input type for incrementing numeric columns in table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_inc_input"]: {
+	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null
+};
+	/** input type for inserting data into table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_insert_input"]: {
+	channel_snowflake?: string | undefined | null,
+	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
+	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	token?: string | undefined | null
+};
+	/** aggregate max on columns */
+["discord_circle_api_tokens_max_fields"]: AliasType<{
+	channel_snowflake?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate min on columns */
+["discord_circle_api_tokens_min_fields"]: AliasType<{
+	channel_snowflake?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** response of any mutation on the table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_mutation_response"]: AliasType<{
+	/** number of rows affected by the mutation */
+	affected_rows?:boolean | `@${string}`,
+	/** data from the rows affected by the mutation */
+	returning?:ResolverInputTypes["discord_circle_api_tokens"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** on_conflict condition type for table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_on_conflict"]: {
+	constraint: ResolverInputTypes["discord_circle_api_tokens_constraint"],
+	update_columns: Array<ResolverInputTypes["discord_circle_api_tokens_update_column"]>,
+	where?: ResolverInputTypes["discord_circle_api_tokens_bool_exp"] | undefined | null
+};
+	/** Ordering options when selecting data from "discord.circle_api_tokens". */
+["discord_circle_api_tokens_order_by"]: {
+	channel_snowflake?: ResolverInputTypes["order_by"] | undefined | null,
+	circle_id?: ResolverInputTypes["order_by"] | undefined | null,
+	created_at?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	token?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** primary key columns input for table: discord.circle_api_tokens */
+["discord_circle_api_tokens_pk_columns_input"]: {
+	id: ResolverInputTypes["bigint"]
+};
+	/** select columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_select_column"]:discord_circle_api_tokens_select_column;
+	/** input type for updating data in table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_set_input"]: {
+	channel_snowflake?: string | undefined | null,
+	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
+	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	token?: string | undefined | null
+};
+	/** aggregate stddev on columns */
+["discord_circle_api_tokens_stddev_fields"]: AliasType<{
+	circle_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_pop on columns */
+["discord_circle_api_tokens_stddev_pop_fields"]: AliasType<{
+	circle_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_samp on columns */
+["discord_circle_api_tokens_stddev_samp_fields"]: AliasType<{
+	circle_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Streaming cursor of the table "discord_circle_api_tokens" */
+["discord_circle_api_tokens_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ResolverInputTypes["discord_circle_api_tokens_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null
+};
+	/** Initial value of the column from where the streaming should start */
+["discord_circle_api_tokens_stream_cursor_value_input"]: {
+	channel_snowflake?: string | undefined | null,
+	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
+	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	token?: string | undefined | null
+};
+	/** aggregate sum on columns */
+["discord_circle_api_tokens_sum_fields"]: AliasType<{
+	circle_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** update columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_update_column"]:discord_circle_api_tokens_update_column;
+	["discord_circle_api_tokens_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["discord_circle_api_tokens_inc_input"] | undefined | null,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["discord_circle_api_tokens_set_input"] | undefined | null,
+	where: ResolverInputTypes["discord_circle_api_tokens_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["discord_circle_api_tokens_var_pop_fields"]: AliasType<{
+	circle_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate var_samp on columns */
+["discord_circle_api_tokens_var_samp_fields"]: AliasType<{
+	circle_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate variance on columns */
+["discord_circle_api_tokens_variance_fields"]: AliasType<{
+	circle_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	/** link a discord role to a circle  to control membership of the circle */
 ["discord_roles_circles"]: AliasType<{
 	/** An object relationship */
@@ -16204,7 +17999,7 @@ count?: [{	columns?: Array<ResolverInputTypes["contributions_select_column"]> | 
 	circle_id?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	role?:boolean | `@${string}`,
+	server_role?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
@@ -16244,7 +18039,7 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 	circle_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamptz_comparison_exp"] | undefined | null,
 	id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
-	role?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
+	server_role?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamptz_comparison_exp"] | undefined | null
 };
 	/** unique or primary key constraints on table "discord.roles_circles" */
@@ -16260,7 +18055,7 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
 	id?: ResolverInputTypes["bigint"] | undefined | null,
-	role?: string | undefined | null,
+	server_role?: string | undefined | null,
 	updated_at?: ResolverInputTypes["timestamptz"] | undefined | null
 };
 	/** aggregate max on columns */
@@ -16268,7 +18063,7 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 	circle_id?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	role?:boolean | `@${string}`,
+	server_role?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
@@ -16277,7 +18072,7 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 	circle_id?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	role?:boolean | `@${string}`,
+	server_role?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
@@ -16301,7 +18096,7 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 	circle_id?: ResolverInputTypes["order_by"] | undefined | null,
 	created_at?: ResolverInputTypes["order_by"] | undefined | null,
 	id?: ResolverInputTypes["order_by"] | undefined | null,
-	role?: ResolverInputTypes["order_by"] | undefined | null,
+	server_role?: ResolverInputTypes["order_by"] | undefined | null,
 	updated_at?: ResolverInputTypes["order_by"] | undefined | null
 };
 	/** primary key columns input for table: discord.roles_circles */
@@ -16315,7 +18110,7 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
 	id?: ResolverInputTypes["bigint"] | undefined | null,
-	role?: string | undefined | null,
+	server_role?: string | undefined | null,
 	updated_at?: ResolverInputTypes["timestamptz"] | undefined | null
 };
 	/** aggregate stddev on columns */
@@ -16348,7 +18143,7 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
 	id?: ResolverInputTypes["bigint"] | undefined | null,
-	role?: string | undefined | null,
+	server_role?: string | undefined | null,
 	updated_at?: ResolverInputTypes["timestamptz"] | undefined | null
 };
 	/** aggregate sum on columns */
@@ -17099,6 +18894,268 @@ count?: [{	columns?: Array<ResolverInputTypes["distributions_select_column"]> | 
 	id?: ResolverInputTypes["order_by"] | undefined | null,
 	vault_id?: ResolverInputTypes["order_by"] | undefined | null
 };
+	/** columns and relationships of "epoch_pgive_data" */
+["epoch_pgive_data"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	/** An object relationship */
+	epoch?:ResolverInputTypes["epochs"],
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregated selection of "epoch_pgive_data" */
+["epoch_pgive_data_aggregate"]: AliasType<{
+	aggregate?:ResolverInputTypes["epoch_pgive_data_aggregate_fields"],
+	nodes?:ResolverInputTypes["epoch_pgive_data"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate fields of "epoch_pgive_data" */
+["epoch_pgive_data_aggregate_fields"]: AliasType<{
+	avg?:ResolverInputTypes["epoch_pgive_data_avg_fields"],
+count?: [{	columns?: Array<ResolverInputTypes["epoch_pgive_data_select_column"]> | undefined | null,	distinct?: boolean | undefined | null},boolean | `@${string}`],
+	max?:ResolverInputTypes["epoch_pgive_data_max_fields"],
+	min?:ResolverInputTypes["epoch_pgive_data_min_fields"],
+	stddev?:ResolverInputTypes["epoch_pgive_data_stddev_fields"],
+	stddev_pop?:ResolverInputTypes["epoch_pgive_data_stddev_pop_fields"],
+	stddev_samp?:ResolverInputTypes["epoch_pgive_data_stddev_samp_fields"],
+	sum?:ResolverInputTypes["epoch_pgive_data_sum_fields"],
+	var_pop?:ResolverInputTypes["epoch_pgive_data_var_pop_fields"],
+	var_samp?:ResolverInputTypes["epoch_pgive_data_var_samp_fields"],
+	variance?:ResolverInputTypes["epoch_pgive_data_variance_fields"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate avg on columns */
+["epoch_pgive_data_avg_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Boolean expression to filter rows from the table "epoch_pgive_data". All fields are combined with a logical 'AND'. */
+["epoch_pgive_data_bool_exp"]: {
+	_and?: Array<ResolverInputTypes["epoch_pgive_data_bool_exp"]> | undefined | null,
+	_not?: ResolverInputTypes["epoch_pgive_data_bool_exp"] | undefined | null,
+	_or?: Array<ResolverInputTypes["epoch_pgive_data_bool_exp"]> | undefined | null,
+	active_months?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
+	active_months_bonus?: ResolverInputTypes["numeric_comparison_exp"] | undefined | null,
+	created_at?: ResolverInputTypes["timestamptz_comparison_exp"] | undefined | null,
+	epoch?: ResolverInputTypes["epochs_bool_exp"] | undefined | null,
+	epoch_id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
+	gives_receiver_base?: ResolverInputTypes["numeric_comparison_exp"] | undefined | null,
+	id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
+	notes_bonus?: ResolverInputTypes["numeric_comparison_exp"] | undefined | null,
+	pgive?: ResolverInputTypes["numeric_comparison_exp"] | undefined | null
+};
+	/** unique or primary key constraints on table "epoch_pgive_data" */
+["epoch_pgive_data_constraint"]:epoch_pgive_data_constraint;
+	/** input type for incrementing numeric columns in table "epoch_pgive_data" */
+["epoch_pgive_data_inc_input"]: {
+	active_months?: number | undefined | null,
+	active_months_bonus?: ResolverInputTypes["numeric"] | undefined | null,
+	epoch_id?: number | undefined | null,
+	gives_receiver_base?: ResolverInputTypes["numeric"] | undefined | null,
+	id?: number | undefined | null,
+	notes_bonus?: ResolverInputTypes["numeric"] | undefined | null,
+	pgive?: ResolverInputTypes["numeric"] | undefined | null
+};
+	/** input type for inserting data into table "epoch_pgive_data" */
+["epoch_pgive_data_insert_input"]: {
+	active_months?: number | undefined | null,
+	active_months_bonus?: ResolverInputTypes["numeric"] | undefined | null,
+	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	epoch?: ResolverInputTypes["epochs_obj_rel_insert_input"] | undefined | null,
+	epoch_id?: number | undefined | null,
+	gives_receiver_base?: ResolverInputTypes["numeric"] | undefined | null,
+	id?: number | undefined | null,
+	notes_bonus?: ResolverInputTypes["numeric"] | undefined | null,
+	pgive?: ResolverInputTypes["numeric"] | undefined | null
+};
+	/** aggregate max on columns */
+["epoch_pgive_data_max_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate min on columns */
+["epoch_pgive_data_min_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** response of any mutation on the table "epoch_pgive_data" */
+["epoch_pgive_data_mutation_response"]: AliasType<{
+	/** number of rows affected by the mutation */
+	affected_rows?:boolean | `@${string}`,
+	/** data from the rows affected by the mutation */
+	returning?:ResolverInputTypes["epoch_pgive_data"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** input type for inserting object relation for remote table "epoch_pgive_data" */
+["epoch_pgive_data_obj_rel_insert_input"]: {
+	data: ResolverInputTypes["epoch_pgive_data_insert_input"],
+	/** upsert condition */
+	on_conflict?: ResolverInputTypes["epoch_pgive_data_on_conflict"] | undefined | null
+};
+	/** on_conflict condition type for table "epoch_pgive_data" */
+["epoch_pgive_data_on_conflict"]: {
+	constraint: ResolverInputTypes["epoch_pgive_data_constraint"],
+	update_columns: Array<ResolverInputTypes["epoch_pgive_data_update_column"]>,
+	where?: ResolverInputTypes["epoch_pgive_data_bool_exp"] | undefined | null
+};
+	/** Ordering options when selecting data from "epoch_pgive_data". */
+["epoch_pgive_data_order_by"]: {
+	active_months?: ResolverInputTypes["order_by"] | undefined | null,
+	active_months_bonus?: ResolverInputTypes["order_by"] | undefined | null,
+	created_at?: ResolverInputTypes["order_by"] | undefined | null,
+	epoch?: ResolverInputTypes["epochs_order_by"] | undefined | null,
+	epoch_id?: ResolverInputTypes["order_by"] | undefined | null,
+	gives_receiver_base?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	notes_bonus?: ResolverInputTypes["order_by"] | undefined | null,
+	pgive?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** primary key columns input for table: epoch_pgive_data */
+["epoch_pgive_data_pk_columns_input"]: {
+	id: number
+};
+	/** select columns of table "epoch_pgive_data" */
+["epoch_pgive_data_select_column"]:epoch_pgive_data_select_column;
+	/** input type for updating data in table "epoch_pgive_data" */
+["epoch_pgive_data_set_input"]: {
+	active_months?: number | undefined | null,
+	active_months_bonus?: ResolverInputTypes["numeric"] | undefined | null,
+	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	epoch_id?: number | undefined | null,
+	gives_receiver_base?: ResolverInputTypes["numeric"] | undefined | null,
+	id?: number | undefined | null,
+	notes_bonus?: ResolverInputTypes["numeric"] | undefined | null,
+	pgive?: ResolverInputTypes["numeric"] | undefined | null
+};
+	/** aggregate stddev on columns */
+["epoch_pgive_data_stddev_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_pop on columns */
+["epoch_pgive_data_stddev_pop_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_samp on columns */
+["epoch_pgive_data_stddev_samp_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Streaming cursor of the table "epoch_pgive_data" */
+["epoch_pgive_data_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ResolverInputTypes["epoch_pgive_data_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null
+};
+	/** Initial value of the column from where the streaming should start */
+["epoch_pgive_data_stream_cursor_value_input"]: {
+	active_months?: number | undefined | null,
+	active_months_bonus?: ResolverInputTypes["numeric"] | undefined | null,
+	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	epoch_id?: number | undefined | null,
+	gives_receiver_base?: ResolverInputTypes["numeric"] | undefined | null,
+	id?: number | undefined | null,
+	notes_bonus?: ResolverInputTypes["numeric"] | undefined | null,
+	pgive?: ResolverInputTypes["numeric"] | undefined | null
+};
+	/** aggregate sum on columns */
+["epoch_pgive_data_sum_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** update columns of table "epoch_pgive_data" */
+["epoch_pgive_data_update_column"]:epoch_pgive_data_update_column;
+	["epoch_pgive_data_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["epoch_pgive_data_inc_input"] | undefined | null,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["epoch_pgive_data_set_input"] | undefined | null,
+	where: ResolverInputTypes["epoch_pgive_data_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["epoch_pgive_data_var_pop_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate var_samp on columns */
+["epoch_pgive_data_var_samp_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate variance on columns */
+["epoch_pgive_data_variance_fields"]: AliasType<{
+	active_months?:boolean | `@${string}`,
+	active_months_bonus?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_receiver_base?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	notes_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	/** columns and relationships of "epoches" */
 ["epochs"]: AliasType<{
 burns?: [{	/** distinct select on columns */
@@ -17151,6 +19208,8 @@ epoch_pending_token_gifts_aggregate?: [{	/** distinct select on columns */
 	notified_end?:boolean | `@${string}`,
 	notified_start?:boolean | `@${string}`,
 	number?:boolean | `@${string}`,
+	/** An object relationship */
+	pgive_data?:ResolverInputTypes["epoch_pgive_data"],
 	regift_days?:boolean | `@${string}`,
 	repeat?:boolean | `@${string}`,
 	repeat_day_of_month?:boolean | `@${string}`,
@@ -17255,6 +19314,7 @@ count?: [{	columns?: Array<ResolverInputTypes["epochs_select_column"]> | undefin
 	notified_end?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	notified_start?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	number?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
+	pgive_data?: ResolverInputTypes["epoch_pgive_data_bool_exp"] | undefined | null,
 	regift_days?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	repeat?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	repeat_day_of_month?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
@@ -17293,6 +19353,7 @@ count?: [{	columns?: Array<ResolverInputTypes["epochs_select_column"]> | undefin
 	notified_end?: ResolverInputTypes["timestamp"] | undefined | null,
 	notified_start?: ResolverInputTypes["timestamp"] | undefined | null,
 	number?: number | undefined | null,
+	pgive_data?: ResolverInputTypes["epoch_pgive_data_obj_rel_insert_input"] | undefined | null,
 	regift_days?: number | undefined | null,
 	repeat?: number | undefined | null,
 	repeat_day_of_month?: number | undefined | null,
@@ -17416,6 +19477,7 @@ count?: [{	columns?: Array<ResolverInputTypes["epochs_select_column"]> | undefin
 	notified_end?: ResolverInputTypes["order_by"] | undefined | null,
 	notified_start?: ResolverInputTypes["order_by"] | undefined | null,
 	number?: ResolverInputTypes["order_by"] | undefined | null,
+	pgive_data?: ResolverInputTypes["epoch_pgive_data_order_by"] | undefined | null,
 	regift_days?: ResolverInputTypes["order_by"] | undefined | null,
 	repeat?: ResolverInputTypes["order_by"] | undefined | null,
 	repeat_day_of_month?: ResolverInputTypes["order_by"] | undefined | null,
@@ -18376,6 +20438,840 @@ count?: [{	columns?: Array<ResolverInputTypes["interaction_events_select_column"
 	_neq?: ResolverInputTypes["jsonb"] | undefined | null,
 	_nin?: Array<ResolverInputTypes["jsonb"]> | undefined | null
 };
+	/** columns and relationships of "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	/** An object relationship */
+	locked_token_distribution?:ResolverInputTypes["locked_token_distributions"],
+	locked_token_distribution_id?:boolean | `@${string}`,
+	/** An object relationship */
+	profile?:ResolverInputTypes["profiles"],
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregated selection of "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_aggregate"]: AliasType<{
+	aggregate?:ResolverInputTypes["locked_token_distribution_gifts_aggregate_fields"],
+	nodes?:ResolverInputTypes["locked_token_distribution_gifts"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate fields of "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_aggregate_fields"]: AliasType<{
+	avg?:ResolverInputTypes["locked_token_distribution_gifts_avg_fields"],
+count?: [{	columns?: Array<ResolverInputTypes["locked_token_distribution_gifts_select_column"]> | undefined | null,	distinct?: boolean | undefined | null},boolean | `@${string}`],
+	max?:ResolverInputTypes["locked_token_distribution_gifts_max_fields"],
+	min?:ResolverInputTypes["locked_token_distribution_gifts_min_fields"],
+	stddev?:ResolverInputTypes["locked_token_distribution_gifts_stddev_fields"],
+	stddev_pop?:ResolverInputTypes["locked_token_distribution_gifts_stddev_pop_fields"],
+	stddev_samp?:ResolverInputTypes["locked_token_distribution_gifts_stddev_samp_fields"],
+	sum?:ResolverInputTypes["locked_token_distribution_gifts_sum_fields"],
+	var_pop?:ResolverInputTypes["locked_token_distribution_gifts_var_pop_fields"],
+	var_samp?:ResolverInputTypes["locked_token_distribution_gifts_var_samp_fields"],
+	variance?:ResolverInputTypes["locked_token_distribution_gifts_variance_fields"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by aggregate values of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_aggregate_order_by"]: {
+	avg?: ResolverInputTypes["locked_token_distribution_gifts_avg_order_by"] | undefined | null,
+	count?: ResolverInputTypes["order_by"] | undefined | null,
+	max?: ResolverInputTypes["locked_token_distribution_gifts_max_order_by"] | undefined | null,
+	min?: ResolverInputTypes["locked_token_distribution_gifts_min_order_by"] | undefined | null,
+	stddev?: ResolverInputTypes["locked_token_distribution_gifts_stddev_order_by"] | undefined | null,
+	stddev_pop?: ResolverInputTypes["locked_token_distribution_gifts_stddev_pop_order_by"] | undefined | null,
+	stddev_samp?: ResolverInputTypes["locked_token_distribution_gifts_stddev_samp_order_by"] | undefined | null,
+	sum?: ResolverInputTypes["locked_token_distribution_gifts_sum_order_by"] | undefined | null,
+	var_pop?: ResolverInputTypes["locked_token_distribution_gifts_var_pop_order_by"] | undefined | null,
+	var_samp?: ResolverInputTypes["locked_token_distribution_gifts_var_samp_order_by"] | undefined | null,
+	variance?: ResolverInputTypes["locked_token_distribution_gifts_variance_order_by"] | undefined | null
+};
+	/** input type for inserting array relation for remote table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_arr_rel_insert_input"]: {
+	data: Array<ResolverInputTypes["locked_token_distribution_gifts_insert_input"]>,
+	/** upsert condition */
+	on_conflict?: ResolverInputTypes["locked_token_distribution_gifts_on_conflict"] | undefined | null
+};
+	/** aggregate avg on columns */
+["locked_token_distribution_gifts_avg_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by avg() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_avg_order_by"]: {
+	earnings?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	locked_token_distribution_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** Boolean expression to filter rows from the table "locked_token_distribution_gifts". All fields are combined with a logical 'AND'. */
+["locked_token_distribution_gifts_bool_exp"]: {
+	_and?: Array<ResolverInputTypes["locked_token_distribution_gifts_bool_exp"]> | undefined | null,
+	_not?: ResolverInputTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null,
+	_or?: Array<ResolverInputTypes["locked_token_distribution_gifts_bool_exp"]> | undefined | null,
+	earnings?: ResolverInputTypes["numeric_comparison_exp"] | undefined | null,
+	id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	locked_token_distribution?: ResolverInputTypes["locked_token_distributions_bool_exp"] | undefined | null,
+	locked_token_distribution_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	profile?: ResolverInputTypes["profiles_bool_exp"] | undefined | null,
+	profile_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null
+};
+	/** unique or primary key constraints on table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_constraint"]:locked_token_distribution_gifts_constraint;
+	/** input type for incrementing numeric columns in table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_inc_input"]: {
+	earnings?: ResolverInputTypes["numeric"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	locked_token_distribution_id?: ResolverInputTypes["bigint"] | undefined | null,
+	profile_id?: ResolverInputTypes["bigint"] | undefined | null
+};
+	/** input type for inserting data into table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_insert_input"]: {
+	earnings?: ResolverInputTypes["numeric"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	locked_token_distribution?: ResolverInputTypes["locked_token_distributions_obj_rel_insert_input"] | undefined | null,
+	locked_token_distribution_id?: ResolverInputTypes["bigint"] | undefined | null,
+	profile?: ResolverInputTypes["profiles_obj_rel_insert_input"] | undefined | null,
+	profile_id?: ResolverInputTypes["bigint"] | undefined | null
+};
+	/** aggregate max on columns */
+["locked_token_distribution_gifts_max_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by max() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_max_order_by"]: {
+	earnings?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	locked_token_distribution_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** aggregate min on columns */
+["locked_token_distribution_gifts_min_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by min() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_min_order_by"]: {
+	earnings?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	locked_token_distribution_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** response of any mutation on the table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_mutation_response"]: AliasType<{
+	/** number of rows affected by the mutation */
+	affected_rows?:boolean | `@${string}`,
+	/** data from the rows affected by the mutation */
+	returning?:ResolverInputTypes["locked_token_distribution_gifts"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** on_conflict condition type for table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_on_conflict"]: {
+	constraint: ResolverInputTypes["locked_token_distribution_gifts_constraint"],
+	update_columns: Array<ResolverInputTypes["locked_token_distribution_gifts_update_column"]>,
+	where?: ResolverInputTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null
+};
+	/** Ordering options when selecting data from "locked_token_distribution_gifts". */
+["locked_token_distribution_gifts_order_by"]: {
+	earnings?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	locked_token_distribution?: ResolverInputTypes["locked_token_distributions_order_by"] | undefined | null,
+	locked_token_distribution_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile?: ResolverInputTypes["profiles_order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** primary key columns input for table: locked_token_distribution_gifts */
+["locked_token_distribution_gifts_pk_columns_input"]: {
+	id: ResolverInputTypes["bigint"]
+};
+	/** select columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_select_column"]:locked_token_distribution_gifts_select_column;
+	/** input type for updating data in table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_set_input"]: {
+	earnings?: ResolverInputTypes["numeric"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	locked_token_distribution_id?: ResolverInputTypes["bigint"] | undefined | null,
+	profile_id?: ResolverInputTypes["bigint"] | undefined | null
+};
+	/** aggregate stddev on columns */
+["locked_token_distribution_gifts_stddev_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by stddev() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_stddev_order_by"]: {
+	earnings?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	locked_token_distribution_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** aggregate stddev_pop on columns */
+["locked_token_distribution_gifts_stddev_pop_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by stddev_pop() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_stddev_pop_order_by"]: {
+	earnings?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	locked_token_distribution_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** aggregate stddev_samp on columns */
+["locked_token_distribution_gifts_stddev_samp_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by stddev_samp() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_stddev_samp_order_by"]: {
+	earnings?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	locked_token_distribution_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** Streaming cursor of the table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ResolverInputTypes["locked_token_distribution_gifts_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null
+};
+	/** Initial value of the column from where the streaming should start */
+["locked_token_distribution_gifts_stream_cursor_value_input"]: {
+	earnings?: ResolverInputTypes["numeric"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	locked_token_distribution_id?: ResolverInputTypes["bigint"] | undefined | null,
+	profile_id?: ResolverInputTypes["bigint"] | undefined | null
+};
+	/** aggregate sum on columns */
+["locked_token_distribution_gifts_sum_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by sum() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_sum_order_by"]: {
+	earnings?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	locked_token_distribution_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** update columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_update_column"]:locked_token_distribution_gifts_update_column;
+	["locked_token_distribution_gifts_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["locked_token_distribution_gifts_inc_input"] | undefined | null,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["locked_token_distribution_gifts_set_input"] | undefined | null,
+	where: ResolverInputTypes["locked_token_distribution_gifts_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["locked_token_distribution_gifts_var_pop_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by var_pop() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_var_pop_order_by"]: {
+	earnings?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	locked_token_distribution_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** aggregate var_samp on columns */
+["locked_token_distribution_gifts_var_samp_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by var_samp() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_var_samp_order_by"]: {
+	earnings?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	locked_token_distribution_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** aggregate variance on columns */
+["locked_token_distribution_gifts_variance_fields"]: AliasType<{
+	earnings?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	locked_token_distribution_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by variance() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_variance_order_by"]: {
+	earnings?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	locked_token_distribution_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** columns and relationships of "locked_token_distributions" */
+["locked_token_distributions"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	/** An object relationship */
+	epoch?:ResolverInputTypes["epochs"],
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+locked_token_distribution_gifts?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["locked_token_distribution_gifts_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["locked_token_distribution_gifts_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null},ResolverInputTypes["locked_token_distribution_gifts"]],
+locked_token_distribution_gifts_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["locked_token_distribution_gifts_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["locked_token_distribution_gifts_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null},ResolverInputTypes["locked_token_distribution_gifts_aggregate"]],
+	/** An object relationship */
+	profile?:ResolverInputTypes["profiles"],
+	token_contract_address?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+	token_symbol?:boolean | `@${string}`,
+	tx_hash?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregated selection of "locked_token_distributions" */
+["locked_token_distributions_aggregate"]: AliasType<{
+	aggregate?:ResolverInputTypes["locked_token_distributions_aggregate_fields"],
+	nodes?:ResolverInputTypes["locked_token_distributions"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate fields of "locked_token_distributions" */
+["locked_token_distributions_aggregate_fields"]: AliasType<{
+	avg?:ResolverInputTypes["locked_token_distributions_avg_fields"],
+count?: [{	columns?: Array<ResolverInputTypes["locked_token_distributions_select_column"]> | undefined | null,	distinct?: boolean | undefined | null},boolean | `@${string}`],
+	max?:ResolverInputTypes["locked_token_distributions_max_fields"],
+	min?:ResolverInputTypes["locked_token_distributions_min_fields"],
+	stddev?:ResolverInputTypes["locked_token_distributions_stddev_fields"],
+	stddev_pop?:ResolverInputTypes["locked_token_distributions_stddev_pop_fields"],
+	stddev_samp?:ResolverInputTypes["locked_token_distributions_stddev_samp_fields"],
+	sum?:ResolverInputTypes["locked_token_distributions_sum_fields"],
+	var_pop?:ResolverInputTypes["locked_token_distributions_var_pop_fields"],
+	var_samp?:ResolverInputTypes["locked_token_distributions_var_samp_fields"],
+	variance?:ResolverInputTypes["locked_token_distributions_variance_fields"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate avg on columns */
+["locked_token_distributions_avg_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Boolean expression to filter rows from the table "locked_token_distributions". All fields are combined with a logical 'AND'. */
+["locked_token_distributions_bool_exp"]: {
+	_and?: Array<ResolverInputTypes["locked_token_distributions_bool_exp"]> | undefined | null,
+	_not?: ResolverInputTypes["locked_token_distributions_bool_exp"] | undefined | null,
+	_or?: Array<ResolverInputTypes["locked_token_distributions_bool_exp"]> | undefined | null,
+	chain_id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
+	distributed_by?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	epoch?: ResolverInputTypes["epochs_bool_exp"] | undefined | null,
+	epoch_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	gift_amount?: ResolverInputTypes["numeric_comparison_exp"] | undefined | null,
+	id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	locked_token_distribution_gifts?: ResolverInputTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null,
+	profile?: ResolverInputTypes["profiles_bool_exp"] | undefined | null,
+	token_contract_address?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
+	token_decimals?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
+	token_symbol?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
+	tx_hash?: ResolverInputTypes["String_comparison_exp"] | undefined | null
+};
+	/** unique or primary key constraints on table "locked_token_distributions" */
+["locked_token_distributions_constraint"]:locked_token_distributions_constraint;
+	/** input type for incrementing numeric columns in table "locked_token_distributions" */
+["locked_token_distributions_inc_input"]: {
+	chain_id?: number | undefined | null,
+	distributed_by?: ResolverInputTypes["bigint"] | undefined | null,
+	epoch_id?: ResolverInputTypes["bigint"] | undefined | null,
+	gift_amount?: ResolverInputTypes["numeric"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	token_decimals?: number | undefined | null
+};
+	/** input type for inserting data into table "locked_token_distributions" */
+["locked_token_distributions_insert_input"]: {
+	chain_id?: number | undefined | null,
+	distributed_by?: ResolverInputTypes["bigint"] | undefined | null,
+	epoch?: ResolverInputTypes["epochs_obj_rel_insert_input"] | undefined | null,
+	epoch_id?: ResolverInputTypes["bigint"] | undefined | null,
+	gift_amount?: ResolverInputTypes["numeric"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	locked_token_distribution_gifts?: ResolverInputTypes["locked_token_distribution_gifts_arr_rel_insert_input"] | undefined | null,
+	profile?: ResolverInputTypes["profiles_obj_rel_insert_input"] | undefined | null,
+	token_contract_address?: string | undefined | null,
+	token_decimals?: number | undefined | null,
+	token_symbol?: string | undefined | null,
+	tx_hash?: string | undefined | null
+};
+	/** aggregate max on columns */
+["locked_token_distributions_max_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_contract_address?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+	token_symbol?:boolean | `@${string}`,
+	tx_hash?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate min on columns */
+["locked_token_distributions_min_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_contract_address?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+	token_symbol?:boolean | `@${string}`,
+	tx_hash?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** response of any mutation on the table "locked_token_distributions" */
+["locked_token_distributions_mutation_response"]: AliasType<{
+	/** number of rows affected by the mutation */
+	affected_rows?:boolean | `@${string}`,
+	/** data from the rows affected by the mutation */
+	returning?:ResolverInputTypes["locked_token_distributions"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** input type for inserting object relation for remote table "locked_token_distributions" */
+["locked_token_distributions_obj_rel_insert_input"]: {
+	data: ResolverInputTypes["locked_token_distributions_insert_input"],
+	/** upsert condition */
+	on_conflict?: ResolverInputTypes["locked_token_distributions_on_conflict"] | undefined | null
+};
+	/** on_conflict condition type for table "locked_token_distributions" */
+["locked_token_distributions_on_conflict"]: {
+	constraint: ResolverInputTypes["locked_token_distributions_constraint"],
+	update_columns: Array<ResolverInputTypes["locked_token_distributions_update_column"]>,
+	where?: ResolverInputTypes["locked_token_distributions_bool_exp"] | undefined | null
+};
+	/** Ordering options when selecting data from "locked_token_distributions". */
+["locked_token_distributions_order_by"]: {
+	chain_id?: ResolverInputTypes["order_by"] | undefined | null,
+	distributed_by?: ResolverInputTypes["order_by"] | undefined | null,
+	epoch?: ResolverInputTypes["epochs_order_by"] | undefined | null,
+	epoch_id?: ResolverInputTypes["order_by"] | undefined | null,
+	gift_amount?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	locked_token_distribution_gifts_aggregate?: ResolverInputTypes["locked_token_distribution_gifts_aggregate_order_by"] | undefined | null,
+	profile?: ResolverInputTypes["profiles_order_by"] | undefined | null,
+	token_contract_address?: ResolverInputTypes["order_by"] | undefined | null,
+	token_decimals?: ResolverInputTypes["order_by"] | undefined | null,
+	token_symbol?: ResolverInputTypes["order_by"] | undefined | null,
+	tx_hash?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** primary key columns input for table: locked_token_distributions */
+["locked_token_distributions_pk_columns_input"]: {
+	id: ResolverInputTypes["bigint"]
+};
+	/** select columns of table "locked_token_distributions" */
+["locked_token_distributions_select_column"]:locked_token_distributions_select_column;
+	/** input type for updating data in table "locked_token_distributions" */
+["locked_token_distributions_set_input"]: {
+	chain_id?: number | undefined | null,
+	distributed_by?: ResolverInputTypes["bigint"] | undefined | null,
+	epoch_id?: ResolverInputTypes["bigint"] | undefined | null,
+	gift_amount?: ResolverInputTypes["numeric"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	token_contract_address?: string | undefined | null,
+	token_decimals?: number | undefined | null,
+	token_symbol?: string | undefined | null,
+	tx_hash?: string | undefined | null
+};
+	/** aggregate stddev on columns */
+["locked_token_distributions_stddev_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_pop on columns */
+["locked_token_distributions_stddev_pop_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_samp on columns */
+["locked_token_distributions_stddev_samp_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Streaming cursor of the table "locked_token_distributions" */
+["locked_token_distributions_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ResolverInputTypes["locked_token_distributions_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null
+};
+	/** Initial value of the column from where the streaming should start */
+["locked_token_distributions_stream_cursor_value_input"]: {
+	chain_id?: number | undefined | null,
+	distributed_by?: ResolverInputTypes["bigint"] | undefined | null,
+	epoch_id?: ResolverInputTypes["bigint"] | undefined | null,
+	gift_amount?: ResolverInputTypes["numeric"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	token_contract_address?: string | undefined | null,
+	token_decimals?: number | undefined | null,
+	token_symbol?: string | undefined | null,
+	tx_hash?: string | undefined | null
+};
+	/** aggregate sum on columns */
+["locked_token_distributions_sum_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** update columns of table "locked_token_distributions" */
+["locked_token_distributions_update_column"]:locked_token_distributions_update_column;
+	["locked_token_distributions_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["locked_token_distributions_inc_input"] | undefined | null,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["locked_token_distributions_set_input"] | undefined | null,
+	where: ResolverInputTypes["locked_token_distributions_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["locked_token_distributions_var_pop_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate var_samp on columns */
+["locked_token_distributions_var_samp_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate variance on columns */
+["locked_token_distributions_variance_fields"]: AliasType<{
+	chain_id?:boolean | `@${string}`,
+	distributed_by?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gift_amount?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	token_decimals?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** member allocated pgives per epoch */
+["member_epoch_pgives"]: AliasType<{
+	created_at?:boolean | `@${string}`,
+	/** An object relationship */
+	epoch?:ResolverInputTypes["epochs"],
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	/** An object relationship */
+	user?:ResolverInputTypes["users"],
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregated selection of "member_epoch_pgives" */
+["member_epoch_pgives_aggregate"]: AliasType<{
+	aggregate?:ResolverInputTypes["member_epoch_pgives_aggregate_fields"],
+	nodes?:ResolverInputTypes["member_epoch_pgives"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate fields of "member_epoch_pgives" */
+["member_epoch_pgives_aggregate_fields"]: AliasType<{
+	avg?:ResolverInputTypes["member_epoch_pgives_avg_fields"],
+count?: [{	columns?: Array<ResolverInputTypes["member_epoch_pgives_select_column"]> | undefined | null,	distinct?: boolean | undefined | null},boolean | `@${string}`],
+	max?:ResolverInputTypes["member_epoch_pgives_max_fields"],
+	min?:ResolverInputTypes["member_epoch_pgives_min_fields"],
+	stddev?:ResolverInputTypes["member_epoch_pgives_stddev_fields"],
+	stddev_pop?:ResolverInputTypes["member_epoch_pgives_stddev_pop_fields"],
+	stddev_samp?:ResolverInputTypes["member_epoch_pgives_stddev_samp_fields"],
+	sum?:ResolverInputTypes["member_epoch_pgives_sum_fields"],
+	var_pop?:ResolverInputTypes["member_epoch_pgives_var_pop_fields"],
+	var_samp?:ResolverInputTypes["member_epoch_pgives_var_samp_fields"],
+	variance?:ResolverInputTypes["member_epoch_pgives_variance_fields"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate avg on columns */
+["member_epoch_pgives_avg_fields"]: AliasType<{
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Boolean expression to filter rows from the table "member_epoch_pgives". All fields are combined with a logical 'AND'. */
+["member_epoch_pgives_bool_exp"]: {
+	_and?: Array<ResolverInputTypes["member_epoch_pgives_bool_exp"]> | undefined | null,
+	_not?: ResolverInputTypes["member_epoch_pgives_bool_exp"] | undefined | null,
+	_or?: Array<ResolverInputTypes["member_epoch_pgives_bool_exp"]> | undefined | null,
+	created_at?: ResolverInputTypes["timestamptz_comparison_exp"] | undefined | null,
+	epoch?: ResolverInputTypes["epochs_bool_exp"] | undefined | null,
+	epoch_id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
+	gives_received?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
+	id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
+	normalized_pgive?: ResolverInputTypes["numeric_comparison_exp"] | undefined | null,
+	opt_out_bonus?: ResolverInputTypes["numeric_comparison_exp"] | undefined | null,
+	pgive?: ResolverInputTypes["numeric_comparison_exp"] | undefined | null,
+	user?: ResolverInputTypes["users_bool_exp"] | undefined | null,
+	user_id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null
+};
+	/** unique or primary key constraints on table "member_epoch_pgives" */
+["member_epoch_pgives_constraint"]:member_epoch_pgives_constraint;
+	/** input type for incrementing numeric columns in table "member_epoch_pgives" */
+["member_epoch_pgives_inc_input"]: {
+	epoch_id?: number | undefined | null,
+	gives_received?: number | undefined | null,
+	id?: number | undefined | null,
+	normalized_pgive?: ResolverInputTypes["numeric"] | undefined | null,
+	opt_out_bonus?: ResolverInputTypes["numeric"] | undefined | null,
+	pgive?: ResolverInputTypes["numeric"] | undefined | null,
+	user_id?: number | undefined | null
+};
+	/** input type for inserting data into table "member_epoch_pgives" */
+["member_epoch_pgives_insert_input"]: {
+	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	epoch?: ResolverInputTypes["epochs_obj_rel_insert_input"] | undefined | null,
+	epoch_id?: number | undefined | null,
+	gives_received?: number | undefined | null,
+	id?: number | undefined | null,
+	normalized_pgive?: ResolverInputTypes["numeric"] | undefined | null,
+	opt_out_bonus?: ResolverInputTypes["numeric"] | undefined | null,
+	pgive?: ResolverInputTypes["numeric"] | undefined | null,
+	user?: ResolverInputTypes["users_obj_rel_insert_input"] | undefined | null,
+	user_id?: number | undefined | null
+};
+	/** aggregate max on columns */
+["member_epoch_pgives_max_fields"]: AliasType<{
+	created_at?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate min on columns */
+["member_epoch_pgives_min_fields"]: AliasType<{
+	created_at?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** response of any mutation on the table "member_epoch_pgives" */
+["member_epoch_pgives_mutation_response"]: AliasType<{
+	/** number of rows affected by the mutation */
+	affected_rows?:boolean | `@${string}`,
+	/** data from the rows affected by the mutation */
+	returning?:ResolverInputTypes["member_epoch_pgives"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** on_conflict condition type for table "member_epoch_pgives" */
+["member_epoch_pgives_on_conflict"]: {
+	constraint: ResolverInputTypes["member_epoch_pgives_constraint"],
+	update_columns: Array<ResolverInputTypes["member_epoch_pgives_update_column"]>,
+	where?: ResolverInputTypes["member_epoch_pgives_bool_exp"] | undefined | null
+};
+	/** Ordering options when selecting data from "member_epoch_pgives". */
+["member_epoch_pgives_order_by"]: {
+	created_at?: ResolverInputTypes["order_by"] | undefined | null,
+	epoch?: ResolverInputTypes["epochs_order_by"] | undefined | null,
+	epoch_id?: ResolverInputTypes["order_by"] | undefined | null,
+	gives_received?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	normalized_pgive?: ResolverInputTypes["order_by"] | undefined | null,
+	opt_out_bonus?: ResolverInputTypes["order_by"] | undefined | null,
+	pgive?: ResolverInputTypes["order_by"] | undefined | null,
+	user?: ResolverInputTypes["users_order_by"] | undefined | null,
+	user_id?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** primary key columns input for table: member_epoch_pgives */
+["member_epoch_pgives_pk_columns_input"]: {
+	id: number
+};
+	/** select columns of table "member_epoch_pgives" */
+["member_epoch_pgives_select_column"]:member_epoch_pgives_select_column;
+	/** input type for updating data in table "member_epoch_pgives" */
+["member_epoch_pgives_set_input"]: {
+	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	epoch_id?: number | undefined | null,
+	gives_received?: number | undefined | null,
+	id?: number | undefined | null,
+	normalized_pgive?: ResolverInputTypes["numeric"] | undefined | null,
+	opt_out_bonus?: ResolverInputTypes["numeric"] | undefined | null,
+	pgive?: ResolverInputTypes["numeric"] | undefined | null,
+	user_id?: number | undefined | null
+};
+	/** aggregate stddev on columns */
+["member_epoch_pgives_stddev_fields"]: AliasType<{
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_pop on columns */
+["member_epoch_pgives_stddev_pop_fields"]: AliasType<{
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_samp on columns */
+["member_epoch_pgives_stddev_samp_fields"]: AliasType<{
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Streaming cursor of the table "member_epoch_pgives" */
+["member_epoch_pgives_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ResolverInputTypes["member_epoch_pgives_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null
+};
+	/** Initial value of the column from where the streaming should start */
+["member_epoch_pgives_stream_cursor_value_input"]: {
+	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	epoch_id?: number | undefined | null,
+	gives_received?: number | undefined | null,
+	id?: number | undefined | null,
+	normalized_pgive?: ResolverInputTypes["numeric"] | undefined | null,
+	opt_out_bonus?: ResolverInputTypes["numeric"] | undefined | null,
+	pgive?: ResolverInputTypes["numeric"] | undefined | null,
+	user_id?: number | undefined | null
+};
+	/** aggregate sum on columns */
+["member_epoch_pgives_sum_fields"]: AliasType<{
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** update columns of table "member_epoch_pgives" */
+["member_epoch_pgives_update_column"]:member_epoch_pgives_update_column;
+	["member_epoch_pgives_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["member_epoch_pgives_inc_input"] | undefined | null,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["member_epoch_pgives_set_input"] | undefined | null,
+	where: ResolverInputTypes["member_epoch_pgives_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["member_epoch_pgives_var_pop_fields"]: AliasType<{
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate var_samp on columns */
+["member_epoch_pgives_var_samp_fields"]: AliasType<{
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate variance on columns */
+["member_epoch_pgives_variance_fields"]: AliasType<{
+	epoch_id?:boolean | `@${string}`,
+	gives_received?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	normalized_pgive?:boolean | `@${string}`,
+	opt_out_bonus?:boolean | `@${string}`,
+	pgive?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	/** mutation root */
 ["mutation_root"]: AliasType<{
 adminUpdateUser?: [{	payload: ResolverInputTypes["AdminUpdateUserInput"]},ResolverInputTypes["UserResponse"]],
@@ -18384,7 +21280,6 @@ createCircle?: [{	payload: ResolverInputTypes["CreateCircleInput"]},ResolverInpu
 createEpoch?: [{	payload: ResolverInputTypes["CreateEpochInput"]},ResolverInputTypes["EpochResponse"]],
 createNominee?: [{	payload: ResolverInputTypes["CreateNomineeInput"]},ResolverInputTypes["CreateNomineeResponse"]],
 	createSampleCircle?:ResolverInputTypes["CreateSampleCircleResponse"],
-createUser?: [{	payload: ResolverInputTypes["CreateUserInput"]},ResolverInputTypes["UserResponse"]],
 createUserWithToken?: [{	payload: ResolverInputTypes["CreateUserWithTokenInput"]},ResolverInputTypes["UserResponse"]],
 createUsers?: [{	payload: ResolverInputTypes["CreateUsersInput"]},ResolverInputTypes["UserResponse"]],
 createVault?: [{	payload: ResolverInputTypes["CreateVaultInput"]},ResolverInputTypes["VaultResponse"]],
@@ -18420,6 +21315,9 @@ delete_claims_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["c
 delete_contributions?: [{	/** filter the rows which have to be deleted */
 	where: ResolverInputTypes["contributions_bool_exp"]},ResolverInputTypes["contributions_mutation_response"]],
 delete_contributions_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["contributions"]],
+delete_discord_circle_api_tokens?: [{	/** filter the rows which have to be deleted */
+	where: ResolverInputTypes["discord_circle_api_tokens_bool_exp"]},ResolverInputTypes["discord_circle_api_tokens_mutation_response"]],
+delete_discord_circle_api_tokens_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["discord_circle_api_tokens"]],
 delete_discord_roles_circles?: [{	/** filter the rows which have to be deleted */
 	where: ResolverInputTypes["discord_roles_circles_bool_exp"]},ResolverInputTypes["discord_roles_circles_mutation_response"]],
 delete_discord_roles_circles_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["discord_roles_circles"]],
@@ -18429,6 +21327,9 @@ delete_discord_users_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputT
 delete_distributions?: [{	/** filter the rows which have to be deleted */
 	where: ResolverInputTypes["distributions_bool_exp"]},ResolverInputTypes["distributions_mutation_response"]],
 delete_distributions_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["distributions"]],
+delete_epoch_pgive_data?: [{	/** filter the rows which have to be deleted */
+	where: ResolverInputTypes["epoch_pgive_data_bool_exp"]},ResolverInputTypes["epoch_pgive_data_mutation_response"]],
+delete_epoch_pgive_data_by_pk?: [{	id: number},ResolverInputTypes["epoch_pgive_data"]],
 delete_epochs?: [{	/** filter the rows which have to be deleted */
 	where: ResolverInputTypes["epochs_bool_exp"]},ResolverInputTypes["epochs_mutation_response"]],
 delete_epochs_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["epochs"]],
@@ -18440,6 +21341,15 @@ delete_histories_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes
 delete_interaction_events?: [{	/** filter the rows which have to be deleted */
 	where: ResolverInputTypes["interaction_events_bool_exp"]},ResolverInputTypes["interaction_events_mutation_response"]],
 delete_interaction_events_by_pk?: [{	id: number},ResolverInputTypes["interaction_events"]],
+delete_locked_token_distribution_gifts?: [{	/** filter the rows which have to be deleted */
+	where: ResolverInputTypes["locked_token_distribution_gifts_bool_exp"]},ResolverInputTypes["locked_token_distribution_gifts_mutation_response"]],
+delete_locked_token_distribution_gifts_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["locked_token_distribution_gifts"]],
+delete_locked_token_distributions?: [{	/** filter the rows which have to be deleted */
+	where: ResolverInputTypes["locked_token_distributions_bool_exp"]},ResolverInputTypes["locked_token_distributions_mutation_response"]],
+delete_locked_token_distributions_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["locked_token_distributions"]],
+delete_member_epoch_pgives?: [{	/** filter the rows which have to be deleted */
+	where: ResolverInputTypes["member_epoch_pgives_bool_exp"]},ResolverInputTypes["member_epoch_pgives_mutation_response"]],
+delete_member_epoch_pgives_by_pk?: [{	id: number},ResolverInputTypes["member_epoch_pgives"]],
 delete_nominees?: [{	/** filter the rows which have to be deleted */
 	where: ResolverInputTypes["nominees_bool_exp"]},ResolverInputTypes["nominees_mutation_response"]],
 delete_nominees_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["nominees"]],
@@ -18534,6 +21444,12 @@ insert_contributions?: [{	/** the rows to be inserted */
 insert_contributions_one?: [{	/** the row to be inserted */
 	object: ResolverInputTypes["contributions_insert_input"],	/** upsert condition */
 	on_conflict?: ResolverInputTypes["contributions_on_conflict"] | undefined | null},ResolverInputTypes["contributions"]],
+insert_discord_circle_api_tokens?: [{	/** the rows to be inserted */
+	objects: Array<ResolverInputTypes["discord_circle_api_tokens_insert_input"]>,	/** upsert condition */
+	on_conflict?: ResolverInputTypes["discord_circle_api_tokens_on_conflict"] | undefined | null},ResolverInputTypes["discord_circle_api_tokens_mutation_response"]],
+insert_discord_circle_api_tokens_one?: [{	/** the row to be inserted */
+	object: ResolverInputTypes["discord_circle_api_tokens_insert_input"],	/** upsert condition */
+	on_conflict?: ResolverInputTypes["discord_circle_api_tokens_on_conflict"] | undefined | null},ResolverInputTypes["discord_circle_api_tokens"]],
 insert_discord_roles_circles?: [{	/** the rows to be inserted */
 	objects: Array<ResolverInputTypes["discord_roles_circles_insert_input"]>,	/** upsert condition */
 	on_conflict?: ResolverInputTypes["discord_roles_circles_on_conflict"] | undefined | null},ResolverInputTypes["discord_roles_circles_mutation_response"]],
@@ -18552,6 +21468,12 @@ insert_distributions?: [{	/** the rows to be inserted */
 insert_distributions_one?: [{	/** the row to be inserted */
 	object: ResolverInputTypes["distributions_insert_input"],	/** upsert condition */
 	on_conflict?: ResolverInputTypes["distributions_on_conflict"] | undefined | null},ResolverInputTypes["distributions"]],
+insert_epoch_pgive_data?: [{	/** the rows to be inserted */
+	objects: Array<ResolverInputTypes["epoch_pgive_data_insert_input"]>,	/** upsert condition */
+	on_conflict?: ResolverInputTypes["epoch_pgive_data_on_conflict"] | undefined | null},ResolverInputTypes["epoch_pgive_data_mutation_response"]],
+insert_epoch_pgive_data_one?: [{	/** the row to be inserted */
+	object: ResolverInputTypes["epoch_pgive_data_insert_input"],	/** upsert condition */
+	on_conflict?: ResolverInputTypes["epoch_pgive_data_on_conflict"] | undefined | null},ResolverInputTypes["epoch_pgive_data"]],
 insert_epochs?: [{	/** the rows to be inserted */
 	objects: Array<ResolverInputTypes["epochs_insert_input"]>,	/** upsert condition */
 	on_conflict?: ResolverInputTypes["epochs_on_conflict"] | undefined | null},ResolverInputTypes["epochs_mutation_response"]],
@@ -18574,6 +21496,24 @@ insert_interaction_events?: [{	/** the rows to be inserted */
 insert_interaction_events_one?: [{	/** the row to be inserted */
 	object: ResolverInputTypes["interaction_events_insert_input"],	/** upsert condition */
 	on_conflict?: ResolverInputTypes["interaction_events_on_conflict"] | undefined | null},ResolverInputTypes["interaction_events"]],
+insert_locked_token_distribution_gifts?: [{	/** the rows to be inserted */
+	objects: Array<ResolverInputTypes["locked_token_distribution_gifts_insert_input"]>,	/** upsert condition */
+	on_conflict?: ResolverInputTypes["locked_token_distribution_gifts_on_conflict"] | undefined | null},ResolverInputTypes["locked_token_distribution_gifts_mutation_response"]],
+insert_locked_token_distribution_gifts_one?: [{	/** the row to be inserted */
+	object: ResolverInputTypes["locked_token_distribution_gifts_insert_input"],	/** upsert condition */
+	on_conflict?: ResolverInputTypes["locked_token_distribution_gifts_on_conflict"] | undefined | null},ResolverInputTypes["locked_token_distribution_gifts"]],
+insert_locked_token_distributions?: [{	/** the rows to be inserted */
+	objects: Array<ResolverInputTypes["locked_token_distributions_insert_input"]>,	/** upsert condition */
+	on_conflict?: ResolverInputTypes["locked_token_distributions_on_conflict"] | undefined | null},ResolverInputTypes["locked_token_distributions_mutation_response"]],
+insert_locked_token_distributions_one?: [{	/** the row to be inserted */
+	object: ResolverInputTypes["locked_token_distributions_insert_input"],	/** upsert condition */
+	on_conflict?: ResolverInputTypes["locked_token_distributions_on_conflict"] | undefined | null},ResolverInputTypes["locked_token_distributions"]],
+insert_member_epoch_pgives?: [{	/** the rows to be inserted */
+	objects: Array<ResolverInputTypes["member_epoch_pgives_insert_input"]>,	/** upsert condition */
+	on_conflict?: ResolverInputTypes["member_epoch_pgives_on_conflict"] | undefined | null},ResolverInputTypes["member_epoch_pgives_mutation_response"]],
+insert_member_epoch_pgives_one?: [{	/** the row to be inserted */
+	object: ResolverInputTypes["member_epoch_pgives_insert_input"],	/** upsert condition */
+	on_conflict?: ResolverInputTypes["member_epoch_pgives_on_conflict"] | undefined | null},ResolverInputTypes["member_epoch_pgives"]],
 insert_nominees?: [{	/** the rows to be inserted */
 	objects: Array<ResolverInputTypes["nominees_insert_input"]>,	/** upsert condition */
 	on_conflict?: ResolverInputTypes["nominees_on_conflict"] | undefined | null},ResolverInputTypes["nominees_mutation_response"]],
@@ -18664,6 +21604,7 @@ updateAllocations?: [{	payload: ResolverInputTypes["Allocations"]},ResolverInput
 updateCircle?: [{	payload: ResolverInputTypes["UpdateCircleInput"]},ResolverInputTypes["UpdateCircleOutput"]],
 updateContribution?: [{	payload: ResolverInputTypes["UpdateContributionInput"]},ResolverInputTypes["UpdateContributionResponse"]],
 updateEpoch?: [{	payload: ResolverInputTypes["UpdateEpochInput"]},ResolverInputTypes["EpochResponse"]],
+updateProfileName?: [{	payload: ResolverInputTypes["UpdateProfileNameInput"]},ResolverInputTypes["UpdateProfileNameResponse"]],
 updateTeammates?: [{	payload: ResolverInputTypes["UpdateTeammatesInput"]},ResolverInputTypes["UpdateTeammatesResponse"]],
 updateUser?: [{	payload: ResolverInputTypes["UpdateUserInput"]},ResolverInputTypes["UserResponse"]],
 update_burns?: [{	/** increments the numeric columns with given value of the filtered values */
@@ -18744,6 +21685,15 @@ update_contributions_by_pk?: [{	/** increments the numeric columns with given va
 	_set?: ResolverInputTypes["contributions_set_input"] | undefined | null,	pk_columns: ResolverInputTypes["contributions_pk_columns_input"]},ResolverInputTypes["contributions"]],
 update_contributions_many?: [{	/** updates to execute, in order */
 	updates: Array<ResolverInputTypes["contributions_updates"]>},ResolverInputTypes["contributions_mutation_response"]],
+update_discord_circle_api_tokens?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["discord_circle_api_tokens_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["discord_circle_api_tokens_set_input"] | undefined | null,	/** filter the rows which have to be updated */
+	where: ResolverInputTypes["discord_circle_api_tokens_bool_exp"]},ResolverInputTypes["discord_circle_api_tokens_mutation_response"]],
+update_discord_circle_api_tokens_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["discord_circle_api_tokens_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["discord_circle_api_tokens_set_input"] | undefined | null,	pk_columns: ResolverInputTypes["discord_circle_api_tokens_pk_columns_input"]},ResolverInputTypes["discord_circle_api_tokens"]],
+update_discord_circle_api_tokens_many?: [{	/** updates to execute, in order */
+	updates: Array<ResolverInputTypes["discord_circle_api_tokens_updates"]>},ResolverInputTypes["discord_circle_api_tokens_mutation_response"]],
 update_discord_roles_circles?: [{	/** increments the numeric columns with given value of the filtered values */
 	_inc?: ResolverInputTypes["discord_roles_circles_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["discord_roles_circles_set_input"] | undefined | null,	/** filter the rows which have to be updated */
@@ -18781,6 +21731,15 @@ update_distributions_by_pk?: [{	/** append existing jsonb value of filtered colu
 	_set?: ResolverInputTypes["distributions_set_input"] | undefined | null,	pk_columns: ResolverInputTypes["distributions_pk_columns_input"]},ResolverInputTypes["distributions"]],
 update_distributions_many?: [{	/** updates to execute, in order */
 	updates: Array<ResolverInputTypes["distributions_updates"]>},ResolverInputTypes["distributions_mutation_response"]],
+update_epoch_pgive_data?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["epoch_pgive_data_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["epoch_pgive_data_set_input"] | undefined | null,	/** filter the rows which have to be updated */
+	where: ResolverInputTypes["epoch_pgive_data_bool_exp"]},ResolverInputTypes["epoch_pgive_data_mutation_response"]],
+update_epoch_pgive_data_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["epoch_pgive_data_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["epoch_pgive_data_set_input"] | undefined | null,	pk_columns: ResolverInputTypes["epoch_pgive_data_pk_columns_input"]},ResolverInputTypes["epoch_pgive_data"]],
+update_epoch_pgive_data_many?: [{	/** updates to execute, in order */
+	updates: Array<ResolverInputTypes["epoch_pgive_data_updates"]>},ResolverInputTypes["epoch_pgive_data_mutation_response"]],
 update_epochs?: [{	/** increments the numeric columns with given value of the filtered values */
 	_inc?: ResolverInputTypes["epochs_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["epochs_set_input"] | undefined | null,	/** filter the rows which have to be updated */
@@ -18824,6 +21783,33 @@ update_interaction_events_by_pk?: [{	/** append existing jsonb value of filtered
 	_set?: ResolverInputTypes["interaction_events_set_input"] | undefined | null,	pk_columns: ResolverInputTypes["interaction_events_pk_columns_input"]},ResolverInputTypes["interaction_events"]],
 update_interaction_events_many?: [{	/** updates to execute, in order */
 	updates: Array<ResolverInputTypes["interaction_events_updates"]>},ResolverInputTypes["interaction_events_mutation_response"]],
+update_locked_token_distribution_gifts?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["locked_token_distribution_gifts_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["locked_token_distribution_gifts_set_input"] | undefined | null,	/** filter the rows which have to be updated */
+	where: ResolverInputTypes["locked_token_distribution_gifts_bool_exp"]},ResolverInputTypes["locked_token_distribution_gifts_mutation_response"]],
+update_locked_token_distribution_gifts_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["locked_token_distribution_gifts_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["locked_token_distribution_gifts_set_input"] | undefined | null,	pk_columns: ResolverInputTypes["locked_token_distribution_gifts_pk_columns_input"]},ResolverInputTypes["locked_token_distribution_gifts"]],
+update_locked_token_distribution_gifts_many?: [{	/** updates to execute, in order */
+	updates: Array<ResolverInputTypes["locked_token_distribution_gifts_updates"]>},ResolverInputTypes["locked_token_distribution_gifts_mutation_response"]],
+update_locked_token_distributions?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["locked_token_distributions_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["locked_token_distributions_set_input"] | undefined | null,	/** filter the rows which have to be updated */
+	where: ResolverInputTypes["locked_token_distributions_bool_exp"]},ResolverInputTypes["locked_token_distributions_mutation_response"]],
+update_locked_token_distributions_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["locked_token_distributions_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["locked_token_distributions_set_input"] | undefined | null,	pk_columns: ResolverInputTypes["locked_token_distributions_pk_columns_input"]},ResolverInputTypes["locked_token_distributions"]],
+update_locked_token_distributions_many?: [{	/** updates to execute, in order */
+	updates: Array<ResolverInputTypes["locked_token_distributions_updates"]>},ResolverInputTypes["locked_token_distributions_mutation_response"]],
+update_member_epoch_pgives?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["member_epoch_pgives_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["member_epoch_pgives_set_input"] | undefined | null,	/** filter the rows which have to be updated */
+	where: ResolverInputTypes["member_epoch_pgives_bool_exp"]},ResolverInputTypes["member_epoch_pgives_mutation_response"]],
+update_member_epoch_pgives_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["member_epoch_pgives_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["member_epoch_pgives_set_input"] | undefined | null,	pk_columns: ResolverInputTypes["member_epoch_pgives_pk_columns_input"]},ResolverInputTypes["member_epoch_pgives"]],
+update_member_epoch_pgives_many?: [{	/** updates to execute, in order */
+	updates: Array<ResolverInputTypes["member_epoch_pgives_updates"]>},ResolverInputTypes["member_epoch_pgives_mutation_response"]],
 update_nominees?: [{	/** increments the numeric columns with given value of the filtered values */
 	_inc?: ResolverInputTypes["nominees_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["nominees_set_input"] | undefined | null,	/** filter the rows which have to be updated */
@@ -18980,6 +21966,8 @@ nominations_aggregate?: [{	/** distinct select on columns */
 	where?: ResolverInputTypes["vouches_bool_exp"] | undefined | null},ResolverInputTypes["vouches_aggregate"]],
 	/** An object relationship */
 	nominator?:ResolverInputTypes["users"],
+	/** An object relationship */
+	profile?:ResolverInputTypes["profiles"],
 	updated_at?:boolean | `@${string}`,
 	/** An object relationship */
 	user?:ResolverInputTypes["users"],
@@ -19063,6 +22051,7 @@ count?: [{	columns?: Array<ResolverInputTypes["nominees_select_column"]> | undef
 	nominated_date?: ResolverInputTypes["date_comparison_exp"] | undefined | null,
 	nominations?: ResolverInputTypes["vouches_bool_exp"] | undefined | null,
 	nominator?: ResolverInputTypes["users_bool_exp"] | undefined | null,
+	profile?: ResolverInputTypes["profiles_bool_exp"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	user?: ResolverInputTypes["users_bool_exp"] | undefined | null,
 	user_id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
@@ -19093,6 +22082,7 @@ count?: [{	columns?: Array<ResolverInputTypes["nominees_select_column"]> | undef
 	nominated_date?: ResolverInputTypes["date"] | undefined | null,
 	nominations?: ResolverInputTypes["vouches_arr_rel_insert_input"] | undefined | null,
 	nominator?: ResolverInputTypes["users_obj_rel_insert_input"] | undefined | null,
+	profile?: ResolverInputTypes["profiles_obj_rel_insert_input"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamp"] | undefined | null,
 	user?: ResolverInputTypes["users_obj_rel_insert_input"] | undefined | null,
 	user_id?: number | undefined | null,
@@ -19195,6 +22185,7 @@ count?: [{	columns?: Array<ResolverInputTypes["nominees_select_column"]> | undef
 	nominated_date?: ResolverInputTypes["order_by"] | undefined | null,
 	nominations_aggregate?: ResolverInputTypes["vouches_aggregate_order_by"] | undefined | null,
 	nominator?: ResolverInputTypes["users_order_by"] | undefined | null,
+	profile?: ResolverInputTypes["profiles_order_by"] | undefined | null,
 	updated_at?: ResolverInputTypes["order_by"] | undefined | null,
 	user?: ResolverInputTypes["users_order_by"] | undefined | null,
 	user_id?: ResolverInputTypes["order_by"] | undefined | null,
@@ -20720,7 +23711,6 @@ count?: [{	columns?: Array<ResolverInputTypes["personal_access_tokens_select_col
 	/** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
 ["profiles"]: AliasType<{
 	address?:boolean | `@${string}`,
-	ann_power?:boolean | `@${string}`,
 	avatar?:boolean | `@${string}`,
 	background?:boolean | `@${string}`,
 	bio?:boolean | `@${string}`,
@@ -20737,6 +23727,7 @@ claims_aggregate?: [{	/** distinct select on columns */
 	offset?: number | undefined | null,	/** sort the rows by one or more columns */
 	order_by?: Array<ResolverInputTypes["claims_order_by"]> | undefined | null,	/** filter the rows returned */
 	where?: ResolverInputTypes["claims_bool_exp"] | undefined | null},ResolverInputTypes["claims_aggregate"]],
+	connector?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
 	discord_username?:boolean | `@${string}`,
 distributions?: [{	/** distinct select on columns */
@@ -20755,6 +23746,18 @@ distributions_aggregate?: [{	/** distinct select on columns */
 	id?:boolean | `@${string}`,
 	medium_username?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
+nominees?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["nominees_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["nominees_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["nominees_bool_exp"] | undefined | null},ResolverInputTypes["nominees"]],
+nominees_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["nominees_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["nominees_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["nominees_bool_exp"] | undefined | null},ResolverInputTypes["nominees_aggregate"]],
 	skills?:boolean | `@${string}`,
 	telegram_username?:boolean | `@${string}`,
 	twitter_username?:boolean | `@${string}`,
@@ -20830,19 +23833,20 @@ count?: [{	columns?: Array<ResolverInputTypes["profiles_select_column"]> | undef
 	_not?: ResolverInputTypes["profiles_bool_exp"] | undefined | null,
 	_or?: Array<ResolverInputTypes["profiles_bool_exp"]> | undefined | null,
 	address?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
-	ann_power?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	avatar?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	background?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	bio?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	chat_id?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	claims?: ResolverInputTypes["claims_bool_exp"] | undefined | null,
+	connector?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	discord_username?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	distributions?: ResolverInputTypes["distributions_bool_exp"] | undefined | null,
 	github_username?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
 	medium_username?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
-	name?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
+	name?: ResolverInputTypes["citext_comparison_exp"] | undefined | null,
+	nominees?: ResolverInputTypes["nominees_bool_exp"] | undefined | null,
 	skills?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	telegram_username?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	twitter_username?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
@@ -20861,19 +23865,20 @@ count?: [{	columns?: Array<ResolverInputTypes["profiles_select_column"]> | undef
 	/** input type for inserting data into table "profiles" */
 ["profiles_insert_input"]: {
 	address?: string | undefined | null,
-	ann_power?: boolean | undefined | null,
 	avatar?: string | undefined | null,
 	background?: string | undefined | null,
 	bio?: string | undefined | null,
 	chat_id?: string | undefined | null,
 	claims?: ResolverInputTypes["claims_arr_rel_insert_input"] | undefined | null,
+	connector?: string | undefined | null,
 	created_at?: ResolverInputTypes["timestamp"] | undefined | null,
 	discord_username?: string | undefined | null,
 	distributions?: ResolverInputTypes["distributions_arr_rel_insert_input"] | undefined | null,
 	github_username?: string | undefined | null,
 	id?: ResolverInputTypes["bigint"] | undefined | null,
 	medium_username?: string | undefined | null,
-	name?: string | undefined | null,
+	name?: ResolverInputTypes["citext"] | undefined | null,
+	nominees?: ResolverInputTypes["nominees_arr_rel_insert_input"] | undefined | null,
 	skills?: string | undefined | null,
 	telegram_username?: string | undefined | null,
 	twitter_username?: string | undefined | null,
@@ -20890,6 +23895,7 @@ count?: [{	columns?: Array<ResolverInputTypes["profiles_select_column"]> | undef
 	background?:boolean | `@${string}`,
 	bio?:boolean | `@${string}`,
 	chat_id?:boolean | `@${string}`,
+	connector?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
 	discord_username?:boolean | `@${string}`,
 	github_username?:boolean | `@${string}`,
@@ -20910,6 +23916,7 @@ count?: [{	columns?: Array<ResolverInputTypes["profiles_select_column"]> | undef
 	background?:boolean | `@${string}`,
 	bio?:boolean | `@${string}`,
 	chat_id?:boolean | `@${string}`,
+	connector?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
 	discord_username?:boolean | `@${string}`,
 	github_username?:boolean | `@${string}`,
@@ -20946,12 +23953,12 @@ count?: [{	columns?: Array<ResolverInputTypes["profiles_select_column"]> | undef
 	/** Ordering options when selecting data from "profiles". */
 ["profiles_order_by"]: {
 	address?: ResolverInputTypes["order_by"] | undefined | null,
-	ann_power?: ResolverInputTypes["order_by"] | undefined | null,
 	avatar?: ResolverInputTypes["order_by"] | undefined | null,
 	background?: ResolverInputTypes["order_by"] | undefined | null,
 	bio?: ResolverInputTypes["order_by"] | undefined | null,
 	chat_id?: ResolverInputTypes["order_by"] | undefined | null,
 	claims_aggregate?: ResolverInputTypes["claims_aggregate_order_by"] | undefined | null,
+	connector?: ResolverInputTypes["order_by"] | undefined | null,
 	created_at?: ResolverInputTypes["order_by"] | undefined | null,
 	discord_username?: ResolverInputTypes["order_by"] | undefined | null,
 	distributions_aggregate?: ResolverInputTypes["distributions_aggregate_order_by"] | undefined | null,
@@ -20959,6 +23966,7 @@ count?: [{	columns?: Array<ResolverInputTypes["profiles_select_column"]> | undef
 	id?: ResolverInputTypes["order_by"] | undefined | null,
 	medium_username?: ResolverInputTypes["order_by"] | undefined | null,
 	name?: ResolverInputTypes["order_by"] | undefined | null,
+	nominees_aggregate?: ResolverInputTypes["nominees_aggregate_order_by"] | undefined | null,
 	skills?: ResolverInputTypes["order_by"] | undefined | null,
 	telegram_username?: ResolverInputTypes["order_by"] | undefined | null,
 	twitter_username?: ResolverInputTypes["order_by"] | undefined | null,
@@ -20977,17 +23985,17 @@ count?: [{	columns?: Array<ResolverInputTypes["profiles_select_column"]> | undef
 	/** input type for updating data in table "profiles" */
 ["profiles_set_input"]: {
 	address?: string | undefined | null,
-	ann_power?: boolean | undefined | null,
 	avatar?: string | undefined | null,
 	background?: string | undefined | null,
 	bio?: string | undefined | null,
 	chat_id?: string | undefined | null,
+	connector?: string | undefined | null,
 	created_at?: ResolverInputTypes["timestamp"] | undefined | null,
 	discord_username?: string | undefined | null,
 	github_username?: string | undefined | null,
 	id?: ResolverInputTypes["bigint"] | undefined | null,
 	medium_username?: string | undefined | null,
-	name?: string | undefined | null,
+	name?: ResolverInputTypes["citext"] | undefined | null,
 	skills?: string | undefined | null,
 	telegram_username?: string | undefined | null,
 	twitter_username?: string | undefined | null,
@@ -21019,17 +24027,17 @@ count?: [{	columns?: Array<ResolverInputTypes["profiles_select_column"]> | undef
 	/** Initial value of the column from where the streaming should start */
 ["profiles_stream_cursor_value_input"]: {
 	address?: string | undefined | null,
-	ann_power?: boolean | undefined | null,
 	avatar?: string | undefined | null,
 	background?: string | undefined | null,
 	bio?: string | undefined | null,
 	chat_id?: string | undefined | null,
+	connector?: string | undefined | null,
 	created_at?: ResolverInputTypes["timestamp"] | undefined | null,
 	discord_username?: string | undefined | null,
 	github_username?: string | undefined | null,
 	id?: ResolverInputTypes["bigint"] | undefined | null,
 	medium_username?: string | undefined | null,
-	name?: string | undefined | null,
+	name?: ResolverInputTypes["citext"] | undefined | null,
 	skills?: string | undefined | null,
 	telegram_username?: string | undefined | null,
 	twitter_username?: string | undefined | null,
@@ -21182,6 +24190,19 @@ contributions_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ResolverInputTypes["contributions_order_by"]> | undefined | null,	/** filter the rows returned */
 	where?: ResolverInputTypes["contributions_bool_exp"] | undefined | null},ResolverInputTypes["contributions_aggregate"]],
 contributions_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["contributions"]],
+discord_circle_api_tokens?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["discord_circle_api_tokens_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["discord_circle_api_tokens_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["discord_circle_api_tokens_bool_exp"] | undefined | null},ResolverInputTypes["discord_circle_api_tokens"]],
+discord_circle_api_tokens_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["discord_circle_api_tokens_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["discord_circle_api_tokens_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["discord_circle_api_tokens_bool_exp"] | undefined | null},ResolverInputTypes["discord_circle_api_tokens_aggregate"]],
+discord_circle_api_tokens_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["discord_circle_api_tokens"]],
 discord_roles_circles?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["discord_roles_circles_select_column"]> | undefined | null,	/** limit the number of rows returned */
 	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
@@ -21221,6 +24242,19 @@ distributions_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ResolverInputTypes["distributions_order_by"]> | undefined | null,	/** filter the rows returned */
 	where?: ResolverInputTypes["distributions_bool_exp"] | undefined | null},ResolverInputTypes["distributions_aggregate"]],
 distributions_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["distributions"]],
+epoch_pgive_data?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["epoch_pgive_data_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["epoch_pgive_data_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["epoch_pgive_data_bool_exp"] | undefined | null},ResolverInputTypes["epoch_pgive_data"]],
+epoch_pgive_data_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["epoch_pgive_data_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["epoch_pgive_data_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["epoch_pgive_data_bool_exp"] | undefined | null},ResolverInputTypes["epoch_pgive_data_aggregate"]],
+epoch_pgive_data_by_pk?: [{	id: number},ResolverInputTypes["epoch_pgive_data"]],
 epochs?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["epochs_select_column"]> | undefined | null,	/** limit the number of rows returned */
 	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
@@ -21272,6 +24306,45 @@ interaction_events_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ResolverInputTypes["interaction_events_order_by"]> | undefined | null,	/** filter the rows returned */
 	where?: ResolverInputTypes["interaction_events_bool_exp"] | undefined | null},ResolverInputTypes["interaction_events_aggregate"]],
 interaction_events_by_pk?: [{	id: number},ResolverInputTypes["interaction_events"]],
+locked_token_distribution_gifts?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["locked_token_distribution_gifts_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["locked_token_distribution_gifts_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null},ResolverInputTypes["locked_token_distribution_gifts"]],
+locked_token_distribution_gifts_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["locked_token_distribution_gifts_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["locked_token_distribution_gifts_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null},ResolverInputTypes["locked_token_distribution_gifts_aggregate"]],
+locked_token_distribution_gifts_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["locked_token_distribution_gifts"]],
+locked_token_distributions?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["locked_token_distributions_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["locked_token_distributions_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["locked_token_distributions_bool_exp"] | undefined | null},ResolverInputTypes["locked_token_distributions"]],
+locked_token_distributions_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["locked_token_distributions_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["locked_token_distributions_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["locked_token_distributions_bool_exp"] | undefined | null},ResolverInputTypes["locked_token_distributions_aggregate"]],
+locked_token_distributions_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["locked_token_distributions"]],
+member_epoch_pgives?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["member_epoch_pgives_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["member_epoch_pgives_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["member_epoch_pgives_bool_exp"] | undefined | null},ResolverInputTypes["member_epoch_pgives"]],
+member_epoch_pgives_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["member_epoch_pgives_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["member_epoch_pgives_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["member_epoch_pgives_bool_exp"] | undefined | null},ResolverInputTypes["member_epoch_pgives_aggregate"]],
+member_epoch_pgives_by_pk?: [{	id: number},ResolverInputTypes["member_epoch_pgives"]],
 nominees?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["nominees_select_column"]> | undefined | null,	/** limit the number of rows returned */
 	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
@@ -21349,6 +24422,7 @@ personal_access_tokens_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ResolverInputTypes["personal_access_tokens_order_by"]> | undefined | null,	/** filter the rows returned */
 	where?: ResolverInputTypes["personal_access_tokens_bool_exp"] | undefined | null},ResolverInputTypes["personal_access_tokens_aggregate"]],
 personal_access_tokens_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["personal_access_tokens"]],
+price_per_share?: [{	chain_id: number,	token_address?: string | undefined | null},boolean | `@${string}`],
 profiles?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["profiles_select_column"]> | undefined | null,	/** limit the number of rows returned */
 	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
@@ -21620,6 +24694,23 @@ contributions_stream?: [{	/** maximum number of rows returned in a single batch 
 	batch_size: number,	/** cursor to stream the results returned by the query */
 	cursor: Array<ResolverInputTypes["contributions_stream_cursor_input"] | undefined | null>,	/** filter the rows returned */
 	where?: ResolverInputTypes["contributions_bool_exp"] | undefined | null},ResolverInputTypes["contributions"]],
+discord_circle_api_tokens?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["discord_circle_api_tokens_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["discord_circle_api_tokens_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["discord_circle_api_tokens_bool_exp"] | undefined | null},ResolverInputTypes["discord_circle_api_tokens"]],
+discord_circle_api_tokens_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["discord_circle_api_tokens_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["discord_circle_api_tokens_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["discord_circle_api_tokens_bool_exp"] | undefined | null},ResolverInputTypes["discord_circle_api_tokens_aggregate"]],
+discord_circle_api_tokens_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["discord_circle_api_tokens"]],
+discord_circle_api_tokens_stream?: [{	/** maximum number of rows returned in a single batch */
+	batch_size: number,	/** cursor to stream the results returned by the query */
+	cursor: Array<ResolverInputTypes["discord_circle_api_tokens_stream_cursor_input"] | undefined | null>,	/** filter the rows returned */
+	where?: ResolverInputTypes["discord_circle_api_tokens_bool_exp"] | undefined | null},ResolverInputTypes["discord_circle_api_tokens"]],
 discord_roles_circles?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["discord_roles_circles_select_column"]> | undefined | null,	/** limit the number of rows returned */
 	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
@@ -21671,6 +24762,23 @@ distributions_stream?: [{	/** maximum number of rows returned in a single batch 
 	batch_size: number,	/** cursor to stream the results returned by the query */
 	cursor: Array<ResolverInputTypes["distributions_stream_cursor_input"] | undefined | null>,	/** filter the rows returned */
 	where?: ResolverInputTypes["distributions_bool_exp"] | undefined | null},ResolverInputTypes["distributions"]],
+epoch_pgive_data?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["epoch_pgive_data_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["epoch_pgive_data_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["epoch_pgive_data_bool_exp"] | undefined | null},ResolverInputTypes["epoch_pgive_data"]],
+epoch_pgive_data_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["epoch_pgive_data_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["epoch_pgive_data_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["epoch_pgive_data_bool_exp"] | undefined | null},ResolverInputTypes["epoch_pgive_data_aggregate"]],
+epoch_pgive_data_by_pk?: [{	id: number},ResolverInputTypes["epoch_pgive_data"]],
+epoch_pgive_data_stream?: [{	/** maximum number of rows returned in a single batch */
+	batch_size: number,	/** cursor to stream the results returned by the query */
+	cursor: Array<ResolverInputTypes["epoch_pgive_data_stream_cursor_input"] | undefined | null>,	/** filter the rows returned */
+	where?: ResolverInputTypes["epoch_pgive_data_bool_exp"] | undefined | null},ResolverInputTypes["epoch_pgive_data"]],
 epochs?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["epochs_select_column"]> | undefined | null,	/** limit the number of rows returned */
 	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
@@ -21738,6 +24846,57 @@ interaction_events_stream?: [{	/** maximum number of rows returned in a single b
 	batch_size: number,	/** cursor to stream the results returned by the query */
 	cursor: Array<ResolverInputTypes["interaction_events_stream_cursor_input"] | undefined | null>,	/** filter the rows returned */
 	where?: ResolverInputTypes["interaction_events_bool_exp"] | undefined | null},ResolverInputTypes["interaction_events"]],
+locked_token_distribution_gifts?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["locked_token_distribution_gifts_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["locked_token_distribution_gifts_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null},ResolverInputTypes["locked_token_distribution_gifts"]],
+locked_token_distribution_gifts_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["locked_token_distribution_gifts_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["locked_token_distribution_gifts_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null},ResolverInputTypes["locked_token_distribution_gifts_aggregate"]],
+locked_token_distribution_gifts_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["locked_token_distribution_gifts"]],
+locked_token_distribution_gifts_stream?: [{	/** maximum number of rows returned in a single batch */
+	batch_size: number,	/** cursor to stream the results returned by the query */
+	cursor: Array<ResolverInputTypes["locked_token_distribution_gifts_stream_cursor_input"] | undefined | null>,	/** filter the rows returned */
+	where?: ResolverInputTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null},ResolverInputTypes["locked_token_distribution_gifts"]],
+locked_token_distributions?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["locked_token_distributions_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["locked_token_distributions_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["locked_token_distributions_bool_exp"] | undefined | null},ResolverInputTypes["locked_token_distributions"]],
+locked_token_distributions_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["locked_token_distributions_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["locked_token_distributions_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["locked_token_distributions_bool_exp"] | undefined | null},ResolverInputTypes["locked_token_distributions_aggregate"]],
+locked_token_distributions_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["locked_token_distributions"]],
+locked_token_distributions_stream?: [{	/** maximum number of rows returned in a single batch */
+	batch_size: number,	/** cursor to stream the results returned by the query */
+	cursor: Array<ResolverInputTypes["locked_token_distributions_stream_cursor_input"] | undefined | null>,	/** filter the rows returned */
+	where?: ResolverInputTypes["locked_token_distributions_bool_exp"] | undefined | null},ResolverInputTypes["locked_token_distributions"]],
+member_epoch_pgives?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["member_epoch_pgives_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["member_epoch_pgives_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["member_epoch_pgives_bool_exp"] | undefined | null},ResolverInputTypes["member_epoch_pgives"]],
+member_epoch_pgives_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["member_epoch_pgives_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["member_epoch_pgives_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["member_epoch_pgives_bool_exp"] | undefined | null},ResolverInputTypes["member_epoch_pgives_aggregate"]],
+member_epoch_pgives_by_pk?: [{	id: number},ResolverInputTypes["member_epoch_pgives"]],
+member_epoch_pgives_stream?: [{	/** maximum number of rows returned in a single batch */
+	batch_size: number,	/** cursor to stream the results returned by the query */
+	cursor: Array<ResolverInputTypes["member_epoch_pgives_stream_cursor_input"] | undefined | null>,	/** filter the rows returned */
+	where?: ResolverInputTypes["member_epoch_pgives_bool_exp"] | undefined | null},ResolverInputTypes["member_epoch_pgives"]],
 nominees?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["nominees_select_column"]> | undefined | null,	/** limit the number of rows returned */
 	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
@@ -24024,6 +27183,7 @@ distributions_aggregate?: [{	/** distinct select on columns */
 	org_id?:boolean | `@${string}`,
 	/** An object relationship */
 	organization?:ResolverInputTypes["organizations"],
+	price_per_share?:boolean | `@${string}`,
 	/** An object relationship */
 	profile?:ResolverInputTypes["profiles"],
 	simple_token_address?:boolean | `@${string}`,
@@ -24805,6 +27965,7 @@ export type ModelTypes = {
 	["CreateEpochInput"]: {
 	circle_id: number,
 	days: number,
+	description?: string | undefined,
 	grant?: number | undefined,
 	repeat: number,
 	start_date: ModelTypes["timestamptz"]
@@ -24822,17 +27983,6 @@ export type ModelTypes = {
 	["CreateSampleCircleResponse"]: {
 		circle?: ModelTypes["circles"] | undefined,
 	id: number
-};
-	["CreateUserInput"]: {
-	address: string,
-	circle_id: number,
-	fixed_non_receiver?: boolean | undefined,
-	fixed_payment_amount?: number | undefined,
-	name: string,
-	non_giver?: boolean | undefined,
-	non_receiver?: boolean | undefined,
-	role?: number | undefined,
-	starting_tokens?: number | undefined
 };
 	["CreateUserWithTokenInput"]: {
 	name: string,
@@ -24981,6 +28131,7 @@ export type ModelTypes = {
 	name?: string | undefined,
 	nomination_days_limit?: number | undefined,
 	only_giver_vouch?: boolean | undefined,
+	show_pending_gives?: boolean | undefined,
 	team_sel_text?: string | undefined,
 	team_selection?: boolean | undefined,
 	token_name?: string | undefined,
@@ -25008,6 +28159,7 @@ export type ModelTypes = {
 	["UpdateEpochInput"]: {
 	circle_id: number,
 	days: number,
+	description?: string | undefined,
 	grant?: number | undefined,
 	id: number,
 	repeat: number,
@@ -25016,6 +28168,13 @@ export type ModelTypes = {
 	["UpdateOrgResponse"]: {
 		id: number,
 	org?: ModelTypes["organizations"] | undefined
+};
+	["UpdateProfileNameInput"]: {
+	name: string
+};
+	["UpdateProfileNameResponse"]: {
+		id: number,
+	profileName?: ModelTypes["profiles"] | undefined
 };
 	["UpdateProfileResponse"]: {
 		id: number,
@@ -27149,6 +30308,39 @@ export type ModelTypes = {
 	nomination_days_limit?: ModelTypes["order_by"] | undefined,
 	organization_id?: ModelTypes["order_by"] | undefined
 };
+	["citext"]:any;
+	/** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
+["citext_comparison_exp"]: {
+	_eq?: ModelTypes["citext"] | undefined,
+	_gt?: ModelTypes["citext"] | undefined,
+	_gte?: ModelTypes["citext"] | undefined,
+	/** does the column match the given case-insensitive pattern */
+	_ilike?: ModelTypes["citext"] | undefined,
+	_in?: Array<ModelTypes["citext"]> | undefined,
+	/** does the column match the given POSIX regular expression, case insensitive */
+	_iregex?: ModelTypes["citext"] | undefined,
+	_is_null?: boolean | undefined,
+	/** does the column match the given pattern */
+	_like?: ModelTypes["citext"] | undefined,
+	_lt?: ModelTypes["citext"] | undefined,
+	_lte?: ModelTypes["citext"] | undefined,
+	_neq?: ModelTypes["citext"] | undefined,
+	/** does the column NOT match the given case-insensitive pattern */
+	_nilike?: ModelTypes["citext"] | undefined,
+	_nin?: Array<ModelTypes["citext"]> | undefined,
+	/** does the column NOT match the given POSIX regular expression, case insensitive */
+	_niregex?: ModelTypes["citext"] | undefined,
+	/** does the column NOT match the given pattern */
+	_nlike?: ModelTypes["citext"] | undefined,
+	/** does the column NOT match the given POSIX regular expression, case sensitive */
+	_nregex?: ModelTypes["citext"] | undefined,
+	/** does the column NOT match the given SQL regular expression */
+	_nsimilar?: ModelTypes["citext"] | undefined,
+	/** does the column match the given POSIX regular expression, case sensitive */
+	_regex?: ModelTypes["citext"] | undefined,
+	/** does the column match the given SQL regular expression */
+	_similar?: ModelTypes["citext"] | undefined
+};
 	/** columns and relationships of "claims" */
 ["claims"]: {
 		address: string,
@@ -27855,6 +31047,171 @@ export type ModelTypes = {
 	_neq?: ModelTypes["date"] | undefined,
 	_nin?: Array<ModelTypes["date"]> | undefined
 };
+	/** tokens the discord bot uses to operate on circles */
+["discord_circle_api_tokens"]: {
+		channel_snowflake: string,
+	circle_id: ModelTypes["bigint"],
+	created_at: ModelTypes["timestamptz"],
+	id: ModelTypes["bigint"],
+	token?: string | undefined
+};
+	/** aggregated selection of "discord.circle_api_tokens" */
+["discord_circle_api_tokens_aggregate"]: {
+		aggregate?: ModelTypes["discord_circle_api_tokens_aggregate_fields"] | undefined,
+	nodes: Array<ModelTypes["discord_circle_api_tokens"]>
+};
+	/** aggregate fields of "discord.circle_api_tokens" */
+["discord_circle_api_tokens_aggregate_fields"]: {
+		avg?: ModelTypes["discord_circle_api_tokens_avg_fields"] | undefined,
+	count: number,
+	max?: ModelTypes["discord_circle_api_tokens_max_fields"] | undefined,
+	min?: ModelTypes["discord_circle_api_tokens_min_fields"] | undefined,
+	stddev?: ModelTypes["discord_circle_api_tokens_stddev_fields"] | undefined,
+	stddev_pop?: ModelTypes["discord_circle_api_tokens_stddev_pop_fields"] | undefined,
+	stddev_samp?: ModelTypes["discord_circle_api_tokens_stddev_samp_fields"] | undefined,
+	sum?: ModelTypes["discord_circle_api_tokens_sum_fields"] | undefined,
+	var_pop?: ModelTypes["discord_circle_api_tokens_var_pop_fields"] | undefined,
+	var_samp?: ModelTypes["discord_circle_api_tokens_var_samp_fields"] | undefined,
+	variance?: ModelTypes["discord_circle_api_tokens_variance_fields"] | undefined
+};
+	/** aggregate avg on columns */
+["discord_circle_api_tokens_avg_fields"]: {
+		circle_id?: number | undefined,
+	id?: number | undefined
+};
+	/** Boolean expression to filter rows from the table "discord.circle_api_tokens". All fields are combined with a logical 'AND'. */
+["discord_circle_api_tokens_bool_exp"]: {
+	_and?: Array<ModelTypes["discord_circle_api_tokens_bool_exp"]> | undefined,
+	_not?: ModelTypes["discord_circle_api_tokens_bool_exp"] | undefined,
+	_or?: Array<ModelTypes["discord_circle_api_tokens_bool_exp"]> | undefined,
+	channel_snowflake?: ModelTypes["String_comparison_exp"] | undefined,
+	circle_id?: ModelTypes["bigint_comparison_exp"] | undefined,
+	created_at?: ModelTypes["timestamptz_comparison_exp"] | undefined,
+	id?: ModelTypes["bigint_comparison_exp"] | undefined,
+	token?: ModelTypes["String_comparison_exp"] | undefined
+};
+	["discord_circle_api_tokens_constraint"]:discord_circle_api_tokens_constraint;
+	/** input type for incrementing numeric columns in table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_inc_input"]: {
+	circle_id?: ModelTypes["bigint"] | undefined,
+	id?: ModelTypes["bigint"] | undefined
+};
+	/** input type for inserting data into table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_insert_input"]: {
+	channel_snowflake?: string | undefined,
+	circle_id?: ModelTypes["bigint"] | undefined,
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	token?: string | undefined
+};
+	/** aggregate max on columns */
+["discord_circle_api_tokens_max_fields"]: {
+		channel_snowflake?: string | undefined,
+	circle_id?: ModelTypes["bigint"] | undefined,
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	token?: string | undefined
+};
+	/** aggregate min on columns */
+["discord_circle_api_tokens_min_fields"]: {
+		channel_snowflake?: string | undefined,
+	circle_id?: ModelTypes["bigint"] | undefined,
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	token?: string | undefined
+};
+	/** response of any mutation on the table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_mutation_response"]: {
+		/** number of rows affected by the mutation */
+	affected_rows: number,
+	/** data from the rows affected by the mutation */
+	returning: Array<ModelTypes["discord_circle_api_tokens"]>
+};
+	/** on_conflict condition type for table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_on_conflict"]: {
+	constraint: ModelTypes["discord_circle_api_tokens_constraint"],
+	update_columns: Array<ModelTypes["discord_circle_api_tokens_update_column"]>,
+	where?: ModelTypes["discord_circle_api_tokens_bool_exp"] | undefined
+};
+	/** Ordering options when selecting data from "discord.circle_api_tokens". */
+["discord_circle_api_tokens_order_by"]: {
+	channel_snowflake?: ModelTypes["order_by"] | undefined,
+	circle_id?: ModelTypes["order_by"] | undefined,
+	created_at?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	token?: ModelTypes["order_by"] | undefined
+};
+	/** primary key columns input for table: discord.circle_api_tokens */
+["discord_circle_api_tokens_pk_columns_input"]: {
+	id: ModelTypes["bigint"]
+};
+	["discord_circle_api_tokens_select_column"]:discord_circle_api_tokens_select_column;
+	/** input type for updating data in table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_set_input"]: {
+	channel_snowflake?: string | undefined,
+	circle_id?: ModelTypes["bigint"] | undefined,
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	token?: string | undefined
+};
+	/** aggregate stddev on columns */
+["discord_circle_api_tokens_stddev_fields"]: {
+		circle_id?: number | undefined,
+	id?: number | undefined
+};
+	/** aggregate stddev_pop on columns */
+["discord_circle_api_tokens_stddev_pop_fields"]: {
+		circle_id?: number | undefined,
+	id?: number | undefined
+};
+	/** aggregate stddev_samp on columns */
+["discord_circle_api_tokens_stddev_samp_fields"]: {
+		circle_id?: number | undefined,
+	id?: number | undefined
+};
+	/** Streaming cursor of the table "discord_circle_api_tokens" */
+["discord_circle_api_tokens_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ModelTypes["discord_circle_api_tokens_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: ModelTypes["cursor_ordering"] | undefined
+};
+	/** Initial value of the column from where the streaming should start */
+["discord_circle_api_tokens_stream_cursor_value_input"]: {
+	channel_snowflake?: string | undefined,
+	circle_id?: ModelTypes["bigint"] | undefined,
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	token?: string | undefined
+};
+	/** aggregate sum on columns */
+["discord_circle_api_tokens_sum_fields"]: {
+		circle_id?: ModelTypes["bigint"] | undefined,
+	id?: ModelTypes["bigint"] | undefined
+};
+	["discord_circle_api_tokens_update_column"]:discord_circle_api_tokens_update_column;
+	["discord_circle_api_tokens_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ModelTypes["discord_circle_api_tokens_inc_input"] | undefined,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ModelTypes["discord_circle_api_tokens_set_input"] | undefined,
+	where: ModelTypes["discord_circle_api_tokens_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["discord_circle_api_tokens_var_pop_fields"]: {
+		circle_id?: number | undefined,
+	id?: number | undefined
+};
+	/** aggregate var_samp on columns */
+["discord_circle_api_tokens_var_samp_fields"]: {
+		circle_id?: number | undefined,
+	id?: number | undefined
+};
+	/** aggregate variance on columns */
+["discord_circle_api_tokens_variance_fields"]: {
+		circle_id?: number | undefined,
+	id?: number | undefined
+};
 	/** link a discord role to a circle  to control membership of the circle */
 ["discord_roles_circles"]: {
 		/** An object relationship */
@@ -27862,7 +31219,7 @@ export type ModelTypes = {
 	circle_id: ModelTypes["bigint"],
 	created_at: ModelTypes["timestamptz"],
 	id: ModelTypes["bigint"],
-	role: string,
+	server_role: string,
 	updated_at: ModelTypes["timestamptz"]
 };
 	/** aggregated selection of "discord.roles_circles" */
@@ -27898,7 +31255,7 @@ export type ModelTypes = {
 	circle_id?: ModelTypes["bigint_comparison_exp"] | undefined,
 	created_at?: ModelTypes["timestamptz_comparison_exp"] | undefined,
 	id?: ModelTypes["bigint_comparison_exp"] | undefined,
-	role?: ModelTypes["String_comparison_exp"] | undefined,
+	server_role?: ModelTypes["String_comparison_exp"] | undefined,
 	updated_at?: ModelTypes["timestamptz_comparison_exp"] | undefined
 };
 	["discord_roles_circles_constraint"]:discord_roles_circles_constraint;
@@ -27913,7 +31270,7 @@ export type ModelTypes = {
 	circle_id?: ModelTypes["bigint"] | undefined,
 	created_at?: ModelTypes["timestamptz"] | undefined,
 	id?: ModelTypes["bigint"] | undefined,
-	role?: string | undefined,
+	server_role?: string | undefined,
 	updated_at?: ModelTypes["timestamptz"] | undefined
 };
 	/** aggregate max on columns */
@@ -27921,7 +31278,7 @@ export type ModelTypes = {
 		circle_id?: ModelTypes["bigint"] | undefined,
 	created_at?: ModelTypes["timestamptz"] | undefined,
 	id?: ModelTypes["bigint"] | undefined,
-	role?: string | undefined,
+	server_role?: string | undefined,
 	updated_at?: ModelTypes["timestamptz"] | undefined
 };
 	/** aggregate min on columns */
@@ -27929,7 +31286,7 @@ export type ModelTypes = {
 		circle_id?: ModelTypes["bigint"] | undefined,
 	created_at?: ModelTypes["timestamptz"] | undefined,
 	id?: ModelTypes["bigint"] | undefined,
-	role?: string | undefined,
+	server_role?: string | undefined,
 	updated_at?: ModelTypes["timestamptz"] | undefined
 };
 	/** response of any mutation on the table "discord.roles_circles" */
@@ -27951,7 +31308,7 @@ export type ModelTypes = {
 	circle_id?: ModelTypes["order_by"] | undefined,
 	created_at?: ModelTypes["order_by"] | undefined,
 	id?: ModelTypes["order_by"] | undefined,
-	role?: ModelTypes["order_by"] | undefined,
+	server_role?: ModelTypes["order_by"] | undefined,
 	updated_at?: ModelTypes["order_by"] | undefined
 };
 	/** primary key columns input for table: discord.roles_circles */
@@ -27964,7 +31321,7 @@ export type ModelTypes = {
 	circle_id?: ModelTypes["bigint"] | undefined,
 	created_at?: ModelTypes["timestamptz"] | undefined,
 	id?: ModelTypes["bigint"] | undefined,
-	role?: string | undefined,
+	server_role?: string | undefined,
 	updated_at?: ModelTypes["timestamptz"] | undefined
 };
 	/** aggregate stddev on columns */
@@ -27994,7 +31351,7 @@ export type ModelTypes = {
 	circle_id?: ModelTypes["bigint"] | undefined,
 	created_at?: ModelTypes["timestamptz"] | undefined,
 	id?: ModelTypes["bigint"] | undefined,
-	role?: string | undefined,
+	server_role?: string | undefined,
 	updated_at?: ModelTypes["timestamptz"] | undefined
 };
 	/** aggregate sum on columns */
@@ -28689,6 +32046,251 @@ export type ModelTypes = {
 	id?: ModelTypes["order_by"] | undefined,
 	vault_id?: ModelTypes["order_by"] | undefined
 };
+	/** columns and relationships of "epoch_pgive_data" */
+["epoch_pgive_data"]: {
+		active_months: number,
+	active_months_bonus: ModelTypes["numeric"],
+	created_at: ModelTypes["timestamptz"],
+	/** An object relationship */
+	epoch: ModelTypes["epochs"],
+	epoch_id: number,
+	gives_receiver_base: ModelTypes["numeric"],
+	id: number,
+	notes_bonus: ModelTypes["numeric"],
+	pgive: ModelTypes["numeric"]
+};
+	/** aggregated selection of "epoch_pgive_data" */
+["epoch_pgive_data_aggregate"]: {
+		aggregate?: ModelTypes["epoch_pgive_data_aggregate_fields"] | undefined,
+	nodes: Array<ModelTypes["epoch_pgive_data"]>
+};
+	/** aggregate fields of "epoch_pgive_data" */
+["epoch_pgive_data_aggregate_fields"]: {
+		avg?: ModelTypes["epoch_pgive_data_avg_fields"] | undefined,
+	count: number,
+	max?: ModelTypes["epoch_pgive_data_max_fields"] | undefined,
+	min?: ModelTypes["epoch_pgive_data_min_fields"] | undefined,
+	stddev?: ModelTypes["epoch_pgive_data_stddev_fields"] | undefined,
+	stddev_pop?: ModelTypes["epoch_pgive_data_stddev_pop_fields"] | undefined,
+	stddev_samp?: ModelTypes["epoch_pgive_data_stddev_samp_fields"] | undefined,
+	sum?: ModelTypes["epoch_pgive_data_sum_fields"] | undefined,
+	var_pop?: ModelTypes["epoch_pgive_data_var_pop_fields"] | undefined,
+	var_samp?: ModelTypes["epoch_pgive_data_var_samp_fields"] | undefined,
+	variance?: ModelTypes["epoch_pgive_data_variance_fields"] | undefined
+};
+	/** aggregate avg on columns */
+["epoch_pgive_data_avg_fields"]: {
+		active_months?: number | undefined,
+	active_months_bonus?: number | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: number | undefined,
+	id?: number | undefined,
+	notes_bonus?: number | undefined,
+	pgive?: number | undefined
+};
+	/** Boolean expression to filter rows from the table "epoch_pgive_data". All fields are combined with a logical 'AND'. */
+["epoch_pgive_data_bool_exp"]: {
+	_and?: Array<ModelTypes["epoch_pgive_data_bool_exp"]> | undefined,
+	_not?: ModelTypes["epoch_pgive_data_bool_exp"] | undefined,
+	_or?: Array<ModelTypes["epoch_pgive_data_bool_exp"]> | undefined,
+	active_months?: ModelTypes["Int_comparison_exp"] | undefined,
+	active_months_bonus?: ModelTypes["numeric_comparison_exp"] | undefined,
+	created_at?: ModelTypes["timestamptz_comparison_exp"] | undefined,
+	epoch?: ModelTypes["epochs_bool_exp"] | undefined,
+	epoch_id?: ModelTypes["Int_comparison_exp"] | undefined,
+	gives_receiver_base?: ModelTypes["numeric_comparison_exp"] | undefined,
+	id?: ModelTypes["Int_comparison_exp"] | undefined,
+	notes_bonus?: ModelTypes["numeric_comparison_exp"] | undefined,
+	pgive?: ModelTypes["numeric_comparison_exp"] | undefined
+};
+	["epoch_pgive_data_constraint"]:epoch_pgive_data_constraint;
+	/** input type for incrementing numeric columns in table "epoch_pgive_data" */
+["epoch_pgive_data_inc_input"]: {
+	active_months?: number | undefined,
+	active_months_bonus?: ModelTypes["numeric"] | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: ModelTypes["numeric"] | undefined,
+	id?: number | undefined,
+	notes_bonus?: ModelTypes["numeric"] | undefined,
+	pgive?: ModelTypes["numeric"] | undefined
+};
+	/** input type for inserting data into table "epoch_pgive_data" */
+["epoch_pgive_data_insert_input"]: {
+	active_months?: number | undefined,
+	active_months_bonus?: ModelTypes["numeric"] | undefined,
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	epoch?: ModelTypes["epochs_obj_rel_insert_input"] | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: ModelTypes["numeric"] | undefined,
+	id?: number | undefined,
+	notes_bonus?: ModelTypes["numeric"] | undefined,
+	pgive?: ModelTypes["numeric"] | undefined
+};
+	/** aggregate max on columns */
+["epoch_pgive_data_max_fields"]: {
+		active_months?: number | undefined,
+	active_months_bonus?: ModelTypes["numeric"] | undefined,
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: ModelTypes["numeric"] | undefined,
+	id?: number | undefined,
+	notes_bonus?: ModelTypes["numeric"] | undefined,
+	pgive?: ModelTypes["numeric"] | undefined
+};
+	/** aggregate min on columns */
+["epoch_pgive_data_min_fields"]: {
+		active_months?: number | undefined,
+	active_months_bonus?: ModelTypes["numeric"] | undefined,
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: ModelTypes["numeric"] | undefined,
+	id?: number | undefined,
+	notes_bonus?: ModelTypes["numeric"] | undefined,
+	pgive?: ModelTypes["numeric"] | undefined
+};
+	/** response of any mutation on the table "epoch_pgive_data" */
+["epoch_pgive_data_mutation_response"]: {
+		/** number of rows affected by the mutation */
+	affected_rows: number,
+	/** data from the rows affected by the mutation */
+	returning: Array<ModelTypes["epoch_pgive_data"]>
+};
+	/** input type for inserting object relation for remote table "epoch_pgive_data" */
+["epoch_pgive_data_obj_rel_insert_input"]: {
+	data: ModelTypes["epoch_pgive_data_insert_input"],
+	/** upsert condition */
+	on_conflict?: ModelTypes["epoch_pgive_data_on_conflict"] | undefined
+};
+	/** on_conflict condition type for table "epoch_pgive_data" */
+["epoch_pgive_data_on_conflict"]: {
+	constraint: ModelTypes["epoch_pgive_data_constraint"],
+	update_columns: Array<ModelTypes["epoch_pgive_data_update_column"]>,
+	where?: ModelTypes["epoch_pgive_data_bool_exp"] | undefined
+};
+	/** Ordering options when selecting data from "epoch_pgive_data". */
+["epoch_pgive_data_order_by"]: {
+	active_months?: ModelTypes["order_by"] | undefined,
+	active_months_bonus?: ModelTypes["order_by"] | undefined,
+	created_at?: ModelTypes["order_by"] | undefined,
+	epoch?: ModelTypes["epochs_order_by"] | undefined,
+	epoch_id?: ModelTypes["order_by"] | undefined,
+	gives_receiver_base?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	notes_bonus?: ModelTypes["order_by"] | undefined,
+	pgive?: ModelTypes["order_by"] | undefined
+};
+	/** primary key columns input for table: epoch_pgive_data */
+["epoch_pgive_data_pk_columns_input"]: {
+	id: number
+};
+	["epoch_pgive_data_select_column"]:epoch_pgive_data_select_column;
+	/** input type for updating data in table "epoch_pgive_data" */
+["epoch_pgive_data_set_input"]: {
+	active_months?: number | undefined,
+	active_months_bonus?: ModelTypes["numeric"] | undefined,
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: ModelTypes["numeric"] | undefined,
+	id?: number | undefined,
+	notes_bonus?: ModelTypes["numeric"] | undefined,
+	pgive?: ModelTypes["numeric"] | undefined
+};
+	/** aggregate stddev on columns */
+["epoch_pgive_data_stddev_fields"]: {
+		active_months?: number | undefined,
+	active_months_bonus?: number | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: number | undefined,
+	id?: number | undefined,
+	notes_bonus?: number | undefined,
+	pgive?: number | undefined
+};
+	/** aggregate stddev_pop on columns */
+["epoch_pgive_data_stddev_pop_fields"]: {
+		active_months?: number | undefined,
+	active_months_bonus?: number | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: number | undefined,
+	id?: number | undefined,
+	notes_bonus?: number | undefined,
+	pgive?: number | undefined
+};
+	/** aggregate stddev_samp on columns */
+["epoch_pgive_data_stddev_samp_fields"]: {
+		active_months?: number | undefined,
+	active_months_bonus?: number | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: number | undefined,
+	id?: number | undefined,
+	notes_bonus?: number | undefined,
+	pgive?: number | undefined
+};
+	/** Streaming cursor of the table "epoch_pgive_data" */
+["epoch_pgive_data_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ModelTypes["epoch_pgive_data_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: ModelTypes["cursor_ordering"] | undefined
+};
+	/** Initial value of the column from where the streaming should start */
+["epoch_pgive_data_stream_cursor_value_input"]: {
+	active_months?: number | undefined,
+	active_months_bonus?: ModelTypes["numeric"] | undefined,
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: ModelTypes["numeric"] | undefined,
+	id?: number | undefined,
+	notes_bonus?: ModelTypes["numeric"] | undefined,
+	pgive?: ModelTypes["numeric"] | undefined
+};
+	/** aggregate sum on columns */
+["epoch_pgive_data_sum_fields"]: {
+		active_months?: number | undefined,
+	active_months_bonus?: ModelTypes["numeric"] | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: ModelTypes["numeric"] | undefined,
+	id?: number | undefined,
+	notes_bonus?: ModelTypes["numeric"] | undefined,
+	pgive?: ModelTypes["numeric"] | undefined
+};
+	["epoch_pgive_data_update_column"]:epoch_pgive_data_update_column;
+	["epoch_pgive_data_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ModelTypes["epoch_pgive_data_inc_input"] | undefined,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ModelTypes["epoch_pgive_data_set_input"] | undefined,
+	where: ModelTypes["epoch_pgive_data_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["epoch_pgive_data_var_pop_fields"]: {
+		active_months?: number | undefined,
+	active_months_bonus?: number | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: number | undefined,
+	id?: number | undefined,
+	notes_bonus?: number | undefined,
+	pgive?: number | undefined
+};
+	/** aggregate var_samp on columns */
+["epoch_pgive_data_var_samp_fields"]: {
+		active_months?: number | undefined,
+	active_months_bonus?: number | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: number | undefined,
+	id?: number | undefined,
+	notes_bonus?: number | undefined,
+	pgive?: number | undefined
+};
+	/** aggregate variance on columns */
+["epoch_pgive_data_variance_fields"]: {
+		active_months?: number | undefined,
+	active_months_bonus?: number | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: number | undefined,
+	id?: number | undefined,
+	notes_bonus?: number | undefined,
+	pgive?: number | undefined
+};
 	/** columns and relationships of "epoches" */
 ["epochs"]: {
 		/** An array relationship */
@@ -28717,6 +32319,8 @@ export type ModelTypes = {
 	notified_end?: ModelTypes["timestamp"] | undefined,
 	notified_start?: ModelTypes["timestamp"] | undefined,
 	number?: number | undefined,
+	/** An object relationship */
+	pgive_data?: ModelTypes["epoch_pgive_data"] | undefined,
 	regift_days: number,
 	repeat: number,
 	repeat_day_of_month: number,
@@ -28809,6 +32413,7 @@ export type ModelTypes = {
 	notified_end?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	notified_start?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	number?: ModelTypes["Int_comparison_exp"] | undefined,
+	pgive_data?: ModelTypes["epoch_pgive_data_bool_exp"] | undefined,
 	regift_days?: ModelTypes["Int_comparison_exp"] | undefined,
 	repeat?: ModelTypes["Int_comparison_exp"] | undefined,
 	repeat_day_of_month?: ModelTypes["Int_comparison_exp"] | undefined,
@@ -28846,6 +32451,7 @@ export type ModelTypes = {
 	notified_end?: ModelTypes["timestamp"] | undefined,
 	notified_start?: ModelTypes["timestamp"] | undefined,
 	number?: number | undefined,
+	pgive_data?: ModelTypes["epoch_pgive_data_obj_rel_insert_input"] | undefined,
 	regift_days?: number | undefined,
 	repeat?: number | undefined,
 	repeat_day_of_month?: number | undefined,
@@ -28966,6 +32572,7 @@ export type ModelTypes = {
 	notified_end?: ModelTypes["order_by"] | undefined,
 	notified_start?: ModelTypes["order_by"] | undefined,
 	number?: ModelTypes["order_by"] | undefined,
+	pgive_data?: ModelTypes["epoch_pgive_data_order_by"] | undefined,
 	regift_days?: ModelTypes["order_by"] | undefined,
 	repeat?: ModelTypes["order_by"] | undefined,
 	repeat_day_of_month?: ModelTypes["order_by"] | undefined,
@@ -29867,6 +33474,781 @@ export type ModelTypes = {
 	_neq?: ModelTypes["jsonb"] | undefined,
 	_nin?: Array<ModelTypes["jsonb"]> | undefined
 };
+	/** columns and relationships of "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts"]: {
+		earnings: ModelTypes["numeric"],
+	id: ModelTypes["bigint"],
+	/** An object relationship */
+	locked_token_distribution: ModelTypes["locked_token_distributions"],
+	locked_token_distribution_id: ModelTypes["bigint"],
+	/** An object relationship */
+	profile: ModelTypes["profiles"],
+	profile_id: ModelTypes["bigint"]
+};
+	/** aggregated selection of "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_aggregate"]: {
+		aggregate?: ModelTypes["locked_token_distribution_gifts_aggregate_fields"] | undefined,
+	nodes: Array<ModelTypes["locked_token_distribution_gifts"]>
+};
+	/** aggregate fields of "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_aggregate_fields"]: {
+		avg?: ModelTypes["locked_token_distribution_gifts_avg_fields"] | undefined,
+	count: number,
+	max?: ModelTypes["locked_token_distribution_gifts_max_fields"] | undefined,
+	min?: ModelTypes["locked_token_distribution_gifts_min_fields"] | undefined,
+	stddev?: ModelTypes["locked_token_distribution_gifts_stddev_fields"] | undefined,
+	stddev_pop?: ModelTypes["locked_token_distribution_gifts_stddev_pop_fields"] | undefined,
+	stddev_samp?: ModelTypes["locked_token_distribution_gifts_stddev_samp_fields"] | undefined,
+	sum?: ModelTypes["locked_token_distribution_gifts_sum_fields"] | undefined,
+	var_pop?: ModelTypes["locked_token_distribution_gifts_var_pop_fields"] | undefined,
+	var_samp?: ModelTypes["locked_token_distribution_gifts_var_samp_fields"] | undefined,
+	variance?: ModelTypes["locked_token_distribution_gifts_variance_fields"] | undefined
+};
+	/** order by aggregate values of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_aggregate_order_by"]: {
+	avg?: ModelTypes["locked_token_distribution_gifts_avg_order_by"] | undefined,
+	count?: ModelTypes["order_by"] | undefined,
+	max?: ModelTypes["locked_token_distribution_gifts_max_order_by"] | undefined,
+	min?: ModelTypes["locked_token_distribution_gifts_min_order_by"] | undefined,
+	stddev?: ModelTypes["locked_token_distribution_gifts_stddev_order_by"] | undefined,
+	stddev_pop?: ModelTypes["locked_token_distribution_gifts_stddev_pop_order_by"] | undefined,
+	stddev_samp?: ModelTypes["locked_token_distribution_gifts_stddev_samp_order_by"] | undefined,
+	sum?: ModelTypes["locked_token_distribution_gifts_sum_order_by"] | undefined,
+	var_pop?: ModelTypes["locked_token_distribution_gifts_var_pop_order_by"] | undefined,
+	var_samp?: ModelTypes["locked_token_distribution_gifts_var_samp_order_by"] | undefined,
+	variance?: ModelTypes["locked_token_distribution_gifts_variance_order_by"] | undefined
+};
+	/** input type for inserting array relation for remote table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_arr_rel_insert_input"]: {
+	data: Array<ModelTypes["locked_token_distribution_gifts_insert_input"]>,
+	/** upsert condition */
+	on_conflict?: ModelTypes["locked_token_distribution_gifts_on_conflict"] | undefined
+};
+	/** aggregate avg on columns */
+["locked_token_distribution_gifts_avg_fields"]: {
+		earnings?: number | undefined,
+	id?: number | undefined,
+	locked_token_distribution_id?: number | undefined,
+	profile_id?: number | undefined
+};
+	/** order by avg() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_avg_order_by"]: {
+	earnings?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	locked_token_distribution_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined
+};
+	/** Boolean expression to filter rows from the table "locked_token_distribution_gifts". All fields are combined with a logical 'AND'. */
+["locked_token_distribution_gifts_bool_exp"]: {
+	_and?: Array<ModelTypes["locked_token_distribution_gifts_bool_exp"]> | undefined,
+	_not?: ModelTypes["locked_token_distribution_gifts_bool_exp"] | undefined,
+	_or?: Array<ModelTypes["locked_token_distribution_gifts_bool_exp"]> | undefined,
+	earnings?: ModelTypes["numeric_comparison_exp"] | undefined,
+	id?: ModelTypes["bigint_comparison_exp"] | undefined,
+	locked_token_distribution?: ModelTypes["locked_token_distributions_bool_exp"] | undefined,
+	locked_token_distribution_id?: ModelTypes["bigint_comparison_exp"] | undefined,
+	profile?: ModelTypes["profiles_bool_exp"] | undefined,
+	profile_id?: ModelTypes["bigint_comparison_exp"] | undefined
+};
+	["locked_token_distribution_gifts_constraint"]:locked_token_distribution_gifts_constraint;
+	/** input type for incrementing numeric columns in table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_inc_input"]: {
+	earnings?: ModelTypes["numeric"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	locked_token_distribution_id?: ModelTypes["bigint"] | undefined,
+	profile_id?: ModelTypes["bigint"] | undefined
+};
+	/** input type for inserting data into table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_insert_input"]: {
+	earnings?: ModelTypes["numeric"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	locked_token_distribution?: ModelTypes["locked_token_distributions_obj_rel_insert_input"] | undefined,
+	locked_token_distribution_id?: ModelTypes["bigint"] | undefined,
+	profile?: ModelTypes["profiles_obj_rel_insert_input"] | undefined,
+	profile_id?: ModelTypes["bigint"] | undefined
+};
+	/** aggregate max on columns */
+["locked_token_distribution_gifts_max_fields"]: {
+		earnings?: ModelTypes["numeric"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	locked_token_distribution_id?: ModelTypes["bigint"] | undefined,
+	profile_id?: ModelTypes["bigint"] | undefined
+};
+	/** order by max() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_max_order_by"]: {
+	earnings?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	locked_token_distribution_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined
+};
+	/** aggregate min on columns */
+["locked_token_distribution_gifts_min_fields"]: {
+		earnings?: ModelTypes["numeric"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	locked_token_distribution_id?: ModelTypes["bigint"] | undefined,
+	profile_id?: ModelTypes["bigint"] | undefined
+};
+	/** order by min() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_min_order_by"]: {
+	earnings?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	locked_token_distribution_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined
+};
+	/** response of any mutation on the table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_mutation_response"]: {
+		/** number of rows affected by the mutation */
+	affected_rows: number,
+	/** data from the rows affected by the mutation */
+	returning: Array<ModelTypes["locked_token_distribution_gifts"]>
+};
+	/** on_conflict condition type for table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_on_conflict"]: {
+	constraint: ModelTypes["locked_token_distribution_gifts_constraint"],
+	update_columns: Array<ModelTypes["locked_token_distribution_gifts_update_column"]>,
+	where?: ModelTypes["locked_token_distribution_gifts_bool_exp"] | undefined
+};
+	/** Ordering options when selecting data from "locked_token_distribution_gifts". */
+["locked_token_distribution_gifts_order_by"]: {
+	earnings?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	locked_token_distribution?: ModelTypes["locked_token_distributions_order_by"] | undefined,
+	locked_token_distribution_id?: ModelTypes["order_by"] | undefined,
+	profile?: ModelTypes["profiles_order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined
+};
+	/** primary key columns input for table: locked_token_distribution_gifts */
+["locked_token_distribution_gifts_pk_columns_input"]: {
+	id: ModelTypes["bigint"]
+};
+	["locked_token_distribution_gifts_select_column"]:locked_token_distribution_gifts_select_column;
+	/** input type for updating data in table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_set_input"]: {
+	earnings?: ModelTypes["numeric"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	locked_token_distribution_id?: ModelTypes["bigint"] | undefined,
+	profile_id?: ModelTypes["bigint"] | undefined
+};
+	/** aggregate stddev on columns */
+["locked_token_distribution_gifts_stddev_fields"]: {
+		earnings?: number | undefined,
+	id?: number | undefined,
+	locked_token_distribution_id?: number | undefined,
+	profile_id?: number | undefined
+};
+	/** order by stddev() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_stddev_order_by"]: {
+	earnings?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	locked_token_distribution_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined
+};
+	/** aggregate stddev_pop on columns */
+["locked_token_distribution_gifts_stddev_pop_fields"]: {
+		earnings?: number | undefined,
+	id?: number | undefined,
+	locked_token_distribution_id?: number | undefined,
+	profile_id?: number | undefined
+};
+	/** order by stddev_pop() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_stddev_pop_order_by"]: {
+	earnings?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	locked_token_distribution_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined
+};
+	/** aggregate stddev_samp on columns */
+["locked_token_distribution_gifts_stddev_samp_fields"]: {
+		earnings?: number | undefined,
+	id?: number | undefined,
+	locked_token_distribution_id?: number | undefined,
+	profile_id?: number | undefined
+};
+	/** order by stddev_samp() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_stddev_samp_order_by"]: {
+	earnings?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	locked_token_distribution_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined
+};
+	/** Streaming cursor of the table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ModelTypes["locked_token_distribution_gifts_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: ModelTypes["cursor_ordering"] | undefined
+};
+	/** Initial value of the column from where the streaming should start */
+["locked_token_distribution_gifts_stream_cursor_value_input"]: {
+	earnings?: ModelTypes["numeric"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	locked_token_distribution_id?: ModelTypes["bigint"] | undefined,
+	profile_id?: ModelTypes["bigint"] | undefined
+};
+	/** aggregate sum on columns */
+["locked_token_distribution_gifts_sum_fields"]: {
+		earnings?: ModelTypes["numeric"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	locked_token_distribution_id?: ModelTypes["bigint"] | undefined,
+	profile_id?: ModelTypes["bigint"] | undefined
+};
+	/** order by sum() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_sum_order_by"]: {
+	earnings?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	locked_token_distribution_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined
+};
+	["locked_token_distribution_gifts_update_column"]:locked_token_distribution_gifts_update_column;
+	["locked_token_distribution_gifts_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ModelTypes["locked_token_distribution_gifts_inc_input"] | undefined,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ModelTypes["locked_token_distribution_gifts_set_input"] | undefined,
+	where: ModelTypes["locked_token_distribution_gifts_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["locked_token_distribution_gifts_var_pop_fields"]: {
+		earnings?: number | undefined,
+	id?: number | undefined,
+	locked_token_distribution_id?: number | undefined,
+	profile_id?: number | undefined
+};
+	/** order by var_pop() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_var_pop_order_by"]: {
+	earnings?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	locked_token_distribution_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined
+};
+	/** aggregate var_samp on columns */
+["locked_token_distribution_gifts_var_samp_fields"]: {
+		earnings?: number | undefined,
+	id?: number | undefined,
+	locked_token_distribution_id?: number | undefined,
+	profile_id?: number | undefined
+};
+	/** order by var_samp() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_var_samp_order_by"]: {
+	earnings?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	locked_token_distribution_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined
+};
+	/** aggregate variance on columns */
+["locked_token_distribution_gifts_variance_fields"]: {
+		earnings?: number | undefined,
+	id?: number | undefined,
+	locked_token_distribution_id?: number | undefined,
+	profile_id?: number | undefined
+};
+	/** order by variance() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_variance_order_by"]: {
+	earnings?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	locked_token_distribution_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined
+};
+	/** columns and relationships of "locked_token_distributions" */
+["locked_token_distributions"]: {
+		chain_id: number,
+	distributed_by: ModelTypes["bigint"],
+	/** An object relationship */
+	epoch: ModelTypes["epochs"],
+	epoch_id: ModelTypes["bigint"],
+	gift_amount: ModelTypes["numeric"],
+	id: ModelTypes["bigint"],
+	/** An array relationship */
+	locked_token_distribution_gifts: Array<ModelTypes["locked_token_distribution_gifts"]>,
+	/** An aggregate relationship */
+	locked_token_distribution_gifts_aggregate: ModelTypes["locked_token_distribution_gifts_aggregate"],
+	/** An object relationship */
+	profile: ModelTypes["profiles"],
+	token_contract_address?: string | undefined,
+	token_decimals: number,
+	token_symbol?: string | undefined,
+	tx_hash?: string | undefined
+};
+	/** aggregated selection of "locked_token_distributions" */
+["locked_token_distributions_aggregate"]: {
+		aggregate?: ModelTypes["locked_token_distributions_aggregate_fields"] | undefined,
+	nodes: Array<ModelTypes["locked_token_distributions"]>
+};
+	/** aggregate fields of "locked_token_distributions" */
+["locked_token_distributions_aggregate_fields"]: {
+		avg?: ModelTypes["locked_token_distributions_avg_fields"] | undefined,
+	count: number,
+	max?: ModelTypes["locked_token_distributions_max_fields"] | undefined,
+	min?: ModelTypes["locked_token_distributions_min_fields"] | undefined,
+	stddev?: ModelTypes["locked_token_distributions_stddev_fields"] | undefined,
+	stddev_pop?: ModelTypes["locked_token_distributions_stddev_pop_fields"] | undefined,
+	stddev_samp?: ModelTypes["locked_token_distributions_stddev_samp_fields"] | undefined,
+	sum?: ModelTypes["locked_token_distributions_sum_fields"] | undefined,
+	var_pop?: ModelTypes["locked_token_distributions_var_pop_fields"] | undefined,
+	var_samp?: ModelTypes["locked_token_distributions_var_samp_fields"] | undefined,
+	variance?: ModelTypes["locked_token_distributions_variance_fields"] | undefined
+};
+	/** aggregate avg on columns */
+["locked_token_distributions_avg_fields"]: {
+		chain_id?: number | undefined,
+	distributed_by?: number | undefined,
+	epoch_id?: number | undefined,
+	gift_amount?: number | undefined,
+	id?: number | undefined,
+	token_decimals?: number | undefined
+};
+	/** Boolean expression to filter rows from the table "locked_token_distributions". All fields are combined with a logical 'AND'. */
+["locked_token_distributions_bool_exp"]: {
+	_and?: Array<ModelTypes["locked_token_distributions_bool_exp"]> | undefined,
+	_not?: ModelTypes["locked_token_distributions_bool_exp"] | undefined,
+	_or?: Array<ModelTypes["locked_token_distributions_bool_exp"]> | undefined,
+	chain_id?: ModelTypes["Int_comparison_exp"] | undefined,
+	distributed_by?: ModelTypes["bigint_comparison_exp"] | undefined,
+	epoch?: ModelTypes["epochs_bool_exp"] | undefined,
+	epoch_id?: ModelTypes["bigint_comparison_exp"] | undefined,
+	gift_amount?: ModelTypes["numeric_comparison_exp"] | undefined,
+	id?: ModelTypes["bigint_comparison_exp"] | undefined,
+	locked_token_distribution_gifts?: ModelTypes["locked_token_distribution_gifts_bool_exp"] | undefined,
+	profile?: ModelTypes["profiles_bool_exp"] | undefined,
+	token_contract_address?: ModelTypes["String_comparison_exp"] | undefined,
+	token_decimals?: ModelTypes["Int_comparison_exp"] | undefined,
+	token_symbol?: ModelTypes["String_comparison_exp"] | undefined,
+	tx_hash?: ModelTypes["String_comparison_exp"] | undefined
+};
+	["locked_token_distributions_constraint"]:locked_token_distributions_constraint;
+	/** input type for incrementing numeric columns in table "locked_token_distributions" */
+["locked_token_distributions_inc_input"]: {
+	chain_id?: number | undefined,
+	distributed_by?: ModelTypes["bigint"] | undefined,
+	epoch_id?: ModelTypes["bigint"] | undefined,
+	gift_amount?: ModelTypes["numeric"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	token_decimals?: number | undefined
+};
+	/** input type for inserting data into table "locked_token_distributions" */
+["locked_token_distributions_insert_input"]: {
+	chain_id?: number | undefined,
+	distributed_by?: ModelTypes["bigint"] | undefined,
+	epoch?: ModelTypes["epochs_obj_rel_insert_input"] | undefined,
+	epoch_id?: ModelTypes["bigint"] | undefined,
+	gift_amount?: ModelTypes["numeric"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	locked_token_distribution_gifts?: ModelTypes["locked_token_distribution_gifts_arr_rel_insert_input"] | undefined,
+	profile?: ModelTypes["profiles_obj_rel_insert_input"] | undefined,
+	token_contract_address?: string | undefined,
+	token_decimals?: number | undefined,
+	token_symbol?: string | undefined,
+	tx_hash?: string | undefined
+};
+	/** aggregate max on columns */
+["locked_token_distributions_max_fields"]: {
+		chain_id?: number | undefined,
+	distributed_by?: ModelTypes["bigint"] | undefined,
+	epoch_id?: ModelTypes["bigint"] | undefined,
+	gift_amount?: ModelTypes["numeric"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	token_contract_address?: string | undefined,
+	token_decimals?: number | undefined,
+	token_symbol?: string | undefined,
+	tx_hash?: string | undefined
+};
+	/** aggregate min on columns */
+["locked_token_distributions_min_fields"]: {
+		chain_id?: number | undefined,
+	distributed_by?: ModelTypes["bigint"] | undefined,
+	epoch_id?: ModelTypes["bigint"] | undefined,
+	gift_amount?: ModelTypes["numeric"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	token_contract_address?: string | undefined,
+	token_decimals?: number | undefined,
+	token_symbol?: string | undefined,
+	tx_hash?: string | undefined
+};
+	/** response of any mutation on the table "locked_token_distributions" */
+["locked_token_distributions_mutation_response"]: {
+		/** number of rows affected by the mutation */
+	affected_rows: number,
+	/** data from the rows affected by the mutation */
+	returning: Array<ModelTypes["locked_token_distributions"]>
+};
+	/** input type for inserting object relation for remote table "locked_token_distributions" */
+["locked_token_distributions_obj_rel_insert_input"]: {
+	data: ModelTypes["locked_token_distributions_insert_input"],
+	/** upsert condition */
+	on_conflict?: ModelTypes["locked_token_distributions_on_conflict"] | undefined
+};
+	/** on_conflict condition type for table "locked_token_distributions" */
+["locked_token_distributions_on_conflict"]: {
+	constraint: ModelTypes["locked_token_distributions_constraint"],
+	update_columns: Array<ModelTypes["locked_token_distributions_update_column"]>,
+	where?: ModelTypes["locked_token_distributions_bool_exp"] | undefined
+};
+	/** Ordering options when selecting data from "locked_token_distributions". */
+["locked_token_distributions_order_by"]: {
+	chain_id?: ModelTypes["order_by"] | undefined,
+	distributed_by?: ModelTypes["order_by"] | undefined,
+	epoch?: ModelTypes["epochs_order_by"] | undefined,
+	epoch_id?: ModelTypes["order_by"] | undefined,
+	gift_amount?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	locked_token_distribution_gifts_aggregate?: ModelTypes["locked_token_distribution_gifts_aggregate_order_by"] | undefined,
+	profile?: ModelTypes["profiles_order_by"] | undefined,
+	token_contract_address?: ModelTypes["order_by"] | undefined,
+	token_decimals?: ModelTypes["order_by"] | undefined,
+	token_symbol?: ModelTypes["order_by"] | undefined,
+	tx_hash?: ModelTypes["order_by"] | undefined
+};
+	/** primary key columns input for table: locked_token_distributions */
+["locked_token_distributions_pk_columns_input"]: {
+	id: ModelTypes["bigint"]
+};
+	["locked_token_distributions_select_column"]:locked_token_distributions_select_column;
+	/** input type for updating data in table "locked_token_distributions" */
+["locked_token_distributions_set_input"]: {
+	chain_id?: number | undefined,
+	distributed_by?: ModelTypes["bigint"] | undefined,
+	epoch_id?: ModelTypes["bigint"] | undefined,
+	gift_amount?: ModelTypes["numeric"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	token_contract_address?: string | undefined,
+	token_decimals?: number | undefined,
+	token_symbol?: string | undefined,
+	tx_hash?: string | undefined
+};
+	/** aggregate stddev on columns */
+["locked_token_distributions_stddev_fields"]: {
+		chain_id?: number | undefined,
+	distributed_by?: number | undefined,
+	epoch_id?: number | undefined,
+	gift_amount?: number | undefined,
+	id?: number | undefined,
+	token_decimals?: number | undefined
+};
+	/** aggregate stddev_pop on columns */
+["locked_token_distributions_stddev_pop_fields"]: {
+		chain_id?: number | undefined,
+	distributed_by?: number | undefined,
+	epoch_id?: number | undefined,
+	gift_amount?: number | undefined,
+	id?: number | undefined,
+	token_decimals?: number | undefined
+};
+	/** aggregate stddev_samp on columns */
+["locked_token_distributions_stddev_samp_fields"]: {
+		chain_id?: number | undefined,
+	distributed_by?: number | undefined,
+	epoch_id?: number | undefined,
+	gift_amount?: number | undefined,
+	id?: number | undefined,
+	token_decimals?: number | undefined
+};
+	/** Streaming cursor of the table "locked_token_distributions" */
+["locked_token_distributions_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ModelTypes["locked_token_distributions_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: ModelTypes["cursor_ordering"] | undefined
+};
+	/** Initial value of the column from where the streaming should start */
+["locked_token_distributions_stream_cursor_value_input"]: {
+	chain_id?: number | undefined,
+	distributed_by?: ModelTypes["bigint"] | undefined,
+	epoch_id?: ModelTypes["bigint"] | undefined,
+	gift_amount?: ModelTypes["numeric"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	token_contract_address?: string | undefined,
+	token_decimals?: number | undefined,
+	token_symbol?: string | undefined,
+	tx_hash?: string | undefined
+};
+	/** aggregate sum on columns */
+["locked_token_distributions_sum_fields"]: {
+		chain_id?: number | undefined,
+	distributed_by?: ModelTypes["bigint"] | undefined,
+	epoch_id?: ModelTypes["bigint"] | undefined,
+	gift_amount?: ModelTypes["numeric"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	token_decimals?: number | undefined
+};
+	["locked_token_distributions_update_column"]:locked_token_distributions_update_column;
+	["locked_token_distributions_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ModelTypes["locked_token_distributions_inc_input"] | undefined,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ModelTypes["locked_token_distributions_set_input"] | undefined,
+	where: ModelTypes["locked_token_distributions_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["locked_token_distributions_var_pop_fields"]: {
+		chain_id?: number | undefined,
+	distributed_by?: number | undefined,
+	epoch_id?: number | undefined,
+	gift_amount?: number | undefined,
+	id?: number | undefined,
+	token_decimals?: number | undefined
+};
+	/** aggregate var_samp on columns */
+["locked_token_distributions_var_samp_fields"]: {
+		chain_id?: number | undefined,
+	distributed_by?: number | undefined,
+	epoch_id?: number | undefined,
+	gift_amount?: number | undefined,
+	id?: number | undefined,
+	token_decimals?: number | undefined
+};
+	/** aggregate variance on columns */
+["locked_token_distributions_variance_fields"]: {
+		chain_id?: number | undefined,
+	distributed_by?: number | undefined,
+	epoch_id?: number | undefined,
+	gift_amount?: number | undefined,
+	id?: number | undefined,
+	token_decimals?: number | undefined
+};
+	/** member allocated pgives per epoch */
+["member_epoch_pgives"]: {
+		created_at: ModelTypes["timestamptz"],
+	/** An object relationship */
+	epoch: ModelTypes["epochs"],
+	epoch_id: number,
+	gives_received: number,
+	id: number,
+	normalized_pgive: ModelTypes["numeric"],
+	opt_out_bonus: ModelTypes["numeric"],
+	pgive: ModelTypes["numeric"],
+	/** An object relationship */
+	user: ModelTypes["users"],
+	user_id: number
+};
+	/** aggregated selection of "member_epoch_pgives" */
+["member_epoch_pgives_aggregate"]: {
+		aggregate?: ModelTypes["member_epoch_pgives_aggregate_fields"] | undefined,
+	nodes: Array<ModelTypes["member_epoch_pgives"]>
+};
+	/** aggregate fields of "member_epoch_pgives" */
+["member_epoch_pgives_aggregate_fields"]: {
+		avg?: ModelTypes["member_epoch_pgives_avg_fields"] | undefined,
+	count: number,
+	max?: ModelTypes["member_epoch_pgives_max_fields"] | undefined,
+	min?: ModelTypes["member_epoch_pgives_min_fields"] | undefined,
+	stddev?: ModelTypes["member_epoch_pgives_stddev_fields"] | undefined,
+	stddev_pop?: ModelTypes["member_epoch_pgives_stddev_pop_fields"] | undefined,
+	stddev_samp?: ModelTypes["member_epoch_pgives_stddev_samp_fields"] | undefined,
+	sum?: ModelTypes["member_epoch_pgives_sum_fields"] | undefined,
+	var_pop?: ModelTypes["member_epoch_pgives_var_pop_fields"] | undefined,
+	var_samp?: ModelTypes["member_epoch_pgives_var_samp_fields"] | undefined,
+	variance?: ModelTypes["member_epoch_pgives_variance_fields"] | undefined
+};
+	/** aggregate avg on columns */
+["member_epoch_pgives_avg_fields"]: {
+		epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: number | undefined,
+	opt_out_bonus?: number | undefined,
+	pgive?: number | undefined,
+	user_id?: number | undefined
+};
+	/** Boolean expression to filter rows from the table "member_epoch_pgives". All fields are combined with a logical 'AND'. */
+["member_epoch_pgives_bool_exp"]: {
+	_and?: Array<ModelTypes["member_epoch_pgives_bool_exp"]> | undefined,
+	_not?: ModelTypes["member_epoch_pgives_bool_exp"] | undefined,
+	_or?: Array<ModelTypes["member_epoch_pgives_bool_exp"]> | undefined,
+	created_at?: ModelTypes["timestamptz_comparison_exp"] | undefined,
+	epoch?: ModelTypes["epochs_bool_exp"] | undefined,
+	epoch_id?: ModelTypes["Int_comparison_exp"] | undefined,
+	gives_received?: ModelTypes["Int_comparison_exp"] | undefined,
+	id?: ModelTypes["Int_comparison_exp"] | undefined,
+	normalized_pgive?: ModelTypes["numeric_comparison_exp"] | undefined,
+	opt_out_bonus?: ModelTypes["numeric_comparison_exp"] | undefined,
+	pgive?: ModelTypes["numeric_comparison_exp"] | undefined,
+	user?: ModelTypes["users_bool_exp"] | undefined,
+	user_id?: ModelTypes["Int_comparison_exp"] | undefined
+};
+	["member_epoch_pgives_constraint"]:member_epoch_pgives_constraint;
+	/** input type for incrementing numeric columns in table "member_epoch_pgives" */
+["member_epoch_pgives_inc_input"]: {
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: ModelTypes["numeric"] | undefined,
+	opt_out_bonus?: ModelTypes["numeric"] | undefined,
+	pgive?: ModelTypes["numeric"] | undefined,
+	user_id?: number | undefined
+};
+	/** input type for inserting data into table "member_epoch_pgives" */
+["member_epoch_pgives_insert_input"]: {
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	epoch?: ModelTypes["epochs_obj_rel_insert_input"] | undefined,
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: ModelTypes["numeric"] | undefined,
+	opt_out_bonus?: ModelTypes["numeric"] | undefined,
+	pgive?: ModelTypes["numeric"] | undefined,
+	user?: ModelTypes["users_obj_rel_insert_input"] | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate max on columns */
+["member_epoch_pgives_max_fields"]: {
+		created_at?: ModelTypes["timestamptz"] | undefined,
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: ModelTypes["numeric"] | undefined,
+	opt_out_bonus?: ModelTypes["numeric"] | undefined,
+	pgive?: ModelTypes["numeric"] | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate min on columns */
+["member_epoch_pgives_min_fields"]: {
+		created_at?: ModelTypes["timestamptz"] | undefined,
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: ModelTypes["numeric"] | undefined,
+	opt_out_bonus?: ModelTypes["numeric"] | undefined,
+	pgive?: ModelTypes["numeric"] | undefined,
+	user_id?: number | undefined
+};
+	/** response of any mutation on the table "member_epoch_pgives" */
+["member_epoch_pgives_mutation_response"]: {
+		/** number of rows affected by the mutation */
+	affected_rows: number,
+	/** data from the rows affected by the mutation */
+	returning: Array<ModelTypes["member_epoch_pgives"]>
+};
+	/** on_conflict condition type for table "member_epoch_pgives" */
+["member_epoch_pgives_on_conflict"]: {
+	constraint: ModelTypes["member_epoch_pgives_constraint"],
+	update_columns: Array<ModelTypes["member_epoch_pgives_update_column"]>,
+	where?: ModelTypes["member_epoch_pgives_bool_exp"] | undefined
+};
+	/** Ordering options when selecting data from "member_epoch_pgives". */
+["member_epoch_pgives_order_by"]: {
+	created_at?: ModelTypes["order_by"] | undefined,
+	epoch?: ModelTypes["epochs_order_by"] | undefined,
+	epoch_id?: ModelTypes["order_by"] | undefined,
+	gives_received?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	normalized_pgive?: ModelTypes["order_by"] | undefined,
+	opt_out_bonus?: ModelTypes["order_by"] | undefined,
+	pgive?: ModelTypes["order_by"] | undefined,
+	user?: ModelTypes["users_order_by"] | undefined,
+	user_id?: ModelTypes["order_by"] | undefined
+};
+	/** primary key columns input for table: member_epoch_pgives */
+["member_epoch_pgives_pk_columns_input"]: {
+	id: number
+};
+	["member_epoch_pgives_select_column"]:member_epoch_pgives_select_column;
+	/** input type for updating data in table "member_epoch_pgives" */
+["member_epoch_pgives_set_input"]: {
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: ModelTypes["numeric"] | undefined,
+	opt_out_bonus?: ModelTypes["numeric"] | undefined,
+	pgive?: ModelTypes["numeric"] | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate stddev on columns */
+["member_epoch_pgives_stddev_fields"]: {
+		epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: number | undefined,
+	opt_out_bonus?: number | undefined,
+	pgive?: number | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate stddev_pop on columns */
+["member_epoch_pgives_stddev_pop_fields"]: {
+		epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: number | undefined,
+	opt_out_bonus?: number | undefined,
+	pgive?: number | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate stddev_samp on columns */
+["member_epoch_pgives_stddev_samp_fields"]: {
+		epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: number | undefined,
+	opt_out_bonus?: number | undefined,
+	pgive?: number | undefined,
+	user_id?: number | undefined
+};
+	/** Streaming cursor of the table "member_epoch_pgives" */
+["member_epoch_pgives_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ModelTypes["member_epoch_pgives_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: ModelTypes["cursor_ordering"] | undefined
+};
+	/** Initial value of the column from where the streaming should start */
+["member_epoch_pgives_stream_cursor_value_input"]: {
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: ModelTypes["numeric"] | undefined,
+	opt_out_bonus?: ModelTypes["numeric"] | undefined,
+	pgive?: ModelTypes["numeric"] | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate sum on columns */
+["member_epoch_pgives_sum_fields"]: {
+		epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: ModelTypes["numeric"] | undefined,
+	opt_out_bonus?: ModelTypes["numeric"] | undefined,
+	pgive?: ModelTypes["numeric"] | undefined,
+	user_id?: number | undefined
+};
+	["member_epoch_pgives_update_column"]:member_epoch_pgives_update_column;
+	["member_epoch_pgives_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ModelTypes["member_epoch_pgives_inc_input"] | undefined,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ModelTypes["member_epoch_pgives_set_input"] | undefined,
+	where: ModelTypes["member_epoch_pgives_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["member_epoch_pgives_var_pop_fields"]: {
+		epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: number | undefined,
+	opt_out_bonus?: number | undefined,
+	pgive?: number | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate var_samp on columns */
+["member_epoch_pgives_var_samp_fields"]: {
+		epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: number | undefined,
+	opt_out_bonus?: number | undefined,
+	pgive?: number | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate variance on columns */
+["member_epoch_pgives_variance_fields"]: {
+		epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: number | undefined,
+	opt_out_bonus?: number | undefined,
+	pgive?: number | undefined,
+	user_id?: number | undefined
+};
 	/** mutation root */
 ["mutation_root"]: {
 		adminUpdateUser?: ModelTypes["UserResponse"] | undefined,
@@ -29875,7 +34257,6 @@ export type ModelTypes = {
 	createEpoch?: ModelTypes["EpochResponse"] | undefined,
 	createNominee?: ModelTypes["CreateNomineeResponse"] | undefined,
 	createSampleCircle?: ModelTypes["CreateSampleCircleResponse"] | undefined,
-	createUser?: ModelTypes["UserResponse"] | undefined,
 	createUserWithToken?: ModelTypes["UserResponse"] | undefined,
 	createUsers?: Array<ModelTypes["UserResponse"] | undefined> | undefined,
 	createVault?: ModelTypes["VaultResponse"] | undefined,
@@ -29920,6 +34301,10 @@ export type ModelTypes = {
 	delete_contributions?: ModelTypes["contributions_mutation_response"] | undefined,
 	/** delete single row from the table: "contributions" */
 	delete_contributions_by_pk?: ModelTypes["contributions"] | undefined,
+	/** delete data from the table: "discord.circle_api_tokens" */
+	delete_discord_circle_api_tokens?: ModelTypes["discord_circle_api_tokens_mutation_response"] | undefined,
+	/** delete single row from the table: "discord.circle_api_tokens" */
+	delete_discord_circle_api_tokens_by_pk?: ModelTypes["discord_circle_api_tokens"] | undefined,
 	/** delete data from the table: "discord.roles_circles" */
 	delete_discord_roles_circles?: ModelTypes["discord_roles_circles_mutation_response"] | undefined,
 	/** delete single row from the table: "discord.roles_circles" */
@@ -29932,6 +34317,10 @@ export type ModelTypes = {
 	delete_distributions?: ModelTypes["distributions_mutation_response"] | undefined,
 	/** delete single row from the table: "distributions" */
 	delete_distributions_by_pk?: ModelTypes["distributions"] | undefined,
+	/** delete data from the table: "epoch_pgive_data" */
+	delete_epoch_pgive_data?: ModelTypes["epoch_pgive_data_mutation_response"] | undefined,
+	/** delete single row from the table: "epoch_pgive_data" */
+	delete_epoch_pgive_data_by_pk?: ModelTypes["epoch_pgive_data"] | undefined,
 	/** delete data from the table: "epoches" */
 	delete_epochs?: ModelTypes["epochs_mutation_response"] | undefined,
 	/** delete single row from the table: "epoches" */
@@ -29946,6 +34335,18 @@ export type ModelTypes = {
 	delete_interaction_events?: ModelTypes["interaction_events_mutation_response"] | undefined,
 	/** delete single row from the table: "interaction_events" */
 	delete_interaction_events_by_pk?: ModelTypes["interaction_events"] | undefined,
+	/** delete data from the table: "locked_token_distribution_gifts" */
+	delete_locked_token_distribution_gifts?: ModelTypes["locked_token_distribution_gifts_mutation_response"] | undefined,
+	/** delete single row from the table: "locked_token_distribution_gifts" */
+	delete_locked_token_distribution_gifts_by_pk?: ModelTypes["locked_token_distribution_gifts"] | undefined,
+	/** delete data from the table: "locked_token_distributions" */
+	delete_locked_token_distributions?: ModelTypes["locked_token_distributions_mutation_response"] | undefined,
+	/** delete single row from the table: "locked_token_distributions" */
+	delete_locked_token_distributions_by_pk?: ModelTypes["locked_token_distributions"] | undefined,
+	/** delete data from the table: "member_epoch_pgives" */
+	delete_member_epoch_pgives?: ModelTypes["member_epoch_pgives_mutation_response"] | undefined,
+	/** delete single row from the table: "member_epoch_pgives" */
+	delete_member_epoch_pgives_by_pk?: ModelTypes["member_epoch_pgives"] | undefined,
 	/** delete data from the table: "nominees" */
 	delete_nominees?: ModelTypes["nominees_mutation_response"] | undefined,
 	/** delete single row from the table: "nominees" */
@@ -30038,6 +34439,10 @@ export type ModelTypes = {
 	insert_contributions?: ModelTypes["contributions_mutation_response"] | undefined,
 	/** insert a single row into the table: "contributions" */
 	insert_contributions_one?: ModelTypes["contributions"] | undefined,
+	/** insert data into the table: "discord.circle_api_tokens" */
+	insert_discord_circle_api_tokens?: ModelTypes["discord_circle_api_tokens_mutation_response"] | undefined,
+	/** insert a single row into the table: "discord.circle_api_tokens" */
+	insert_discord_circle_api_tokens_one?: ModelTypes["discord_circle_api_tokens"] | undefined,
 	/** insert data into the table: "discord.roles_circles" */
 	insert_discord_roles_circles?: ModelTypes["discord_roles_circles_mutation_response"] | undefined,
 	/** insert a single row into the table: "discord.roles_circles" */
@@ -30050,6 +34455,10 @@ export type ModelTypes = {
 	insert_distributions?: ModelTypes["distributions_mutation_response"] | undefined,
 	/** insert a single row into the table: "distributions" */
 	insert_distributions_one?: ModelTypes["distributions"] | undefined,
+	/** insert data into the table: "epoch_pgive_data" */
+	insert_epoch_pgive_data?: ModelTypes["epoch_pgive_data_mutation_response"] | undefined,
+	/** insert a single row into the table: "epoch_pgive_data" */
+	insert_epoch_pgive_data_one?: ModelTypes["epoch_pgive_data"] | undefined,
 	/** insert data into the table: "epoches" */
 	insert_epochs?: ModelTypes["epochs_mutation_response"] | undefined,
 	/** insert a single row into the table: "epoches" */
@@ -30066,6 +34475,18 @@ export type ModelTypes = {
 	insert_interaction_events?: ModelTypes["interaction_events_mutation_response"] | undefined,
 	/** insert a single row into the table: "interaction_events" */
 	insert_interaction_events_one?: ModelTypes["interaction_events"] | undefined,
+	/** insert data into the table: "locked_token_distribution_gifts" */
+	insert_locked_token_distribution_gifts?: ModelTypes["locked_token_distribution_gifts_mutation_response"] | undefined,
+	/** insert a single row into the table: "locked_token_distribution_gifts" */
+	insert_locked_token_distribution_gifts_one?: ModelTypes["locked_token_distribution_gifts"] | undefined,
+	/** insert data into the table: "locked_token_distributions" */
+	insert_locked_token_distributions?: ModelTypes["locked_token_distributions_mutation_response"] | undefined,
+	/** insert a single row into the table: "locked_token_distributions" */
+	insert_locked_token_distributions_one?: ModelTypes["locked_token_distributions"] | undefined,
+	/** insert data into the table: "member_epoch_pgives" */
+	insert_member_epoch_pgives?: ModelTypes["member_epoch_pgives_mutation_response"] | undefined,
+	/** insert a single row into the table: "member_epoch_pgives" */
+	insert_member_epoch_pgives_one?: ModelTypes["member_epoch_pgives"] | undefined,
 	/** insert data into the table: "nominees" */
 	insert_nominees?: ModelTypes["nominees_mutation_response"] | undefined,
 	/** insert a single row into the table: "nominees" */
@@ -30132,6 +34553,7 @@ export type ModelTypes = {
 	/** users can modify contributions and update their dates. */
 	updateContribution?: ModelTypes["UpdateContributionResponse"] | undefined,
 	updateEpoch?: ModelTypes["EpochResponse"] | undefined,
+	updateProfileName?: ModelTypes["UpdateProfileNameResponse"] | undefined,
 	updateTeammates?: ModelTypes["UpdateTeammatesResponse"] | undefined,
 	/** Update own user */
 	updateUser?: ModelTypes["UserResponse"] | undefined,
@@ -30187,6 +34609,12 @@ export type ModelTypes = {
 	update_contributions_by_pk?: ModelTypes["contributions"] | undefined,
 	/** update multiples rows of table: "contributions" */
 	update_contributions_many?: Array<ModelTypes["contributions_mutation_response"] | undefined> | undefined,
+	/** update data of the table: "discord.circle_api_tokens" */
+	update_discord_circle_api_tokens?: ModelTypes["discord_circle_api_tokens_mutation_response"] | undefined,
+	/** update single row of the table: "discord.circle_api_tokens" */
+	update_discord_circle_api_tokens_by_pk?: ModelTypes["discord_circle_api_tokens"] | undefined,
+	/** update multiples rows of table: "discord.circle_api_tokens" */
+	update_discord_circle_api_tokens_many?: Array<ModelTypes["discord_circle_api_tokens_mutation_response"] | undefined> | undefined,
 	/** update data of the table: "discord.roles_circles" */
 	update_discord_roles_circles?: ModelTypes["discord_roles_circles_mutation_response"] | undefined,
 	/** update single row of the table: "discord.roles_circles" */
@@ -30205,6 +34633,12 @@ export type ModelTypes = {
 	update_distributions_by_pk?: ModelTypes["distributions"] | undefined,
 	/** update multiples rows of table: "distributions" */
 	update_distributions_many?: Array<ModelTypes["distributions_mutation_response"] | undefined> | undefined,
+	/** update data of the table: "epoch_pgive_data" */
+	update_epoch_pgive_data?: ModelTypes["epoch_pgive_data_mutation_response"] | undefined,
+	/** update single row of the table: "epoch_pgive_data" */
+	update_epoch_pgive_data_by_pk?: ModelTypes["epoch_pgive_data"] | undefined,
+	/** update multiples rows of table: "epoch_pgive_data" */
+	update_epoch_pgive_data_many?: Array<ModelTypes["epoch_pgive_data_mutation_response"] | undefined> | undefined,
 	/** update data of the table: "epoches" */
 	update_epochs?: ModelTypes["epochs_mutation_response"] | undefined,
 	/** update single row of the table: "epoches" */
@@ -30227,6 +34661,24 @@ export type ModelTypes = {
 	update_interaction_events_by_pk?: ModelTypes["interaction_events"] | undefined,
 	/** update multiples rows of table: "interaction_events" */
 	update_interaction_events_many?: Array<ModelTypes["interaction_events_mutation_response"] | undefined> | undefined,
+	/** update data of the table: "locked_token_distribution_gifts" */
+	update_locked_token_distribution_gifts?: ModelTypes["locked_token_distribution_gifts_mutation_response"] | undefined,
+	/** update single row of the table: "locked_token_distribution_gifts" */
+	update_locked_token_distribution_gifts_by_pk?: ModelTypes["locked_token_distribution_gifts"] | undefined,
+	/** update multiples rows of table: "locked_token_distribution_gifts" */
+	update_locked_token_distribution_gifts_many?: Array<ModelTypes["locked_token_distribution_gifts_mutation_response"] | undefined> | undefined,
+	/** update data of the table: "locked_token_distributions" */
+	update_locked_token_distributions?: ModelTypes["locked_token_distributions_mutation_response"] | undefined,
+	/** update single row of the table: "locked_token_distributions" */
+	update_locked_token_distributions_by_pk?: ModelTypes["locked_token_distributions"] | undefined,
+	/** update multiples rows of table: "locked_token_distributions" */
+	update_locked_token_distributions_many?: Array<ModelTypes["locked_token_distributions_mutation_response"] | undefined> | undefined,
+	/** update data of the table: "member_epoch_pgives" */
+	update_member_epoch_pgives?: ModelTypes["member_epoch_pgives_mutation_response"] | undefined,
+	/** update single row of the table: "member_epoch_pgives" */
+	update_member_epoch_pgives_by_pk?: ModelTypes["member_epoch_pgives"] | undefined,
+	/** update multiples rows of table: "member_epoch_pgives" */
+	update_member_epoch_pgives_many?: Array<ModelTypes["member_epoch_pgives_mutation_response"] | undefined> | undefined,
 	/** update data of the table: "nominees" */
 	update_nominees?: ModelTypes["nominees_mutation_response"] | undefined,
 	/** update single row of the table: "nominees" */
@@ -30326,7 +34778,7 @@ export type ModelTypes = {
 	ended: boolean,
 	expiry_date: ModelTypes["timestamp"],
 	id: ModelTypes["bigint"],
-	name: string,
+	name?: string | undefined,
 	nominated_by_user_id: number,
 	nominated_date: ModelTypes["date"],
 	/** An array relationship */
@@ -30335,6 +34787,8 @@ export type ModelTypes = {
 	nominations_aggregate: ModelTypes["vouches_aggregate"],
 	/** An object relationship */
 	nominator?: ModelTypes["users"] | undefined,
+	/** An object relationship */
+	profile?: ModelTypes["profiles"] | undefined,
 	updated_at: ModelTypes["timestamp"],
 	/** An object relationship */
 	user?: ModelTypes["users"] | undefined,
@@ -30414,6 +34868,7 @@ export type ModelTypes = {
 	nominated_date?: ModelTypes["date_comparison_exp"] | undefined,
 	nominations?: ModelTypes["vouches_bool_exp"] | undefined,
 	nominator?: ModelTypes["users_bool_exp"] | undefined,
+	profile?: ModelTypes["profiles_bool_exp"] | undefined,
 	updated_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	user?: ModelTypes["users_bool_exp"] | undefined,
 	user_id?: ModelTypes["Int_comparison_exp"] | undefined,
@@ -30443,6 +34898,7 @@ export type ModelTypes = {
 	nominated_date?: ModelTypes["date"] | undefined,
 	nominations?: ModelTypes["vouches_arr_rel_insert_input"] | undefined,
 	nominator?: ModelTypes["users_obj_rel_insert_input"] | undefined,
+	profile?: ModelTypes["profiles_obj_rel_insert_input"] | undefined,
 	updated_at?: ModelTypes["timestamp"] | undefined,
 	user?: ModelTypes["users_obj_rel_insert_input"] | undefined,
 	user_id?: number | undefined,
@@ -30542,6 +34998,7 @@ export type ModelTypes = {
 	nominated_date?: ModelTypes["order_by"] | undefined,
 	nominations_aggregate?: ModelTypes["vouches_aggregate_order_by"] | undefined,
 	nominator?: ModelTypes["users_order_by"] | undefined,
+	profile?: ModelTypes["profiles_order_by"] | undefined,
 	updated_at?: ModelTypes["order_by"] | undefined,
 	user?: ModelTypes["users_order_by"] | undefined,
 	user_id?: ModelTypes["order_by"] | undefined,
@@ -31958,7 +36415,6 @@ export type ModelTypes = {
 	/** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
 ["profiles"]: {
 		address: string,
-	ann_power: boolean,
 	avatar?: string | undefined,
 	background?: string | undefined,
 	bio?: string | undefined,
@@ -31967,6 +36423,7 @@ export type ModelTypes = {
 	claims: Array<ModelTypes["claims"]>,
 	/** An aggregate relationship */
 	claims_aggregate: ModelTypes["claims_aggregate"],
+	connector?: string | undefined,
 	created_at: ModelTypes["timestamp"],
 	discord_username?: string | undefined,
 	/** An array relationship */
@@ -31976,7 +36433,11 @@ export type ModelTypes = {
 	github_username?: string | undefined,
 	id: ModelTypes["bigint"],
 	medium_username?: string | undefined,
-	name?: string | undefined,
+	name?: ModelTypes["citext"] | undefined,
+	/** An array relationship */
+	nominees: Array<ModelTypes["nominees"]>,
+	/** An aggregate relationship */
+	nominees_aggregate: ModelTypes["nominees_aggregate"],
 	skills?: string | undefined,
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
@@ -32024,19 +36485,20 @@ export type ModelTypes = {
 	_not?: ModelTypes["profiles_bool_exp"] | undefined,
 	_or?: Array<ModelTypes["profiles_bool_exp"]> | undefined,
 	address?: ModelTypes["String_comparison_exp"] | undefined,
-	ann_power?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	avatar?: ModelTypes["String_comparison_exp"] | undefined,
 	background?: ModelTypes["String_comparison_exp"] | undefined,
 	bio?: ModelTypes["String_comparison_exp"] | undefined,
 	chat_id?: ModelTypes["String_comparison_exp"] | undefined,
 	claims?: ModelTypes["claims_bool_exp"] | undefined,
+	connector?: ModelTypes["String_comparison_exp"] | undefined,
 	created_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	discord_username?: ModelTypes["String_comparison_exp"] | undefined,
 	distributions?: ModelTypes["distributions_bool_exp"] | undefined,
 	github_username?: ModelTypes["String_comparison_exp"] | undefined,
 	id?: ModelTypes["bigint_comparison_exp"] | undefined,
 	medium_username?: ModelTypes["String_comparison_exp"] | undefined,
-	name?: ModelTypes["String_comparison_exp"] | undefined,
+	name?: ModelTypes["citext_comparison_exp"] | undefined,
+	nominees?: ModelTypes["nominees_bool_exp"] | undefined,
 	skills?: ModelTypes["String_comparison_exp"] | undefined,
 	telegram_username?: ModelTypes["String_comparison_exp"] | undefined,
 	twitter_username?: ModelTypes["String_comparison_exp"] | undefined,
@@ -32054,19 +36516,20 @@ export type ModelTypes = {
 	/** input type for inserting data into table "profiles" */
 ["profiles_insert_input"]: {
 	address?: string | undefined,
-	ann_power?: boolean | undefined,
 	avatar?: string | undefined,
 	background?: string | undefined,
 	bio?: string | undefined,
 	chat_id?: string | undefined,
 	claims?: ModelTypes["claims_arr_rel_insert_input"] | undefined,
+	connector?: string | undefined,
 	created_at?: ModelTypes["timestamp"] | undefined,
 	discord_username?: string | undefined,
 	distributions?: ModelTypes["distributions_arr_rel_insert_input"] | undefined,
 	github_username?: string | undefined,
 	id?: ModelTypes["bigint"] | undefined,
 	medium_username?: string | undefined,
-	name?: string | undefined,
+	name?: ModelTypes["citext"] | undefined,
+	nominees?: ModelTypes["nominees_arr_rel_insert_input"] | undefined,
 	skills?: string | undefined,
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
@@ -32083,12 +36546,13 @@ export type ModelTypes = {
 	background?: string | undefined,
 	bio?: string | undefined,
 	chat_id?: string | undefined,
+	connector?: string | undefined,
 	created_at?: ModelTypes["timestamp"] | undefined,
 	discord_username?: string | undefined,
 	github_username?: string | undefined,
 	id?: ModelTypes["bigint"] | undefined,
 	medium_username?: string | undefined,
-	name?: string | undefined,
+	name?: ModelTypes["citext"] | undefined,
 	skills?: string | undefined,
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
@@ -32102,12 +36566,13 @@ export type ModelTypes = {
 	background?: string | undefined,
 	bio?: string | undefined,
 	chat_id?: string | undefined,
+	connector?: string | undefined,
 	created_at?: ModelTypes["timestamp"] | undefined,
 	discord_username?: string | undefined,
 	github_username?: string | undefined,
 	id?: ModelTypes["bigint"] | undefined,
 	medium_username?: string | undefined,
-	name?: string | undefined,
+	name?: ModelTypes["citext"] | undefined,
 	skills?: string | undefined,
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
@@ -32136,12 +36601,12 @@ export type ModelTypes = {
 	/** Ordering options when selecting data from "profiles". */
 ["profiles_order_by"]: {
 	address?: ModelTypes["order_by"] | undefined,
-	ann_power?: ModelTypes["order_by"] | undefined,
 	avatar?: ModelTypes["order_by"] | undefined,
 	background?: ModelTypes["order_by"] | undefined,
 	bio?: ModelTypes["order_by"] | undefined,
 	chat_id?: ModelTypes["order_by"] | undefined,
 	claims_aggregate?: ModelTypes["claims_aggregate_order_by"] | undefined,
+	connector?: ModelTypes["order_by"] | undefined,
 	created_at?: ModelTypes["order_by"] | undefined,
 	discord_username?: ModelTypes["order_by"] | undefined,
 	distributions_aggregate?: ModelTypes["distributions_aggregate_order_by"] | undefined,
@@ -32149,6 +36614,7 @@ export type ModelTypes = {
 	id?: ModelTypes["order_by"] | undefined,
 	medium_username?: ModelTypes["order_by"] | undefined,
 	name?: ModelTypes["order_by"] | undefined,
+	nominees_aggregate?: ModelTypes["nominees_aggregate_order_by"] | undefined,
 	skills?: ModelTypes["order_by"] | undefined,
 	telegram_username?: ModelTypes["order_by"] | undefined,
 	twitter_username?: ModelTypes["order_by"] | undefined,
@@ -32166,17 +36632,17 @@ export type ModelTypes = {
 	/** input type for updating data in table "profiles" */
 ["profiles_set_input"]: {
 	address?: string | undefined,
-	ann_power?: boolean | undefined,
 	avatar?: string | undefined,
 	background?: string | undefined,
 	bio?: string | undefined,
 	chat_id?: string | undefined,
+	connector?: string | undefined,
 	created_at?: ModelTypes["timestamp"] | undefined,
 	discord_username?: string | undefined,
 	github_username?: string | undefined,
 	id?: ModelTypes["bigint"] | undefined,
 	medium_username?: string | undefined,
-	name?: string | undefined,
+	name?: ModelTypes["citext"] | undefined,
 	skills?: string | undefined,
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
@@ -32205,17 +36671,17 @@ export type ModelTypes = {
 	/** Initial value of the column from where the streaming should start */
 ["profiles_stream_cursor_value_input"]: {
 	address?: string | undefined,
-	ann_power?: boolean | undefined,
 	avatar?: string | undefined,
 	background?: string | undefined,
 	bio?: string | undefined,
 	chat_id?: string | undefined,
+	connector?: string | undefined,
 	created_at?: ModelTypes["timestamp"] | undefined,
 	discord_username?: string | undefined,
 	github_username?: string | undefined,
 	id?: ModelTypes["bigint"] | undefined,
 	medium_username?: string | undefined,
-	name?: string | undefined,
+	name?: ModelTypes["citext"] | undefined,
 	skills?: string | undefined,
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
@@ -32299,6 +36765,12 @@ export type ModelTypes = {
 	contributions_aggregate: ModelTypes["contributions_aggregate"],
 	/** fetch data from the table: "contributions" using primary key columns */
 	contributions_by_pk?: ModelTypes["contributions"] | undefined,
+	/** fetch data from the table: "discord.circle_api_tokens" */
+	discord_circle_api_tokens: Array<ModelTypes["discord_circle_api_tokens"]>,
+	/** fetch aggregated fields from the table: "discord.circle_api_tokens" */
+	discord_circle_api_tokens_aggregate: ModelTypes["discord_circle_api_tokens_aggregate"],
+	/** fetch data from the table: "discord.circle_api_tokens" using primary key columns */
+	discord_circle_api_tokens_by_pk?: ModelTypes["discord_circle_api_tokens"] | undefined,
 	/** fetch data from the table: "discord.roles_circles" */
 	discord_roles_circles: Array<ModelTypes["discord_roles_circles"]>,
 	/** fetch aggregated fields from the table: "discord.roles_circles" */
@@ -32317,6 +36789,12 @@ export type ModelTypes = {
 	distributions_aggregate: ModelTypes["distributions_aggregate"],
 	/** fetch data from the table: "distributions" using primary key columns */
 	distributions_by_pk?: ModelTypes["distributions"] | undefined,
+	/** fetch data from the table: "epoch_pgive_data" */
+	epoch_pgive_data: Array<ModelTypes["epoch_pgive_data"]>,
+	/** fetch aggregated fields from the table: "epoch_pgive_data" */
+	epoch_pgive_data_aggregate: ModelTypes["epoch_pgive_data_aggregate"],
+	/** fetch data from the table: "epoch_pgive_data" using primary key columns */
+	epoch_pgive_data_by_pk?: ModelTypes["epoch_pgive_data"] | undefined,
 	/** An array relationship */
 	epochs: Array<ModelTypes["epochs"]>,
 	/** An aggregate relationship */
@@ -32339,6 +36817,24 @@ export type ModelTypes = {
 	interaction_events_aggregate: ModelTypes["interaction_events_aggregate"],
 	/** fetch data from the table: "interaction_events" using primary key columns */
 	interaction_events_by_pk?: ModelTypes["interaction_events"] | undefined,
+	/** An array relationship */
+	locked_token_distribution_gifts: Array<ModelTypes["locked_token_distribution_gifts"]>,
+	/** An aggregate relationship */
+	locked_token_distribution_gifts_aggregate: ModelTypes["locked_token_distribution_gifts_aggregate"],
+	/** fetch data from the table: "locked_token_distribution_gifts" using primary key columns */
+	locked_token_distribution_gifts_by_pk?: ModelTypes["locked_token_distribution_gifts"] | undefined,
+	/** fetch data from the table: "locked_token_distributions" */
+	locked_token_distributions: Array<ModelTypes["locked_token_distributions"]>,
+	/** fetch aggregated fields from the table: "locked_token_distributions" */
+	locked_token_distributions_aggregate: ModelTypes["locked_token_distributions_aggregate"],
+	/** fetch data from the table: "locked_token_distributions" using primary key columns */
+	locked_token_distributions_by_pk?: ModelTypes["locked_token_distributions"] | undefined,
+	/** fetch data from the table: "member_epoch_pgives" */
+	member_epoch_pgives: Array<ModelTypes["member_epoch_pgives"]>,
+	/** fetch aggregated fields from the table: "member_epoch_pgives" */
+	member_epoch_pgives_aggregate: ModelTypes["member_epoch_pgives_aggregate"],
+	/** fetch data from the table: "member_epoch_pgives" using primary key columns */
+	member_epoch_pgives_by_pk?: ModelTypes["member_epoch_pgives"] | undefined,
 	/** An array relationship */
 	nominees: Array<ModelTypes["nominees"]>,
 	/** An aggregate relationship */
@@ -32373,6 +36869,7 @@ export type ModelTypes = {
 	personal_access_tokens_aggregate: ModelTypes["personal_access_tokens_aggregate"],
 	/** fetch data from the table: "personal_access_tokens" using primary key columns */
 	personal_access_tokens_by_pk?: ModelTypes["personal_access_tokens"] | undefined,
+	price_per_share: number,
 	/** fetch data from the table: "profiles" */
 	profiles: Array<ModelTypes["profiles"]>,
 	/** fetch aggregated fields from the table: "profiles" */
@@ -32497,6 +36994,14 @@ export type ModelTypes = {
 	contributions_by_pk?: ModelTypes["contributions"] | undefined,
 	/** fetch data from the table in a streaming manner : "contributions" */
 	contributions_stream: Array<ModelTypes["contributions"]>,
+	/** fetch data from the table: "discord.circle_api_tokens" */
+	discord_circle_api_tokens: Array<ModelTypes["discord_circle_api_tokens"]>,
+	/** fetch aggregated fields from the table: "discord.circle_api_tokens" */
+	discord_circle_api_tokens_aggregate: ModelTypes["discord_circle_api_tokens_aggregate"],
+	/** fetch data from the table: "discord.circle_api_tokens" using primary key columns */
+	discord_circle_api_tokens_by_pk?: ModelTypes["discord_circle_api_tokens"] | undefined,
+	/** fetch data from the table in a streaming manner : "discord.circle_api_tokens" */
+	discord_circle_api_tokens_stream: Array<ModelTypes["discord_circle_api_tokens"]>,
 	/** fetch data from the table: "discord.roles_circles" */
 	discord_roles_circles: Array<ModelTypes["discord_roles_circles"]>,
 	/** fetch aggregated fields from the table: "discord.roles_circles" */
@@ -32521,6 +37026,14 @@ export type ModelTypes = {
 	distributions_by_pk?: ModelTypes["distributions"] | undefined,
 	/** fetch data from the table in a streaming manner : "distributions" */
 	distributions_stream: Array<ModelTypes["distributions"]>,
+	/** fetch data from the table: "epoch_pgive_data" */
+	epoch_pgive_data: Array<ModelTypes["epoch_pgive_data"]>,
+	/** fetch aggregated fields from the table: "epoch_pgive_data" */
+	epoch_pgive_data_aggregate: ModelTypes["epoch_pgive_data_aggregate"],
+	/** fetch data from the table: "epoch_pgive_data" using primary key columns */
+	epoch_pgive_data_by_pk?: ModelTypes["epoch_pgive_data"] | undefined,
+	/** fetch data from the table in a streaming manner : "epoch_pgive_data" */
+	epoch_pgive_data_stream: Array<ModelTypes["epoch_pgive_data"]>,
 	/** An array relationship */
 	epochs: Array<ModelTypes["epochs"]>,
 	/** An aggregate relationship */
@@ -32551,6 +37064,30 @@ export type ModelTypes = {
 	interaction_events_by_pk?: ModelTypes["interaction_events"] | undefined,
 	/** fetch data from the table in a streaming manner : "interaction_events" */
 	interaction_events_stream: Array<ModelTypes["interaction_events"]>,
+	/** An array relationship */
+	locked_token_distribution_gifts: Array<ModelTypes["locked_token_distribution_gifts"]>,
+	/** An aggregate relationship */
+	locked_token_distribution_gifts_aggregate: ModelTypes["locked_token_distribution_gifts_aggregate"],
+	/** fetch data from the table: "locked_token_distribution_gifts" using primary key columns */
+	locked_token_distribution_gifts_by_pk?: ModelTypes["locked_token_distribution_gifts"] | undefined,
+	/** fetch data from the table in a streaming manner : "locked_token_distribution_gifts" */
+	locked_token_distribution_gifts_stream: Array<ModelTypes["locked_token_distribution_gifts"]>,
+	/** fetch data from the table: "locked_token_distributions" */
+	locked_token_distributions: Array<ModelTypes["locked_token_distributions"]>,
+	/** fetch aggregated fields from the table: "locked_token_distributions" */
+	locked_token_distributions_aggregate: ModelTypes["locked_token_distributions_aggregate"],
+	/** fetch data from the table: "locked_token_distributions" using primary key columns */
+	locked_token_distributions_by_pk?: ModelTypes["locked_token_distributions"] | undefined,
+	/** fetch data from the table in a streaming manner : "locked_token_distributions" */
+	locked_token_distributions_stream: Array<ModelTypes["locked_token_distributions"]>,
+	/** fetch data from the table: "member_epoch_pgives" */
+	member_epoch_pgives: Array<ModelTypes["member_epoch_pgives"]>,
+	/** fetch aggregated fields from the table: "member_epoch_pgives" */
+	member_epoch_pgives_aggregate: ModelTypes["member_epoch_pgives_aggregate"],
+	/** fetch data from the table: "member_epoch_pgives" using primary key columns */
+	member_epoch_pgives_by_pk?: ModelTypes["member_epoch_pgives"] | undefined,
+	/** fetch data from the table in a streaming manner : "member_epoch_pgives" */
+	member_epoch_pgives_stream: Array<ModelTypes["member_epoch_pgives"]>,
 	/** An array relationship */
 	nominees: Array<ModelTypes["nominees"]>,
 	/** An aggregate relationship */
@@ -34520,6 +39057,7 @@ export type ModelTypes = {
 	org_id: ModelTypes["bigint"],
 	/** An object relationship */
 	organization: ModelTypes["organizations"],
+	price_per_share: number,
 	/** An object relationship */
 	profile: ModelTypes["profiles"],
 	simple_token_address: string,
@@ -35263,6 +39801,7 @@ export type GraphQLTypes = {
 	["CreateEpochInput"]: {
 		circle_id: number,
 	days: number,
+	description?: string | undefined,
 	grant?: number | undefined,
 	repeat: number,
 	start_date: GraphQLTypes["timestamptz"]
@@ -35282,17 +39821,6 @@ export type GraphQLTypes = {
 	__typename: "CreateSampleCircleResponse",
 	circle?: GraphQLTypes["circles"] | undefined,
 	id: number
-};
-	["CreateUserInput"]: {
-		address: string,
-	circle_id: number,
-	fixed_non_receiver?: boolean | undefined,
-	fixed_payment_amount?: number | undefined,
-	name: string,
-	non_giver?: boolean | undefined,
-	non_receiver?: boolean | undefined,
-	role?: number | undefined,
-	starting_tokens?: number | undefined
 };
 	["CreateUserWithTokenInput"]: {
 		name: string,
@@ -35448,6 +39976,7 @@ export type GraphQLTypes = {
 	name?: string | undefined,
 	nomination_days_limit?: number | undefined,
 	only_giver_vouch?: boolean | undefined,
+	show_pending_gives?: boolean | undefined,
 	team_sel_text?: string | undefined,
 	team_selection?: boolean | undefined,
 	token_name?: string | undefined,
@@ -35478,6 +40007,7 @@ export type GraphQLTypes = {
 	["UpdateEpochInput"]: {
 		circle_id: number,
 	days: number,
+	description?: string | undefined,
 	grant?: number | undefined,
 	id: number,
 	repeat: number,
@@ -35487,6 +40017,14 @@ export type GraphQLTypes = {
 	__typename: "UpdateOrgResponse",
 	id: number,
 	org?: GraphQLTypes["organizations"] | undefined
+};
+	["UpdateProfileNameInput"]: {
+		name: string
+};
+	["UpdateProfileNameResponse"]: {
+	__typename: "UpdateProfileNameResponse",
+	id: number,
+	profileName?: GraphQLTypes["profiles"] | undefined
 };
 	["UpdateProfileResponse"]: {
 	__typename: "UpdateProfileResponse",
@@ -37742,6 +42280,39 @@ export type GraphQLTypes = {
 	nomination_days_limit?: GraphQLTypes["order_by"] | undefined,
 	organization_id?: GraphQLTypes["order_by"] | undefined
 };
+	["citext"]: "scalar" & { name: "citext" };
+	/** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
+["citext_comparison_exp"]: {
+		_eq?: GraphQLTypes["citext"] | undefined,
+	_gt?: GraphQLTypes["citext"] | undefined,
+	_gte?: GraphQLTypes["citext"] | undefined,
+	/** does the column match the given case-insensitive pattern */
+	_ilike?: GraphQLTypes["citext"] | undefined,
+	_in?: Array<GraphQLTypes["citext"]> | undefined,
+	/** does the column match the given POSIX regular expression, case insensitive */
+	_iregex?: GraphQLTypes["citext"] | undefined,
+	_is_null?: boolean | undefined,
+	/** does the column match the given pattern */
+	_like?: GraphQLTypes["citext"] | undefined,
+	_lt?: GraphQLTypes["citext"] | undefined,
+	_lte?: GraphQLTypes["citext"] | undefined,
+	_neq?: GraphQLTypes["citext"] | undefined,
+	/** does the column NOT match the given case-insensitive pattern */
+	_nilike?: GraphQLTypes["citext"] | undefined,
+	_nin?: Array<GraphQLTypes["citext"]> | undefined,
+	/** does the column NOT match the given POSIX regular expression, case insensitive */
+	_niregex?: GraphQLTypes["citext"] | undefined,
+	/** does the column NOT match the given pattern */
+	_nlike?: GraphQLTypes["citext"] | undefined,
+	/** does the column NOT match the given POSIX regular expression, case sensitive */
+	_nregex?: GraphQLTypes["citext"] | undefined,
+	/** does the column NOT match the given SQL regular expression */
+	_nsimilar?: GraphQLTypes["citext"] | undefined,
+	/** does the column match the given POSIX regular expression, case sensitive */
+	_regex?: GraphQLTypes["citext"] | undefined,
+	/** does the column match the given SQL regular expression */
+	_similar?: GraphQLTypes["citext"] | undefined
+};
 	/** columns and relationships of "claims" */
 ["claims"]: {
 	__typename: "claims",
@@ -38483,6 +43054,188 @@ export type GraphQLTypes = {
 	_neq?: GraphQLTypes["date"] | undefined,
 	_nin?: Array<GraphQLTypes["date"]> | undefined
 };
+	/** tokens the discord bot uses to operate on circles */
+["discord_circle_api_tokens"]: {
+	__typename: "discord_circle_api_tokens",
+	channel_snowflake: string,
+	circle_id: GraphQLTypes["bigint"],
+	created_at: GraphQLTypes["timestamptz"],
+	id: GraphQLTypes["bigint"],
+	token?: string | undefined
+};
+	/** aggregated selection of "discord.circle_api_tokens" */
+["discord_circle_api_tokens_aggregate"]: {
+	__typename: "discord_circle_api_tokens_aggregate",
+	aggregate?: GraphQLTypes["discord_circle_api_tokens_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["discord_circle_api_tokens"]>
+};
+	/** aggregate fields of "discord.circle_api_tokens" */
+["discord_circle_api_tokens_aggregate_fields"]: {
+	__typename: "discord_circle_api_tokens_aggregate_fields",
+	avg?: GraphQLTypes["discord_circle_api_tokens_avg_fields"] | undefined,
+	count: number,
+	max?: GraphQLTypes["discord_circle_api_tokens_max_fields"] | undefined,
+	min?: GraphQLTypes["discord_circle_api_tokens_min_fields"] | undefined,
+	stddev?: GraphQLTypes["discord_circle_api_tokens_stddev_fields"] | undefined,
+	stddev_pop?: GraphQLTypes["discord_circle_api_tokens_stddev_pop_fields"] | undefined,
+	stddev_samp?: GraphQLTypes["discord_circle_api_tokens_stddev_samp_fields"] | undefined,
+	sum?: GraphQLTypes["discord_circle_api_tokens_sum_fields"] | undefined,
+	var_pop?: GraphQLTypes["discord_circle_api_tokens_var_pop_fields"] | undefined,
+	var_samp?: GraphQLTypes["discord_circle_api_tokens_var_samp_fields"] | undefined,
+	variance?: GraphQLTypes["discord_circle_api_tokens_variance_fields"] | undefined
+};
+	/** aggregate avg on columns */
+["discord_circle_api_tokens_avg_fields"]: {
+	__typename: "discord_circle_api_tokens_avg_fields",
+	circle_id?: number | undefined,
+	id?: number | undefined
+};
+	/** Boolean expression to filter rows from the table "discord.circle_api_tokens". All fields are combined with a logical 'AND'. */
+["discord_circle_api_tokens_bool_exp"]: {
+		_and?: Array<GraphQLTypes["discord_circle_api_tokens_bool_exp"]> | undefined,
+	_not?: GraphQLTypes["discord_circle_api_tokens_bool_exp"] | undefined,
+	_or?: Array<GraphQLTypes["discord_circle_api_tokens_bool_exp"]> | undefined,
+	channel_snowflake?: GraphQLTypes["String_comparison_exp"] | undefined,
+	circle_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	created_at?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
+	id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	token?: GraphQLTypes["String_comparison_exp"] | undefined
+};
+	/** unique or primary key constraints on table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_constraint"]: discord_circle_api_tokens_constraint;
+	/** input type for incrementing numeric columns in table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_inc_input"]: {
+		circle_id?: GraphQLTypes["bigint"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined
+};
+	/** input type for inserting data into table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_insert_input"]: {
+		channel_snowflake?: string | undefined,
+	circle_id?: GraphQLTypes["bigint"] | undefined,
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	token?: string | undefined
+};
+	/** aggregate max on columns */
+["discord_circle_api_tokens_max_fields"]: {
+	__typename: "discord_circle_api_tokens_max_fields",
+	channel_snowflake?: string | undefined,
+	circle_id?: GraphQLTypes["bigint"] | undefined,
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	token?: string | undefined
+};
+	/** aggregate min on columns */
+["discord_circle_api_tokens_min_fields"]: {
+	__typename: "discord_circle_api_tokens_min_fields",
+	channel_snowflake?: string | undefined,
+	circle_id?: GraphQLTypes["bigint"] | undefined,
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	token?: string | undefined
+};
+	/** response of any mutation on the table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_mutation_response"]: {
+	__typename: "discord_circle_api_tokens_mutation_response",
+	/** number of rows affected by the mutation */
+	affected_rows: number,
+	/** data from the rows affected by the mutation */
+	returning: Array<GraphQLTypes["discord_circle_api_tokens"]>
+};
+	/** on_conflict condition type for table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_on_conflict"]: {
+		constraint: GraphQLTypes["discord_circle_api_tokens_constraint"],
+	update_columns: Array<GraphQLTypes["discord_circle_api_tokens_update_column"]>,
+	where?: GraphQLTypes["discord_circle_api_tokens_bool_exp"] | undefined
+};
+	/** Ordering options when selecting data from "discord.circle_api_tokens". */
+["discord_circle_api_tokens_order_by"]: {
+		channel_snowflake?: GraphQLTypes["order_by"] | undefined,
+	circle_id?: GraphQLTypes["order_by"] | undefined,
+	created_at?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	token?: GraphQLTypes["order_by"] | undefined
+};
+	/** primary key columns input for table: discord.circle_api_tokens */
+["discord_circle_api_tokens_pk_columns_input"]: {
+		id: GraphQLTypes["bigint"]
+};
+	/** select columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_select_column"]: discord_circle_api_tokens_select_column;
+	/** input type for updating data in table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_set_input"]: {
+		channel_snowflake?: string | undefined,
+	circle_id?: GraphQLTypes["bigint"] | undefined,
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	token?: string | undefined
+};
+	/** aggregate stddev on columns */
+["discord_circle_api_tokens_stddev_fields"]: {
+	__typename: "discord_circle_api_tokens_stddev_fields",
+	circle_id?: number | undefined,
+	id?: number | undefined
+};
+	/** aggregate stddev_pop on columns */
+["discord_circle_api_tokens_stddev_pop_fields"]: {
+	__typename: "discord_circle_api_tokens_stddev_pop_fields",
+	circle_id?: number | undefined,
+	id?: number | undefined
+};
+	/** aggregate stddev_samp on columns */
+["discord_circle_api_tokens_stddev_samp_fields"]: {
+	__typename: "discord_circle_api_tokens_stddev_samp_fields",
+	circle_id?: number | undefined,
+	id?: number | undefined
+};
+	/** Streaming cursor of the table "discord_circle_api_tokens" */
+["discord_circle_api_tokens_stream_cursor_input"]: {
+		/** Stream column input with initial value */
+	initial_value: GraphQLTypes["discord_circle_api_tokens_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: GraphQLTypes["cursor_ordering"] | undefined
+};
+	/** Initial value of the column from where the streaming should start */
+["discord_circle_api_tokens_stream_cursor_value_input"]: {
+		channel_snowflake?: string | undefined,
+	circle_id?: GraphQLTypes["bigint"] | undefined,
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	token?: string | undefined
+};
+	/** aggregate sum on columns */
+["discord_circle_api_tokens_sum_fields"]: {
+	__typename: "discord_circle_api_tokens_sum_fields",
+	circle_id?: GraphQLTypes["bigint"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined
+};
+	/** update columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_update_column"]: discord_circle_api_tokens_update_column;
+	["discord_circle_api_tokens_updates"]: {
+		/** increments the numeric columns with given value of the filtered values */
+	_inc?: GraphQLTypes["discord_circle_api_tokens_inc_input"] | undefined,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: GraphQLTypes["discord_circle_api_tokens_set_input"] | undefined,
+	where: GraphQLTypes["discord_circle_api_tokens_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["discord_circle_api_tokens_var_pop_fields"]: {
+	__typename: "discord_circle_api_tokens_var_pop_fields",
+	circle_id?: number | undefined,
+	id?: number | undefined
+};
+	/** aggregate var_samp on columns */
+["discord_circle_api_tokens_var_samp_fields"]: {
+	__typename: "discord_circle_api_tokens_var_samp_fields",
+	circle_id?: number | undefined,
+	id?: number | undefined
+};
+	/** aggregate variance on columns */
+["discord_circle_api_tokens_variance_fields"]: {
+	__typename: "discord_circle_api_tokens_variance_fields",
+	circle_id?: number | undefined,
+	id?: number | undefined
+};
 	/** link a discord role to a circle  to control membership of the circle */
 ["discord_roles_circles"]: {
 	__typename: "discord_roles_circles",
@@ -38491,7 +43244,7 @@ export type GraphQLTypes = {
 	circle_id: GraphQLTypes["bigint"],
 	created_at: GraphQLTypes["timestamptz"],
 	id: GraphQLTypes["bigint"],
-	role: string,
+	server_role: string,
 	updated_at: GraphQLTypes["timestamptz"]
 };
 	/** aggregated selection of "discord.roles_circles" */
@@ -38530,7 +43283,7 @@ export type GraphQLTypes = {
 	circle_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
 	created_at?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
 	id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
-	role?: GraphQLTypes["String_comparison_exp"] | undefined,
+	server_role?: GraphQLTypes["String_comparison_exp"] | undefined,
 	updated_at?: GraphQLTypes["timestamptz_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "discord.roles_circles" */
@@ -38546,7 +43299,7 @@ export type GraphQLTypes = {
 	circle_id?: GraphQLTypes["bigint"] | undefined,
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
-	role?: string | undefined,
+	server_role?: string | undefined,
 	updated_at?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** aggregate max on columns */
@@ -38555,7 +43308,7 @@ export type GraphQLTypes = {
 	circle_id?: GraphQLTypes["bigint"] | undefined,
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
-	role?: string | undefined,
+	server_role?: string | undefined,
 	updated_at?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** aggregate min on columns */
@@ -38564,7 +43317,7 @@ export type GraphQLTypes = {
 	circle_id?: GraphQLTypes["bigint"] | undefined,
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
-	role?: string | undefined,
+	server_role?: string | undefined,
 	updated_at?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** response of any mutation on the table "discord.roles_circles" */
@@ -38587,7 +43340,7 @@ export type GraphQLTypes = {
 	circle_id?: GraphQLTypes["order_by"] | undefined,
 	created_at?: GraphQLTypes["order_by"] | undefined,
 	id?: GraphQLTypes["order_by"] | undefined,
-	role?: GraphQLTypes["order_by"] | undefined,
+	server_role?: GraphQLTypes["order_by"] | undefined,
 	updated_at?: GraphQLTypes["order_by"] | undefined
 };
 	/** primary key columns input for table: discord.roles_circles */
@@ -38601,7 +43354,7 @@ export type GraphQLTypes = {
 		circle_id?: GraphQLTypes["bigint"] | undefined,
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
-	role?: string | undefined,
+	server_role?: string | undefined,
 	updated_at?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** aggregate stddev on columns */
@@ -38634,7 +43387,7 @@ export type GraphQLTypes = {
 		circle_id?: GraphQLTypes["bigint"] | undefined,
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
-	role?: string | undefined,
+	server_role?: string | undefined,
 	updated_at?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** aggregate sum on columns */
@@ -39368,6 +44121,268 @@ export type GraphQLTypes = {
 	id?: GraphQLTypes["order_by"] | undefined,
 	vault_id?: GraphQLTypes["order_by"] | undefined
 };
+	/** columns and relationships of "epoch_pgive_data" */
+["epoch_pgive_data"]: {
+	__typename: "epoch_pgive_data",
+	active_months: number,
+	active_months_bonus: GraphQLTypes["numeric"],
+	created_at: GraphQLTypes["timestamptz"],
+	/** An object relationship */
+	epoch: GraphQLTypes["epochs"],
+	epoch_id: number,
+	gives_receiver_base: GraphQLTypes["numeric"],
+	id: number,
+	notes_bonus: GraphQLTypes["numeric"],
+	pgive: GraphQLTypes["numeric"]
+};
+	/** aggregated selection of "epoch_pgive_data" */
+["epoch_pgive_data_aggregate"]: {
+	__typename: "epoch_pgive_data_aggregate",
+	aggregate?: GraphQLTypes["epoch_pgive_data_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["epoch_pgive_data"]>
+};
+	/** aggregate fields of "epoch_pgive_data" */
+["epoch_pgive_data_aggregate_fields"]: {
+	__typename: "epoch_pgive_data_aggregate_fields",
+	avg?: GraphQLTypes["epoch_pgive_data_avg_fields"] | undefined,
+	count: number,
+	max?: GraphQLTypes["epoch_pgive_data_max_fields"] | undefined,
+	min?: GraphQLTypes["epoch_pgive_data_min_fields"] | undefined,
+	stddev?: GraphQLTypes["epoch_pgive_data_stddev_fields"] | undefined,
+	stddev_pop?: GraphQLTypes["epoch_pgive_data_stddev_pop_fields"] | undefined,
+	stddev_samp?: GraphQLTypes["epoch_pgive_data_stddev_samp_fields"] | undefined,
+	sum?: GraphQLTypes["epoch_pgive_data_sum_fields"] | undefined,
+	var_pop?: GraphQLTypes["epoch_pgive_data_var_pop_fields"] | undefined,
+	var_samp?: GraphQLTypes["epoch_pgive_data_var_samp_fields"] | undefined,
+	variance?: GraphQLTypes["epoch_pgive_data_variance_fields"] | undefined
+};
+	/** aggregate avg on columns */
+["epoch_pgive_data_avg_fields"]: {
+	__typename: "epoch_pgive_data_avg_fields",
+	active_months?: number | undefined,
+	active_months_bonus?: number | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: number | undefined,
+	id?: number | undefined,
+	notes_bonus?: number | undefined,
+	pgive?: number | undefined
+};
+	/** Boolean expression to filter rows from the table "epoch_pgive_data". All fields are combined with a logical 'AND'. */
+["epoch_pgive_data_bool_exp"]: {
+		_and?: Array<GraphQLTypes["epoch_pgive_data_bool_exp"]> | undefined,
+	_not?: GraphQLTypes["epoch_pgive_data_bool_exp"] | undefined,
+	_or?: Array<GraphQLTypes["epoch_pgive_data_bool_exp"]> | undefined,
+	active_months?: GraphQLTypes["Int_comparison_exp"] | undefined,
+	active_months_bonus?: GraphQLTypes["numeric_comparison_exp"] | undefined,
+	created_at?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
+	epoch?: GraphQLTypes["epochs_bool_exp"] | undefined,
+	epoch_id?: GraphQLTypes["Int_comparison_exp"] | undefined,
+	gives_receiver_base?: GraphQLTypes["numeric_comparison_exp"] | undefined,
+	id?: GraphQLTypes["Int_comparison_exp"] | undefined,
+	notes_bonus?: GraphQLTypes["numeric_comparison_exp"] | undefined,
+	pgive?: GraphQLTypes["numeric_comparison_exp"] | undefined
+};
+	/** unique or primary key constraints on table "epoch_pgive_data" */
+["epoch_pgive_data_constraint"]: epoch_pgive_data_constraint;
+	/** input type for incrementing numeric columns in table "epoch_pgive_data" */
+["epoch_pgive_data_inc_input"]: {
+		active_months?: number | undefined,
+	active_months_bonus?: GraphQLTypes["numeric"] | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: GraphQLTypes["numeric"] | undefined,
+	id?: number | undefined,
+	notes_bonus?: GraphQLTypes["numeric"] | undefined,
+	pgive?: GraphQLTypes["numeric"] | undefined
+};
+	/** input type for inserting data into table "epoch_pgive_data" */
+["epoch_pgive_data_insert_input"]: {
+		active_months?: number | undefined,
+	active_months_bonus?: GraphQLTypes["numeric"] | undefined,
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	epoch?: GraphQLTypes["epochs_obj_rel_insert_input"] | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: GraphQLTypes["numeric"] | undefined,
+	id?: number | undefined,
+	notes_bonus?: GraphQLTypes["numeric"] | undefined,
+	pgive?: GraphQLTypes["numeric"] | undefined
+};
+	/** aggregate max on columns */
+["epoch_pgive_data_max_fields"]: {
+	__typename: "epoch_pgive_data_max_fields",
+	active_months?: number | undefined,
+	active_months_bonus?: GraphQLTypes["numeric"] | undefined,
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: GraphQLTypes["numeric"] | undefined,
+	id?: number | undefined,
+	notes_bonus?: GraphQLTypes["numeric"] | undefined,
+	pgive?: GraphQLTypes["numeric"] | undefined
+};
+	/** aggregate min on columns */
+["epoch_pgive_data_min_fields"]: {
+	__typename: "epoch_pgive_data_min_fields",
+	active_months?: number | undefined,
+	active_months_bonus?: GraphQLTypes["numeric"] | undefined,
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: GraphQLTypes["numeric"] | undefined,
+	id?: number | undefined,
+	notes_bonus?: GraphQLTypes["numeric"] | undefined,
+	pgive?: GraphQLTypes["numeric"] | undefined
+};
+	/** response of any mutation on the table "epoch_pgive_data" */
+["epoch_pgive_data_mutation_response"]: {
+	__typename: "epoch_pgive_data_mutation_response",
+	/** number of rows affected by the mutation */
+	affected_rows: number,
+	/** data from the rows affected by the mutation */
+	returning: Array<GraphQLTypes["epoch_pgive_data"]>
+};
+	/** input type for inserting object relation for remote table "epoch_pgive_data" */
+["epoch_pgive_data_obj_rel_insert_input"]: {
+		data: GraphQLTypes["epoch_pgive_data_insert_input"],
+	/** upsert condition */
+	on_conflict?: GraphQLTypes["epoch_pgive_data_on_conflict"] | undefined
+};
+	/** on_conflict condition type for table "epoch_pgive_data" */
+["epoch_pgive_data_on_conflict"]: {
+		constraint: GraphQLTypes["epoch_pgive_data_constraint"],
+	update_columns: Array<GraphQLTypes["epoch_pgive_data_update_column"]>,
+	where?: GraphQLTypes["epoch_pgive_data_bool_exp"] | undefined
+};
+	/** Ordering options when selecting data from "epoch_pgive_data". */
+["epoch_pgive_data_order_by"]: {
+		active_months?: GraphQLTypes["order_by"] | undefined,
+	active_months_bonus?: GraphQLTypes["order_by"] | undefined,
+	created_at?: GraphQLTypes["order_by"] | undefined,
+	epoch?: GraphQLTypes["epochs_order_by"] | undefined,
+	epoch_id?: GraphQLTypes["order_by"] | undefined,
+	gives_receiver_base?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	notes_bonus?: GraphQLTypes["order_by"] | undefined,
+	pgive?: GraphQLTypes["order_by"] | undefined
+};
+	/** primary key columns input for table: epoch_pgive_data */
+["epoch_pgive_data_pk_columns_input"]: {
+		id: number
+};
+	/** select columns of table "epoch_pgive_data" */
+["epoch_pgive_data_select_column"]: epoch_pgive_data_select_column;
+	/** input type for updating data in table "epoch_pgive_data" */
+["epoch_pgive_data_set_input"]: {
+		active_months?: number | undefined,
+	active_months_bonus?: GraphQLTypes["numeric"] | undefined,
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: GraphQLTypes["numeric"] | undefined,
+	id?: number | undefined,
+	notes_bonus?: GraphQLTypes["numeric"] | undefined,
+	pgive?: GraphQLTypes["numeric"] | undefined
+};
+	/** aggregate stddev on columns */
+["epoch_pgive_data_stddev_fields"]: {
+	__typename: "epoch_pgive_data_stddev_fields",
+	active_months?: number | undefined,
+	active_months_bonus?: number | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: number | undefined,
+	id?: number | undefined,
+	notes_bonus?: number | undefined,
+	pgive?: number | undefined
+};
+	/** aggregate stddev_pop on columns */
+["epoch_pgive_data_stddev_pop_fields"]: {
+	__typename: "epoch_pgive_data_stddev_pop_fields",
+	active_months?: number | undefined,
+	active_months_bonus?: number | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: number | undefined,
+	id?: number | undefined,
+	notes_bonus?: number | undefined,
+	pgive?: number | undefined
+};
+	/** aggregate stddev_samp on columns */
+["epoch_pgive_data_stddev_samp_fields"]: {
+	__typename: "epoch_pgive_data_stddev_samp_fields",
+	active_months?: number | undefined,
+	active_months_bonus?: number | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: number | undefined,
+	id?: number | undefined,
+	notes_bonus?: number | undefined,
+	pgive?: number | undefined
+};
+	/** Streaming cursor of the table "epoch_pgive_data" */
+["epoch_pgive_data_stream_cursor_input"]: {
+		/** Stream column input with initial value */
+	initial_value: GraphQLTypes["epoch_pgive_data_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: GraphQLTypes["cursor_ordering"] | undefined
+};
+	/** Initial value of the column from where the streaming should start */
+["epoch_pgive_data_stream_cursor_value_input"]: {
+		active_months?: number | undefined,
+	active_months_bonus?: GraphQLTypes["numeric"] | undefined,
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: GraphQLTypes["numeric"] | undefined,
+	id?: number | undefined,
+	notes_bonus?: GraphQLTypes["numeric"] | undefined,
+	pgive?: GraphQLTypes["numeric"] | undefined
+};
+	/** aggregate sum on columns */
+["epoch_pgive_data_sum_fields"]: {
+	__typename: "epoch_pgive_data_sum_fields",
+	active_months?: number | undefined,
+	active_months_bonus?: GraphQLTypes["numeric"] | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: GraphQLTypes["numeric"] | undefined,
+	id?: number | undefined,
+	notes_bonus?: GraphQLTypes["numeric"] | undefined,
+	pgive?: GraphQLTypes["numeric"] | undefined
+};
+	/** update columns of table "epoch_pgive_data" */
+["epoch_pgive_data_update_column"]: epoch_pgive_data_update_column;
+	["epoch_pgive_data_updates"]: {
+		/** increments the numeric columns with given value of the filtered values */
+	_inc?: GraphQLTypes["epoch_pgive_data_inc_input"] | undefined,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: GraphQLTypes["epoch_pgive_data_set_input"] | undefined,
+	where: GraphQLTypes["epoch_pgive_data_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["epoch_pgive_data_var_pop_fields"]: {
+	__typename: "epoch_pgive_data_var_pop_fields",
+	active_months?: number | undefined,
+	active_months_bonus?: number | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: number | undefined,
+	id?: number | undefined,
+	notes_bonus?: number | undefined,
+	pgive?: number | undefined
+};
+	/** aggregate var_samp on columns */
+["epoch_pgive_data_var_samp_fields"]: {
+	__typename: "epoch_pgive_data_var_samp_fields",
+	active_months?: number | undefined,
+	active_months_bonus?: number | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: number | undefined,
+	id?: number | undefined,
+	notes_bonus?: number | undefined,
+	pgive?: number | undefined
+};
+	/** aggregate variance on columns */
+["epoch_pgive_data_variance_fields"]: {
+	__typename: "epoch_pgive_data_variance_fields",
+	active_months?: number | undefined,
+	active_months_bonus?: number | undefined,
+	epoch_id?: number | undefined,
+	gives_receiver_base?: number | undefined,
+	id?: number | undefined,
+	notes_bonus?: number | undefined,
+	pgive?: number | undefined
+};
 	/** columns and relationships of "epoches" */
 ["epochs"]: {
 	__typename: "epochs",
@@ -39397,6 +44412,8 @@ export type GraphQLTypes = {
 	notified_end?: GraphQLTypes["timestamp"] | undefined,
 	notified_start?: GraphQLTypes["timestamp"] | undefined,
 	number?: number | undefined,
+	/** An object relationship */
+	pgive_data?: GraphQLTypes["epoch_pgive_data"] | undefined,
 	regift_days: number,
 	repeat: number,
 	repeat_day_of_month: number,
@@ -39492,6 +44509,7 @@ export type GraphQLTypes = {
 	notified_end?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	notified_start?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	number?: GraphQLTypes["Int_comparison_exp"] | undefined,
+	pgive_data?: GraphQLTypes["epoch_pgive_data_bool_exp"] | undefined,
 	regift_days?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	repeat?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	repeat_day_of_month?: GraphQLTypes["Int_comparison_exp"] | undefined,
@@ -39530,6 +44548,7 @@ export type GraphQLTypes = {
 	notified_end?: GraphQLTypes["timestamp"] | undefined,
 	notified_start?: GraphQLTypes["timestamp"] | undefined,
 	number?: number | undefined,
+	pgive_data?: GraphQLTypes["epoch_pgive_data_obj_rel_insert_input"] | undefined,
 	regift_days?: number | undefined,
 	repeat?: number | undefined,
 	repeat_day_of_month?: number | undefined,
@@ -39653,6 +44672,7 @@ export type GraphQLTypes = {
 	notified_end?: GraphQLTypes["order_by"] | undefined,
 	notified_start?: GraphQLTypes["order_by"] | undefined,
 	number?: GraphQLTypes["order_by"] | undefined,
+	pgive_data?: GraphQLTypes["epoch_pgive_data_order_by"] | undefined,
 	regift_days?: GraphQLTypes["order_by"] | undefined,
 	repeat?: GraphQLTypes["order_by"] | undefined,
 	repeat_day_of_month?: GraphQLTypes["order_by"] | undefined,
@@ -40612,6 +45632,832 @@ export type GraphQLTypes = {
 	_neq?: GraphQLTypes["jsonb"] | undefined,
 	_nin?: Array<GraphQLTypes["jsonb"]> | undefined
 };
+	/** columns and relationships of "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts"]: {
+	__typename: "locked_token_distribution_gifts",
+	earnings: GraphQLTypes["numeric"],
+	id: GraphQLTypes["bigint"],
+	/** An object relationship */
+	locked_token_distribution: GraphQLTypes["locked_token_distributions"],
+	locked_token_distribution_id: GraphQLTypes["bigint"],
+	/** An object relationship */
+	profile: GraphQLTypes["profiles"],
+	profile_id: GraphQLTypes["bigint"]
+};
+	/** aggregated selection of "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_aggregate"]: {
+	__typename: "locked_token_distribution_gifts_aggregate",
+	aggregate?: GraphQLTypes["locked_token_distribution_gifts_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["locked_token_distribution_gifts"]>
+};
+	/** aggregate fields of "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_aggregate_fields"]: {
+	__typename: "locked_token_distribution_gifts_aggregate_fields",
+	avg?: GraphQLTypes["locked_token_distribution_gifts_avg_fields"] | undefined,
+	count: number,
+	max?: GraphQLTypes["locked_token_distribution_gifts_max_fields"] | undefined,
+	min?: GraphQLTypes["locked_token_distribution_gifts_min_fields"] | undefined,
+	stddev?: GraphQLTypes["locked_token_distribution_gifts_stddev_fields"] | undefined,
+	stddev_pop?: GraphQLTypes["locked_token_distribution_gifts_stddev_pop_fields"] | undefined,
+	stddev_samp?: GraphQLTypes["locked_token_distribution_gifts_stddev_samp_fields"] | undefined,
+	sum?: GraphQLTypes["locked_token_distribution_gifts_sum_fields"] | undefined,
+	var_pop?: GraphQLTypes["locked_token_distribution_gifts_var_pop_fields"] | undefined,
+	var_samp?: GraphQLTypes["locked_token_distribution_gifts_var_samp_fields"] | undefined,
+	variance?: GraphQLTypes["locked_token_distribution_gifts_variance_fields"] | undefined
+};
+	/** order by aggregate values of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_aggregate_order_by"]: {
+		avg?: GraphQLTypes["locked_token_distribution_gifts_avg_order_by"] | undefined,
+	count?: GraphQLTypes["order_by"] | undefined,
+	max?: GraphQLTypes["locked_token_distribution_gifts_max_order_by"] | undefined,
+	min?: GraphQLTypes["locked_token_distribution_gifts_min_order_by"] | undefined,
+	stddev?: GraphQLTypes["locked_token_distribution_gifts_stddev_order_by"] | undefined,
+	stddev_pop?: GraphQLTypes["locked_token_distribution_gifts_stddev_pop_order_by"] | undefined,
+	stddev_samp?: GraphQLTypes["locked_token_distribution_gifts_stddev_samp_order_by"] | undefined,
+	sum?: GraphQLTypes["locked_token_distribution_gifts_sum_order_by"] | undefined,
+	var_pop?: GraphQLTypes["locked_token_distribution_gifts_var_pop_order_by"] | undefined,
+	var_samp?: GraphQLTypes["locked_token_distribution_gifts_var_samp_order_by"] | undefined,
+	variance?: GraphQLTypes["locked_token_distribution_gifts_variance_order_by"] | undefined
+};
+	/** input type for inserting array relation for remote table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_arr_rel_insert_input"]: {
+		data: Array<GraphQLTypes["locked_token_distribution_gifts_insert_input"]>,
+	/** upsert condition */
+	on_conflict?: GraphQLTypes["locked_token_distribution_gifts_on_conflict"] | undefined
+};
+	/** aggregate avg on columns */
+["locked_token_distribution_gifts_avg_fields"]: {
+	__typename: "locked_token_distribution_gifts_avg_fields",
+	earnings?: number | undefined,
+	id?: number | undefined,
+	locked_token_distribution_id?: number | undefined,
+	profile_id?: number | undefined
+};
+	/** order by avg() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_avg_order_by"]: {
+		earnings?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined
+};
+	/** Boolean expression to filter rows from the table "locked_token_distribution_gifts". All fields are combined with a logical 'AND'. */
+["locked_token_distribution_gifts_bool_exp"]: {
+		_and?: Array<GraphQLTypes["locked_token_distribution_gifts_bool_exp"]> | undefined,
+	_not?: GraphQLTypes["locked_token_distribution_gifts_bool_exp"] | undefined,
+	_or?: Array<GraphQLTypes["locked_token_distribution_gifts_bool_exp"]> | undefined,
+	earnings?: GraphQLTypes["numeric_comparison_exp"] | undefined,
+	id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	locked_token_distribution?: GraphQLTypes["locked_token_distributions_bool_exp"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	profile?: GraphQLTypes["profiles_bool_exp"] | undefined,
+	profile_id?: GraphQLTypes["bigint_comparison_exp"] | undefined
+};
+	/** unique or primary key constraints on table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_constraint"]: locked_token_distribution_gifts_constraint;
+	/** input type for incrementing numeric columns in table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_inc_input"]: {
+		earnings?: GraphQLTypes["numeric"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["bigint"] | undefined,
+	profile_id?: GraphQLTypes["bigint"] | undefined
+};
+	/** input type for inserting data into table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_insert_input"]: {
+		earnings?: GraphQLTypes["numeric"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	locked_token_distribution?: GraphQLTypes["locked_token_distributions_obj_rel_insert_input"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["bigint"] | undefined,
+	profile?: GraphQLTypes["profiles_obj_rel_insert_input"] | undefined,
+	profile_id?: GraphQLTypes["bigint"] | undefined
+};
+	/** aggregate max on columns */
+["locked_token_distribution_gifts_max_fields"]: {
+	__typename: "locked_token_distribution_gifts_max_fields",
+	earnings?: GraphQLTypes["numeric"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["bigint"] | undefined,
+	profile_id?: GraphQLTypes["bigint"] | undefined
+};
+	/** order by max() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_max_order_by"]: {
+		earnings?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined
+};
+	/** aggregate min on columns */
+["locked_token_distribution_gifts_min_fields"]: {
+	__typename: "locked_token_distribution_gifts_min_fields",
+	earnings?: GraphQLTypes["numeric"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["bigint"] | undefined,
+	profile_id?: GraphQLTypes["bigint"] | undefined
+};
+	/** order by min() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_min_order_by"]: {
+		earnings?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined
+};
+	/** response of any mutation on the table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_mutation_response"]: {
+	__typename: "locked_token_distribution_gifts_mutation_response",
+	/** number of rows affected by the mutation */
+	affected_rows: number,
+	/** data from the rows affected by the mutation */
+	returning: Array<GraphQLTypes["locked_token_distribution_gifts"]>
+};
+	/** on_conflict condition type for table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_on_conflict"]: {
+		constraint: GraphQLTypes["locked_token_distribution_gifts_constraint"],
+	update_columns: Array<GraphQLTypes["locked_token_distribution_gifts_update_column"]>,
+	where?: GraphQLTypes["locked_token_distribution_gifts_bool_exp"] | undefined
+};
+	/** Ordering options when selecting data from "locked_token_distribution_gifts". */
+["locked_token_distribution_gifts_order_by"]: {
+		earnings?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	locked_token_distribution?: GraphQLTypes["locked_token_distributions_order_by"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["order_by"] | undefined,
+	profile?: GraphQLTypes["profiles_order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined
+};
+	/** primary key columns input for table: locked_token_distribution_gifts */
+["locked_token_distribution_gifts_pk_columns_input"]: {
+		id: GraphQLTypes["bigint"]
+};
+	/** select columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_select_column"]: locked_token_distribution_gifts_select_column;
+	/** input type for updating data in table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_set_input"]: {
+		earnings?: GraphQLTypes["numeric"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["bigint"] | undefined,
+	profile_id?: GraphQLTypes["bigint"] | undefined
+};
+	/** aggregate stddev on columns */
+["locked_token_distribution_gifts_stddev_fields"]: {
+	__typename: "locked_token_distribution_gifts_stddev_fields",
+	earnings?: number | undefined,
+	id?: number | undefined,
+	locked_token_distribution_id?: number | undefined,
+	profile_id?: number | undefined
+};
+	/** order by stddev() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_stddev_order_by"]: {
+		earnings?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined
+};
+	/** aggregate stddev_pop on columns */
+["locked_token_distribution_gifts_stddev_pop_fields"]: {
+	__typename: "locked_token_distribution_gifts_stddev_pop_fields",
+	earnings?: number | undefined,
+	id?: number | undefined,
+	locked_token_distribution_id?: number | undefined,
+	profile_id?: number | undefined
+};
+	/** order by stddev_pop() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_stddev_pop_order_by"]: {
+		earnings?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined
+};
+	/** aggregate stddev_samp on columns */
+["locked_token_distribution_gifts_stddev_samp_fields"]: {
+	__typename: "locked_token_distribution_gifts_stddev_samp_fields",
+	earnings?: number | undefined,
+	id?: number | undefined,
+	locked_token_distribution_id?: number | undefined,
+	profile_id?: number | undefined
+};
+	/** order by stddev_samp() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_stddev_samp_order_by"]: {
+		earnings?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined
+};
+	/** Streaming cursor of the table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_stream_cursor_input"]: {
+		/** Stream column input with initial value */
+	initial_value: GraphQLTypes["locked_token_distribution_gifts_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: GraphQLTypes["cursor_ordering"] | undefined
+};
+	/** Initial value of the column from where the streaming should start */
+["locked_token_distribution_gifts_stream_cursor_value_input"]: {
+		earnings?: GraphQLTypes["numeric"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["bigint"] | undefined,
+	profile_id?: GraphQLTypes["bigint"] | undefined
+};
+	/** aggregate sum on columns */
+["locked_token_distribution_gifts_sum_fields"]: {
+	__typename: "locked_token_distribution_gifts_sum_fields",
+	earnings?: GraphQLTypes["numeric"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["bigint"] | undefined,
+	profile_id?: GraphQLTypes["bigint"] | undefined
+};
+	/** order by sum() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_sum_order_by"]: {
+		earnings?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined
+};
+	/** update columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_update_column"]: locked_token_distribution_gifts_update_column;
+	["locked_token_distribution_gifts_updates"]: {
+		/** increments the numeric columns with given value of the filtered values */
+	_inc?: GraphQLTypes["locked_token_distribution_gifts_inc_input"] | undefined,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: GraphQLTypes["locked_token_distribution_gifts_set_input"] | undefined,
+	where: GraphQLTypes["locked_token_distribution_gifts_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["locked_token_distribution_gifts_var_pop_fields"]: {
+	__typename: "locked_token_distribution_gifts_var_pop_fields",
+	earnings?: number | undefined,
+	id?: number | undefined,
+	locked_token_distribution_id?: number | undefined,
+	profile_id?: number | undefined
+};
+	/** order by var_pop() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_var_pop_order_by"]: {
+		earnings?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined
+};
+	/** aggregate var_samp on columns */
+["locked_token_distribution_gifts_var_samp_fields"]: {
+	__typename: "locked_token_distribution_gifts_var_samp_fields",
+	earnings?: number | undefined,
+	id?: number | undefined,
+	locked_token_distribution_id?: number | undefined,
+	profile_id?: number | undefined
+};
+	/** order by var_samp() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_var_samp_order_by"]: {
+		earnings?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined
+};
+	/** aggregate variance on columns */
+["locked_token_distribution_gifts_variance_fields"]: {
+	__typename: "locked_token_distribution_gifts_variance_fields",
+	earnings?: number | undefined,
+	id?: number | undefined,
+	locked_token_distribution_id?: number | undefined,
+	profile_id?: number | undefined
+};
+	/** order by variance() on columns of table "locked_token_distribution_gifts" */
+["locked_token_distribution_gifts_variance_order_by"]: {
+		earnings?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	locked_token_distribution_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined
+};
+	/** columns and relationships of "locked_token_distributions" */
+["locked_token_distributions"]: {
+	__typename: "locked_token_distributions",
+	chain_id: number,
+	distributed_by: GraphQLTypes["bigint"],
+	/** An object relationship */
+	epoch: GraphQLTypes["epochs"],
+	epoch_id: GraphQLTypes["bigint"],
+	gift_amount: GraphQLTypes["numeric"],
+	id: GraphQLTypes["bigint"],
+	/** An array relationship */
+	locked_token_distribution_gifts: Array<GraphQLTypes["locked_token_distribution_gifts"]>,
+	/** An aggregate relationship */
+	locked_token_distribution_gifts_aggregate: GraphQLTypes["locked_token_distribution_gifts_aggregate"],
+	/** An object relationship */
+	profile: GraphQLTypes["profiles"],
+	token_contract_address?: string | undefined,
+	token_decimals: number,
+	token_symbol?: string | undefined,
+	tx_hash?: string | undefined
+};
+	/** aggregated selection of "locked_token_distributions" */
+["locked_token_distributions_aggregate"]: {
+	__typename: "locked_token_distributions_aggregate",
+	aggregate?: GraphQLTypes["locked_token_distributions_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["locked_token_distributions"]>
+};
+	/** aggregate fields of "locked_token_distributions" */
+["locked_token_distributions_aggregate_fields"]: {
+	__typename: "locked_token_distributions_aggregate_fields",
+	avg?: GraphQLTypes["locked_token_distributions_avg_fields"] | undefined,
+	count: number,
+	max?: GraphQLTypes["locked_token_distributions_max_fields"] | undefined,
+	min?: GraphQLTypes["locked_token_distributions_min_fields"] | undefined,
+	stddev?: GraphQLTypes["locked_token_distributions_stddev_fields"] | undefined,
+	stddev_pop?: GraphQLTypes["locked_token_distributions_stddev_pop_fields"] | undefined,
+	stddev_samp?: GraphQLTypes["locked_token_distributions_stddev_samp_fields"] | undefined,
+	sum?: GraphQLTypes["locked_token_distributions_sum_fields"] | undefined,
+	var_pop?: GraphQLTypes["locked_token_distributions_var_pop_fields"] | undefined,
+	var_samp?: GraphQLTypes["locked_token_distributions_var_samp_fields"] | undefined,
+	variance?: GraphQLTypes["locked_token_distributions_variance_fields"] | undefined
+};
+	/** aggregate avg on columns */
+["locked_token_distributions_avg_fields"]: {
+	__typename: "locked_token_distributions_avg_fields",
+	chain_id?: number | undefined,
+	distributed_by?: number | undefined,
+	epoch_id?: number | undefined,
+	gift_amount?: number | undefined,
+	id?: number | undefined,
+	token_decimals?: number | undefined
+};
+	/** Boolean expression to filter rows from the table "locked_token_distributions". All fields are combined with a logical 'AND'. */
+["locked_token_distributions_bool_exp"]: {
+		_and?: Array<GraphQLTypes["locked_token_distributions_bool_exp"]> | undefined,
+	_not?: GraphQLTypes["locked_token_distributions_bool_exp"] | undefined,
+	_or?: Array<GraphQLTypes["locked_token_distributions_bool_exp"]> | undefined,
+	chain_id?: GraphQLTypes["Int_comparison_exp"] | undefined,
+	distributed_by?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	epoch?: GraphQLTypes["epochs_bool_exp"] | undefined,
+	epoch_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	gift_amount?: GraphQLTypes["numeric_comparison_exp"] | undefined,
+	id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	locked_token_distribution_gifts?: GraphQLTypes["locked_token_distribution_gifts_bool_exp"] | undefined,
+	profile?: GraphQLTypes["profiles_bool_exp"] | undefined,
+	token_contract_address?: GraphQLTypes["String_comparison_exp"] | undefined,
+	token_decimals?: GraphQLTypes["Int_comparison_exp"] | undefined,
+	token_symbol?: GraphQLTypes["String_comparison_exp"] | undefined,
+	tx_hash?: GraphQLTypes["String_comparison_exp"] | undefined
+};
+	/** unique or primary key constraints on table "locked_token_distributions" */
+["locked_token_distributions_constraint"]: locked_token_distributions_constraint;
+	/** input type for incrementing numeric columns in table "locked_token_distributions" */
+["locked_token_distributions_inc_input"]: {
+		chain_id?: number | undefined,
+	distributed_by?: GraphQLTypes["bigint"] | undefined,
+	epoch_id?: GraphQLTypes["bigint"] | undefined,
+	gift_amount?: GraphQLTypes["numeric"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	token_decimals?: number | undefined
+};
+	/** input type for inserting data into table "locked_token_distributions" */
+["locked_token_distributions_insert_input"]: {
+		chain_id?: number | undefined,
+	distributed_by?: GraphQLTypes["bigint"] | undefined,
+	epoch?: GraphQLTypes["epochs_obj_rel_insert_input"] | undefined,
+	epoch_id?: GraphQLTypes["bigint"] | undefined,
+	gift_amount?: GraphQLTypes["numeric"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	locked_token_distribution_gifts?: GraphQLTypes["locked_token_distribution_gifts_arr_rel_insert_input"] | undefined,
+	profile?: GraphQLTypes["profiles_obj_rel_insert_input"] | undefined,
+	token_contract_address?: string | undefined,
+	token_decimals?: number | undefined,
+	token_symbol?: string | undefined,
+	tx_hash?: string | undefined
+};
+	/** aggregate max on columns */
+["locked_token_distributions_max_fields"]: {
+	__typename: "locked_token_distributions_max_fields",
+	chain_id?: number | undefined,
+	distributed_by?: GraphQLTypes["bigint"] | undefined,
+	epoch_id?: GraphQLTypes["bigint"] | undefined,
+	gift_amount?: GraphQLTypes["numeric"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	token_contract_address?: string | undefined,
+	token_decimals?: number | undefined,
+	token_symbol?: string | undefined,
+	tx_hash?: string | undefined
+};
+	/** aggregate min on columns */
+["locked_token_distributions_min_fields"]: {
+	__typename: "locked_token_distributions_min_fields",
+	chain_id?: number | undefined,
+	distributed_by?: GraphQLTypes["bigint"] | undefined,
+	epoch_id?: GraphQLTypes["bigint"] | undefined,
+	gift_amount?: GraphQLTypes["numeric"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	token_contract_address?: string | undefined,
+	token_decimals?: number | undefined,
+	token_symbol?: string | undefined,
+	tx_hash?: string | undefined
+};
+	/** response of any mutation on the table "locked_token_distributions" */
+["locked_token_distributions_mutation_response"]: {
+	__typename: "locked_token_distributions_mutation_response",
+	/** number of rows affected by the mutation */
+	affected_rows: number,
+	/** data from the rows affected by the mutation */
+	returning: Array<GraphQLTypes["locked_token_distributions"]>
+};
+	/** input type for inserting object relation for remote table "locked_token_distributions" */
+["locked_token_distributions_obj_rel_insert_input"]: {
+		data: GraphQLTypes["locked_token_distributions_insert_input"],
+	/** upsert condition */
+	on_conflict?: GraphQLTypes["locked_token_distributions_on_conflict"] | undefined
+};
+	/** on_conflict condition type for table "locked_token_distributions" */
+["locked_token_distributions_on_conflict"]: {
+		constraint: GraphQLTypes["locked_token_distributions_constraint"],
+	update_columns: Array<GraphQLTypes["locked_token_distributions_update_column"]>,
+	where?: GraphQLTypes["locked_token_distributions_bool_exp"] | undefined
+};
+	/** Ordering options when selecting data from "locked_token_distributions". */
+["locked_token_distributions_order_by"]: {
+		chain_id?: GraphQLTypes["order_by"] | undefined,
+	distributed_by?: GraphQLTypes["order_by"] | undefined,
+	epoch?: GraphQLTypes["epochs_order_by"] | undefined,
+	epoch_id?: GraphQLTypes["order_by"] | undefined,
+	gift_amount?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	locked_token_distribution_gifts_aggregate?: GraphQLTypes["locked_token_distribution_gifts_aggregate_order_by"] | undefined,
+	profile?: GraphQLTypes["profiles_order_by"] | undefined,
+	token_contract_address?: GraphQLTypes["order_by"] | undefined,
+	token_decimals?: GraphQLTypes["order_by"] | undefined,
+	token_symbol?: GraphQLTypes["order_by"] | undefined,
+	tx_hash?: GraphQLTypes["order_by"] | undefined
+};
+	/** primary key columns input for table: locked_token_distributions */
+["locked_token_distributions_pk_columns_input"]: {
+		id: GraphQLTypes["bigint"]
+};
+	/** select columns of table "locked_token_distributions" */
+["locked_token_distributions_select_column"]: locked_token_distributions_select_column;
+	/** input type for updating data in table "locked_token_distributions" */
+["locked_token_distributions_set_input"]: {
+		chain_id?: number | undefined,
+	distributed_by?: GraphQLTypes["bigint"] | undefined,
+	epoch_id?: GraphQLTypes["bigint"] | undefined,
+	gift_amount?: GraphQLTypes["numeric"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	token_contract_address?: string | undefined,
+	token_decimals?: number | undefined,
+	token_symbol?: string | undefined,
+	tx_hash?: string | undefined
+};
+	/** aggregate stddev on columns */
+["locked_token_distributions_stddev_fields"]: {
+	__typename: "locked_token_distributions_stddev_fields",
+	chain_id?: number | undefined,
+	distributed_by?: number | undefined,
+	epoch_id?: number | undefined,
+	gift_amount?: number | undefined,
+	id?: number | undefined,
+	token_decimals?: number | undefined
+};
+	/** aggregate stddev_pop on columns */
+["locked_token_distributions_stddev_pop_fields"]: {
+	__typename: "locked_token_distributions_stddev_pop_fields",
+	chain_id?: number | undefined,
+	distributed_by?: number | undefined,
+	epoch_id?: number | undefined,
+	gift_amount?: number | undefined,
+	id?: number | undefined,
+	token_decimals?: number | undefined
+};
+	/** aggregate stddev_samp on columns */
+["locked_token_distributions_stddev_samp_fields"]: {
+	__typename: "locked_token_distributions_stddev_samp_fields",
+	chain_id?: number | undefined,
+	distributed_by?: number | undefined,
+	epoch_id?: number | undefined,
+	gift_amount?: number | undefined,
+	id?: number | undefined,
+	token_decimals?: number | undefined
+};
+	/** Streaming cursor of the table "locked_token_distributions" */
+["locked_token_distributions_stream_cursor_input"]: {
+		/** Stream column input with initial value */
+	initial_value: GraphQLTypes["locked_token_distributions_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: GraphQLTypes["cursor_ordering"] | undefined
+};
+	/** Initial value of the column from where the streaming should start */
+["locked_token_distributions_stream_cursor_value_input"]: {
+		chain_id?: number | undefined,
+	distributed_by?: GraphQLTypes["bigint"] | undefined,
+	epoch_id?: GraphQLTypes["bigint"] | undefined,
+	gift_amount?: GraphQLTypes["numeric"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	token_contract_address?: string | undefined,
+	token_decimals?: number | undefined,
+	token_symbol?: string | undefined,
+	tx_hash?: string | undefined
+};
+	/** aggregate sum on columns */
+["locked_token_distributions_sum_fields"]: {
+	__typename: "locked_token_distributions_sum_fields",
+	chain_id?: number | undefined,
+	distributed_by?: GraphQLTypes["bigint"] | undefined,
+	epoch_id?: GraphQLTypes["bigint"] | undefined,
+	gift_amount?: GraphQLTypes["numeric"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	token_decimals?: number | undefined
+};
+	/** update columns of table "locked_token_distributions" */
+["locked_token_distributions_update_column"]: locked_token_distributions_update_column;
+	["locked_token_distributions_updates"]: {
+		/** increments the numeric columns with given value of the filtered values */
+	_inc?: GraphQLTypes["locked_token_distributions_inc_input"] | undefined,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: GraphQLTypes["locked_token_distributions_set_input"] | undefined,
+	where: GraphQLTypes["locked_token_distributions_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["locked_token_distributions_var_pop_fields"]: {
+	__typename: "locked_token_distributions_var_pop_fields",
+	chain_id?: number | undefined,
+	distributed_by?: number | undefined,
+	epoch_id?: number | undefined,
+	gift_amount?: number | undefined,
+	id?: number | undefined,
+	token_decimals?: number | undefined
+};
+	/** aggregate var_samp on columns */
+["locked_token_distributions_var_samp_fields"]: {
+	__typename: "locked_token_distributions_var_samp_fields",
+	chain_id?: number | undefined,
+	distributed_by?: number | undefined,
+	epoch_id?: number | undefined,
+	gift_amount?: number | undefined,
+	id?: number | undefined,
+	token_decimals?: number | undefined
+};
+	/** aggregate variance on columns */
+["locked_token_distributions_variance_fields"]: {
+	__typename: "locked_token_distributions_variance_fields",
+	chain_id?: number | undefined,
+	distributed_by?: number | undefined,
+	epoch_id?: number | undefined,
+	gift_amount?: number | undefined,
+	id?: number | undefined,
+	token_decimals?: number | undefined
+};
+	/** member allocated pgives per epoch */
+["member_epoch_pgives"]: {
+	__typename: "member_epoch_pgives",
+	created_at: GraphQLTypes["timestamptz"],
+	/** An object relationship */
+	epoch: GraphQLTypes["epochs"],
+	epoch_id: number,
+	gives_received: number,
+	id: number,
+	normalized_pgive: GraphQLTypes["numeric"],
+	opt_out_bonus: GraphQLTypes["numeric"],
+	pgive: GraphQLTypes["numeric"],
+	/** An object relationship */
+	user: GraphQLTypes["users"],
+	user_id: number
+};
+	/** aggregated selection of "member_epoch_pgives" */
+["member_epoch_pgives_aggregate"]: {
+	__typename: "member_epoch_pgives_aggregate",
+	aggregate?: GraphQLTypes["member_epoch_pgives_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["member_epoch_pgives"]>
+};
+	/** aggregate fields of "member_epoch_pgives" */
+["member_epoch_pgives_aggregate_fields"]: {
+	__typename: "member_epoch_pgives_aggregate_fields",
+	avg?: GraphQLTypes["member_epoch_pgives_avg_fields"] | undefined,
+	count: number,
+	max?: GraphQLTypes["member_epoch_pgives_max_fields"] | undefined,
+	min?: GraphQLTypes["member_epoch_pgives_min_fields"] | undefined,
+	stddev?: GraphQLTypes["member_epoch_pgives_stddev_fields"] | undefined,
+	stddev_pop?: GraphQLTypes["member_epoch_pgives_stddev_pop_fields"] | undefined,
+	stddev_samp?: GraphQLTypes["member_epoch_pgives_stddev_samp_fields"] | undefined,
+	sum?: GraphQLTypes["member_epoch_pgives_sum_fields"] | undefined,
+	var_pop?: GraphQLTypes["member_epoch_pgives_var_pop_fields"] | undefined,
+	var_samp?: GraphQLTypes["member_epoch_pgives_var_samp_fields"] | undefined,
+	variance?: GraphQLTypes["member_epoch_pgives_variance_fields"] | undefined
+};
+	/** aggregate avg on columns */
+["member_epoch_pgives_avg_fields"]: {
+	__typename: "member_epoch_pgives_avg_fields",
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: number | undefined,
+	opt_out_bonus?: number | undefined,
+	pgive?: number | undefined,
+	user_id?: number | undefined
+};
+	/** Boolean expression to filter rows from the table "member_epoch_pgives". All fields are combined with a logical 'AND'. */
+["member_epoch_pgives_bool_exp"]: {
+		_and?: Array<GraphQLTypes["member_epoch_pgives_bool_exp"]> | undefined,
+	_not?: GraphQLTypes["member_epoch_pgives_bool_exp"] | undefined,
+	_or?: Array<GraphQLTypes["member_epoch_pgives_bool_exp"]> | undefined,
+	created_at?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
+	epoch?: GraphQLTypes["epochs_bool_exp"] | undefined,
+	epoch_id?: GraphQLTypes["Int_comparison_exp"] | undefined,
+	gives_received?: GraphQLTypes["Int_comparison_exp"] | undefined,
+	id?: GraphQLTypes["Int_comparison_exp"] | undefined,
+	normalized_pgive?: GraphQLTypes["numeric_comparison_exp"] | undefined,
+	opt_out_bonus?: GraphQLTypes["numeric_comparison_exp"] | undefined,
+	pgive?: GraphQLTypes["numeric_comparison_exp"] | undefined,
+	user?: GraphQLTypes["users_bool_exp"] | undefined,
+	user_id?: GraphQLTypes["Int_comparison_exp"] | undefined
+};
+	/** unique or primary key constraints on table "member_epoch_pgives" */
+["member_epoch_pgives_constraint"]: member_epoch_pgives_constraint;
+	/** input type for incrementing numeric columns in table "member_epoch_pgives" */
+["member_epoch_pgives_inc_input"]: {
+		epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: GraphQLTypes["numeric"] | undefined,
+	opt_out_bonus?: GraphQLTypes["numeric"] | undefined,
+	pgive?: GraphQLTypes["numeric"] | undefined,
+	user_id?: number | undefined
+};
+	/** input type for inserting data into table "member_epoch_pgives" */
+["member_epoch_pgives_insert_input"]: {
+		created_at?: GraphQLTypes["timestamptz"] | undefined,
+	epoch?: GraphQLTypes["epochs_obj_rel_insert_input"] | undefined,
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: GraphQLTypes["numeric"] | undefined,
+	opt_out_bonus?: GraphQLTypes["numeric"] | undefined,
+	pgive?: GraphQLTypes["numeric"] | undefined,
+	user?: GraphQLTypes["users_obj_rel_insert_input"] | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate max on columns */
+["member_epoch_pgives_max_fields"]: {
+	__typename: "member_epoch_pgives_max_fields",
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: GraphQLTypes["numeric"] | undefined,
+	opt_out_bonus?: GraphQLTypes["numeric"] | undefined,
+	pgive?: GraphQLTypes["numeric"] | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate min on columns */
+["member_epoch_pgives_min_fields"]: {
+	__typename: "member_epoch_pgives_min_fields",
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: GraphQLTypes["numeric"] | undefined,
+	opt_out_bonus?: GraphQLTypes["numeric"] | undefined,
+	pgive?: GraphQLTypes["numeric"] | undefined,
+	user_id?: number | undefined
+};
+	/** response of any mutation on the table "member_epoch_pgives" */
+["member_epoch_pgives_mutation_response"]: {
+	__typename: "member_epoch_pgives_mutation_response",
+	/** number of rows affected by the mutation */
+	affected_rows: number,
+	/** data from the rows affected by the mutation */
+	returning: Array<GraphQLTypes["member_epoch_pgives"]>
+};
+	/** on_conflict condition type for table "member_epoch_pgives" */
+["member_epoch_pgives_on_conflict"]: {
+		constraint: GraphQLTypes["member_epoch_pgives_constraint"],
+	update_columns: Array<GraphQLTypes["member_epoch_pgives_update_column"]>,
+	where?: GraphQLTypes["member_epoch_pgives_bool_exp"] | undefined
+};
+	/** Ordering options when selecting data from "member_epoch_pgives". */
+["member_epoch_pgives_order_by"]: {
+		created_at?: GraphQLTypes["order_by"] | undefined,
+	epoch?: GraphQLTypes["epochs_order_by"] | undefined,
+	epoch_id?: GraphQLTypes["order_by"] | undefined,
+	gives_received?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	normalized_pgive?: GraphQLTypes["order_by"] | undefined,
+	opt_out_bonus?: GraphQLTypes["order_by"] | undefined,
+	pgive?: GraphQLTypes["order_by"] | undefined,
+	user?: GraphQLTypes["users_order_by"] | undefined,
+	user_id?: GraphQLTypes["order_by"] | undefined
+};
+	/** primary key columns input for table: member_epoch_pgives */
+["member_epoch_pgives_pk_columns_input"]: {
+		id: number
+};
+	/** select columns of table "member_epoch_pgives" */
+["member_epoch_pgives_select_column"]: member_epoch_pgives_select_column;
+	/** input type for updating data in table "member_epoch_pgives" */
+["member_epoch_pgives_set_input"]: {
+		created_at?: GraphQLTypes["timestamptz"] | undefined,
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: GraphQLTypes["numeric"] | undefined,
+	opt_out_bonus?: GraphQLTypes["numeric"] | undefined,
+	pgive?: GraphQLTypes["numeric"] | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate stddev on columns */
+["member_epoch_pgives_stddev_fields"]: {
+	__typename: "member_epoch_pgives_stddev_fields",
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: number | undefined,
+	opt_out_bonus?: number | undefined,
+	pgive?: number | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate stddev_pop on columns */
+["member_epoch_pgives_stddev_pop_fields"]: {
+	__typename: "member_epoch_pgives_stddev_pop_fields",
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: number | undefined,
+	opt_out_bonus?: number | undefined,
+	pgive?: number | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate stddev_samp on columns */
+["member_epoch_pgives_stddev_samp_fields"]: {
+	__typename: "member_epoch_pgives_stddev_samp_fields",
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: number | undefined,
+	opt_out_bonus?: number | undefined,
+	pgive?: number | undefined,
+	user_id?: number | undefined
+};
+	/** Streaming cursor of the table "member_epoch_pgives" */
+["member_epoch_pgives_stream_cursor_input"]: {
+		/** Stream column input with initial value */
+	initial_value: GraphQLTypes["member_epoch_pgives_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: GraphQLTypes["cursor_ordering"] | undefined
+};
+	/** Initial value of the column from where the streaming should start */
+["member_epoch_pgives_stream_cursor_value_input"]: {
+		created_at?: GraphQLTypes["timestamptz"] | undefined,
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: GraphQLTypes["numeric"] | undefined,
+	opt_out_bonus?: GraphQLTypes["numeric"] | undefined,
+	pgive?: GraphQLTypes["numeric"] | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate sum on columns */
+["member_epoch_pgives_sum_fields"]: {
+	__typename: "member_epoch_pgives_sum_fields",
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: GraphQLTypes["numeric"] | undefined,
+	opt_out_bonus?: GraphQLTypes["numeric"] | undefined,
+	pgive?: GraphQLTypes["numeric"] | undefined,
+	user_id?: number | undefined
+};
+	/** update columns of table "member_epoch_pgives" */
+["member_epoch_pgives_update_column"]: member_epoch_pgives_update_column;
+	["member_epoch_pgives_updates"]: {
+		/** increments the numeric columns with given value of the filtered values */
+	_inc?: GraphQLTypes["member_epoch_pgives_inc_input"] | undefined,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: GraphQLTypes["member_epoch_pgives_set_input"] | undefined,
+	where: GraphQLTypes["member_epoch_pgives_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["member_epoch_pgives_var_pop_fields"]: {
+	__typename: "member_epoch_pgives_var_pop_fields",
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: number | undefined,
+	opt_out_bonus?: number | undefined,
+	pgive?: number | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate var_samp on columns */
+["member_epoch_pgives_var_samp_fields"]: {
+	__typename: "member_epoch_pgives_var_samp_fields",
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: number | undefined,
+	opt_out_bonus?: number | undefined,
+	pgive?: number | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate variance on columns */
+["member_epoch_pgives_variance_fields"]: {
+	__typename: "member_epoch_pgives_variance_fields",
+	epoch_id?: number | undefined,
+	gives_received?: number | undefined,
+	id?: number | undefined,
+	normalized_pgive?: number | undefined,
+	opt_out_bonus?: number | undefined,
+	pgive?: number | undefined,
+	user_id?: number | undefined
+};
 	/** mutation root */
 ["mutation_root"]: {
 	__typename: "mutation_root",
@@ -40621,7 +46467,6 @@ export type GraphQLTypes = {
 	createEpoch?: GraphQLTypes["EpochResponse"] | undefined,
 	createNominee?: GraphQLTypes["CreateNomineeResponse"] | undefined,
 	createSampleCircle?: GraphQLTypes["CreateSampleCircleResponse"] | undefined,
-	createUser?: GraphQLTypes["UserResponse"] | undefined,
 	createUserWithToken?: GraphQLTypes["UserResponse"] | undefined,
 	createUsers?: Array<GraphQLTypes["UserResponse"] | undefined> | undefined,
 	createVault?: GraphQLTypes["VaultResponse"] | undefined,
@@ -40666,6 +46511,10 @@ export type GraphQLTypes = {
 	delete_contributions?: GraphQLTypes["contributions_mutation_response"] | undefined,
 	/** delete single row from the table: "contributions" */
 	delete_contributions_by_pk?: GraphQLTypes["contributions"] | undefined,
+	/** delete data from the table: "discord.circle_api_tokens" */
+	delete_discord_circle_api_tokens?: GraphQLTypes["discord_circle_api_tokens_mutation_response"] | undefined,
+	/** delete single row from the table: "discord.circle_api_tokens" */
+	delete_discord_circle_api_tokens_by_pk?: GraphQLTypes["discord_circle_api_tokens"] | undefined,
 	/** delete data from the table: "discord.roles_circles" */
 	delete_discord_roles_circles?: GraphQLTypes["discord_roles_circles_mutation_response"] | undefined,
 	/** delete single row from the table: "discord.roles_circles" */
@@ -40678,6 +46527,10 @@ export type GraphQLTypes = {
 	delete_distributions?: GraphQLTypes["distributions_mutation_response"] | undefined,
 	/** delete single row from the table: "distributions" */
 	delete_distributions_by_pk?: GraphQLTypes["distributions"] | undefined,
+	/** delete data from the table: "epoch_pgive_data" */
+	delete_epoch_pgive_data?: GraphQLTypes["epoch_pgive_data_mutation_response"] | undefined,
+	/** delete single row from the table: "epoch_pgive_data" */
+	delete_epoch_pgive_data_by_pk?: GraphQLTypes["epoch_pgive_data"] | undefined,
 	/** delete data from the table: "epoches" */
 	delete_epochs?: GraphQLTypes["epochs_mutation_response"] | undefined,
 	/** delete single row from the table: "epoches" */
@@ -40692,6 +46545,18 @@ export type GraphQLTypes = {
 	delete_interaction_events?: GraphQLTypes["interaction_events_mutation_response"] | undefined,
 	/** delete single row from the table: "interaction_events" */
 	delete_interaction_events_by_pk?: GraphQLTypes["interaction_events"] | undefined,
+	/** delete data from the table: "locked_token_distribution_gifts" */
+	delete_locked_token_distribution_gifts?: GraphQLTypes["locked_token_distribution_gifts_mutation_response"] | undefined,
+	/** delete single row from the table: "locked_token_distribution_gifts" */
+	delete_locked_token_distribution_gifts_by_pk?: GraphQLTypes["locked_token_distribution_gifts"] | undefined,
+	/** delete data from the table: "locked_token_distributions" */
+	delete_locked_token_distributions?: GraphQLTypes["locked_token_distributions_mutation_response"] | undefined,
+	/** delete single row from the table: "locked_token_distributions" */
+	delete_locked_token_distributions_by_pk?: GraphQLTypes["locked_token_distributions"] | undefined,
+	/** delete data from the table: "member_epoch_pgives" */
+	delete_member_epoch_pgives?: GraphQLTypes["member_epoch_pgives_mutation_response"] | undefined,
+	/** delete single row from the table: "member_epoch_pgives" */
+	delete_member_epoch_pgives_by_pk?: GraphQLTypes["member_epoch_pgives"] | undefined,
 	/** delete data from the table: "nominees" */
 	delete_nominees?: GraphQLTypes["nominees_mutation_response"] | undefined,
 	/** delete single row from the table: "nominees" */
@@ -40784,6 +46649,10 @@ export type GraphQLTypes = {
 	insert_contributions?: GraphQLTypes["contributions_mutation_response"] | undefined,
 	/** insert a single row into the table: "contributions" */
 	insert_contributions_one?: GraphQLTypes["contributions"] | undefined,
+	/** insert data into the table: "discord.circle_api_tokens" */
+	insert_discord_circle_api_tokens?: GraphQLTypes["discord_circle_api_tokens_mutation_response"] | undefined,
+	/** insert a single row into the table: "discord.circle_api_tokens" */
+	insert_discord_circle_api_tokens_one?: GraphQLTypes["discord_circle_api_tokens"] | undefined,
 	/** insert data into the table: "discord.roles_circles" */
 	insert_discord_roles_circles?: GraphQLTypes["discord_roles_circles_mutation_response"] | undefined,
 	/** insert a single row into the table: "discord.roles_circles" */
@@ -40796,6 +46665,10 @@ export type GraphQLTypes = {
 	insert_distributions?: GraphQLTypes["distributions_mutation_response"] | undefined,
 	/** insert a single row into the table: "distributions" */
 	insert_distributions_one?: GraphQLTypes["distributions"] | undefined,
+	/** insert data into the table: "epoch_pgive_data" */
+	insert_epoch_pgive_data?: GraphQLTypes["epoch_pgive_data_mutation_response"] | undefined,
+	/** insert a single row into the table: "epoch_pgive_data" */
+	insert_epoch_pgive_data_one?: GraphQLTypes["epoch_pgive_data"] | undefined,
 	/** insert data into the table: "epoches" */
 	insert_epochs?: GraphQLTypes["epochs_mutation_response"] | undefined,
 	/** insert a single row into the table: "epoches" */
@@ -40812,6 +46685,18 @@ export type GraphQLTypes = {
 	insert_interaction_events?: GraphQLTypes["interaction_events_mutation_response"] | undefined,
 	/** insert a single row into the table: "interaction_events" */
 	insert_interaction_events_one?: GraphQLTypes["interaction_events"] | undefined,
+	/** insert data into the table: "locked_token_distribution_gifts" */
+	insert_locked_token_distribution_gifts?: GraphQLTypes["locked_token_distribution_gifts_mutation_response"] | undefined,
+	/** insert a single row into the table: "locked_token_distribution_gifts" */
+	insert_locked_token_distribution_gifts_one?: GraphQLTypes["locked_token_distribution_gifts"] | undefined,
+	/** insert data into the table: "locked_token_distributions" */
+	insert_locked_token_distributions?: GraphQLTypes["locked_token_distributions_mutation_response"] | undefined,
+	/** insert a single row into the table: "locked_token_distributions" */
+	insert_locked_token_distributions_one?: GraphQLTypes["locked_token_distributions"] | undefined,
+	/** insert data into the table: "member_epoch_pgives" */
+	insert_member_epoch_pgives?: GraphQLTypes["member_epoch_pgives_mutation_response"] | undefined,
+	/** insert a single row into the table: "member_epoch_pgives" */
+	insert_member_epoch_pgives_one?: GraphQLTypes["member_epoch_pgives"] | undefined,
 	/** insert data into the table: "nominees" */
 	insert_nominees?: GraphQLTypes["nominees_mutation_response"] | undefined,
 	/** insert a single row into the table: "nominees" */
@@ -40878,6 +46763,7 @@ export type GraphQLTypes = {
 	/** users can modify contributions and update their dates. */
 	updateContribution?: GraphQLTypes["UpdateContributionResponse"] | undefined,
 	updateEpoch?: GraphQLTypes["EpochResponse"] | undefined,
+	updateProfileName?: GraphQLTypes["UpdateProfileNameResponse"] | undefined,
 	updateTeammates?: GraphQLTypes["UpdateTeammatesResponse"] | undefined,
 	/** Update own user */
 	updateUser?: GraphQLTypes["UserResponse"] | undefined,
@@ -40933,6 +46819,12 @@ export type GraphQLTypes = {
 	update_contributions_by_pk?: GraphQLTypes["contributions"] | undefined,
 	/** update multiples rows of table: "contributions" */
 	update_contributions_many?: Array<GraphQLTypes["contributions_mutation_response"] | undefined> | undefined,
+	/** update data of the table: "discord.circle_api_tokens" */
+	update_discord_circle_api_tokens?: GraphQLTypes["discord_circle_api_tokens_mutation_response"] | undefined,
+	/** update single row of the table: "discord.circle_api_tokens" */
+	update_discord_circle_api_tokens_by_pk?: GraphQLTypes["discord_circle_api_tokens"] | undefined,
+	/** update multiples rows of table: "discord.circle_api_tokens" */
+	update_discord_circle_api_tokens_many?: Array<GraphQLTypes["discord_circle_api_tokens_mutation_response"] | undefined> | undefined,
 	/** update data of the table: "discord.roles_circles" */
 	update_discord_roles_circles?: GraphQLTypes["discord_roles_circles_mutation_response"] | undefined,
 	/** update single row of the table: "discord.roles_circles" */
@@ -40951,6 +46843,12 @@ export type GraphQLTypes = {
 	update_distributions_by_pk?: GraphQLTypes["distributions"] | undefined,
 	/** update multiples rows of table: "distributions" */
 	update_distributions_many?: Array<GraphQLTypes["distributions_mutation_response"] | undefined> | undefined,
+	/** update data of the table: "epoch_pgive_data" */
+	update_epoch_pgive_data?: GraphQLTypes["epoch_pgive_data_mutation_response"] | undefined,
+	/** update single row of the table: "epoch_pgive_data" */
+	update_epoch_pgive_data_by_pk?: GraphQLTypes["epoch_pgive_data"] | undefined,
+	/** update multiples rows of table: "epoch_pgive_data" */
+	update_epoch_pgive_data_many?: Array<GraphQLTypes["epoch_pgive_data_mutation_response"] | undefined> | undefined,
 	/** update data of the table: "epoches" */
 	update_epochs?: GraphQLTypes["epochs_mutation_response"] | undefined,
 	/** update single row of the table: "epoches" */
@@ -40973,6 +46871,24 @@ export type GraphQLTypes = {
 	update_interaction_events_by_pk?: GraphQLTypes["interaction_events"] | undefined,
 	/** update multiples rows of table: "interaction_events" */
 	update_interaction_events_many?: Array<GraphQLTypes["interaction_events_mutation_response"] | undefined> | undefined,
+	/** update data of the table: "locked_token_distribution_gifts" */
+	update_locked_token_distribution_gifts?: GraphQLTypes["locked_token_distribution_gifts_mutation_response"] | undefined,
+	/** update single row of the table: "locked_token_distribution_gifts" */
+	update_locked_token_distribution_gifts_by_pk?: GraphQLTypes["locked_token_distribution_gifts"] | undefined,
+	/** update multiples rows of table: "locked_token_distribution_gifts" */
+	update_locked_token_distribution_gifts_many?: Array<GraphQLTypes["locked_token_distribution_gifts_mutation_response"] | undefined> | undefined,
+	/** update data of the table: "locked_token_distributions" */
+	update_locked_token_distributions?: GraphQLTypes["locked_token_distributions_mutation_response"] | undefined,
+	/** update single row of the table: "locked_token_distributions" */
+	update_locked_token_distributions_by_pk?: GraphQLTypes["locked_token_distributions"] | undefined,
+	/** update multiples rows of table: "locked_token_distributions" */
+	update_locked_token_distributions_many?: Array<GraphQLTypes["locked_token_distributions_mutation_response"] | undefined> | undefined,
+	/** update data of the table: "member_epoch_pgives" */
+	update_member_epoch_pgives?: GraphQLTypes["member_epoch_pgives_mutation_response"] | undefined,
+	/** update single row of the table: "member_epoch_pgives" */
+	update_member_epoch_pgives_by_pk?: GraphQLTypes["member_epoch_pgives"] | undefined,
+	/** update multiples rows of table: "member_epoch_pgives" */
+	update_member_epoch_pgives_many?: Array<GraphQLTypes["member_epoch_pgives_mutation_response"] | undefined> | undefined,
 	/** update data of the table: "nominees" */
 	update_nominees?: GraphQLTypes["nominees_mutation_response"] | undefined,
 	/** update single row of the table: "nominees" */
@@ -41073,7 +46989,7 @@ export type GraphQLTypes = {
 	ended: boolean,
 	expiry_date: GraphQLTypes["timestamp"],
 	id: GraphQLTypes["bigint"],
-	name: string,
+	name?: string | undefined,
 	nominated_by_user_id: number,
 	nominated_date: GraphQLTypes["date"],
 	/** An array relationship */
@@ -41082,6 +46998,8 @@ export type GraphQLTypes = {
 	nominations_aggregate: GraphQLTypes["vouches_aggregate"],
 	/** An object relationship */
 	nominator?: GraphQLTypes["users"] | undefined,
+	/** An object relationship */
+	profile?: GraphQLTypes["profiles"] | undefined,
 	updated_at: GraphQLTypes["timestamp"],
 	/** An object relationship */
 	user?: GraphQLTypes["users"] | undefined,
@@ -41164,6 +47082,7 @@ export type GraphQLTypes = {
 	nominated_date?: GraphQLTypes["date_comparison_exp"] | undefined,
 	nominations?: GraphQLTypes["vouches_bool_exp"] | undefined,
 	nominator?: GraphQLTypes["users_bool_exp"] | undefined,
+	profile?: GraphQLTypes["profiles_bool_exp"] | undefined,
 	updated_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	user?: GraphQLTypes["users_bool_exp"] | undefined,
 	user_id?: GraphQLTypes["Int_comparison_exp"] | undefined,
@@ -41194,6 +47113,7 @@ export type GraphQLTypes = {
 	nominated_date?: GraphQLTypes["date"] | undefined,
 	nominations?: GraphQLTypes["vouches_arr_rel_insert_input"] | undefined,
 	nominator?: GraphQLTypes["users_obj_rel_insert_input"] | undefined,
+	profile?: GraphQLTypes["profiles_obj_rel_insert_input"] | undefined,
 	updated_at?: GraphQLTypes["timestamp"] | undefined,
 	user?: GraphQLTypes["users_obj_rel_insert_input"] | undefined,
 	user_id?: number | undefined,
@@ -41296,6 +47216,7 @@ export type GraphQLTypes = {
 	nominated_date?: GraphQLTypes["order_by"] | undefined,
 	nominations_aggregate?: GraphQLTypes["vouches_aggregate_order_by"] | undefined,
 	nominator?: GraphQLTypes["users_order_by"] | undefined,
+	profile?: GraphQLTypes["profiles_order_by"] | undefined,
 	updated_at?: GraphQLTypes["order_by"] | undefined,
 	user?: GraphQLTypes["users_order_by"] | undefined,
 	user_id?: GraphQLTypes["order_by"] | undefined,
@@ -42806,7 +48727,6 @@ export type GraphQLTypes = {
 ["profiles"]: {
 	__typename: "profiles",
 	address: string,
-	ann_power: boolean,
 	avatar?: string | undefined,
 	background?: string | undefined,
 	bio?: string | undefined,
@@ -42815,6 +48735,7 @@ export type GraphQLTypes = {
 	claims: Array<GraphQLTypes["claims"]>,
 	/** An aggregate relationship */
 	claims_aggregate: GraphQLTypes["claims_aggregate"],
+	connector?: string | undefined,
 	created_at: GraphQLTypes["timestamp"],
 	discord_username?: string | undefined,
 	/** An array relationship */
@@ -42824,7 +48745,11 @@ export type GraphQLTypes = {
 	github_username?: string | undefined,
 	id: GraphQLTypes["bigint"],
 	medium_username?: string | undefined,
-	name?: string | undefined,
+	name?: GraphQLTypes["citext"] | undefined,
+	/** An array relationship */
+	nominees: Array<GraphQLTypes["nominees"]>,
+	/** An aggregate relationship */
+	nominees_aggregate: GraphQLTypes["nominees_aggregate"],
 	skills?: string | undefined,
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
@@ -42875,19 +48800,20 @@ export type GraphQLTypes = {
 	_not?: GraphQLTypes["profiles_bool_exp"] | undefined,
 	_or?: Array<GraphQLTypes["profiles_bool_exp"]> | undefined,
 	address?: GraphQLTypes["String_comparison_exp"] | undefined,
-	ann_power?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	avatar?: GraphQLTypes["String_comparison_exp"] | undefined,
 	background?: GraphQLTypes["String_comparison_exp"] | undefined,
 	bio?: GraphQLTypes["String_comparison_exp"] | undefined,
 	chat_id?: GraphQLTypes["String_comparison_exp"] | undefined,
 	claims?: GraphQLTypes["claims_bool_exp"] | undefined,
+	connector?: GraphQLTypes["String_comparison_exp"] | undefined,
 	created_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	discord_username?: GraphQLTypes["String_comparison_exp"] | undefined,
 	distributions?: GraphQLTypes["distributions_bool_exp"] | undefined,
 	github_username?: GraphQLTypes["String_comparison_exp"] | undefined,
 	id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
 	medium_username?: GraphQLTypes["String_comparison_exp"] | undefined,
-	name?: GraphQLTypes["String_comparison_exp"] | undefined,
+	name?: GraphQLTypes["citext_comparison_exp"] | undefined,
+	nominees?: GraphQLTypes["nominees_bool_exp"] | undefined,
 	skills?: GraphQLTypes["String_comparison_exp"] | undefined,
 	telegram_username?: GraphQLTypes["String_comparison_exp"] | undefined,
 	twitter_username?: GraphQLTypes["String_comparison_exp"] | undefined,
@@ -42906,19 +48832,20 @@ export type GraphQLTypes = {
 	/** input type for inserting data into table "profiles" */
 ["profiles_insert_input"]: {
 		address?: string | undefined,
-	ann_power?: boolean | undefined,
 	avatar?: string | undefined,
 	background?: string | undefined,
 	bio?: string | undefined,
 	chat_id?: string | undefined,
 	claims?: GraphQLTypes["claims_arr_rel_insert_input"] | undefined,
+	connector?: string | undefined,
 	created_at?: GraphQLTypes["timestamp"] | undefined,
 	discord_username?: string | undefined,
 	distributions?: GraphQLTypes["distributions_arr_rel_insert_input"] | undefined,
 	github_username?: string | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
 	medium_username?: string | undefined,
-	name?: string | undefined,
+	name?: GraphQLTypes["citext"] | undefined,
+	nominees?: GraphQLTypes["nominees_arr_rel_insert_input"] | undefined,
 	skills?: string | undefined,
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
@@ -42936,12 +48863,13 @@ export type GraphQLTypes = {
 	background?: string | undefined,
 	bio?: string | undefined,
 	chat_id?: string | undefined,
+	connector?: string | undefined,
 	created_at?: GraphQLTypes["timestamp"] | undefined,
 	discord_username?: string | undefined,
 	github_username?: string | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
 	medium_username?: string | undefined,
-	name?: string | undefined,
+	name?: GraphQLTypes["citext"] | undefined,
 	skills?: string | undefined,
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
@@ -42956,12 +48884,13 @@ export type GraphQLTypes = {
 	background?: string | undefined,
 	bio?: string | undefined,
 	chat_id?: string | undefined,
+	connector?: string | undefined,
 	created_at?: GraphQLTypes["timestamp"] | undefined,
 	discord_username?: string | undefined,
 	github_username?: string | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
 	medium_username?: string | undefined,
-	name?: string | undefined,
+	name?: GraphQLTypes["citext"] | undefined,
 	skills?: string | undefined,
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
@@ -42991,12 +48920,12 @@ export type GraphQLTypes = {
 	/** Ordering options when selecting data from "profiles". */
 ["profiles_order_by"]: {
 		address?: GraphQLTypes["order_by"] | undefined,
-	ann_power?: GraphQLTypes["order_by"] | undefined,
 	avatar?: GraphQLTypes["order_by"] | undefined,
 	background?: GraphQLTypes["order_by"] | undefined,
 	bio?: GraphQLTypes["order_by"] | undefined,
 	chat_id?: GraphQLTypes["order_by"] | undefined,
 	claims_aggregate?: GraphQLTypes["claims_aggregate_order_by"] | undefined,
+	connector?: GraphQLTypes["order_by"] | undefined,
 	created_at?: GraphQLTypes["order_by"] | undefined,
 	discord_username?: GraphQLTypes["order_by"] | undefined,
 	distributions_aggregate?: GraphQLTypes["distributions_aggregate_order_by"] | undefined,
@@ -43004,6 +48933,7 @@ export type GraphQLTypes = {
 	id?: GraphQLTypes["order_by"] | undefined,
 	medium_username?: GraphQLTypes["order_by"] | undefined,
 	name?: GraphQLTypes["order_by"] | undefined,
+	nominees_aggregate?: GraphQLTypes["nominees_aggregate_order_by"] | undefined,
 	skills?: GraphQLTypes["order_by"] | undefined,
 	telegram_username?: GraphQLTypes["order_by"] | undefined,
 	twitter_username?: GraphQLTypes["order_by"] | undefined,
@@ -43022,17 +48952,17 @@ export type GraphQLTypes = {
 	/** input type for updating data in table "profiles" */
 ["profiles_set_input"]: {
 		address?: string | undefined,
-	ann_power?: boolean | undefined,
 	avatar?: string | undefined,
 	background?: string | undefined,
 	bio?: string | undefined,
 	chat_id?: string | undefined,
+	connector?: string | undefined,
 	created_at?: GraphQLTypes["timestamp"] | undefined,
 	discord_username?: string | undefined,
 	github_username?: string | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
 	medium_username?: string | undefined,
-	name?: string | undefined,
+	name?: GraphQLTypes["citext"] | undefined,
 	skills?: string | undefined,
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
@@ -43064,17 +48994,17 @@ export type GraphQLTypes = {
 	/** Initial value of the column from where the streaming should start */
 ["profiles_stream_cursor_value_input"]: {
 		address?: string | undefined,
-	ann_power?: boolean | undefined,
 	avatar?: string | undefined,
 	background?: string | undefined,
 	bio?: string | undefined,
 	chat_id?: string | undefined,
+	connector?: string | undefined,
 	created_at?: GraphQLTypes["timestamp"] | undefined,
 	discord_username?: string | undefined,
 	github_username?: string | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
 	medium_username?: string | undefined,
-	name?: string | undefined,
+	name?: GraphQLTypes["citext"] | undefined,
 	skills?: string | undefined,
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
@@ -43164,6 +49094,12 @@ export type GraphQLTypes = {
 	contributions_aggregate: GraphQLTypes["contributions_aggregate"],
 	/** fetch data from the table: "contributions" using primary key columns */
 	contributions_by_pk?: GraphQLTypes["contributions"] | undefined,
+	/** fetch data from the table: "discord.circle_api_tokens" */
+	discord_circle_api_tokens: Array<GraphQLTypes["discord_circle_api_tokens"]>,
+	/** fetch aggregated fields from the table: "discord.circle_api_tokens" */
+	discord_circle_api_tokens_aggregate: GraphQLTypes["discord_circle_api_tokens_aggregate"],
+	/** fetch data from the table: "discord.circle_api_tokens" using primary key columns */
+	discord_circle_api_tokens_by_pk?: GraphQLTypes["discord_circle_api_tokens"] | undefined,
 	/** fetch data from the table: "discord.roles_circles" */
 	discord_roles_circles: Array<GraphQLTypes["discord_roles_circles"]>,
 	/** fetch aggregated fields from the table: "discord.roles_circles" */
@@ -43182,6 +49118,12 @@ export type GraphQLTypes = {
 	distributions_aggregate: GraphQLTypes["distributions_aggregate"],
 	/** fetch data from the table: "distributions" using primary key columns */
 	distributions_by_pk?: GraphQLTypes["distributions"] | undefined,
+	/** fetch data from the table: "epoch_pgive_data" */
+	epoch_pgive_data: Array<GraphQLTypes["epoch_pgive_data"]>,
+	/** fetch aggregated fields from the table: "epoch_pgive_data" */
+	epoch_pgive_data_aggregate: GraphQLTypes["epoch_pgive_data_aggregate"],
+	/** fetch data from the table: "epoch_pgive_data" using primary key columns */
+	epoch_pgive_data_by_pk?: GraphQLTypes["epoch_pgive_data"] | undefined,
 	/** An array relationship */
 	epochs: Array<GraphQLTypes["epochs"]>,
 	/** An aggregate relationship */
@@ -43204,6 +49146,24 @@ export type GraphQLTypes = {
 	interaction_events_aggregate: GraphQLTypes["interaction_events_aggregate"],
 	/** fetch data from the table: "interaction_events" using primary key columns */
 	interaction_events_by_pk?: GraphQLTypes["interaction_events"] | undefined,
+	/** An array relationship */
+	locked_token_distribution_gifts: Array<GraphQLTypes["locked_token_distribution_gifts"]>,
+	/** An aggregate relationship */
+	locked_token_distribution_gifts_aggregate: GraphQLTypes["locked_token_distribution_gifts_aggregate"],
+	/** fetch data from the table: "locked_token_distribution_gifts" using primary key columns */
+	locked_token_distribution_gifts_by_pk?: GraphQLTypes["locked_token_distribution_gifts"] | undefined,
+	/** fetch data from the table: "locked_token_distributions" */
+	locked_token_distributions: Array<GraphQLTypes["locked_token_distributions"]>,
+	/** fetch aggregated fields from the table: "locked_token_distributions" */
+	locked_token_distributions_aggregate: GraphQLTypes["locked_token_distributions_aggregate"],
+	/** fetch data from the table: "locked_token_distributions" using primary key columns */
+	locked_token_distributions_by_pk?: GraphQLTypes["locked_token_distributions"] | undefined,
+	/** fetch data from the table: "member_epoch_pgives" */
+	member_epoch_pgives: Array<GraphQLTypes["member_epoch_pgives"]>,
+	/** fetch aggregated fields from the table: "member_epoch_pgives" */
+	member_epoch_pgives_aggregate: GraphQLTypes["member_epoch_pgives_aggregate"],
+	/** fetch data from the table: "member_epoch_pgives" using primary key columns */
+	member_epoch_pgives_by_pk?: GraphQLTypes["member_epoch_pgives"] | undefined,
 	/** An array relationship */
 	nominees: Array<GraphQLTypes["nominees"]>,
 	/** An aggregate relationship */
@@ -43238,6 +49198,7 @@ export type GraphQLTypes = {
 	personal_access_tokens_aggregate: GraphQLTypes["personal_access_tokens_aggregate"],
 	/** fetch data from the table: "personal_access_tokens" using primary key columns */
 	personal_access_tokens_by_pk?: GraphQLTypes["personal_access_tokens"] | undefined,
+	price_per_share: number,
 	/** fetch data from the table: "profiles" */
 	profiles: Array<GraphQLTypes["profiles"]>,
 	/** fetch aggregated fields from the table: "profiles" */
@@ -43363,6 +49324,14 @@ export type GraphQLTypes = {
 	contributions_by_pk?: GraphQLTypes["contributions"] | undefined,
 	/** fetch data from the table in a streaming manner : "contributions" */
 	contributions_stream: Array<GraphQLTypes["contributions"]>,
+	/** fetch data from the table: "discord.circle_api_tokens" */
+	discord_circle_api_tokens: Array<GraphQLTypes["discord_circle_api_tokens"]>,
+	/** fetch aggregated fields from the table: "discord.circle_api_tokens" */
+	discord_circle_api_tokens_aggregate: GraphQLTypes["discord_circle_api_tokens_aggregate"],
+	/** fetch data from the table: "discord.circle_api_tokens" using primary key columns */
+	discord_circle_api_tokens_by_pk?: GraphQLTypes["discord_circle_api_tokens"] | undefined,
+	/** fetch data from the table in a streaming manner : "discord.circle_api_tokens" */
+	discord_circle_api_tokens_stream: Array<GraphQLTypes["discord_circle_api_tokens"]>,
 	/** fetch data from the table: "discord.roles_circles" */
 	discord_roles_circles: Array<GraphQLTypes["discord_roles_circles"]>,
 	/** fetch aggregated fields from the table: "discord.roles_circles" */
@@ -43387,6 +49356,14 @@ export type GraphQLTypes = {
 	distributions_by_pk?: GraphQLTypes["distributions"] | undefined,
 	/** fetch data from the table in a streaming manner : "distributions" */
 	distributions_stream: Array<GraphQLTypes["distributions"]>,
+	/** fetch data from the table: "epoch_pgive_data" */
+	epoch_pgive_data: Array<GraphQLTypes["epoch_pgive_data"]>,
+	/** fetch aggregated fields from the table: "epoch_pgive_data" */
+	epoch_pgive_data_aggregate: GraphQLTypes["epoch_pgive_data_aggregate"],
+	/** fetch data from the table: "epoch_pgive_data" using primary key columns */
+	epoch_pgive_data_by_pk?: GraphQLTypes["epoch_pgive_data"] | undefined,
+	/** fetch data from the table in a streaming manner : "epoch_pgive_data" */
+	epoch_pgive_data_stream: Array<GraphQLTypes["epoch_pgive_data"]>,
 	/** An array relationship */
 	epochs: Array<GraphQLTypes["epochs"]>,
 	/** An aggregate relationship */
@@ -43417,6 +49394,30 @@ export type GraphQLTypes = {
 	interaction_events_by_pk?: GraphQLTypes["interaction_events"] | undefined,
 	/** fetch data from the table in a streaming manner : "interaction_events" */
 	interaction_events_stream: Array<GraphQLTypes["interaction_events"]>,
+	/** An array relationship */
+	locked_token_distribution_gifts: Array<GraphQLTypes["locked_token_distribution_gifts"]>,
+	/** An aggregate relationship */
+	locked_token_distribution_gifts_aggregate: GraphQLTypes["locked_token_distribution_gifts_aggregate"],
+	/** fetch data from the table: "locked_token_distribution_gifts" using primary key columns */
+	locked_token_distribution_gifts_by_pk?: GraphQLTypes["locked_token_distribution_gifts"] | undefined,
+	/** fetch data from the table in a streaming manner : "locked_token_distribution_gifts" */
+	locked_token_distribution_gifts_stream: Array<GraphQLTypes["locked_token_distribution_gifts"]>,
+	/** fetch data from the table: "locked_token_distributions" */
+	locked_token_distributions: Array<GraphQLTypes["locked_token_distributions"]>,
+	/** fetch aggregated fields from the table: "locked_token_distributions" */
+	locked_token_distributions_aggregate: GraphQLTypes["locked_token_distributions_aggregate"],
+	/** fetch data from the table: "locked_token_distributions" using primary key columns */
+	locked_token_distributions_by_pk?: GraphQLTypes["locked_token_distributions"] | undefined,
+	/** fetch data from the table in a streaming manner : "locked_token_distributions" */
+	locked_token_distributions_stream: Array<GraphQLTypes["locked_token_distributions"]>,
+	/** fetch data from the table: "member_epoch_pgives" */
+	member_epoch_pgives: Array<GraphQLTypes["member_epoch_pgives"]>,
+	/** fetch aggregated fields from the table: "member_epoch_pgives" */
+	member_epoch_pgives_aggregate: GraphQLTypes["member_epoch_pgives_aggregate"],
+	/** fetch data from the table: "member_epoch_pgives" using primary key columns */
+	member_epoch_pgives_by_pk?: GraphQLTypes["member_epoch_pgives"] | undefined,
+	/** fetch data from the table in a streaming manner : "member_epoch_pgives" */
+	member_epoch_pgives_stream: Array<GraphQLTypes["member_epoch_pgives"]>,
 	/** An array relationship */
 	nominees: Array<GraphQLTypes["nominees"]>,
 	/** An aggregate relationship */
@@ -45478,6 +51479,7 @@ export type GraphQLTypes = {
 	org_id: GraphQLTypes["bigint"],
 	/** An object relationship */
 	organization: GraphQLTypes["organizations"],
+	price_per_share: number,
 	/** An object relationship */
 	profile: GraphQLTypes["profiles"],
 	simple_token_address: string,
@@ -46439,6 +52441,28 @@ export const enum cursor_ordering {
 	ASC = "ASC",
 	DESC = "DESC"
 }
+/** unique or primary key constraints on table "discord.circle_api_tokens" */
+export const enum discord_circle_api_tokens_constraint {
+	circle_api_tokens_circle_id_key = "circle_api_tokens_circle_id_key",
+	circle_api_tokens_pkey = "circle_api_tokens_pkey",
+	circle_api_tokens_token_key = "circle_api_tokens_token_key"
+}
+/** select columns of table "discord.circle_api_tokens" */
+export const enum discord_circle_api_tokens_select_column {
+	channel_snowflake = "channel_snowflake",
+	circle_id = "circle_id",
+	created_at = "created_at",
+	id = "id",
+	token = "token"
+}
+/** update columns of table "discord.circle_api_tokens" */
+export const enum discord_circle_api_tokens_update_column {
+	channel_snowflake = "channel_snowflake",
+	circle_id = "circle_id",
+	created_at = "created_at",
+	id = "id",
+	token = "token"
+}
 /** unique or primary key constraints on table "discord.roles_circles" */
 export const enum discord_roles_circles_constraint {
 	roles_circles_circle_id_key = "roles_circles_circle_id_key",
@@ -46449,7 +52473,7 @@ export const enum discord_roles_circles_select_column {
 	circle_id = "circle_id",
 	created_at = "created_at",
 	id = "id",
-	role = "role",
+	server_role = "server_role",
 	updated_at = "updated_at"
 }
 /** update columns of table "discord.roles_circles" */
@@ -46457,7 +52481,7 @@ export const enum discord_roles_circles_update_column {
 	circle_id = "circle_id",
 	created_at = "created_at",
 	id = "id",
-	role = "role",
+	server_role = "server_role",
 	updated_at = "updated_at"
 }
 /** unique or primary key constraints on table "discord.users" */
@@ -46519,6 +52543,33 @@ export const enum distributions_update_column {
 	tx_hash = "tx_hash",
 	updated_at = "updated_at",
 	vault_id = "vault_id"
+}
+/** unique or primary key constraints on table "epoch_pgive_data" */
+export const enum epoch_pgive_data_constraint {
+	epoch_pgive_data_epoch_id_key = "epoch_pgive_data_epoch_id_key",
+	epoch_pgive_data_pkey = "epoch_pgive_data_pkey"
+}
+/** select columns of table "epoch_pgive_data" */
+export const enum epoch_pgive_data_select_column {
+	active_months = "active_months",
+	active_months_bonus = "active_months_bonus",
+	created_at = "created_at",
+	epoch_id = "epoch_id",
+	gives_receiver_base = "gives_receiver_base",
+	id = "id",
+	notes_bonus = "notes_bonus",
+	pgive = "pgive"
+}
+/** update columns of table "epoch_pgive_data" */
+export const enum epoch_pgive_data_update_column {
+	active_months = "active_months",
+	active_months_bonus = "active_months_bonus",
+	created_at = "created_at",
+	epoch_id = "epoch_id",
+	gives_receiver_base = "gives_receiver_base",
+	id = "id",
+	notes_bonus = "notes_bonus",
+	pgive = "pgive"
 }
 /** unique or primary key constraints on table "epoches" */
 export const enum epochs_constraint {
@@ -46622,6 +52673,79 @@ export const enum interaction_events_update_column {
 	org_id = "org_id",
 	profile_id = "profile_id",
 	updated_at = "updated_at"
+}
+/** unique or primary key constraints on table "locked_token_distribution_gifts" */
+export const enum locked_token_distribution_gifts_constraint {
+	locked_token_distribution_gifts_pkey = "locked_token_distribution_gifts_pkey"
+}
+/** select columns of table "locked_token_distribution_gifts" */
+export const enum locked_token_distribution_gifts_select_column {
+	earnings = "earnings",
+	id = "id",
+	locked_token_distribution_id = "locked_token_distribution_id",
+	profile_id = "profile_id"
+}
+/** update columns of table "locked_token_distribution_gifts" */
+export const enum locked_token_distribution_gifts_update_column {
+	earnings = "earnings",
+	id = "id",
+	locked_token_distribution_id = "locked_token_distribution_id",
+	profile_id = "profile_id"
+}
+/** unique or primary key constraints on table "locked_token_distributions" */
+export const enum locked_token_distributions_constraint {
+	locked_token_distributions_pkey = "locked_token_distributions_pkey"
+}
+/** select columns of table "locked_token_distributions" */
+export const enum locked_token_distributions_select_column {
+	chain_id = "chain_id",
+	distributed_by = "distributed_by",
+	epoch_id = "epoch_id",
+	gift_amount = "gift_amount",
+	id = "id",
+	token_contract_address = "token_contract_address",
+	token_decimals = "token_decimals",
+	token_symbol = "token_symbol",
+	tx_hash = "tx_hash"
+}
+/** update columns of table "locked_token_distributions" */
+export const enum locked_token_distributions_update_column {
+	chain_id = "chain_id",
+	distributed_by = "distributed_by",
+	epoch_id = "epoch_id",
+	gift_amount = "gift_amount",
+	id = "id",
+	token_contract_address = "token_contract_address",
+	token_decimals = "token_decimals",
+	token_symbol = "token_symbol",
+	tx_hash = "tx_hash"
+}
+/** unique or primary key constraints on table "member_epoch_pgives" */
+export const enum member_epoch_pgives_constraint {
+	member_epoch_pgives_pkey = "member_epoch_pgives_pkey",
+	member_epoch_pgives_user_id_epoch_id_key = "member_epoch_pgives_user_id_epoch_id_key"
+}
+/** select columns of table "member_epoch_pgives" */
+export const enum member_epoch_pgives_select_column {
+	created_at = "created_at",
+	epoch_id = "epoch_id",
+	gives_received = "gives_received",
+	id = "id",
+	normalized_pgive = "normalized_pgive",
+	opt_out_bonus = "opt_out_bonus",
+	pgive = "pgive",
+	user_id = "user_id"
+}
+/** update columns of table "member_epoch_pgives" */
+export const enum member_epoch_pgives_update_column {
+	created_at = "created_at",
+	epoch_id = "epoch_id",
+	gives_received = "gives_received",
+	id = "id",
+	normalized_pgive = "normalized_pgive",
+	opt_out_bonus = "opt_out_bonus",
+	pgive = "pgive",
+	user_id = "user_id"
 }
 /** unique or primary key constraints on table "nominees" */
 export const enum nominees_constraint {
@@ -46802,11 +52926,11 @@ export const enum profiles_constraint {
 /** select columns of table "profiles" */
 export const enum profiles_select_column {
 	address = "address",
-	ann_power = "ann_power",
 	avatar = "avatar",
 	background = "background",
 	bio = "bio",
 	chat_id = "chat_id",
+	connector = "connector",
 	created_at = "created_at",
 	discord_username = "discord_username",
 	github_username = "github_username",
@@ -46822,11 +52946,11 @@ export const enum profiles_select_column {
 /** update columns of table "profiles" */
 export const enum profiles_update_column {
 	address = "address",
-	ann_power = "ann_power",
 	avatar = "avatar",
 	background = "background",
 	bio = "bio",
 	chat_id = "chat_id",
+	connector = "connector",
 	created_at = "created_at",
 	discord_username = "discord_username",
 	github_username = "github_username",
@@ -47063,7 +53187,6 @@ type ZEUS_VARIABLES = {
 	["CreateCircleInput"]: ValueTypes["CreateCircleInput"];
 	["CreateEpochInput"]: ValueTypes["CreateEpochInput"];
 	["CreateNomineeInput"]: ValueTypes["CreateNomineeInput"];
-	["CreateUserInput"]: ValueTypes["CreateUserInput"];
 	["CreateUserWithTokenInput"]: ValueTypes["CreateUserWithTokenInput"];
 	["CreateUsersInput"]: ValueTypes["CreateUsersInput"];
 	["CreateVaultInput"]: ValueTypes["CreateVaultInput"];
@@ -47081,6 +53204,7 @@ type ZEUS_VARIABLES = {
 	["UpdateCircleInput"]: ValueTypes["UpdateCircleInput"];
 	["UpdateContributionInput"]: ValueTypes["UpdateContributionInput"];
 	["UpdateEpochInput"]: ValueTypes["UpdateEpochInput"];
+	["UpdateProfileNameInput"]: ValueTypes["UpdateProfileNameInput"];
 	["UpdateTeammatesInput"]: ValueTypes["UpdateTeammatesInput"];
 	["UpdateUserInput"]: ValueTypes["UpdateUserInput"];
 	["UploadCircleImageInput"]: ValueTypes["UploadCircleImageInput"];
@@ -47240,6 +53364,8 @@ type ZEUS_VARIABLES = {
 	["circles_var_pop_order_by"]: ValueTypes["circles_var_pop_order_by"];
 	["circles_var_samp_order_by"]: ValueTypes["circles_var_samp_order_by"];
 	["circles_variance_order_by"]: ValueTypes["circles_variance_order_by"];
+	["citext"]: ValueTypes["citext"];
+	["citext_comparison_exp"]: ValueTypes["citext_comparison_exp"];
 	["claims_aggregate_order_by"]: ValueTypes["claims_aggregate_order_by"];
 	["claims_arr_rel_insert_input"]: ValueTypes["claims_arr_rel_insert_input"];
 	["claims_avg_order_by"]: ValueTypes["claims_avg_order_by"];
@@ -47293,6 +53419,19 @@ type ZEUS_VARIABLES = {
 	["cursor_ordering"]: ValueTypes["cursor_ordering"];
 	["date"]: ValueTypes["date"];
 	["date_comparison_exp"]: ValueTypes["date_comparison_exp"];
+	["discord_circle_api_tokens_bool_exp"]: ValueTypes["discord_circle_api_tokens_bool_exp"];
+	["discord_circle_api_tokens_constraint"]: ValueTypes["discord_circle_api_tokens_constraint"];
+	["discord_circle_api_tokens_inc_input"]: ValueTypes["discord_circle_api_tokens_inc_input"];
+	["discord_circle_api_tokens_insert_input"]: ValueTypes["discord_circle_api_tokens_insert_input"];
+	["discord_circle_api_tokens_on_conflict"]: ValueTypes["discord_circle_api_tokens_on_conflict"];
+	["discord_circle_api_tokens_order_by"]: ValueTypes["discord_circle_api_tokens_order_by"];
+	["discord_circle_api_tokens_pk_columns_input"]: ValueTypes["discord_circle_api_tokens_pk_columns_input"];
+	["discord_circle_api_tokens_select_column"]: ValueTypes["discord_circle_api_tokens_select_column"];
+	["discord_circle_api_tokens_set_input"]: ValueTypes["discord_circle_api_tokens_set_input"];
+	["discord_circle_api_tokens_stream_cursor_input"]: ValueTypes["discord_circle_api_tokens_stream_cursor_input"];
+	["discord_circle_api_tokens_stream_cursor_value_input"]: ValueTypes["discord_circle_api_tokens_stream_cursor_value_input"];
+	["discord_circle_api_tokens_update_column"]: ValueTypes["discord_circle_api_tokens_update_column"];
+	["discord_circle_api_tokens_updates"]: ValueTypes["discord_circle_api_tokens_updates"];
 	["discord_roles_circles_bool_exp"]: ValueTypes["discord_roles_circles_bool_exp"];
 	["discord_roles_circles_constraint"]: ValueTypes["discord_roles_circles_constraint"];
 	["discord_roles_circles_inc_input"]: ValueTypes["discord_roles_circles_inc_input"];
@@ -47350,6 +53489,20 @@ type ZEUS_VARIABLES = {
 	["distributions_var_pop_order_by"]: ValueTypes["distributions_var_pop_order_by"];
 	["distributions_var_samp_order_by"]: ValueTypes["distributions_var_samp_order_by"];
 	["distributions_variance_order_by"]: ValueTypes["distributions_variance_order_by"];
+	["epoch_pgive_data_bool_exp"]: ValueTypes["epoch_pgive_data_bool_exp"];
+	["epoch_pgive_data_constraint"]: ValueTypes["epoch_pgive_data_constraint"];
+	["epoch_pgive_data_inc_input"]: ValueTypes["epoch_pgive_data_inc_input"];
+	["epoch_pgive_data_insert_input"]: ValueTypes["epoch_pgive_data_insert_input"];
+	["epoch_pgive_data_obj_rel_insert_input"]: ValueTypes["epoch_pgive_data_obj_rel_insert_input"];
+	["epoch_pgive_data_on_conflict"]: ValueTypes["epoch_pgive_data_on_conflict"];
+	["epoch_pgive_data_order_by"]: ValueTypes["epoch_pgive_data_order_by"];
+	["epoch_pgive_data_pk_columns_input"]: ValueTypes["epoch_pgive_data_pk_columns_input"];
+	["epoch_pgive_data_select_column"]: ValueTypes["epoch_pgive_data_select_column"];
+	["epoch_pgive_data_set_input"]: ValueTypes["epoch_pgive_data_set_input"];
+	["epoch_pgive_data_stream_cursor_input"]: ValueTypes["epoch_pgive_data_stream_cursor_input"];
+	["epoch_pgive_data_stream_cursor_value_input"]: ValueTypes["epoch_pgive_data_stream_cursor_value_input"];
+	["epoch_pgive_data_update_column"]: ValueTypes["epoch_pgive_data_update_column"];
+	["epoch_pgive_data_updates"]: ValueTypes["epoch_pgive_data_updates"];
 	["epochs_aggregate_order_by"]: ValueTypes["epochs_aggregate_order_by"];
 	["epochs_arr_rel_insert_input"]: ValueTypes["epochs_arr_rel_insert_input"];
 	["epochs_avg_order_by"]: ValueTypes["epochs_avg_order_by"];
@@ -47422,6 +53575,58 @@ type ZEUS_VARIABLES = {
 	["jsonb"]: ValueTypes["jsonb"];
 	["jsonb_cast_exp"]: ValueTypes["jsonb_cast_exp"];
 	["jsonb_comparison_exp"]: ValueTypes["jsonb_comparison_exp"];
+	["locked_token_distribution_gifts_aggregate_order_by"]: ValueTypes["locked_token_distribution_gifts_aggregate_order_by"];
+	["locked_token_distribution_gifts_arr_rel_insert_input"]: ValueTypes["locked_token_distribution_gifts_arr_rel_insert_input"];
+	["locked_token_distribution_gifts_avg_order_by"]: ValueTypes["locked_token_distribution_gifts_avg_order_by"];
+	["locked_token_distribution_gifts_bool_exp"]: ValueTypes["locked_token_distribution_gifts_bool_exp"];
+	["locked_token_distribution_gifts_constraint"]: ValueTypes["locked_token_distribution_gifts_constraint"];
+	["locked_token_distribution_gifts_inc_input"]: ValueTypes["locked_token_distribution_gifts_inc_input"];
+	["locked_token_distribution_gifts_insert_input"]: ValueTypes["locked_token_distribution_gifts_insert_input"];
+	["locked_token_distribution_gifts_max_order_by"]: ValueTypes["locked_token_distribution_gifts_max_order_by"];
+	["locked_token_distribution_gifts_min_order_by"]: ValueTypes["locked_token_distribution_gifts_min_order_by"];
+	["locked_token_distribution_gifts_on_conflict"]: ValueTypes["locked_token_distribution_gifts_on_conflict"];
+	["locked_token_distribution_gifts_order_by"]: ValueTypes["locked_token_distribution_gifts_order_by"];
+	["locked_token_distribution_gifts_pk_columns_input"]: ValueTypes["locked_token_distribution_gifts_pk_columns_input"];
+	["locked_token_distribution_gifts_select_column"]: ValueTypes["locked_token_distribution_gifts_select_column"];
+	["locked_token_distribution_gifts_set_input"]: ValueTypes["locked_token_distribution_gifts_set_input"];
+	["locked_token_distribution_gifts_stddev_order_by"]: ValueTypes["locked_token_distribution_gifts_stddev_order_by"];
+	["locked_token_distribution_gifts_stddev_pop_order_by"]: ValueTypes["locked_token_distribution_gifts_stddev_pop_order_by"];
+	["locked_token_distribution_gifts_stddev_samp_order_by"]: ValueTypes["locked_token_distribution_gifts_stddev_samp_order_by"];
+	["locked_token_distribution_gifts_stream_cursor_input"]: ValueTypes["locked_token_distribution_gifts_stream_cursor_input"];
+	["locked_token_distribution_gifts_stream_cursor_value_input"]: ValueTypes["locked_token_distribution_gifts_stream_cursor_value_input"];
+	["locked_token_distribution_gifts_sum_order_by"]: ValueTypes["locked_token_distribution_gifts_sum_order_by"];
+	["locked_token_distribution_gifts_update_column"]: ValueTypes["locked_token_distribution_gifts_update_column"];
+	["locked_token_distribution_gifts_updates"]: ValueTypes["locked_token_distribution_gifts_updates"];
+	["locked_token_distribution_gifts_var_pop_order_by"]: ValueTypes["locked_token_distribution_gifts_var_pop_order_by"];
+	["locked_token_distribution_gifts_var_samp_order_by"]: ValueTypes["locked_token_distribution_gifts_var_samp_order_by"];
+	["locked_token_distribution_gifts_variance_order_by"]: ValueTypes["locked_token_distribution_gifts_variance_order_by"];
+	["locked_token_distributions_bool_exp"]: ValueTypes["locked_token_distributions_bool_exp"];
+	["locked_token_distributions_constraint"]: ValueTypes["locked_token_distributions_constraint"];
+	["locked_token_distributions_inc_input"]: ValueTypes["locked_token_distributions_inc_input"];
+	["locked_token_distributions_insert_input"]: ValueTypes["locked_token_distributions_insert_input"];
+	["locked_token_distributions_obj_rel_insert_input"]: ValueTypes["locked_token_distributions_obj_rel_insert_input"];
+	["locked_token_distributions_on_conflict"]: ValueTypes["locked_token_distributions_on_conflict"];
+	["locked_token_distributions_order_by"]: ValueTypes["locked_token_distributions_order_by"];
+	["locked_token_distributions_pk_columns_input"]: ValueTypes["locked_token_distributions_pk_columns_input"];
+	["locked_token_distributions_select_column"]: ValueTypes["locked_token_distributions_select_column"];
+	["locked_token_distributions_set_input"]: ValueTypes["locked_token_distributions_set_input"];
+	["locked_token_distributions_stream_cursor_input"]: ValueTypes["locked_token_distributions_stream_cursor_input"];
+	["locked_token_distributions_stream_cursor_value_input"]: ValueTypes["locked_token_distributions_stream_cursor_value_input"];
+	["locked_token_distributions_update_column"]: ValueTypes["locked_token_distributions_update_column"];
+	["locked_token_distributions_updates"]: ValueTypes["locked_token_distributions_updates"];
+	["member_epoch_pgives_bool_exp"]: ValueTypes["member_epoch_pgives_bool_exp"];
+	["member_epoch_pgives_constraint"]: ValueTypes["member_epoch_pgives_constraint"];
+	["member_epoch_pgives_inc_input"]: ValueTypes["member_epoch_pgives_inc_input"];
+	["member_epoch_pgives_insert_input"]: ValueTypes["member_epoch_pgives_insert_input"];
+	["member_epoch_pgives_on_conflict"]: ValueTypes["member_epoch_pgives_on_conflict"];
+	["member_epoch_pgives_order_by"]: ValueTypes["member_epoch_pgives_order_by"];
+	["member_epoch_pgives_pk_columns_input"]: ValueTypes["member_epoch_pgives_pk_columns_input"];
+	["member_epoch_pgives_select_column"]: ValueTypes["member_epoch_pgives_select_column"];
+	["member_epoch_pgives_set_input"]: ValueTypes["member_epoch_pgives_set_input"];
+	["member_epoch_pgives_stream_cursor_input"]: ValueTypes["member_epoch_pgives_stream_cursor_input"];
+	["member_epoch_pgives_stream_cursor_value_input"]: ValueTypes["member_epoch_pgives_stream_cursor_value_input"];
+	["member_epoch_pgives_update_column"]: ValueTypes["member_epoch_pgives_update_column"];
+	["member_epoch_pgives_updates"]: ValueTypes["member_epoch_pgives_updates"];
 	["nominees_aggregate_order_by"]: ValueTypes["nominees_aggregate_order_by"];
 	["nominees_arr_rel_insert_input"]: ValueTypes["nominees_arr_rel_insert_input"];
 	["nominees_avg_order_by"]: ValueTypes["nominees_avg_order_by"];

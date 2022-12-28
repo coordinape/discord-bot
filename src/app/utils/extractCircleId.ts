@@ -1,8 +1,8 @@
-export function extractCircleId(text: string): string {
+export function extractCircleId(text: string): number {
 	const pattern = /\(Circle\sID:\s(.*?)\)/;
 	const match = pattern.exec(text);
 	if (match) {
-		return match[1];
+		return Number(match[1]);
 	} else {
 		throw new Error('Unable to link the circle, please contact coordinape support');
 	}

@@ -20,6 +20,7 @@ import {
 import { DiscordService } from 'src/app/service/DiscordService';
 import { extractCircleId } from 'src/app/utils/extractCircleId';
 import { CONFIG_NEXT_BUTTON } from 'src/app/service/components/getConfigureComponents';
+import { insertCircleApiTokens } from '@api/insertCircleApiTokens';
 
 type Props = {
 	componentContext: ComponentContext;
@@ -74,11 +75,18 @@ export async function handleComponentInteraction({ componentContext, discordServ
 		try {
 			const channel = await discordService.findTextChannelById(componentContext.channelID);
 			const circleId = extractCircleId(componentContext.message.content);
-			// the bot inserts a row in the discord.circle_api_tokens table
-			// containing a `circle_id` and the `channel_snowflake` and begins listening for the token to be added
+			if (!channel || !circleId) {
+				throw new Error('Missing channel or circle');
+			}
+			// the bot inserts a row in the discord.circle_api_tokens table containing
+			// a `circle_id` and the `channel_snowflake` and begins listening for the token to be added
 			// to that row via a subscription
-			// await componentContext.editParent({ components: disableAllComponents(componentContext) });
-			await componentContext.send(`(mutation) Inserting a row in \`discord.circle_api_tokens\` with \`{ channel_snowflake: ${channel?.id}, circleId: ${circleId} }\``);
+			await componentContext.editParent({ components: disableAllComponents(componentContext) });
+			const { success, rowId } = await insertCircleApiTokens({ circleId, channelSnowflake: channel?.id });
+			if (!success) {
+				throw new Error('Something went wrong, please contact coordinape support');
+			}
+			await componentContext.send(`Click in the following link to authorise [http://localhost:3000/discord/link?id=${rowId}&circleId=${circleId}](http://localhost:3000/discord/link?id=${rowId}&circleId=${circleId})`);
 		} catch (error) {
 			await componentContext.send('Something went wrong, please contact coordinape support');
 		}
