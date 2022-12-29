@@ -52,7 +52,7 @@ creator.on('componentInteraction', async (componentContext) => {
 			return unassignRoleHandler({ componentContext });
 		}
 	}
-	handleComponentInteraction({ componentContext, discordService });
+	handleComponentInteraction({ ctx: componentContext, discordService });
 	Log.warn(`componentInteraction: ${ componentContext }`);
 });
 creator.on('modalInteraction', async (message) => {

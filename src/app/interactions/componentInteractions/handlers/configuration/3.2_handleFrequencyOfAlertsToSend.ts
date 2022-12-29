@@ -1,4 +1,5 @@
 import { ButtonStyle, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentSelectOption, ComponentType } from 'slash-create';
+import { disableAllComponents } from '../common';
 
 const OPTIONS: ComponentSelectOption[] = [
 	{ label: 'End of Epoch', value: 'end_of_epoch', default: true },
@@ -36,11 +37,11 @@ export const ALERTS_FREQUENCY_SELECT_CANCEL_BUTTON: ComponentButton = {
 
 /**
  * Frequency of General Epoch Alerts to send
- * @param message the component context
+ * @param ctx the component context
  */
-export async function handleFrequencyOfAlertsToSend(message: ComponentContext) {
-	message.defer();
-	return message.send({
+export async function handleFrequencyOfAlertsToSend(ctx: ComponentContext) {
+	await ctx.editParent({ components: disableAllComponents(ctx) });
+	await ctx.send({
 		content: 'I can set the frequency of General Epoch Alerts.',
 		components: [
 			{ type: ComponentType.ACTION_ROW, components: [ALERTS_FREQUENCY_STRING_SELECT] },

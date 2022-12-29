@@ -2,6 +2,7 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Role, TextChannel } from 
 import { ComponentActionRow, ComponentContext, ComponentSelectMenu, ComponentSelectOption } from 'slash-create';
 import { DiscordService } from 'src/app/service/DiscordService';
 import { sleep } from 'src/app/utils/sleep';
+import { disableAllComponents } from '../common';
 import { handleSendAlerts } from './3_handleSendAlerts';
 
 export const CREATE_NEW_ENTITIES_HANDLER_INTERACTIONS = {
@@ -11,12 +12,14 @@ export const CREATE_NEW_ENTITIES_HANDLER_INTERACTIONS = {
 
 /**
  * Create a new Channel and Role for each Circle in the Coordinape Category
- * @param componentContext the component context
+ * @param ctx the component context
  */
-export async function handleCreateNewEntities(componentContext: ComponentContext) {
-	const discordService = new DiscordService(componentContext);
+export async function handleCreateNewEntities(ctx: ComponentContext) {
+	await ctx.editParent({ components: disableAllComponents(ctx) });
 
-	const actionRowComponents = componentContext.message.components as ComponentActionRow[];
+	const discordService = new DiscordService(ctx);
+
+	const actionRowComponents = ctx.message.components as ComponentActionRow[];
 	const select = actionRowComponents[0].components[0] as ComponentSelectMenu;
 	const circles = select.options?.filter(option => option.default) || [];
 
@@ -26,17 +29,17 @@ export async function handleCreateNewEntities(componentContext: ComponentContext
 		const role = await discordService.createRole({ name: `${circle.label} Member` });
 
 		if (!channel && !role) {
-			await componentContext.send('Failed to create both the channel and role. Please contact coordinape');
+			await ctx.send('Failed to create both the channel and role. Please contact coordinape');
 			continue;
 		}
 
 		if (!channel) {
-			await componentContext.send('Failed to create a channel. Please contact coordinape');
+			await ctx.send('Failed to create a channel. Please contact coordinape');
 			await role?.delete('Failed to create a channel for this role');
 			continue;
 		}
 		if (!role) {
-			await componentContext.send('Failed to create a role. Please contact coordinape');
+			await ctx.send('Failed to create a role. Please contact coordinape');
 			await channel.delete('Failed to create a role for this channel');
 			continue;
 		}
@@ -52,7 +55,7 @@ export async function handleCreateNewEntities(componentContext: ComponentContext
 	// Only load if they have at least 1 circle already linked
 	const SKIP_LINK_CIRCLE_BUTTON = new ButtonBuilder()
 		.setCustomId(CREATE_NEW_ENTITIES_HANDLER_INTERACTIONS.Skip)
-		.setLabel('Skip Link Circle')
+		.setLabel('Skip Link Circle (TODO)')
 		.setStyle(ButtonStyle.Secondary);
 
 	const linkCircleRow = new ActionRowBuilder<ButtonBuilder>()
@@ -61,22 +64,22 @@ export async function handleCreateNewEntities(componentContext: ComponentContext
 	
 	for (const { channel, role, circle } of newEntitites) {
 		await channel.send({
-			content: `<@${componentContext.user.id}> to manage \`${circle.label}\` (Circle ID: ${circle.value}) in Discord I'll need to get the API Key for the circle. This will enable me to watch this circle so I can send alerts, to manage circle membership (with the role ${role}), and to let circle members interact with Coordinape from within Discord. With your permission I'll go get that now.`,
+			content: `<@${ctx.user.id}> to manage \`${circle.label}\` (Circle ID: ${circle.value}) in Discord I'll need to get the API Key for the circle. This will enable me to watch this circle so I can send alerts, to manage circle membership (with the role ${role}), and to let circle members interact with Coordinape from within Discord. With your permission I'll go get that now.`,
 			components: [linkCircleRow],
 		});
 	}
 	
 	if (newEntitites.length === 1) {
-		await componentContext.send(`Channel ${newEntitites[0].channel} and role ${newEntitites[0].role} created for circle \`${newEntitites[0].circle.label}\`, please go there to manage circle permissions`);
+		await ctx.send(`Channel ${newEntitites[0].channel} and role ${newEntitites[0].role} created for circle \`${newEntitites[0].circle.label}\`, please go there to manage circle permissions`);
 	}
 	
 	if (newEntitites.length > 1) {
-		await componentContext.send(`I have created the following channels and roles, please go to each channel to manage circle permissions:\n${newEntitites.map(({ channel, role, circle }) => `> Channel ${channel} and role ${role} for circle \`${circle.label}\``).join('\n')}`);
+		await ctx.send(`I have created the following channels and roles, please go to each channel to manage circle permissions:\n${newEntitites.map(({ channel, role, circle }) => `> Channel ${channel} and role ${role} for circle \`${circle.label}\``).join('\n')}`);
 	}
 
 	// Just to improve message flow
 	await sleep(3000);
 
 	// Next question
-	return handleSendAlerts(componentContext);
+	return handleSendAlerts(ctx);
 }

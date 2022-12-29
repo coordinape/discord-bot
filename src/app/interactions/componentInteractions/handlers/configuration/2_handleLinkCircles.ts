@@ -1,10 +1,24 @@
-import { CommandContext, ComponentContext, ComponentSelectMenu, ComponentSelectOption, ComponentType } from 'slash-create';
+import { ButtonStyle, CommandContext, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentSelectOption, ComponentType } from 'slash-create';
 import _ from 'lodash';
 import { Circle, getCircles } from '@api/getCircles';
 import { getLinkedCircles } from '@api/getLinkedCircles';
 
 export const LINK_CIRCLE_HANDLER_INTERACTIONS = {
 	Select: 'CIRCLE_SELECT',
+};
+
+export const ALL_CIRCLES_LINKED_CONTINUE_BUTTON: ComponentButton = {
+	type: ComponentType.BUTTON,
+	style: ButtonStyle.SUCCESS,
+	label: 'Setup Alerts',
+	custom_id: 'ALL_CIRCLES_LINKED_CONTINUE_BUTTON',
+};
+
+export const ALL_CIRCLES_LINKED_SKIP_BUTTON: ComponentButton = {
+	type: ComponentType.BUTTON,
+	style: ButtonStyle.DESTRUCTIVE,
+	label: 'Skip',
+	custom_id: 'ALL_CIRCLES_LINKED_SKIP_BUTTON',
 };
 
 export const buildCircleSelect = ({ circles, options }: {circles?: Circle[]; options?: ComponentSelectOption[]}): ComponentSelectMenu => ({
@@ -20,7 +34,7 @@ export const buildCircleSelect = ({ circles, options }: {circles?: Circle[]; opt
  * Link circles
  * @param ctx the context
  */
-export async function handleLinkCircles(ctx: CommandContext | ComponentContext) {
+export async function handleLinkCircles(ctx: CommandContext | ComponentContext): Promise<void> {
 	const circles = await getCircles();
 	const linkedCircles = await getLinkedCircles();
 
@@ -32,7 +46,10 @@ export async function handleLinkCircles(ctx: CommandContext | ComponentContext) 
 	}, [] as Circle[]);
 
 	if (unlinkedCircles.length === 0) {
-		ctx.send('All your circles are linked!');
+		await ctx.send({
+			content: 'All your circles are already linked! Would you like to setup circle alerts?',
+			components: [{ type: ComponentType.ACTION_ROW, components: [ALL_CIRCLES_LINKED_CONTINUE_BUTTON, ALL_CIRCLES_LINKED_SKIP_BUTTON] }],
+		});
 		return;
 	}
 
