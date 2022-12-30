@@ -4,6 +4,7 @@ import { COORDINAPE_BUTTON } from '../components';
 import { isTextChannel } from '../utils';
 import { Request, Response } from 'express';
 import { z } from 'zod';
+import { progressBar } from '../utils/progressBar';
 
 /**
  * curl --request POST \
@@ -15,7 +16,8 @@ import { z } from 'zod';
 	"nominee": "John Doe",
 	"voucher": "Jane Doe",
 	"nominationReason": "great contributions",
-	"numberOfVouches": 2
+	"currentVouches": 1,
+	"requiredVouches": 3
 }
 '
  */
@@ -26,7 +28,8 @@ const Vouch = z.object({
 	nominee: z.string(),
 	voucher: z.string(),
 	nominationReason: z.string(),
-	numberOfVouches: z.number(),
+	currentVouches: z.number(),
+	requiredVouches: z.number(),
 });
 
 type TVouch = Omit<z.infer<typeof Vouch>, 'channelId'>;
@@ -60,6 +63,10 @@ export default async function handler(req: Request, res: Response) {
 	}
 }
 
-async function getContent({ role, nominee, voucher, nominationReason, numberOfVouches }: { role: Role } & TVouch) {
-	return `${role} ${nominee} was Vouched by ${voucher} for ${nominationReason}!\nThey need ${numberOfVouches} vouches to join the circle.`;
+async function getContent({ role, nominee, voucher, nominationReason, currentVouches, requiredVouches }: { role: Role } & TVouch) {
+	return `${role} ${nominee} was Vouched by ${voucher} for ${nominationReason}!\nThey currently have ${currentVouches === 1 ? '1 vouch' : `${currentVouches} vouches`} and need ${requiredVouches} vouches to join the circle.\n${progressBar({
+		current: currentVouches,
+		max: requiredVouches,
+		length: 20,
+	})}`;
 }
