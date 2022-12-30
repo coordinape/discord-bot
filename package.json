@@ -39,7 +39,7 @@
         "@sentry/integrations": "^7.16.0",
         "@sentry/node": "^7.16.0",
         "@sentry/tracing": "^7.16.0",
-        "discord.js": "^14.6.0",
+        "discord.js": "^14.7.1",
         "dotenv": "^16.0.3",
         "form-data": "^4.0.0",
         "graphql": "^16.6.0",
@@ -47,7 +47,7 @@
         "graphql-zeus": "^5.2.0",
         "lodash": "^4.17.21",
         "module-alias": "^2.2.2",
-        "slash-create": "^5.10.0",
+        "slash-create": "^5.11.0",
         "uuid": "^9.0.0"
     },
     "devDependencies": {
