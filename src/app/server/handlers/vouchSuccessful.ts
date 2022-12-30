@@ -5,10 +5,26 @@ import { isTextChannel } from '../utils';
 import { Request, Response } from 'express';
 import { z } from 'zod';
 
+/**
+ * curl --request POST \
+  --url http://localhost:4000/api/epoch/vouch-successful \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"channelId": "1057926498524332083",
+	"roleId": "1058334400540061747",
+	"nominee": "John Doe",
+	"nomineeProfile": "http://localhost:3000/profile/me",
+	"vouchers": ["Alice", "Bob", "Mallory"],
+	"nominationReason": "Good contributions"
+}
+'
+ */
+
 const VouchSuccessful = z.object({
 	channelId: z.string(),
 	roleId: z.string(),
 	nominee: z.string(),
+	nomineeProfile: z.string(),
 	vouchers: z.array(z.string()),
 	nominationReason: z.string(),
 });
@@ -23,12 +39,25 @@ export default async function handler(req: Request, res: Response) {
 		if (!channel || !isTextChannel(channel)) {
 			throw new Error('Channel not found!');
 		}
+
+		const NOMINEE_PROFILE_BUTTON: ButtonBuilder = new ButtonBuilder()
+			.setURL(data.nomineeProfile)
+			.setLabel(`${data.nominee}'s Profile`)
+			.setStyle(ButtonStyle.Link);
 		
-		const actions: ButtonBuilder[] = ['Note', '[Nominee Profile]', 'Link'].map((label) => (new ButtonBuilder()
-			.setCustomId(`${label.toUpperCase()}_BUTTON`)
-			.setLabel(label)
-			.setStyle(ButtonStyle.Primary)));
-		const row = new ActionRowBuilder<ButtonBuilder>().addComponents([...actions, COORDINAPE_BUTTON]);
+		const VOUCH_SUCCESSFUL_NOTE_BUTTON = new ButtonBuilder()
+			.setCustomId('VOUCH_SUCCESSFUL_NOTE_BUTTON')
+			.setLabel('Note')
+			.setStyle(ButtonStyle.Primary);
+			
+		const LINK_BUTTON: ButtonBuilder = new ButtonBuilder()
+			.setURL('http://localhost:3000')
+			.setLabel('Link')
+			.setStyle(ButtonStyle.Link);
+
+		const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+			[VOUCH_SUCCESSFUL_NOTE_BUTTON, NOMINEE_PROFILE_BUTTON, LINK_BUTTON, COORDINAPE_BUTTON],
+		);
 		
 		const guild = await client.guilds.fetch(channel.guildId);
 		const role = await guild.roles.fetch(data.roleId);
