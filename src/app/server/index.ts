@@ -1,6 +1,7 @@
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import nomination from './handlers/nomination';
+import start from './handlers/start';
 import vouch from './handlers/vouch';
 
 dotenv.config();
@@ -12,6 +13,7 @@ const port = process.env.PORT;
 app.use(express.json());
 
 app.post('/api/epoch/nomination', nomination);
+app.post('/api/epoch/start', start);
 app.post('/api/epoch/vouch', vouch);
 
 app.listen(port, () => {
