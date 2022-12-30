@@ -5,6 +5,7 @@ import end from './handlers/end';
 import nomination from './handlers/nomination';
 import vouch from './handlers/vouch';
 import vouchSuccessful from './handlers/vouchSuccessful';
+import vouchUnsuccessful from './handlers/vouchUnsuccessful';
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.post('/api/epoch/end', end);
 app.post('/api/epoch/nomination', nomination);
 app.post('/api/epoch/vouch', vouch);
 app.post('/api/epoch/vouch-successful', vouchSuccessful);
+app.post('/api/epoch/vouch-unsuccessful', vouchUnsuccessful);
 
 app.listen(port, () => {
 	// eslint-disable-next-line no-console
