@@ -5,6 +5,17 @@ import { isTextChannel } from '../utils';
 import { Request, Response } from 'express';
 import { z } from 'zod';
 
+/**
+ * curl --request POST \
+  --url http://localhost:4000/api/epoch/vouch-unsuccessful \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"channelId": "1057926498524332083",
+	"roleId": "1058334400540061747",
+	"nominee": "John Doe"}
+'
+ */
+
 const VouchUnsuccessful = z.object({
 	channelId: z.string(),
 	roleId: z.string(),
