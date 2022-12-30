@@ -1,4 +1,4 @@
-import { ButtonBuilder, ActionRowBuilder, ButtonStyle, TextChannel } from 'discord.js';
+import { ButtonBuilder, ActionRowBuilder, ButtonStyle, Role } from 'discord.js';
 import client from '../../app';
 import { COORDINAPE_BUTTON } from '../components';
 import { isTextChannel } from '../utils';
@@ -20,7 +20,7 @@ import { z } from 'zod';
 '
  */
 
-const EpochNomination = z.object({
+const Nomination = z.object({
 	channelId: z.string(),
 	roleId: z.string(),
 	nominee: z.string(),
@@ -29,11 +29,11 @@ const EpochNomination = z.object({
 	numberOfVouches: z.number(),
 });
 
-type TEpochNomination = Omit<z.infer<typeof EpochNomination>, 'channelId'>;
+type TNomination = Omit<z.infer<typeof Nomination>, 'channelId'>;
 
 export default async function handler(req: Request, res: Response) {
 	try {
-		const { channelId, ...data } = EpochNomination.parse(req.body);
+		const { channelId, ...data } = Nomination.parse(req.body);
 		
 		const channel = await client.channels.fetch(channelId);
 		if (!channel || !isTextChannel(channel)) {
@@ -46,7 +46,13 @@ export default async function handler(req: Request, res: Response) {
 			.setStyle(ButtonStyle.Primary)));
 		const row = new ActionRowBuilder<ButtonBuilder>().addComponents([...actions, COORDINAPE_BUTTON]);
 		
-		const message = await channel.send({ content: await getContent({ channel, ...data }), components: [row] });
+		const guild = await client.guilds.fetch(channel.guildId);
+		const role = await guild.roles.fetch(data.roleId);
+		if (!role) {
+			throw new Error(`Role with id '${data.roleId}' not found!`);
+		}
+
+		const message = await channel.send({ content: await getContent({ role, ...data }), components: [row] });
 
 		res.status(200).send({ createdAt: message.createdTimestamp, body: req.body });
 	} catch (error) {
@@ -54,11 +60,6 @@ export default async function handler(req: Request, res: Response) {
 	}
 }
 
-async function getContent({ channel, roleId, nominee, nominator, nominationReason, numberOfVouches }: { channel: TextChannel } & TEpochNomination) {
-	const guild = await client.guilds.fetch(channel.guildId);
-	const role = await guild.roles.fetch(roleId);
-	if (!role) {
-		throw new Error(`Role with id '${roleId}' not found!`);
-	}
+async function getContent({ role, nominee, nominator, nominationReason, numberOfVouches }: { role: Role } & TNomination) {
 	return `${role} ${nominee} was nominated by ${nominator} for ${nominationReason}!\nThey need ${numberOfVouches} vouches to join the circle.`;
 }
