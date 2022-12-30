@@ -16,11 +16,6 @@ const EpochNomination = z.object({
 type TEpochNomination = Omit<z.infer<typeof EpochNomination>, 'channelId'>;
 
 export default async function handler(req: Request, res: Response) {
-	const actions: ButtonBuilder[] = ['Vouch', 'Link'].map((label) => (new ButtonBuilder()
-		.setCustomId(`${label.toUpperCase()}_BUTTON`)
-		.setLabel(label)
-		.setStyle(ButtonStyle.Primary)));
-
 	try {
 		const { channelId, ...data } = EpochNomination.parse(req.body);
 		
@@ -30,8 +25,13 @@ export default async function handler(req: Request, res: Response) {
 			return;
 		}
 
+		const actions: ButtonBuilder[] = ['Vouch', 'Link'].map((label) => (new ButtonBuilder()
+			.setCustomId(`${label.toUpperCase()}_BUTTON`)
+			.setLabel(label)
+			.setStyle(ButtonStyle.Primary)));
 		const row = new ActionRowBuilder<ButtonBuilder>().addComponents([...actions, COORDINAPE_BUTTON]);
 		const message = await channel.send({ content: getMessage(data), components: [row] });
+		
 		res.status(200).send({ createdAt: message.createdTimestamp, body: req.body });
 	} catch (error) {
 		res.status(400).send(error);
