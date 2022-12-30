@@ -7,40 +7,44 @@ import { z } from 'zod';
 
 /**
  * curl --request POST \
-  --url http://localhost:4000/api/epoch/start \
+  --url http://localhost:4000/api/epoch/end \
   --header 'Content-Type: application/json' \
   --data '{
 	"channelId": "1057926498524332083",
 	"roleId": "1058334400540061747",
 	"epochName": "The Great Epoch",
 	"circleName": "Circumference",
-	"startTime": "1672400616",
-	"endTime": "1675158216"
+	"endTime": "1672401564",
+	"giveCount": 1000,
+	"userCount": 9,
+	"circleHistoryLink": "http://localhost:3000/circles/12/history"
 }
 '
  */
 
-const Start = z.object({
+const End = z.object({
 	channelId: z.string(),
 	roleId: z.string(),
 	epochName: z.string(),
 	circleName: z.string(),
-	startTime: z.string(),
 	endTime: z.string(),
+	giveCount: z.number(),
+	userCount: z.number(),
+	circleHistoryLink: z.string(),
 });
 
-type TStart = Omit<z.infer<typeof Start>, 'channelId'>;
+type TEnd = Omit<z.infer<typeof End>, 'channelId'>;
 
 export default async function handler(req: Request, res: Response) {
 	try {
-		const { channelId, ...data } = Start.parse(req.body);
+		const { channelId, ...data } = End.parse(req.body);
 		
 		const channel = await client.channels.fetch(channelId);
 		if (!channel || !isTextChannel(channel)) {
 			throw new Error('Channel not found!');
 		}
 		
-		const actions: ButtonBuilder[] = ['Link', 'Contribute', 'Epoch Statement', 'Opt-in'].map((label) => (new ButtonBuilder()
+		const actions: ButtonBuilder[] = ['Pulse Survey', 'Link', 'Contribute', 'Personal Summary'].map((label) => (new ButtonBuilder()
 			.setCustomId(`${label.toUpperCase()}_BUTTON`)
 			.setLabel(label)
 			.setStyle(ButtonStyle.Primary)));
@@ -60,6 +64,6 @@ export default async function handler(req: Request, res: Response) {
 	}
 }
 
-async function getContent({ role, epochName, circleName, startTime, endTime }: { role: Role } & TStart) {
-	return `Heads up ${role}! ${epochName} for ${circleName} has just started!\n\nIt will run from <t:${startTime}:f> to <t:${endTime}:f> <t:${endTime}:R>!\n\nDon't forget to opt in and let your Circlemates know what you did this this cycle in your epoch statement and contributions!\n\nIf you want to opt-in or update your statement you can do that by clicking the buttons below.\n\n**Get Giving**`;
+async function getContent({ role, epochName, circleName, endTime, giveCount, userCount, circleHistoryLink }: { role: Role } & TEnd) {
+	return `${role} You've done it! ${epochName} for ${circleName} ended <t:${endTime}:R>!\n\nI'm sure you crushed it. Your Circle gave ${giveCount} GIVE across ${userCount} users.\n\nTo see your results for the epoch click the Personal Summary button below, or view it in the app. ${circleHistoryLink}\n\nWe’d love to know how you felt about this epoch, if you react to this message we’ll use that data to make Coordinape better!\n\nIf you have 3 minutes you could also fill out the pulse survey below this data will help your team and Coordinape improve.\n\n**It's better to GIVE than receive**`;
 }
