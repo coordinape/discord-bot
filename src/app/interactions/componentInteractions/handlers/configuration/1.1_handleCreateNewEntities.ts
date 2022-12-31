@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Role, TextChannel } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CategoryChannel, Role, TextChannel } from 'discord.js';
 import { ComponentActionRow, ComponentContext, ComponentSelectMenu, ComponentSelectOption } from 'slash-create';
 import { DiscordService } from 'src/app/service/DiscordService';
 import { sleep } from 'src/app/utils/sleep';
@@ -22,10 +22,11 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 	const actionRowComponents = ctx.message.components as ComponentActionRow[];
 	const select = actionRowComponents[0].components[0] as ComponentSelectMenu;
 	const circles = select.options?.filter(option => option.default) || [];
+	const coordinapeCategory = await getCoordinapeCategory(discordService);
 
 	const newEntitites: { channel: TextChannel; role: Role, circle: ComponentSelectOption }[] = [];
 	for (const circle of circles) {
-		const channel = await discordService.createChannel({ name: circle.label });
+		const channel = await discordService.createChannel({ name: circle.label, parent: coordinapeCategory });
 		const role = await discordService.createRole({ name: `${circle.label} Member` });
 
 		if (!channel && !role) {
@@ -70,11 +71,11 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 	}
 	
 	if (newEntitites.length === 1) {
-		await ctx.send(`Channel ${newEntitites[0].channel} and role ${newEntitites[0].role} created for circle \`${newEntitites[0].circle.label}\`, please go there to manage circle permissions`);
+		await ctx.send(`Channel ${newEntitites[0].channel} and role ${newEntitites[0].role} created for circle \`${newEntitites[0].circle.label}\` under the ${parent} category, please go there to manage circle permissions`);
 	}
 	
 	if (newEntitites.length > 1) {
-		await ctx.send(`I have created the following channels and roles, please go to each channel to manage circle permissions:\n${newEntitites.map(({ channel, role, circle }) => `> Channel ${channel} and role ${role} for circle \`${circle.label}\``).join('\n')}`);
+		await ctx.send(`I have created the following channels (under the ${parent} category) and roles, please go to each channel to manage circle permissions:\n${newEntitites.map(({ channel, role, circle }) => `> Channel ${channel} and role ${role} for circle \`${circle.label}\``).join('\n')}`);
 	}
 
 	// Just to improve message flow
@@ -82,4 +83,18 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 
 	// Next question
 	return handleSendAlerts(ctx);
+}
+
+async function getCoordinapeCategory(discordService: DiscordService): Promise<CategoryChannel> {
+	let category = await discordService.findCategoryByName('Coordinape');
+
+	if (!category) {
+		category = await discordService.createCategory({ name: 'Coordinape', position: 0 });
+	}
+	
+	if (!category) {
+		throw new Error('Failed to create the Coordinape category');
+	}
+	
+	return category;
 }

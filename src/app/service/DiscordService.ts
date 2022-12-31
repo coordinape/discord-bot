@@ -28,10 +28,18 @@ export class DiscordService {
 		return textChannels.get(channelId);
 	}
 
-	async createCategory({ name }: { name: string }): Promise<CategoryChannel | undefined> {
+	async findCategoryByName(name: string): Promise<CategoryChannel | undefined> {
+		const guild = await this.findGuild();
+
+		const channels = await guild.channels.fetch();
+		
+		return channels.filter(notNull).filter(categoryChannel).filter((channel) => channel.name === name).first();
+	}
+
+	async createCategory({ name, ...rest }: GuildChannelCreateOptions): Promise<CategoryChannel | undefined> {
 		try {
 			const guild = await this.findGuild();
-			return guild.channels.create({ name, type: ChannelType.GuildCategory });
+			return guild.channels.create({ name, ...rest, type: ChannelType.GuildCategory });
 		} catch (e) {
 			Log.error(e);
 		}
@@ -72,4 +80,8 @@ export class DiscordService {
 
 function textChannel(channel: NonThreadGuildBasedChannel): channel is TextChannel {
 	return channel.type === ChannelType.GuildText;
+}
+
+function categoryChannel(channel: NonThreadGuildBasedChannel): channel is CategoryChannel {
+	return channel.type === ChannelType.GuildCategory;
 }
