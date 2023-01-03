@@ -35,7 +35,7 @@ export const buildCircleSelect = ({ circles, options }: {circles?: Circle[]; opt
  * @param ctx the context
  */
 export async function handleLinkCircles(ctx: CommandContext | ComponentContext): Promise<void> {
-	const circles = await getCircles();
+	const circles = await getCircles({ userId: ctx.user.id });
 	const linkedCircles = await getLinkedCircles();
 
 	const unlinkedCircles = circles.reduce((prev, curr) => {
