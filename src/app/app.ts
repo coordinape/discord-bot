@@ -43,17 +43,22 @@ creator.on('modalInteraction', (message) => Log.warn(`modalInteraction: ${ messa
 creator.on('commandInteraction', (message) => Log.warn(`commandInteraction: ${ message }`));
 creator.on('unknownInteraction', (message) => Log.warn(`unknownInteraction: ${ message }`));
 creator.on('componentInteraction', async (componentContext) => {
-	const discordService = new DiscordService(componentContext);
-	if (componentContext.componentType === ComponentType.USER_SELECT) {
-		if (componentContext.customID === ASSIGN_ROLE_USER_SELECT.custom_id) {
-			return assignRoleHandler({ componentContext });
+	try {
+		const discordService = new DiscordService(componentContext);
+		if (componentContext.componentType === ComponentType.USER_SELECT) {
+			if (componentContext.customID === ASSIGN_ROLE_USER_SELECT.custom_id) {
+				return assignRoleHandler({ componentContext });
+			}
+			if (componentContext.customID === UNASSIGN_ROLE_USER_SELECT.custom_id) {
+				return unassignRoleHandler({ componentContext });
+			}
 		}
-		if (componentContext.customID === UNASSIGN_ROLE_USER_SELECT.custom_id) {
-			return unassignRoleHandler({ componentContext });
-		}
+		handleComponentInteraction({ ctx: componentContext, discordService });
+		Log.warn(`componentInteraction: ${ componentContext }`);
+	} catch (error) {
+		await componentContext.send({ content: 'Something went wrong with this interaction. Please contact coordinape support' });
+		Log.error(error);
 	}
-	handleComponentInteraction({ ctx: componentContext, discordService });
-	Log.warn(`componentInteraction: ${ componentContext }`);
 });
 creator.on('modalInteraction', async (message) => {
 	message.send({ content: `<@${message.user.id}> you've typed\n> ||${message.values['TEXT_INPUT']}||\n in the \`TEXT_INPUT\` input field` });
