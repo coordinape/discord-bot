@@ -2,7 +2,7 @@ import { Chain, Subscription } from './zeus';
 
 export const gqlBot = Chain('http://localhost:8080/v1/graphql', {
 	headers: {
-		'authorization': 'no_secret',
+		'authorization': process.env.DISCORD_BOT_AUTHORIZATION_HEADER || 'no_secret',
 	},
 });
 
