@@ -71,11 +71,11 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 	}
 	
 	if (newEntitites.length === 1) {
-		await ctx.send(`Channel ${newEntitites[0].channel} and role ${newEntitites[0].role} created for circle \`${newEntitites[0].circle.label}\` under the ${parent} category, please go there to manage circle permissions`);
+		await ctx.send(`Channel ${newEntitites[0].channel} and role ${newEntitites[0].role} created for circle \`${newEntitites[0].circle.label}\` under the ${coordinapeCategory} category, please go there to manage circle permissions`);
 	}
 	
 	if (newEntitites.length > 1) {
-		await ctx.send(`I have created the following channels (under the ${parent} category) and roles, please go to each channel to manage circle permissions:\n${newEntitites.map(({ channel, role, circle }) => `> Channel ${channel} and role ${role} for circle \`${circle.label}\``).join('\n')}`);
+		await ctx.send(`I have created the following channels (under the ${coordinapeCategory} category) and roles, please go to each channel to manage circle permissions:\n${newEntitites.map(({ channel, role, circle }) => `> Channel ${channel} and role ${role} for circle \`${circle.label}\``).join('\n')}`);
 	}
 
 	// Just to improve message flow
