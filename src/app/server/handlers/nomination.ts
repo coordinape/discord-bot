@@ -1,4 +1,4 @@
-import { ButtonBuilder, ActionRowBuilder, ButtonStyle, Role } from 'discord.js';
+import { ButtonBuilder, ActionRowBuilder, Role, ButtonStyle } from 'discord.js';
 import client from '../../app';
 import { COORDINAPE_BUTTON } from '../components';
 import { isTextChannel } from '../utils';
@@ -15,7 +15,8 @@ import { z } from 'zod';
 	"nominee": "John Doe",
 	"nominator": "Jane Doe",
 	"nominationReason": "great contributions",
-	"numberOfVouches": 2
+	"numberOfVouches": 2,
+	"nominationLink": "https://app.coordinape.com/circles/10/members"
 }
 '
  */
@@ -27,6 +28,7 @@ const Nomination = z.object({
 	nominator: z.string(),
 	nominationReason: z.string(),
 	numberOfVouches: z.number(),
+	nominationLink: z.string().url(),
 });
 
 type TNomination = Omit<z.infer<typeof Nomination>, 'channelId'>;
@@ -39,12 +41,14 @@ export default async function handler(req: Request, res: Response) {
 		if (!channel || !isTextChannel(channel)) {
 			throw new Error('Channel not found!');
 		}
+
+		const VOUCH_BUTTON: ButtonBuilder = new ButtonBuilder()
+			.setCustomId('NOMINATION_VOUCH_BUTTON')
+			.setURL(data.nominationLink)
+			.setLabel('Vouch')
+			.setStyle(ButtonStyle.Link);
 		
-		const actions: ButtonBuilder[] = ['Vouch', 'Link'].map((label) => (new ButtonBuilder()
-			.setCustomId(`${label.toUpperCase()}_BUTTON`)
-			.setLabel(label)
-			.setStyle(ButtonStyle.Primary)));
-		const row = new ActionRowBuilder<ButtonBuilder>().addComponents([...actions, COORDINAPE_BUTTON]);
+		const row = new ActionRowBuilder<ButtonBuilder>().addComponents([VOUCH_BUTTON, COORDINAPE_BUTTON]);
 		
 		const guild = await client.guilds.fetch(channel.guildId);
 		const role = await guild.roles.fetch(data.roleId);
@@ -61,5 +65,5 @@ export default async function handler(req: Request, res: Response) {
 }
 
 async function getContent({ role, nominee, nominator, nominationReason, numberOfVouches }: { role: Role } & TNomination) {
-	return `${role} ${nominee} was nominated by ${nominator} for ${nominationReason}!\nThey need ${numberOfVouches} vouches to join the circle.`;
+	return `${role} ${nominee} was nominated by ${nominator} for:\n\n> "${nominationReason}"!\n\nThey need ${numberOfVouches} vouches to join the circle.`;
 }
