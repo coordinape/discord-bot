@@ -1,7 +1,7 @@
-import { chain } from './gqlClients';
+import { gqlBot } from './gqlClients';
 
 export async function getLinkingStatus(userId: string) {
-	const { discord_users: discordUsers } = await chain('query')({
+	const { discord_users: discordUsers } = await gqlBot('query')({
 		discord_users: [
 			{ where: { user_snowflake: { _eq: userId } } },
 			{ user_snowflake: true },

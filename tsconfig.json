@@ -5,11 +5,11 @@
         "lib": ["DOM", "DOM.Iterable"],
         "baseUrl": ".",
         "paths": {
-            "@api/*": ["./src/app/api/*"],
-        },
+            "@api/*": ["./src/app/api/*"]
+        }
     },
     "ts-node": {
         "swc": true
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*"]
 }
