@@ -1,4 +1,4 @@
-import { OAUTH2_URL } from '@api/constants';
+import { getOAuth2Url } from '@api/constants';
 import { getLinkingStatus } from '@api/getLinkingStatus';
 import { ButtonStyle, ComponentActionRow, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentType, Message } from 'slash-create';
 import Log from '../../../../utils/Log';
@@ -48,7 +48,7 @@ export async function assignRoleHandler({ componentContext }: { componentContext
 			const isLinked = await getLinkingStatus(userId);
 
 			if (!isLinked) {
-				await ctx.send({ content: `<@${userId}> hasn't linked their Discord Account to Coordinape yet, please ask them to go [here](${OAUTH2_URL}) and link their accounts. Then you can try again\n\nYou can also add them directly in coordinape [here](https://app.coordinape.com/profile/me)` });
+				await ctx.send({ content: `<@${userId}> hasn't linked their Discord Account to Coordinape yet, please ask them to go [here](${getOAuth2Url()}) and link their accounts. Then you can try again\n\nYou can also add them directly in coordinape [here](https://app.coordinape.com/profile/me)` });
 				return;
 			}
 

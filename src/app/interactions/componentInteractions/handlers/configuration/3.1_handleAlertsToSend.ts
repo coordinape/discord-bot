@@ -1,4 +1,5 @@
 import { ButtonStyle, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentSelectOption, ComponentType } from 'slash-create';
+import { disableAllComponents } from '../common';
 
 const OPTIONS: ComponentSelectOption[] = [
 	{ label: 'Epoch Summary', value: 'epoch_summary', default: true },
@@ -37,10 +38,11 @@ export const ALERTS_SELECT_CANCEL_BUTTON: ComponentButton = {
 
 /**
  * Alerts to send
- * @param message the component context
+ * @param ctx the component context
  */
-export async function handleAlertsToSend(message: ComponentContext) {
-	await message.send({
+export async function handleAlertsToSend(ctx: ComponentContext) {
+	await ctx.editParent({ components: disableAllComponents(ctx) });
+	await ctx.send({
 		content: 'What Alerts would you like me to send?',
 		components: [
 			{ type: ComponentType.ACTION_ROW, components: [ALERTS_STRING_SELECT] },

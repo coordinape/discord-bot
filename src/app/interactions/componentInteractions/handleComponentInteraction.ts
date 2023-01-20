@@ -1,52 +1,60 @@
 import { ComponentContext } from 'slash-create';
-import { NEW_CHANNELS_BUTTON, EXISTING_CHANNELS_BUTTON } from '../../service/components/getConfigureComponents';
-import { ALERTS_FREQUENCY_SELECT_CANCEL_BUTTON, ALERTS_FREQUENCY_SELECT_CONFIRM_BUTTON, ALERTS_SELECT_CANCEL_BUTTON, ALERTS_SELECT_CONFIRM_BUTTON, handleAlertsToSend, handleCreateNewChannels, handleCreateNewRoles, handleFinalMessage, handleFrequencyOfAlertsToSend, handleUseExistingChannels, handleUseExistingRoles, NOT_YET_NEW_ROLE_BUTTON, NO_SEND_ALERTS_BUTTON, YES_NEW_ROLE_BUTTON, YES_SEND_ALERTS_BUTTON } from './handlers';
-import { disableAllComponents } from './handlers/common';
+import {
+	ALERTS_FREQUENCY_SELECT_CANCEL_BUTTON,
+	ALERTS_FREQUENCY_SELECT_CONFIRM_BUTTON,
+	ALERTS_SELECT_CANCEL_BUTTON,
+	ALERTS_SELECT_CONFIRM_BUTTON,
+	CIRCLE_SELECT_NEXT_BUTTON,
+	CREATE_NEW_ENTITIES_HANDLER_INTERACTIONS,
+	LINK_CIRCLE_HANDLER_INTERACTIONS,
+	NO_SEND_ALERTS_BUTTON,
+	YES_SEND_ALERTS_BUTTON,
+	ALL_CIRCLES_LINKED_CONTINUE_BUTTON,
+	ALL_CIRCLES_LINKED_SKIP_BUTTON,
+	handleAlertsToSend,
+	handleCircleSelect,
+	handleCreateNewEntities,
+	handleFinalMessage,
+	handleFrequencyOfAlertsToSend,
+	handleLinkCircles,
+	handleRequestApiKeys,
+} from './handlers';
+import { DiscordService } from 'src/app/service/DiscordService';
+import { CONFIG_NEXT_BUTTON } from 'src/app/service/components/getConfigureComponents';
 
-export async function handleComponentInteraction(componentContext: ComponentContext): Promise<void> {
-	switch (componentContext.customID) {
-	case NEW_CHANNELS_BUTTON.custom_id:
-		handleCreateNewChannels(componentContext);
-		break;
-	case EXISTING_CHANNELS_BUTTON.custom_id:
-		handleUseExistingChannels(componentContext);
-		break;
-	case YES_NEW_ROLE_BUTTON.custom_id:
-		handleCreateNewRoles(componentContext);
-		break;
-	case NOT_YET_NEW_ROLE_BUTTON.custom_id:
-		handleUseExistingRoles(componentContext);
-		break;
+type Props = {
+	ctx: ComponentContext;
+	discordService: DiscordService;
+}
+
+export async function handleComponentInteraction({ ctx, discordService }: Props): Promise<void> {
+	switch (ctx.customID) {
+	case CONFIG_NEXT_BUTTON.custom_id:
+		return handleLinkCircles(ctx);
 	case YES_SEND_ALERTS_BUTTON.custom_id:
-		handleAlertsToSend(componentContext);
-		break;
+		return handleAlertsToSend(ctx);
 	case NO_SEND_ALERTS_BUTTON.custom_id:
-		handleFinalMessage(componentContext);
-		break;
-	case ALERTS_SELECT_CONFIRM_BUTTON.custom_id: {
-		componentContext.editParent({ components: disableAllComponents(componentContext) });
-		// TODO Confirmation message?
-		handleFrequencyOfAlertsToSend(componentContext);
-		break;
-	}
-	case ALERTS_SELECT_CANCEL_BUTTON.custom_id: {
-		componentContext.editParent({ components: disableAllComponents(componentContext) });
-		// TODO No worries message?
-		handleFrequencyOfAlertsToSend(componentContext);
-		break;
-	}
-	case ALERTS_FREQUENCY_SELECT_CONFIRM_BUTTON.custom_id: {
-		componentContext.editParent({ components: disableAllComponents(componentContext) });
-		// TODO Confirmation message?
-		handleFinalMessage(componentContext);
-		break;
-	}
-	case ALERTS_FREQUENCY_SELECT_CANCEL_BUTTON.custom_id: {
-		componentContext.editParent({ components: disableAllComponents(componentContext) });
-		// TODO No worries message?
-		handleFinalMessage(componentContext);
-		break;
-	}
+		return handleFinalMessage(ctx);
+	case ALERTS_SELECT_CONFIRM_BUTTON.custom_id:
+		return handleFrequencyOfAlertsToSend(ctx);
+	case ALERTS_SELECT_CANCEL_BUTTON.custom_id:
+		return handleFinalMessage(ctx);
+	case ALERTS_FREQUENCY_SELECT_CONFIRM_BUTTON.custom_id:
+		return handleFinalMessage(ctx);
+	case ALERTS_FREQUENCY_SELECT_CANCEL_BUTTON.custom_id:
+		return handleFinalMessage(ctx);
+	case LINK_CIRCLE_HANDLER_INTERACTIONS.Select:
+		return handleCircleSelect(ctx);
+	case CIRCLE_SELECT_NEXT_BUTTON.custom_id:
+		return handleCreateNewEntities(ctx);
+	case CREATE_NEW_ENTITIES_HANDLER_INTERACTIONS.Link:
+		return handleRequestApiKeys(ctx, discordService);
+	case CREATE_NEW_ENTITIES_HANDLER_INTERACTIONS.Skip:
+		return handleFinalMessage(ctx);
+	case ALL_CIRCLES_LINKED_CONTINUE_BUTTON.custom_id:
+		return handleAlertsToSend(ctx);
+	case ALL_CIRCLES_LINKED_SKIP_BUTTON.custom_id:
+		return handleFinalMessage(ctx);
 	default:
 		break;
 	}

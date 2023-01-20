@@ -1,12 +1,16 @@
 import { CommandContext, SlashCommand, SlashCreator } from 'slash-create';
 import { LogUtils } from '../utils/Log';
 import { ServiceSupport } from '../service/ServiceSupport';
+import { DiscordService } from '../service/DiscordService';
 
+/**
+ * Just for testing the create role flow
+ */
 export default class Coordinape extends SlashCommand {
 	constructor(creator: SlashCreator) {
 		super(creator, {
-			name: 'coordinape',
-			description: 'Interact with Coordinape directly in Discord.',
+			name: 'role',
+			description: 'Testing the create role flow',
 			defaultPermission: true,
 		});
 	}
@@ -18,17 +22,16 @@ export default class Coordinape extends SlashCommand {
 		if (ctx.user.bot) return;
 
 		const service = new ServiceSupport(ctx);
+		const discord = new DiscordService(ctx);
 
 		try {
 			await ctx.defer();
 
-			const { componentActionRows, callbackComponents } = await service.getCallbackComponentsWithRows();
-
-			await ctx.send('Coordinape Single Command', { components: componentActionRows });
-			
-			for (const { component: { custom_id }, callback } of callbackComponents) {
-				ctx.registerComponent(custom_id, callback);
+			const role = await discord.createRole({ name: 'Foo Bar Member' });
+			if (role) {
+				await ctx.send(`Role ${role} created!`);
 			}
+
 		} catch (e) {
 			LogUtils.logError('Welp, something went wrong', e);
 			await service.ephemeralError({ msg: JSON.stringify(e) });

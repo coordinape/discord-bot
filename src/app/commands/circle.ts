@@ -1,12 +1,16 @@
 import { CommandContext, SlashCommand, SlashCreator } from 'slash-create';
 import { LogUtils } from '../utils/Log';
 import { ServiceSupport } from '../service/ServiceSupport';
+import { handleLinkCircles } from '../interactions/componentInteractions/handlers/configuration/2_handleLinkCircles';
 
+/**
+ * Just for testing the circle flow
+ */
 export default class Coordinape extends SlashCommand {
 	constructor(creator: SlashCreator) {
 		super(creator, {
-			name: 'coordinape',
-			description: 'Interact with Coordinape directly in Discord.',
+			name: 'circle',
+			description: 'Testing the circle flow',
 			defaultPermission: true,
 		});
 	}
@@ -22,13 +26,7 @@ export default class Coordinape extends SlashCommand {
 		try {
 			await ctx.defer();
 
-			const { componentActionRows, callbackComponents } = await service.getCallbackComponentsWithRows();
-
-			await ctx.send('Coordinape Single Command', { components: componentActionRows });
-			
-			for (const { component: { custom_id }, callback } of callbackComponents) {
-				ctx.registerComponent(custom_id, callback);
-			}
+			await handleLinkCircles(ctx);
 		} catch (e) {
 			LogUtils.logError('Welp, something went wrong', e);
 			await service.ephemeralError({ msg: JSON.stringify(e) });

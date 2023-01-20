@@ -3,7 +3,7 @@ import { wsChain, chain } from '@api/gqlClients';
 import { CallbackComponent } from '../types';
 import Log from '../../utils/Log';
 import { getLinkingStatus } from '@api/getLinkingStatus';
-import { OAUTH2_URL } from '@api/constants';
+import { getOAuth2Url } from '@api/constants';
 
 export async function getLinkingComponents(commandContext: CommandContext): Promise<CallbackComponent[]> {
 	const isLinked = await getLinkingStatus(commandContext.user.id);
@@ -48,9 +48,9 @@ export async function getLinkingComponents(commandContext: CommandContext): Prom
 					}
 				});
 
-				await componentContext.send(`If you would like to interact with Coordinape within discord you will need to link your Coordinape account to your Discord. [Click here](${OAUTH2_URL}) to link your accounts. You will be asked to sign a message approving the bot to perform some Coordinape actions on your behalf.\n\nThis will not impact your ability to use the Coordinape app!`);
+				await componentContext.send(`If you would like to interact with Coordinape within discord you will need to link your Coordinape account to your Discord. [Click here](${getOAuth2Url()}) to link your accounts. You will be asked to sign a message approving the bot to perform some Coordinape actions on your behalf.\n\nThis will not impact your ability to use the Coordinape app!`);
 			} catch (error) {
-				await componentContext.send({ content: 'Failed to link. Please run the command again' });
+				await componentContext.send({ content: `Failed to link. ${error}` });
 				Log.error(error);
 			}
 		},
