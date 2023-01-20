@@ -15,3 +15,17 @@ export const getOAuth2Url = () => {
 
 	return oauth2Url.href;
 };
+
+export const getHasuraUrl = (): string => {
+	if (!process.env.HASURA_URL) {throw new Error('Environment variable `HASURA_URL` is missing');}
+
+	// TODO add health check?
+	return process.env.HASURA_URL as string;
+};
+
+export const getHasuraWsUrl = (): string => {
+	if (!process.env.HASURA_WS_URL) {throw new Error('Environment variable `HASURA_WS_URL` is missing');}
+
+	// TODO add health check?
+	return process.env.HASURA_WS_URL as string;
+};
