@@ -30,7 +30,7 @@ export async function handleRequestApiKeys(ctx: ComponentContext, discordService
 		type: ComponentType.BUTTON,
 		label: 'Authorize',
 		style: ButtonStyle.LINK,
-		url: `http://localhost:3000/discord/link?id=${rowId}&circleId=${circleId}`,
+		url: `https://app.coordinape.com/discord/link?id=${rowId}&circleId=${circleId}`,
 	};
 
 	const message = await ctx.send({
