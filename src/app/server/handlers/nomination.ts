@@ -43,7 +43,6 @@ export default async function handler(req: Request, res: Response) {
 		}
 
 		const VOUCH_BUTTON: ButtonBuilder = new ButtonBuilder()
-			.setCustomId('NOMINATION_VOUCH_BUTTON')
 			.setURL(data.nominationLink)
 			.setLabel('Vouch')
 			.setStyle(ButtonStyle.Link);
@@ -60,7 +59,7 @@ export default async function handler(req: Request, res: Response) {
 
 		res.status(200).send({ createdAt: message.createdTimestamp, body: req.body });
 	} catch (error) {
-		res.status(400).send(error);
+		res.status(400).send(JSON.stringify(error));
 	}
 }
 
