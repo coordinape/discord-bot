@@ -1052,6 +1052,14 @@ users_aggregate?: [{	/** distinct select on columns */
 	_neq?: number | undefined | null | Variable<any, string>,
 	_nin?: Array<number> | undefined | null | Variable<any, string>
 };
+	["LinkDiscordCircleInput"]: {
+	circle_id: number | Variable<any, string>,
+	token: string | Variable<any, string>
+};
+	["LinkDiscordCircleResponse"]: AliasType<{
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["LinkDiscordUserInput"]: {
 	discord_id: string | Variable<any, string>
 };
@@ -1124,6 +1132,7 @@ users_aggregate?: [{	/** distinct select on columns */
 	alloc_text?: string | undefined | null | Variable<any, string>,
 	auto_opt_out?: boolean | undefined | null | Variable<any, string>,
 	circle_id: number | Variable<any, string>,
+	cont_help_text?: string | undefined | null | Variable<any, string>,
 	default_opt_in?: boolean | undefined | null | Variable<any, string>,
 	discord_webhook?: string | undefined | null | Variable<any, string>,
 	fixed_payment_token_type?: string | undefined | null | Variable<any, string>,
@@ -1133,7 +1142,6 @@ users_aggregate?: [{	/** distinct select on columns */
 	nomination_days_limit?: number | undefined | null | Variable<any, string>,
 	only_giver_vouch?: boolean | undefined | null | Variable<any, string>,
 	show_pending_gives?: boolean | undefined | null | Variable<any, string>,
-	team_sel_text?: string | undefined | null | Variable<any, string>,
 	team_selection?: boolean | undefined | null | Variable<any, string>,
 	token_name?: string | undefined | null | Variable<any, string>,
 	update_webhook?: boolean | undefined | null | Variable<any, string>,
@@ -1174,14 +1182,17 @@ users_aggregate?: [{	/** distinct select on columns */
 	org?:ValueTypes["organizations"],
 		__typename?: boolean | `@${string}`
 }>;
-	["UpdateProfileNameInput"]: {
-	name: string | Variable<any, string>
+	["UpdateProfileInput"]: {
+	bio?: string | undefined | null | Variable<any, string>,
+	discord_username?: string | undefined | null | Variable<any, string>,
+	github_username?: string | undefined | null | Variable<any, string>,
+	medium_username?: string | undefined | null | Variable<any, string>,
+	name: string | Variable<any, string>,
+	skills?: string | undefined | null | Variable<any, string>,
+	telegram_username?: string | undefined | null | Variable<any, string>,
+	twitter_username?: string | undefined | null | Variable<any, string>,
+	website?: string | undefined | null | Variable<any, string>
 };
-	["UpdateProfileNameResponse"]: AliasType<{
-	id?:boolean | `@${string}`,
-	profileName?:ValueTypes["profiles"],
-		__typename?: boolean | `@${string}`
-}>;
 	["UpdateProfileResponse"]: AliasType<{
 	id?:boolean | `@${string}`,
 	profile?:ValueTypes["profiles"],
@@ -2906,6 +2917,7 @@ circle_metadata_aggregate?: [{	/** distinct select on columns */
 	where?: ValueTypes["circle_metadata_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["circle_metadata_aggregate"]],
 	/** An object relationship */
 	circle_private?:ValueTypes["circle_private"],
+	cont_help_text?:boolean | `@${string}`,
 	contact?:boolean | `@${string}`,
 contributions?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["contributions_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
@@ -2984,7 +2996,6 @@ pending_token_gifts_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ValueTypes["pending_token_gifts_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
 	where?: ValueTypes["pending_token_gifts_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["pending_token_gifts_aggregate"]],
 	show_pending_gives?:boolean | `@${string}`,
-	team_sel_text?:boolean | `@${string}`,
 	team_selection?:boolean | `@${string}`,
 	telegram_id?:boolean | `@${string}`,
 token_gifts?: [{	/** distinct select on columns */
@@ -3098,6 +3109,7 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	burns?: ValueTypes["burns_bool_exp"] | undefined | null | Variable<any, string>,
 	circle_metadata?: ValueTypes["circle_metadata_bool_exp"] | undefined | null | Variable<any, string>,
 	circle_private?: ValueTypes["circle_private_bool_exp"] | undefined | null | Variable<any, string>,
+	cont_help_text?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	contact?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	contributions?: ValueTypes["contributions_bool_exp"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
@@ -3120,7 +3132,6 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	organization_id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	pending_token_gifts?: ValueTypes["pending_token_gifts_bool_exp"] | undefined | null | Variable<any, string>,
 	show_pending_gives?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
-	team_sel_text?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	team_selection?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	telegram_id?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	token_gifts?: ValueTypes["token_gifts_bool_exp"] | undefined | null | Variable<any, string>,
@@ -3149,6 +3160,7 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	burns?: ValueTypes["burns_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
 	circle_metadata?: ValueTypes["circle_metadata_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
 	circle_private?: ValueTypes["circle_private_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	cont_help_text?: string | undefined | null | Variable<any, string>,
 	contact?: string | undefined | null | Variable<any, string>,
 	contributions?: ValueTypes["contributions_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
@@ -3171,7 +3183,6 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	organization_id?: number | undefined | null | Variable<any, string>,
 	pending_token_gifts?: ValueTypes["pending_token_gifts_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
 	show_pending_gives?: boolean | undefined | null | Variable<any, string>,
-	team_sel_text?: string | undefined | null | Variable<any, string>,
 	team_selection?: boolean | undefined | null | Variable<any, string>,
 	telegram_id?: string | undefined | null | Variable<any, string>,
 	token_gifts?: ValueTypes["token_gifts_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
@@ -3185,6 +3196,7 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** aggregate max on columns */
 ["circles_max_fields"]: AliasType<{
 	alloc_text?:boolean | `@${string}`,
+	cont_help_text?:boolean | `@${string}`,
 	contact?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
 	deleted_at?:boolean | `@${string}`,
@@ -3197,7 +3209,6 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	name?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
 	organization_id?:boolean | `@${string}`,
-	team_sel_text?:boolean | `@${string}`,
 	telegram_id?:boolean | `@${string}`,
 	token_name?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
@@ -3207,6 +3218,7 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** order by max() on columns of table "circles" */
 ["circles_max_order_by"]: {
 	alloc_text?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	cont_help_text?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	contact?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	deleted_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -3219,7 +3231,6 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nomination_days_limit?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	organization_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
-	team_sel_text?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	telegram_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	token_name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -3228,6 +3239,7 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** aggregate min on columns */
 ["circles_min_fields"]: AliasType<{
 	alloc_text?:boolean | `@${string}`,
+	cont_help_text?:boolean | `@${string}`,
 	contact?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
 	deleted_at?:boolean | `@${string}`,
@@ -3240,7 +3252,6 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	name?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
 	organization_id?:boolean | `@${string}`,
-	team_sel_text?:boolean | `@${string}`,
 	telegram_id?:boolean | `@${string}`,
 	token_name?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
@@ -3250,6 +3261,7 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** order by min() on columns of table "circles" */
 ["circles_min_order_by"]: {
 	alloc_text?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	cont_help_text?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	contact?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	deleted_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -3262,7 +3274,6 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nomination_days_limit?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	organization_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
-	team_sel_text?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	telegram_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	token_name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -3296,6 +3307,7 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	burns_aggregate?: ValueTypes["burns_aggregate_order_by"] | undefined | null | Variable<any, string>,
 	circle_metadata_aggregate?: ValueTypes["circle_metadata_aggregate_order_by"] | undefined | null | Variable<any, string>,
 	circle_private?: ValueTypes["circle_private_order_by"] | undefined | null | Variable<any, string>,
+	cont_help_text?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	contact?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	contributions_aggregate?: ValueTypes["contributions_aggregate_order_by"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -3318,7 +3330,6 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	organization_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	pending_token_gifts_aggregate?: ValueTypes["pending_token_gifts_aggregate_order_by"] | undefined | null | Variable<any, string>,
 	show_pending_gives?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
-	team_sel_text?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	team_selection?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	telegram_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	token_gifts_aggregate?: ValueTypes["token_gifts_aggregate_order_by"] | undefined | null | Variable<any, string>,
@@ -3339,6 +3350,7 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 ["circles_set_input"]: {
 	alloc_text?: string | undefined | null | Variable<any, string>,
 	auto_opt_out?: boolean | undefined | null | Variable<any, string>,
+	cont_help_text?: string | undefined | null | Variable<any, string>,
 	contact?: string | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
 	default_opt_in?: boolean | undefined | null | Variable<any, string>,
@@ -3355,7 +3367,6 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	only_giver_vouch?: boolean | undefined | null | Variable<any, string>,
 	organization_id?: number | undefined | null | Variable<any, string>,
 	show_pending_gives?: boolean | undefined | null | Variable<any, string>,
-	team_sel_text?: string | undefined | null | Variable<any, string>,
 	team_selection?: boolean | undefined | null | Variable<any, string>,
 	telegram_id?: string | undefined | null | Variable<any, string>,
 	token_name?: string | undefined | null | Variable<any, string>,
@@ -3425,6 +3436,7 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 ["circles_stream_cursor_value_input"]: {
 	alloc_text?: string | undefined | null | Variable<any, string>,
 	auto_opt_out?: boolean | undefined | null | Variable<any, string>,
+	cont_help_text?: string | undefined | null | Variable<any, string>,
 	contact?: string | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
 	default_opt_in?: boolean | undefined | null | Variable<any, string>,
@@ -3441,7 +3453,6 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	only_giver_vouch?: boolean | undefined | null | Variable<any, string>,
 	organization_id?: number | undefined | null | Variable<any, string>,
 	show_pending_gives?: boolean | undefined | null | Variable<any, string>,
-	team_sel_text?: string | undefined | null | Variable<any, string>,
 	team_selection?: boolean | undefined | null | Variable<any, string>,
 	telegram_id?: string | undefined | null | Variable<any, string>,
 	token_name?: string | undefined | null | Variable<any, string>,
@@ -4488,8 +4499,9 @@ count?: [{	columns?: Array<ValueTypes["discord_circle_api_tokens_select_column"]
 	circle?:ValueTypes["circles"],
 	circle_id?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
+	discord_channel_id?:boolean | `@${string}`,
+	discord_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	server_role?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
@@ -4528,8 +4540,9 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 	circle?: ValueTypes["circles_bool_exp"] | undefined | null | Variable<any, string>,
 	circle_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamptz_comparison_exp"] | undefined | null | Variable<any, string>,
+	discord_channel_id?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
+	discord_role_id?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
-	server_role?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamptz_comparison_exp"] | undefined | null | Variable<any, string>
 };
 	/** unique or primary key constraints on table "discord.roles_circles" */
@@ -4544,16 +4557,18 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 	circle?: ValueTypes["circles_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
 	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	discord_channel_id?: string | undefined | null | Variable<any, string>,
+	discord_role_id?: string | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
-	server_role?: string | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>
 };
 	/** aggregate max on columns */
 ["discord_roles_circles_max_fields"]: AliasType<{
 	circle_id?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
+	discord_channel_id?:boolean | `@${string}`,
+	discord_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	server_role?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
@@ -4561,8 +4576,9 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 ["discord_roles_circles_min_fields"]: AliasType<{
 	circle_id?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
+	discord_channel_id?:boolean | `@${string}`,
+	discord_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	server_role?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
@@ -4585,8 +4601,9 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 	circle?: ValueTypes["circles_order_by"] | undefined | null | Variable<any, string>,
 	circle_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	discord_channel_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	discord_role_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
-	server_role?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
 };
 	/** primary key columns input for table: discord.roles_circles */
@@ -4599,8 +4616,9 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 ["discord_roles_circles_set_input"]: {
 	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	discord_channel_id?: string | undefined | null | Variable<any, string>,
+	discord_role_id?: string | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
-	server_role?: string | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>
 };
 	/** aggregate stddev on columns */
@@ -4632,8 +4650,9 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 ["discord_roles_circles_stream_cursor_value_input"]: {
 	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	discord_channel_id?: string | undefined | null | Variable<any, string>,
+	discord_role_id?: string | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
-	server_role?: string | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>
 };
 	/** aggregate sum on columns */
@@ -8086,6 +8105,7 @@ insert_vouches?: [{	/** the rows to be inserted */
 insert_vouches_one?: [{	/** the row to be inserted */
 	object: ValueTypes["vouches_insert_input"] | Variable<any, string>,	/** upsert condition */
 	on_conflict?: ValueTypes["vouches_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["vouches"]],
+linkDiscordCircle?: [{	payload: ValueTypes["LinkDiscordCircleInput"] | Variable<any, string>},ValueTypes["LinkDiscordCircleResponse"]],
 linkDiscordUser?: [{	payload: ValueTypes["LinkDiscordUserInput"] | Variable<any, string>},ValueTypes["LinkDiscordUserResponse"]],
 	logoutUser?:ValueTypes["LogoutResponse"],
 markClaimed?: [{	payload: ValueTypes["MarkClaimedInput"] | Variable<any, string>},ValueTypes["MarkClaimedOutput"]],
@@ -8094,7 +8114,7 @@ updateAllocations?: [{	payload: ValueTypes["Allocations"] | Variable<any, string
 updateCircle?: [{	payload: ValueTypes["UpdateCircleInput"] | Variable<any, string>},ValueTypes["UpdateCircleOutput"]],
 updateContribution?: [{	payload: ValueTypes["UpdateContributionInput"] | Variable<any, string>},ValueTypes["UpdateContributionResponse"]],
 updateEpoch?: [{	payload: ValueTypes["UpdateEpochInput"] | Variable<any, string>},ValueTypes["EpochResponse"]],
-updateProfileName?: [{	payload: ValueTypes["UpdateProfileNameInput"] | Variable<any, string>},ValueTypes["UpdateProfileNameResponse"]],
+updateProfile?: [{	payload: ValueTypes["UpdateProfileInput"] | Variable<any, string>},ValueTypes["UpdateProfileResponse"]],
 updateTeammates?: [{	payload: ValueTypes["UpdateTeammatesInput"] | Variable<any, string>},ValueTypes["UpdateTeammatesResponse"]],
 updateUser?: [{	payload: ValueTypes["UpdateUserInput"] | Variable<any, string>},ValueTypes["UserResponse"]],
 update_burns?: [{	/** increments the numeric columns with given value of the filtered values */
@@ -8439,7 +8459,6 @@ vouch?: [{	payload: ValueTypes["VouchInput"] | Variable<any, string>},ValueTypes
 	ended?:boolean | `@${string}`,
 	expiry_date?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	name?:boolean | `@${string}`,
 	nominated_by_user_id?:boolean | `@${string}`,
 	nominated_date?:boolean | `@${string}`,
 nominations?: [{	/** distinct select on columns */
@@ -8536,7 +8555,6 @@ count?: [{	columns?: Array<ValueTypes["nominees_select_column"]> | undefined | n
 	ended?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	expiry_date?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
-	name?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	nominated_by_user_id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	nominated_date?: ValueTypes["date_comparison_exp"] | undefined | null | Variable<any, string>,
 	nominations?: ValueTypes["vouches_bool_exp"] | undefined | null | Variable<any, string>,
@@ -8567,7 +8585,6 @@ count?: [{	columns?: Array<ValueTypes["nominees_select_column"]> | undefined | n
 	ended?: boolean | undefined | null | Variable<any, string>,
 	expiry_date?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
-	name?: string | undefined | null | Variable<any, string>,
 	nominated_by_user_id?: number | undefined | null | Variable<any, string>,
 	nominated_date?: ValueTypes["date"] | undefined | null | Variable<any, string>,
 	nominations?: ValueTypes["vouches_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
@@ -8586,7 +8603,6 @@ count?: [{	columns?: Array<ValueTypes["nominees_select_column"]> | undefined | n
 	description?:boolean | `@${string}`,
 	expiry_date?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	name?:boolean | `@${string}`,
 	nominated_by_user_id?:boolean | `@${string}`,
 	nominated_date?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
@@ -8602,7 +8618,6 @@ count?: [{	columns?: Array<ValueTypes["nominees_select_column"]> | undefined | n
 	description?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	expiry_date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
-	name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nominated_by_user_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nominated_date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -8617,7 +8632,6 @@ count?: [{	columns?: Array<ValueTypes["nominees_select_column"]> | undefined | n
 	description?:boolean | `@${string}`,
 	expiry_date?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	name?:boolean | `@${string}`,
 	nominated_by_user_id?:boolean | `@${string}`,
 	nominated_date?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
@@ -8633,7 +8647,6 @@ count?: [{	columns?: Array<ValueTypes["nominees_select_column"]> | undefined | n
 	description?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	expiry_date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
-	name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nominated_by_user_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nominated_date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -8670,7 +8683,6 @@ count?: [{	columns?: Array<ValueTypes["nominees_select_column"]> | undefined | n
 	ended?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	expiry_date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
-	name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nominated_by_user_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nominated_date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nominations_aggregate?: ValueTypes["vouches_aggregate_order_by"] | undefined | null | Variable<any, string>,
@@ -8696,7 +8708,6 @@ count?: [{	columns?: Array<ValueTypes["nominees_select_column"]> | undefined | n
 	ended?: boolean | undefined | null | Variable<any, string>,
 	expiry_date?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
-	name?: string | undefined | null | Variable<any, string>,
 	nominated_by_user_id?: number | undefined | null | Variable<any, string>,
 	nominated_date?: ValueTypes["date"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
@@ -8770,7 +8781,6 @@ count?: [{	columns?: Array<ValueTypes["nominees_select_column"]> | undefined | n
 	ended?: boolean | undefined | null | Variable<any, string>,
 	expiry_date?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
-	name?: string | undefined | null | Variable<any, string>,
 	nominated_by_user_id?: number | undefined | null | Variable<any, string>,
 	nominated_date?: ValueTypes["date"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
@@ -10912,7 +10922,6 @@ personal_access_tokens_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ValueTypes["personal_access_tokens_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
 	where?: ValueTypes["personal_access_tokens_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["personal_access_tokens_aggregate"]],
 personal_access_tokens_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["personal_access_tokens"]],
-price_per_share?: [{	chain_id: number | Variable<any, string>,	token_address?: string | undefined | null | Variable<any, string>},boolean | `@${string}`],
 profiles?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["profiles_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
 	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
@@ -13673,7 +13682,6 @@ distributions_aggregate?: [{	/** distinct select on columns */
 	org_id?:boolean | `@${string}`,
 	/** An object relationship */
 	organization?:ValueTypes["organizations"],
-	price_per_share?:boolean | `@${string}`,
 	/** An object relationship */
 	profile?:ValueTypes["profiles"],
 	simple_token_address?:boolean | `@${string}`,
@@ -14562,6 +14570,14 @@ users_aggregate?: [{	/** distinct select on columns */
 	_neq?: number | undefined | null,
 	_nin?: Array<number> | undefined | null
 };
+	["LinkDiscordCircleInput"]: {
+	circle_id: number,
+	token: string
+};
+	["LinkDiscordCircleResponse"]: AliasType<{
+	id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["LinkDiscordUserInput"]: {
 	discord_id: string
 };
@@ -14634,6 +14650,7 @@ users_aggregate?: [{	/** distinct select on columns */
 	alloc_text?: string | undefined | null,
 	auto_opt_out?: boolean | undefined | null,
 	circle_id: number,
+	cont_help_text?: string | undefined | null,
 	default_opt_in?: boolean | undefined | null,
 	discord_webhook?: string | undefined | null,
 	fixed_payment_token_type?: string | undefined | null,
@@ -14643,7 +14660,6 @@ users_aggregate?: [{	/** distinct select on columns */
 	nomination_days_limit?: number | undefined | null,
 	only_giver_vouch?: boolean | undefined | null,
 	show_pending_gives?: boolean | undefined | null,
-	team_sel_text?: string | undefined | null,
 	team_selection?: boolean | undefined | null,
 	token_name?: string | undefined | null,
 	update_webhook?: boolean | undefined | null,
@@ -14684,14 +14700,17 @@ users_aggregate?: [{	/** distinct select on columns */
 	org?:ResolverInputTypes["organizations"],
 		__typename?: boolean | `@${string}`
 }>;
-	["UpdateProfileNameInput"]: {
-	name: string
+	["UpdateProfileInput"]: {
+	bio?: string | undefined | null,
+	discord_username?: string | undefined | null,
+	github_username?: string | undefined | null,
+	medium_username?: string | undefined | null,
+	name: string,
+	skills?: string | undefined | null,
+	telegram_username?: string | undefined | null,
+	twitter_username?: string | undefined | null,
+	website?: string | undefined | null
 };
-	["UpdateProfileNameResponse"]: AliasType<{
-	id?:boolean | `@${string}`,
-	profileName?:ResolverInputTypes["profiles"],
-		__typename?: boolean | `@${string}`
-}>;
 	["UpdateProfileResponse"]: AliasType<{
 	id?:boolean | `@${string}`,
 	profile?:ResolverInputTypes["profiles"],
@@ -16416,6 +16435,7 @@ circle_metadata_aggregate?: [{	/** distinct select on columns */
 	where?: ResolverInputTypes["circle_metadata_bool_exp"] | undefined | null},ResolverInputTypes["circle_metadata_aggregate"]],
 	/** An object relationship */
 	circle_private?:ResolverInputTypes["circle_private"],
+	cont_help_text?:boolean | `@${string}`,
 	contact?:boolean | `@${string}`,
 contributions?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["contributions_select_column"]> | undefined | null,	/** limit the number of rows returned */
@@ -16494,7 +16514,6 @@ pending_token_gifts_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ResolverInputTypes["pending_token_gifts_order_by"]> | undefined | null,	/** filter the rows returned */
 	where?: ResolverInputTypes["pending_token_gifts_bool_exp"] | undefined | null},ResolverInputTypes["pending_token_gifts_aggregate"]],
 	show_pending_gives?:boolean | `@${string}`,
-	team_sel_text?:boolean | `@${string}`,
 	team_selection?:boolean | `@${string}`,
 	telegram_id?:boolean | `@${string}`,
 token_gifts?: [{	/** distinct select on columns */
@@ -16608,6 +16627,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	burns?: ResolverInputTypes["burns_bool_exp"] | undefined | null,
 	circle_metadata?: ResolverInputTypes["circle_metadata_bool_exp"] | undefined | null,
 	circle_private?: ResolverInputTypes["circle_private_bool_exp"] | undefined | null,
+	cont_help_text?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	contact?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	contributions?: ResolverInputTypes["contributions_bool_exp"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
@@ -16630,7 +16650,6 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	organization_id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	pending_token_gifts?: ResolverInputTypes["pending_token_gifts_bool_exp"] | undefined | null,
 	show_pending_gives?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
-	team_sel_text?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	team_selection?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	telegram_id?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	token_gifts?: ResolverInputTypes["token_gifts_bool_exp"] | undefined | null,
@@ -16659,6 +16678,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	burns?: ResolverInputTypes["burns_arr_rel_insert_input"] | undefined | null,
 	circle_metadata?: ResolverInputTypes["circle_metadata_arr_rel_insert_input"] | undefined | null,
 	circle_private?: ResolverInputTypes["circle_private_obj_rel_insert_input"] | undefined | null,
+	cont_help_text?: string | undefined | null,
 	contact?: string | undefined | null,
 	contributions?: ResolverInputTypes["contributions_arr_rel_insert_input"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamp"] | undefined | null,
@@ -16681,7 +16701,6 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	organization_id?: number | undefined | null,
 	pending_token_gifts?: ResolverInputTypes["pending_token_gifts_arr_rel_insert_input"] | undefined | null,
 	show_pending_gives?: boolean | undefined | null,
-	team_sel_text?: string | undefined | null,
 	team_selection?: boolean | undefined | null,
 	telegram_id?: string | undefined | null,
 	token_gifts?: ResolverInputTypes["token_gifts_arr_rel_insert_input"] | undefined | null,
@@ -16695,6 +16714,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** aggregate max on columns */
 ["circles_max_fields"]: AliasType<{
 	alloc_text?:boolean | `@${string}`,
+	cont_help_text?:boolean | `@${string}`,
 	contact?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
 	deleted_at?:boolean | `@${string}`,
@@ -16707,7 +16727,6 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	name?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
 	organization_id?:boolean | `@${string}`,
-	team_sel_text?:boolean | `@${string}`,
 	telegram_id?:boolean | `@${string}`,
 	token_name?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
@@ -16717,6 +16736,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** order by max() on columns of table "circles" */
 ["circles_max_order_by"]: {
 	alloc_text?: ResolverInputTypes["order_by"] | undefined | null,
+	cont_help_text?: ResolverInputTypes["order_by"] | undefined | null,
 	contact?: ResolverInputTypes["order_by"] | undefined | null,
 	created_at?: ResolverInputTypes["order_by"] | undefined | null,
 	deleted_at?: ResolverInputTypes["order_by"] | undefined | null,
@@ -16729,7 +16749,6 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	name?: ResolverInputTypes["order_by"] | undefined | null,
 	nomination_days_limit?: ResolverInputTypes["order_by"] | undefined | null,
 	organization_id?: ResolverInputTypes["order_by"] | undefined | null,
-	team_sel_text?: ResolverInputTypes["order_by"] | undefined | null,
 	telegram_id?: ResolverInputTypes["order_by"] | undefined | null,
 	token_name?: ResolverInputTypes["order_by"] | undefined | null,
 	updated_at?: ResolverInputTypes["order_by"] | undefined | null,
@@ -16738,6 +16757,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** aggregate min on columns */
 ["circles_min_fields"]: AliasType<{
 	alloc_text?:boolean | `@${string}`,
+	cont_help_text?:boolean | `@${string}`,
 	contact?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
 	deleted_at?:boolean | `@${string}`,
@@ -16750,7 +16770,6 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	name?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
 	organization_id?:boolean | `@${string}`,
-	team_sel_text?:boolean | `@${string}`,
 	telegram_id?:boolean | `@${string}`,
 	token_name?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
@@ -16760,6 +16779,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** order by min() on columns of table "circles" */
 ["circles_min_order_by"]: {
 	alloc_text?: ResolverInputTypes["order_by"] | undefined | null,
+	cont_help_text?: ResolverInputTypes["order_by"] | undefined | null,
 	contact?: ResolverInputTypes["order_by"] | undefined | null,
 	created_at?: ResolverInputTypes["order_by"] | undefined | null,
 	deleted_at?: ResolverInputTypes["order_by"] | undefined | null,
@@ -16772,7 +16792,6 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	name?: ResolverInputTypes["order_by"] | undefined | null,
 	nomination_days_limit?: ResolverInputTypes["order_by"] | undefined | null,
 	organization_id?: ResolverInputTypes["order_by"] | undefined | null,
-	team_sel_text?: ResolverInputTypes["order_by"] | undefined | null,
 	telegram_id?: ResolverInputTypes["order_by"] | undefined | null,
 	token_name?: ResolverInputTypes["order_by"] | undefined | null,
 	updated_at?: ResolverInputTypes["order_by"] | undefined | null,
@@ -16806,6 +16825,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	burns_aggregate?: ResolverInputTypes["burns_aggregate_order_by"] | undefined | null,
 	circle_metadata_aggregate?: ResolverInputTypes["circle_metadata_aggregate_order_by"] | undefined | null,
 	circle_private?: ResolverInputTypes["circle_private_order_by"] | undefined | null,
+	cont_help_text?: ResolverInputTypes["order_by"] | undefined | null,
 	contact?: ResolverInputTypes["order_by"] | undefined | null,
 	contributions_aggregate?: ResolverInputTypes["contributions_aggregate_order_by"] | undefined | null,
 	created_at?: ResolverInputTypes["order_by"] | undefined | null,
@@ -16828,7 +16848,6 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	organization_id?: ResolverInputTypes["order_by"] | undefined | null,
 	pending_token_gifts_aggregate?: ResolverInputTypes["pending_token_gifts_aggregate_order_by"] | undefined | null,
 	show_pending_gives?: ResolverInputTypes["order_by"] | undefined | null,
-	team_sel_text?: ResolverInputTypes["order_by"] | undefined | null,
 	team_selection?: ResolverInputTypes["order_by"] | undefined | null,
 	telegram_id?: ResolverInputTypes["order_by"] | undefined | null,
 	token_gifts_aggregate?: ResolverInputTypes["token_gifts_aggregate_order_by"] | undefined | null,
@@ -16849,6 +16868,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 ["circles_set_input"]: {
 	alloc_text?: string | undefined | null,
 	auto_opt_out?: boolean | undefined | null,
+	cont_help_text?: string | undefined | null,
 	contact?: string | undefined | null,
 	created_at?: ResolverInputTypes["timestamp"] | undefined | null,
 	default_opt_in?: boolean | undefined | null,
@@ -16865,7 +16885,6 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	only_giver_vouch?: boolean | undefined | null,
 	organization_id?: number | undefined | null,
 	show_pending_gives?: boolean | undefined | null,
-	team_sel_text?: string | undefined | null,
 	team_selection?: boolean | undefined | null,
 	telegram_id?: string | undefined | null,
 	token_name?: string | undefined | null,
@@ -16935,6 +16954,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 ["circles_stream_cursor_value_input"]: {
 	alloc_text?: string | undefined | null,
 	auto_opt_out?: boolean | undefined | null,
+	cont_help_text?: string | undefined | null,
 	contact?: string | undefined | null,
 	created_at?: ResolverInputTypes["timestamp"] | undefined | null,
 	default_opt_in?: boolean | undefined | null,
@@ -16951,7 +16971,6 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	only_giver_vouch?: boolean | undefined | null,
 	organization_id?: number | undefined | null,
 	show_pending_gives?: boolean | undefined | null,
-	team_sel_text?: string | undefined | null,
 	team_selection?: boolean | undefined | null,
 	telegram_id?: string | undefined | null,
 	token_name?: string | undefined | null,
@@ -17998,8 +18017,9 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_circle_api_tokens_select_
 	circle?:ResolverInputTypes["circles"],
 	circle_id?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
+	discord_channel_id?:boolean | `@${string}`,
+	discord_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	server_role?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
@@ -18038,8 +18058,9 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 	circle?: ResolverInputTypes["circles_bool_exp"] | undefined | null,
 	circle_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamptz_comparison_exp"] | undefined | null,
+	discord_channel_id?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
+	discord_role_id?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
-	server_role?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamptz_comparison_exp"] | undefined | null
 };
 	/** unique or primary key constraints on table "discord.roles_circles" */
@@ -18054,16 +18075,18 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 	circle?: ResolverInputTypes["circles_obj_rel_insert_input"] | undefined | null,
 	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	discord_channel_id?: string | undefined | null,
+	discord_role_id?: string | undefined | null,
 	id?: ResolverInputTypes["bigint"] | undefined | null,
-	server_role?: string | undefined | null,
 	updated_at?: ResolverInputTypes["timestamptz"] | undefined | null
 };
 	/** aggregate max on columns */
 ["discord_roles_circles_max_fields"]: AliasType<{
 	circle_id?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
+	discord_channel_id?:boolean | `@${string}`,
+	discord_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	server_role?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
@@ -18071,8 +18094,9 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 ["discord_roles_circles_min_fields"]: AliasType<{
 	circle_id?:boolean | `@${string}`,
 	created_at?:boolean | `@${string}`,
+	discord_channel_id?:boolean | `@${string}`,
+	discord_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	server_role?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
@@ -18095,8 +18119,9 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 	circle?: ResolverInputTypes["circles_order_by"] | undefined | null,
 	circle_id?: ResolverInputTypes["order_by"] | undefined | null,
 	created_at?: ResolverInputTypes["order_by"] | undefined | null,
+	discord_channel_id?: ResolverInputTypes["order_by"] | undefined | null,
+	discord_role_id?: ResolverInputTypes["order_by"] | undefined | null,
 	id?: ResolverInputTypes["order_by"] | undefined | null,
-	server_role?: ResolverInputTypes["order_by"] | undefined | null,
 	updated_at?: ResolverInputTypes["order_by"] | undefined | null
 };
 	/** primary key columns input for table: discord.roles_circles */
@@ -18109,8 +18134,9 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 ["discord_roles_circles_set_input"]: {
 	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	discord_channel_id?: string | undefined | null,
+	discord_role_id?: string | undefined | null,
 	id?: ResolverInputTypes["bigint"] | undefined | null,
-	server_role?: string | undefined | null,
 	updated_at?: ResolverInputTypes["timestamptz"] | undefined | null
 };
 	/** aggregate stddev on columns */
@@ -18142,8 +18168,9 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 ["discord_roles_circles_stream_cursor_value_input"]: {
 	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	discord_channel_id?: string | undefined | null,
+	discord_role_id?: string | undefined | null,
 	id?: ResolverInputTypes["bigint"] | undefined | null,
-	server_role?: string | undefined | null,
 	updated_at?: ResolverInputTypes["timestamptz"] | undefined | null
 };
 	/** aggregate sum on columns */
@@ -21596,6 +21623,7 @@ insert_vouches?: [{	/** the rows to be inserted */
 insert_vouches_one?: [{	/** the row to be inserted */
 	object: ResolverInputTypes["vouches_insert_input"],	/** upsert condition */
 	on_conflict?: ResolverInputTypes["vouches_on_conflict"] | undefined | null},ResolverInputTypes["vouches"]],
+linkDiscordCircle?: [{	payload: ResolverInputTypes["LinkDiscordCircleInput"]},ResolverInputTypes["LinkDiscordCircleResponse"]],
 linkDiscordUser?: [{	payload: ResolverInputTypes["LinkDiscordUserInput"]},ResolverInputTypes["LinkDiscordUserResponse"]],
 	logoutUser?:ResolverInputTypes["LogoutResponse"],
 markClaimed?: [{	payload: ResolverInputTypes["MarkClaimedInput"]},ResolverInputTypes["MarkClaimedOutput"]],
@@ -21604,7 +21632,7 @@ updateAllocations?: [{	payload: ResolverInputTypes["Allocations"]},ResolverInput
 updateCircle?: [{	payload: ResolverInputTypes["UpdateCircleInput"]},ResolverInputTypes["UpdateCircleOutput"]],
 updateContribution?: [{	payload: ResolverInputTypes["UpdateContributionInput"]},ResolverInputTypes["UpdateContributionResponse"]],
 updateEpoch?: [{	payload: ResolverInputTypes["UpdateEpochInput"]},ResolverInputTypes["EpochResponse"]],
-updateProfileName?: [{	payload: ResolverInputTypes["UpdateProfileNameInput"]},ResolverInputTypes["UpdateProfileNameResponse"]],
+updateProfile?: [{	payload: ResolverInputTypes["UpdateProfileInput"]},ResolverInputTypes["UpdateProfileResponse"]],
 updateTeammates?: [{	payload: ResolverInputTypes["UpdateTeammatesInput"]},ResolverInputTypes["UpdateTeammatesResponse"]],
 updateUser?: [{	payload: ResolverInputTypes["UpdateUserInput"]},ResolverInputTypes["UserResponse"]],
 update_burns?: [{	/** increments the numeric columns with given value of the filtered values */
@@ -21949,7 +21977,6 @@ vouch?: [{	payload: ResolverInputTypes["VouchInput"]},ResolverInputTypes["VouchO
 	ended?:boolean | `@${string}`,
 	expiry_date?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	name?:boolean | `@${string}`,
 	nominated_by_user_id?:boolean | `@${string}`,
 	nominated_date?:boolean | `@${string}`,
 nominations?: [{	/** distinct select on columns */
@@ -22046,7 +22073,6 @@ count?: [{	columns?: Array<ResolverInputTypes["nominees_select_column"]> | undef
 	ended?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	expiry_date?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
-	name?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	nominated_by_user_id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	nominated_date?: ResolverInputTypes["date_comparison_exp"] | undefined | null,
 	nominations?: ResolverInputTypes["vouches_bool_exp"] | undefined | null,
@@ -22077,7 +22103,6 @@ count?: [{	columns?: Array<ResolverInputTypes["nominees_select_column"]> | undef
 	ended?: boolean | undefined | null,
 	expiry_date?: ResolverInputTypes["timestamp"] | undefined | null,
 	id?: ResolverInputTypes["bigint"] | undefined | null,
-	name?: string | undefined | null,
 	nominated_by_user_id?: number | undefined | null,
 	nominated_date?: ResolverInputTypes["date"] | undefined | null,
 	nominations?: ResolverInputTypes["vouches_arr_rel_insert_input"] | undefined | null,
@@ -22096,7 +22121,6 @@ count?: [{	columns?: Array<ResolverInputTypes["nominees_select_column"]> | undef
 	description?:boolean | `@${string}`,
 	expiry_date?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	name?:boolean | `@${string}`,
 	nominated_by_user_id?:boolean | `@${string}`,
 	nominated_date?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
@@ -22112,7 +22136,6 @@ count?: [{	columns?: Array<ResolverInputTypes["nominees_select_column"]> | undef
 	description?: ResolverInputTypes["order_by"] | undefined | null,
 	expiry_date?: ResolverInputTypes["order_by"] | undefined | null,
 	id?: ResolverInputTypes["order_by"] | undefined | null,
-	name?: ResolverInputTypes["order_by"] | undefined | null,
 	nominated_by_user_id?: ResolverInputTypes["order_by"] | undefined | null,
 	nominated_date?: ResolverInputTypes["order_by"] | undefined | null,
 	updated_at?: ResolverInputTypes["order_by"] | undefined | null,
@@ -22127,7 +22150,6 @@ count?: [{	columns?: Array<ResolverInputTypes["nominees_select_column"]> | undef
 	description?:boolean | `@${string}`,
 	expiry_date?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
-	name?:boolean | `@${string}`,
 	nominated_by_user_id?:boolean | `@${string}`,
 	nominated_date?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
@@ -22143,7 +22165,6 @@ count?: [{	columns?: Array<ResolverInputTypes["nominees_select_column"]> | undef
 	description?: ResolverInputTypes["order_by"] | undefined | null,
 	expiry_date?: ResolverInputTypes["order_by"] | undefined | null,
 	id?: ResolverInputTypes["order_by"] | undefined | null,
-	name?: ResolverInputTypes["order_by"] | undefined | null,
 	nominated_by_user_id?: ResolverInputTypes["order_by"] | undefined | null,
 	nominated_date?: ResolverInputTypes["order_by"] | undefined | null,
 	updated_at?: ResolverInputTypes["order_by"] | undefined | null,
@@ -22180,7 +22201,6 @@ count?: [{	columns?: Array<ResolverInputTypes["nominees_select_column"]> | undef
 	ended?: ResolverInputTypes["order_by"] | undefined | null,
 	expiry_date?: ResolverInputTypes["order_by"] | undefined | null,
 	id?: ResolverInputTypes["order_by"] | undefined | null,
-	name?: ResolverInputTypes["order_by"] | undefined | null,
 	nominated_by_user_id?: ResolverInputTypes["order_by"] | undefined | null,
 	nominated_date?: ResolverInputTypes["order_by"] | undefined | null,
 	nominations_aggregate?: ResolverInputTypes["vouches_aggregate_order_by"] | undefined | null,
@@ -22206,7 +22226,6 @@ count?: [{	columns?: Array<ResolverInputTypes["nominees_select_column"]> | undef
 	ended?: boolean | undefined | null,
 	expiry_date?: ResolverInputTypes["timestamp"] | undefined | null,
 	id?: ResolverInputTypes["bigint"] | undefined | null,
-	name?: string | undefined | null,
 	nominated_by_user_id?: number | undefined | null,
 	nominated_date?: ResolverInputTypes["date"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamp"] | undefined | null,
@@ -22280,7 +22299,6 @@ count?: [{	columns?: Array<ResolverInputTypes["nominees_select_column"]> | undef
 	ended?: boolean | undefined | null,
 	expiry_date?: ResolverInputTypes["timestamp"] | undefined | null,
 	id?: ResolverInputTypes["bigint"] | undefined | null,
-	name?: string | undefined | null,
 	nominated_by_user_id?: number | undefined | null,
 	nominated_date?: ResolverInputTypes["date"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamp"] | undefined | null,
@@ -24422,7 +24440,6 @@ personal_access_tokens_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ResolverInputTypes["personal_access_tokens_order_by"]> | undefined | null,	/** filter the rows returned */
 	where?: ResolverInputTypes["personal_access_tokens_bool_exp"] | undefined | null},ResolverInputTypes["personal_access_tokens_aggregate"]],
 personal_access_tokens_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["personal_access_tokens"]],
-price_per_share?: [{	chain_id: number,	token_address?: string | undefined | null},boolean | `@${string}`],
 profiles?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["profiles_select_column"]> | undefined | null,	/** limit the number of rows returned */
 	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
@@ -27183,7 +27200,6 @@ distributions_aggregate?: [{	/** distinct select on columns */
 	org_id?:boolean | `@${string}`,
 	/** An object relationship */
 	organization?:ResolverInputTypes["organizations"],
-	price_per_share?:boolean | `@${string}`,
 	/** An object relationship */
 	profile?:ResolverInputTypes["profiles"],
 	simple_token_address?:boolean | `@${string}`,
@@ -28055,6 +28071,13 @@ export type ModelTypes = {
 	_neq?: number | undefined,
 	_nin?: Array<number> | undefined
 };
+	["LinkDiscordCircleInput"]: {
+	circle_id: number,
+	token: string
+};
+	["LinkDiscordCircleResponse"]: {
+		id: number
+};
 	["LinkDiscordUserInput"]: {
 	discord_id: string
 };
@@ -28123,6 +28146,7 @@ export type ModelTypes = {
 	alloc_text?: string | undefined,
 	auto_opt_out?: boolean | undefined,
 	circle_id: number,
+	cont_help_text?: string | undefined,
 	default_opt_in?: boolean | undefined,
 	discord_webhook?: string | undefined,
 	fixed_payment_token_type?: string | undefined,
@@ -28132,7 +28156,6 @@ export type ModelTypes = {
 	nomination_days_limit?: number | undefined,
 	only_giver_vouch?: boolean | undefined,
 	show_pending_gives?: boolean | undefined,
-	team_sel_text?: string | undefined,
 	team_selection?: boolean | undefined,
 	token_name?: string | undefined,
 	update_webhook?: boolean | undefined,
@@ -28169,12 +28192,16 @@ export type ModelTypes = {
 		id: number,
 	org?: ModelTypes["organizations"] | undefined
 };
-	["UpdateProfileNameInput"]: {
-	name: string
-};
-	["UpdateProfileNameResponse"]: {
-		id: number,
-	profileName?: ModelTypes["profiles"] | undefined
+	["UpdateProfileInput"]: {
+	bio?: string | undefined,
+	discord_username?: string | undefined,
+	github_username?: string | undefined,
+	medium_username?: string | undefined,
+	name: string,
+	skills?: string | undefined,
+	telegram_username?: string | undefined,
+	twitter_username?: string | undefined,
+	website?: string | undefined
 };
 	["UpdateProfileResponse"]: {
 		id: number,
@@ -29769,6 +29796,7 @@ export type ModelTypes = {
 	circle_metadata_aggregate: ModelTypes["circle_metadata_aggregate"],
 	/** An object relationship */
 	circle_private?: ModelTypes["circle_private"] | undefined,
+	cont_help_text?: string | undefined,
 	contact?: string | undefined,
 	/** An array relationship */
 	contributions: Array<ModelTypes["contributions"]>,
@@ -29807,7 +29835,6 @@ export type ModelTypes = {
 	/** An aggregate relationship */
 	pending_token_gifts_aggregate: ModelTypes["pending_token_gifts_aggregate"],
 	show_pending_gives: boolean,
-	team_sel_text?: string | undefined,
 	team_selection: boolean,
 	telegram_id?: string | undefined,
 	/** An array relationship */
@@ -29893,6 +29920,7 @@ export type ModelTypes = {
 	burns?: ModelTypes["burns_bool_exp"] | undefined,
 	circle_metadata?: ModelTypes["circle_metadata_bool_exp"] | undefined,
 	circle_private?: ModelTypes["circle_private_bool_exp"] | undefined,
+	cont_help_text?: ModelTypes["String_comparison_exp"] | undefined,
 	contact?: ModelTypes["String_comparison_exp"] | undefined,
 	contributions?: ModelTypes["contributions_bool_exp"] | undefined,
 	created_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
@@ -29915,7 +29943,6 @@ export type ModelTypes = {
 	organization_id?: ModelTypes["Int_comparison_exp"] | undefined,
 	pending_token_gifts?: ModelTypes["pending_token_gifts_bool_exp"] | undefined,
 	show_pending_gives?: ModelTypes["Boolean_comparison_exp"] | undefined,
-	team_sel_text?: ModelTypes["String_comparison_exp"] | undefined,
 	team_selection?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	telegram_id?: ModelTypes["String_comparison_exp"] | undefined,
 	token_gifts?: ModelTypes["token_gifts_bool_exp"] | undefined,
@@ -29943,6 +29970,7 @@ export type ModelTypes = {
 	burns?: ModelTypes["burns_arr_rel_insert_input"] | undefined,
 	circle_metadata?: ModelTypes["circle_metadata_arr_rel_insert_input"] | undefined,
 	circle_private?: ModelTypes["circle_private_obj_rel_insert_input"] | undefined,
+	cont_help_text?: string | undefined,
 	contact?: string | undefined,
 	contributions?: ModelTypes["contributions_arr_rel_insert_input"] | undefined,
 	created_at?: ModelTypes["timestamp"] | undefined,
@@ -29965,7 +29993,6 @@ export type ModelTypes = {
 	organization_id?: number | undefined,
 	pending_token_gifts?: ModelTypes["pending_token_gifts_arr_rel_insert_input"] | undefined,
 	show_pending_gives?: boolean | undefined,
-	team_sel_text?: string | undefined,
 	team_selection?: boolean | undefined,
 	telegram_id?: string | undefined,
 	token_gifts?: ModelTypes["token_gifts_arr_rel_insert_input"] | undefined,
@@ -29979,6 +30006,7 @@ export type ModelTypes = {
 	/** aggregate max on columns */
 ["circles_max_fields"]: {
 		alloc_text?: string | undefined,
+	cont_help_text?: string | undefined,
 	contact?: string | undefined,
 	created_at?: ModelTypes["timestamp"] | undefined,
 	deleted_at?: ModelTypes["timestamp"] | undefined,
@@ -29991,7 +30019,6 @@ export type ModelTypes = {
 	name?: string | undefined,
 	nomination_days_limit?: number | undefined,
 	organization_id?: number | undefined,
-	team_sel_text?: string | undefined,
 	telegram_id?: string | undefined,
 	token_name?: string | undefined,
 	updated_at?: ModelTypes["timestamp"] | undefined,
@@ -30000,6 +30027,7 @@ export type ModelTypes = {
 	/** order by max() on columns of table "circles" */
 ["circles_max_order_by"]: {
 	alloc_text?: ModelTypes["order_by"] | undefined,
+	cont_help_text?: ModelTypes["order_by"] | undefined,
 	contact?: ModelTypes["order_by"] | undefined,
 	created_at?: ModelTypes["order_by"] | undefined,
 	deleted_at?: ModelTypes["order_by"] | undefined,
@@ -30012,7 +30040,6 @@ export type ModelTypes = {
 	name?: ModelTypes["order_by"] | undefined,
 	nomination_days_limit?: ModelTypes["order_by"] | undefined,
 	organization_id?: ModelTypes["order_by"] | undefined,
-	team_sel_text?: ModelTypes["order_by"] | undefined,
 	telegram_id?: ModelTypes["order_by"] | undefined,
 	token_name?: ModelTypes["order_by"] | undefined,
 	updated_at?: ModelTypes["order_by"] | undefined,
@@ -30021,6 +30048,7 @@ export type ModelTypes = {
 	/** aggregate min on columns */
 ["circles_min_fields"]: {
 		alloc_text?: string | undefined,
+	cont_help_text?: string | undefined,
 	contact?: string | undefined,
 	created_at?: ModelTypes["timestamp"] | undefined,
 	deleted_at?: ModelTypes["timestamp"] | undefined,
@@ -30033,7 +30061,6 @@ export type ModelTypes = {
 	name?: string | undefined,
 	nomination_days_limit?: number | undefined,
 	organization_id?: number | undefined,
-	team_sel_text?: string | undefined,
 	telegram_id?: string | undefined,
 	token_name?: string | undefined,
 	updated_at?: ModelTypes["timestamp"] | undefined,
@@ -30042,6 +30069,7 @@ export type ModelTypes = {
 	/** order by min() on columns of table "circles" */
 ["circles_min_order_by"]: {
 	alloc_text?: ModelTypes["order_by"] | undefined,
+	cont_help_text?: ModelTypes["order_by"] | undefined,
 	contact?: ModelTypes["order_by"] | undefined,
 	created_at?: ModelTypes["order_by"] | undefined,
 	deleted_at?: ModelTypes["order_by"] | undefined,
@@ -30054,7 +30082,6 @@ export type ModelTypes = {
 	name?: ModelTypes["order_by"] | undefined,
 	nomination_days_limit?: ModelTypes["order_by"] | undefined,
 	organization_id?: ModelTypes["order_by"] | undefined,
-	team_sel_text?: ModelTypes["order_by"] | undefined,
 	telegram_id?: ModelTypes["order_by"] | undefined,
 	token_name?: ModelTypes["order_by"] | undefined,
 	updated_at?: ModelTypes["order_by"] | undefined,
@@ -30087,6 +30114,7 @@ export type ModelTypes = {
 	burns_aggregate?: ModelTypes["burns_aggregate_order_by"] | undefined,
 	circle_metadata_aggregate?: ModelTypes["circle_metadata_aggregate_order_by"] | undefined,
 	circle_private?: ModelTypes["circle_private_order_by"] | undefined,
+	cont_help_text?: ModelTypes["order_by"] | undefined,
 	contact?: ModelTypes["order_by"] | undefined,
 	contributions_aggregate?: ModelTypes["contributions_aggregate_order_by"] | undefined,
 	created_at?: ModelTypes["order_by"] | undefined,
@@ -30109,7 +30137,6 @@ export type ModelTypes = {
 	organization_id?: ModelTypes["order_by"] | undefined,
 	pending_token_gifts_aggregate?: ModelTypes["pending_token_gifts_aggregate_order_by"] | undefined,
 	show_pending_gives?: ModelTypes["order_by"] | undefined,
-	team_sel_text?: ModelTypes["order_by"] | undefined,
 	team_selection?: ModelTypes["order_by"] | undefined,
 	telegram_id?: ModelTypes["order_by"] | undefined,
 	token_gifts_aggregate?: ModelTypes["token_gifts_aggregate_order_by"] | undefined,
@@ -30129,6 +30156,7 @@ export type ModelTypes = {
 ["circles_set_input"]: {
 	alloc_text?: string | undefined,
 	auto_opt_out?: boolean | undefined,
+	cont_help_text?: string | undefined,
 	contact?: string | undefined,
 	created_at?: ModelTypes["timestamp"] | undefined,
 	default_opt_in?: boolean | undefined,
@@ -30145,7 +30173,6 @@ export type ModelTypes = {
 	only_giver_vouch?: boolean | undefined,
 	organization_id?: number | undefined,
 	show_pending_gives?: boolean | undefined,
-	team_sel_text?: string | undefined,
 	team_selection?: boolean | undefined,
 	telegram_id?: string | undefined,
 	token_name?: string | undefined,
@@ -30212,6 +30239,7 @@ export type ModelTypes = {
 ["circles_stream_cursor_value_input"]: {
 	alloc_text?: string | undefined,
 	auto_opt_out?: boolean | undefined,
+	cont_help_text?: string | undefined,
 	contact?: string | undefined,
 	created_at?: ModelTypes["timestamp"] | undefined,
 	default_opt_in?: boolean | undefined,
@@ -30228,7 +30256,6 @@ export type ModelTypes = {
 	only_giver_vouch?: boolean | undefined,
 	organization_id?: number | undefined,
 	show_pending_gives?: boolean | undefined,
-	team_sel_text?: string | undefined,
 	team_selection?: boolean | undefined,
 	telegram_id?: string | undefined,
 	token_name?: string | undefined,
@@ -31218,8 +31245,9 @@ export type ModelTypes = {
 	circle: ModelTypes["circles"],
 	circle_id: ModelTypes["bigint"],
 	created_at: ModelTypes["timestamptz"],
+	discord_channel_id: string,
+	discord_role_id: string,
 	id: ModelTypes["bigint"],
-	server_role: string,
 	updated_at: ModelTypes["timestamptz"]
 };
 	/** aggregated selection of "discord.roles_circles" */
@@ -31254,8 +31282,9 @@ export type ModelTypes = {
 	circle?: ModelTypes["circles_bool_exp"] | undefined,
 	circle_id?: ModelTypes["bigint_comparison_exp"] | undefined,
 	created_at?: ModelTypes["timestamptz_comparison_exp"] | undefined,
+	discord_channel_id?: ModelTypes["String_comparison_exp"] | undefined,
+	discord_role_id?: ModelTypes["String_comparison_exp"] | undefined,
 	id?: ModelTypes["bigint_comparison_exp"] | undefined,
-	server_role?: ModelTypes["String_comparison_exp"] | undefined,
 	updated_at?: ModelTypes["timestamptz_comparison_exp"] | undefined
 };
 	["discord_roles_circles_constraint"]:discord_roles_circles_constraint;
@@ -31269,24 +31298,27 @@ export type ModelTypes = {
 	circle?: ModelTypes["circles_obj_rel_insert_input"] | undefined,
 	circle_id?: ModelTypes["bigint"] | undefined,
 	created_at?: ModelTypes["timestamptz"] | undefined,
+	discord_channel_id?: string | undefined,
+	discord_role_id?: string | undefined,
 	id?: ModelTypes["bigint"] | undefined,
-	server_role?: string | undefined,
 	updated_at?: ModelTypes["timestamptz"] | undefined
 };
 	/** aggregate max on columns */
 ["discord_roles_circles_max_fields"]: {
 		circle_id?: ModelTypes["bigint"] | undefined,
 	created_at?: ModelTypes["timestamptz"] | undefined,
+	discord_channel_id?: string | undefined,
+	discord_role_id?: string | undefined,
 	id?: ModelTypes["bigint"] | undefined,
-	server_role?: string | undefined,
 	updated_at?: ModelTypes["timestamptz"] | undefined
 };
 	/** aggregate min on columns */
 ["discord_roles_circles_min_fields"]: {
 		circle_id?: ModelTypes["bigint"] | undefined,
 	created_at?: ModelTypes["timestamptz"] | undefined,
+	discord_channel_id?: string | undefined,
+	discord_role_id?: string | undefined,
 	id?: ModelTypes["bigint"] | undefined,
-	server_role?: string | undefined,
 	updated_at?: ModelTypes["timestamptz"] | undefined
 };
 	/** response of any mutation on the table "discord.roles_circles" */
@@ -31307,8 +31339,9 @@ export type ModelTypes = {
 	circle?: ModelTypes["circles_order_by"] | undefined,
 	circle_id?: ModelTypes["order_by"] | undefined,
 	created_at?: ModelTypes["order_by"] | undefined,
+	discord_channel_id?: ModelTypes["order_by"] | undefined,
+	discord_role_id?: ModelTypes["order_by"] | undefined,
 	id?: ModelTypes["order_by"] | undefined,
-	server_role?: ModelTypes["order_by"] | undefined,
 	updated_at?: ModelTypes["order_by"] | undefined
 };
 	/** primary key columns input for table: discord.roles_circles */
@@ -31320,8 +31353,9 @@ export type ModelTypes = {
 ["discord_roles_circles_set_input"]: {
 	circle_id?: ModelTypes["bigint"] | undefined,
 	created_at?: ModelTypes["timestamptz"] | undefined,
+	discord_channel_id?: string | undefined,
+	discord_role_id?: string | undefined,
 	id?: ModelTypes["bigint"] | undefined,
-	server_role?: string | undefined,
 	updated_at?: ModelTypes["timestamptz"] | undefined
 };
 	/** aggregate stddev on columns */
@@ -31350,8 +31384,9 @@ export type ModelTypes = {
 ["discord_roles_circles_stream_cursor_value_input"]: {
 	circle_id?: ModelTypes["bigint"] | undefined,
 	created_at?: ModelTypes["timestamptz"] | undefined,
+	discord_channel_id?: string | undefined,
+	discord_role_id?: string | undefined,
 	id?: ModelTypes["bigint"] | undefined,
-	server_role?: string | undefined,
 	updated_at?: ModelTypes["timestamptz"] | undefined
 };
 	/** aggregate sum on columns */
@@ -34543,6 +34578,8 @@ export type ModelTypes = {
 	insert_vouches?: ModelTypes["vouches_mutation_response"] | undefined,
 	/** insert a single row into the table: "vouches" */
 	insert_vouches_one?: ModelTypes["vouches"] | undefined,
+	/** allow authenticated users to link a discord channel to a circle they admin */
+	linkDiscordCircle?: ModelTypes["LinkDiscordCircleResponse"] | undefined,
 	/** allow authenticated users to link a discord account to their profile */
 	linkDiscordUser?: ModelTypes["LinkDiscordUserResponse"] | undefined,
 	logoutUser?: ModelTypes["LogoutResponse"] | undefined,
@@ -34553,7 +34590,7 @@ export type ModelTypes = {
 	/** users can modify contributions and update their dates. */
 	updateContribution?: ModelTypes["UpdateContributionResponse"] | undefined,
 	updateEpoch?: ModelTypes["EpochResponse"] | undefined,
-	updateProfileName?: ModelTypes["UpdateProfileNameResponse"] | undefined,
+	updateProfile?: ModelTypes["UpdateProfileResponse"] | undefined,
 	updateTeammates?: ModelTypes["UpdateTeammatesResponse"] | undefined,
 	/** Update own user */
 	updateUser?: ModelTypes["UserResponse"] | undefined,
@@ -34778,7 +34815,6 @@ export type ModelTypes = {
 	ended: boolean,
 	expiry_date: ModelTypes["timestamp"],
 	id: ModelTypes["bigint"],
-	name?: string | undefined,
 	nominated_by_user_id: number,
 	nominated_date: ModelTypes["date"],
 	/** An array relationship */
@@ -34863,7 +34899,6 @@ export type ModelTypes = {
 	ended?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	expiry_date?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	id?: ModelTypes["bigint_comparison_exp"] | undefined,
-	name?: ModelTypes["String_comparison_exp"] | undefined,
 	nominated_by_user_id?: ModelTypes["Int_comparison_exp"] | undefined,
 	nominated_date?: ModelTypes["date_comparison_exp"] | undefined,
 	nominations?: ModelTypes["vouches_bool_exp"] | undefined,
@@ -34893,7 +34928,6 @@ export type ModelTypes = {
 	ended?: boolean | undefined,
 	expiry_date?: ModelTypes["timestamp"] | undefined,
 	id?: ModelTypes["bigint"] | undefined,
-	name?: string | undefined,
 	nominated_by_user_id?: number | undefined,
 	nominated_date?: ModelTypes["date"] | undefined,
 	nominations?: ModelTypes["vouches_arr_rel_insert_input"] | undefined,
@@ -34912,7 +34946,6 @@ export type ModelTypes = {
 	description?: string | undefined,
 	expiry_date?: ModelTypes["timestamp"] | undefined,
 	id?: ModelTypes["bigint"] | undefined,
-	name?: string | undefined,
 	nominated_by_user_id?: number | undefined,
 	nominated_date?: ModelTypes["date"] | undefined,
 	updated_at?: ModelTypes["timestamp"] | undefined,
@@ -34927,7 +34960,6 @@ export type ModelTypes = {
 	description?: ModelTypes["order_by"] | undefined,
 	expiry_date?: ModelTypes["order_by"] | undefined,
 	id?: ModelTypes["order_by"] | undefined,
-	name?: ModelTypes["order_by"] | undefined,
 	nominated_by_user_id?: ModelTypes["order_by"] | undefined,
 	nominated_date?: ModelTypes["order_by"] | undefined,
 	updated_at?: ModelTypes["order_by"] | undefined,
@@ -34942,7 +34974,6 @@ export type ModelTypes = {
 	description?: string | undefined,
 	expiry_date?: ModelTypes["timestamp"] | undefined,
 	id?: ModelTypes["bigint"] | undefined,
-	name?: string | undefined,
 	nominated_by_user_id?: number | undefined,
 	nominated_date?: ModelTypes["date"] | undefined,
 	updated_at?: ModelTypes["timestamp"] | undefined,
@@ -34957,7 +34988,6 @@ export type ModelTypes = {
 	description?: ModelTypes["order_by"] | undefined,
 	expiry_date?: ModelTypes["order_by"] | undefined,
 	id?: ModelTypes["order_by"] | undefined,
-	name?: ModelTypes["order_by"] | undefined,
 	nominated_by_user_id?: ModelTypes["order_by"] | undefined,
 	nominated_date?: ModelTypes["order_by"] | undefined,
 	updated_at?: ModelTypes["order_by"] | undefined,
@@ -34993,7 +35023,6 @@ export type ModelTypes = {
 	ended?: ModelTypes["order_by"] | undefined,
 	expiry_date?: ModelTypes["order_by"] | undefined,
 	id?: ModelTypes["order_by"] | undefined,
-	name?: ModelTypes["order_by"] | undefined,
 	nominated_by_user_id?: ModelTypes["order_by"] | undefined,
 	nominated_date?: ModelTypes["order_by"] | undefined,
 	nominations_aggregate?: ModelTypes["vouches_aggregate_order_by"] | undefined,
@@ -35018,7 +35047,6 @@ export type ModelTypes = {
 	ended?: boolean | undefined,
 	expiry_date?: ModelTypes["timestamp"] | undefined,
 	id?: ModelTypes["bigint"] | undefined,
-	name?: string | undefined,
 	nominated_by_user_id?: number | undefined,
 	nominated_date?: ModelTypes["date"] | undefined,
 	updated_at?: ModelTypes["timestamp"] | undefined,
@@ -35089,7 +35117,6 @@ export type ModelTypes = {
 	ended?: boolean | undefined,
 	expiry_date?: ModelTypes["timestamp"] | undefined,
 	id?: ModelTypes["bigint"] | undefined,
-	name?: string | undefined,
 	nominated_by_user_id?: number | undefined,
 	nominated_date?: ModelTypes["date"] | undefined,
 	updated_at?: ModelTypes["timestamp"] | undefined,
@@ -36869,7 +36896,6 @@ export type ModelTypes = {
 	personal_access_tokens_aggregate: ModelTypes["personal_access_tokens_aggregate"],
 	/** fetch data from the table: "personal_access_tokens" using primary key columns */
 	personal_access_tokens_by_pk?: ModelTypes["personal_access_tokens"] | undefined,
-	price_per_share: number,
 	/** fetch data from the table: "profiles" */
 	profiles: Array<ModelTypes["profiles"]>,
 	/** fetch aggregated fields from the table: "profiles" */
@@ -39057,7 +39083,6 @@ export type ModelTypes = {
 	org_id: ModelTypes["bigint"],
 	/** An object relationship */
 	organization: ModelTypes["organizations"],
-	price_per_share: number,
 	/** An object relationship */
 	profile: ModelTypes["profiles"],
 	simple_token_address: string,
@@ -39896,6 +39921,14 @@ export type GraphQLTypes = {
 	_neq?: number | undefined,
 	_nin?: Array<number> | undefined
 };
+	["LinkDiscordCircleInput"]: {
+		circle_id: number,
+	token: string
+};
+	["LinkDiscordCircleResponse"]: {
+	__typename: "LinkDiscordCircleResponse",
+	id: number
+};
 	["LinkDiscordUserInput"]: {
 		discord_id: string
 };
@@ -39968,6 +40001,7 @@ export type GraphQLTypes = {
 		alloc_text?: string | undefined,
 	auto_opt_out?: boolean | undefined,
 	circle_id: number,
+	cont_help_text?: string | undefined,
 	default_opt_in?: boolean | undefined,
 	discord_webhook?: string | undefined,
 	fixed_payment_token_type?: string | undefined,
@@ -39977,7 +40011,6 @@ export type GraphQLTypes = {
 	nomination_days_limit?: number | undefined,
 	only_giver_vouch?: boolean | undefined,
 	show_pending_gives?: boolean | undefined,
-	team_sel_text?: string | undefined,
 	team_selection?: boolean | undefined,
 	token_name?: string | undefined,
 	update_webhook?: boolean | undefined,
@@ -40018,13 +40051,16 @@ export type GraphQLTypes = {
 	id: number,
 	org?: GraphQLTypes["organizations"] | undefined
 };
-	["UpdateProfileNameInput"]: {
-		name: string
-};
-	["UpdateProfileNameResponse"]: {
-	__typename: "UpdateProfileNameResponse",
-	id: number,
-	profileName?: GraphQLTypes["profiles"] | undefined
+	["UpdateProfileInput"]: {
+		bio?: string | undefined,
+	discord_username?: string | undefined,
+	github_username?: string | undefined,
+	medium_username?: string | undefined,
+	name: string,
+	skills?: string | undefined,
+	telegram_username?: string | undefined,
+	twitter_username?: string | undefined,
+	website?: string | undefined
 };
 	["UpdateProfileResponse"]: {
 	__typename: "UpdateProfileResponse",
@@ -41725,6 +41761,7 @@ export type GraphQLTypes = {
 	circle_metadata_aggregate: GraphQLTypes["circle_metadata_aggregate"],
 	/** An object relationship */
 	circle_private?: GraphQLTypes["circle_private"] | undefined,
+	cont_help_text?: string | undefined,
 	contact?: string | undefined,
 	/** An array relationship */
 	contributions: Array<GraphQLTypes["contributions"]>,
@@ -41763,7 +41800,6 @@ export type GraphQLTypes = {
 	/** An aggregate relationship */
 	pending_token_gifts_aggregate: GraphQLTypes["pending_token_gifts_aggregate"],
 	show_pending_gives: boolean,
-	team_sel_text?: string | undefined,
 	team_selection: boolean,
 	telegram_id?: string | undefined,
 	/** An array relationship */
@@ -41852,6 +41888,7 @@ export type GraphQLTypes = {
 	burns?: GraphQLTypes["burns_bool_exp"] | undefined,
 	circle_metadata?: GraphQLTypes["circle_metadata_bool_exp"] | undefined,
 	circle_private?: GraphQLTypes["circle_private_bool_exp"] | undefined,
+	cont_help_text?: GraphQLTypes["String_comparison_exp"] | undefined,
 	contact?: GraphQLTypes["String_comparison_exp"] | undefined,
 	contributions?: GraphQLTypes["contributions_bool_exp"] | undefined,
 	created_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
@@ -41874,7 +41911,6 @@ export type GraphQLTypes = {
 	organization_id?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	pending_token_gifts?: GraphQLTypes["pending_token_gifts_bool_exp"] | undefined,
 	show_pending_gives?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
-	team_sel_text?: GraphQLTypes["String_comparison_exp"] | undefined,
 	team_selection?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	telegram_id?: GraphQLTypes["String_comparison_exp"] | undefined,
 	token_gifts?: GraphQLTypes["token_gifts_bool_exp"] | undefined,
@@ -41903,6 +41939,7 @@ export type GraphQLTypes = {
 	burns?: GraphQLTypes["burns_arr_rel_insert_input"] | undefined,
 	circle_metadata?: GraphQLTypes["circle_metadata_arr_rel_insert_input"] | undefined,
 	circle_private?: GraphQLTypes["circle_private_obj_rel_insert_input"] | undefined,
+	cont_help_text?: string | undefined,
 	contact?: string | undefined,
 	contributions?: GraphQLTypes["contributions_arr_rel_insert_input"] | undefined,
 	created_at?: GraphQLTypes["timestamp"] | undefined,
@@ -41925,7 +41962,6 @@ export type GraphQLTypes = {
 	organization_id?: number | undefined,
 	pending_token_gifts?: GraphQLTypes["pending_token_gifts_arr_rel_insert_input"] | undefined,
 	show_pending_gives?: boolean | undefined,
-	team_sel_text?: string | undefined,
 	team_selection?: boolean | undefined,
 	telegram_id?: string | undefined,
 	token_gifts?: GraphQLTypes["token_gifts_arr_rel_insert_input"] | undefined,
@@ -41940,6 +41976,7 @@ export type GraphQLTypes = {
 ["circles_max_fields"]: {
 	__typename: "circles_max_fields",
 	alloc_text?: string | undefined,
+	cont_help_text?: string | undefined,
 	contact?: string | undefined,
 	created_at?: GraphQLTypes["timestamp"] | undefined,
 	deleted_at?: GraphQLTypes["timestamp"] | undefined,
@@ -41952,7 +41989,6 @@ export type GraphQLTypes = {
 	name?: string | undefined,
 	nomination_days_limit?: number | undefined,
 	organization_id?: number | undefined,
-	team_sel_text?: string | undefined,
 	telegram_id?: string | undefined,
 	token_name?: string | undefined,
 	updated_at?: GraphQLTypes["timestamp"] | undefined,
@@ -41961,6 +41997,7 @@ export type GraphQLTypes = {
 	/** order by max() on columns of table "circles" */
 ["circles_max_order_by"]: {
 		alloc_text?: GraphQLTypes["order_by"] | undefined,
+	cont_help_text?: GraphQLTypes["order_by"] | undefined,
 	contact?: GraphQLTypes["order_by"] | undefined,
 	created_at?: GraphQLTypes["order_by"] | undefined,
 	deleted_at?: GraphQLTypes["order_by"] | undefined,
@@ -41973,7 +42010,6 @@ export type GraphQLTypes = {
 	name?: GraphQLTypes["order_by"] | undefined,
 	nomination_days_limit?: GraphQLTypes["order_by"] | undefined,
 	organization_id?: GraphQLTypes["order_by"] | undefined,
-	team_sel_text?: GraphQLTypes["order_by"] | undefined,
 	telegram_id?: GraphQLTypes["order_by"] | undefined,
 	token_name?: GraphQLTypes["order_by"] | undefined,
 	updated_at?: GraphQLTypes["order_by"] | undefined,
@@ -41983,6 +42019,7 @@ export type GraphQLTypes = {
 ["circles_min_fields"]: {
 	__typename: "circles_min_fields",
 	alloc_text?: string | undefined,
+	cont_help_text?: string | undefined,
 	contact?: string | undefined,
 	created_at?: GraphQLTypes["timestamp"] | undefined,
 	deleted_at?: GraphQLTypes["timestamp"] | undefined,
@@ -41995,7 +42032,6 @@ export type GraphQLTypes = {
 	name?: string | undefined,
 	nomination_days_limit?: number | undefined,
 	organization_id?: number | undefined,
-	team_sel_text?: string | undefined,
 	telegram_id?: string | undefined,
 	token_name?: string | undefined,
 	updated_at?: GraphQLTypes["timestamp"] | undefined,
@@ -42004,6 +42040,7 @@ export type GraphQLTypes = {
 	/** order by min() on columns of table "circles" */
 ["circles_min_order_by"]: {
 		alloc_text?: GraphQLTypes["order_by"] | undefined,
+	cont_help_text?: GraphQLTypes["order_by"] | undefined,
 	contact?: GraphQLTypes["order_by"] | undefined,
 	created_at?: GraphQLTypes["order_by"] | undefined,
 	deleted_at?: GraphQLTypes["order_by"] | undefined,
@@ -42016,7 +42053,6 @@ export type GraphQLTypes = {
 	name?: GraphQLTypes["order_by"] | undefined,
 	nomination_days_limit?: GraphQLTypes["order_by"] | undefined,
 	organization_id?: GraphQLTypes["order_by"] | undefined,
-	team_sel_text?: GraphQLTypes["order_by"] | undefined,
 	telegram_id?: GraphQLTypes["order_by"] | undefined,
 	token_name?: GraphQLTypes["order_by"] | undefined,
 	updated_at?: GraphQLTypes["order_by"] | undefined,
@@ -42050,6 +42086,7 @@ export type GraphQLTypes = {
 	burns_aggregate?: GraphQLTypes["burns_aggregate_order_by"] | undefined,
 	circle_metadata_aggregate?: GraphQLTypes["circle_metadata_aggregate_order_by"] | undefined,
 	circle_private?: GraphQLTypes["circle_private_order_by"] | undefined,
+	cont_help_text?: GraphQLTypes["order_by"] | undefined,
 	contact?: GraphQLTypes["order_by"] | undefined,
 	contributions_aggregate?: GraphQLTypes["contributions_aggregate_order_by"] | undefined,
 	created_at?: GraphQLTypes["order_by"] | undefined,
@@ -42072,7 +42109,6 @@ export type GraphQLTypes = {
 	organization_id?: GraphQLTypes["order_by"] | undefined,
 	pending_token_gifts_aggregate?: GraphQLTypes["pending_token_gifts_aggregate_order_by"] | undefined,
 	show_pending_gives?: GraphQLTypes["order_by"] | undefined,
-	team_sel_text?: GraphQLTypes["order_by"] | undefined,
 	team_selection?: GraphQLTypes["order_by"] | undefined,
 	telegram_id?: GraphQLTypes["order_by"] | undefined,
 	token_gifts_aggregate?: GraphQLTypes["token_gifts_aggregate_order_by"] | undefined,
@@ -42093,6 +42129,7 @@ export type GraphQLTypes = {
 ["circles_set_input"]: {
 		alloc_text?: string | undefined,
 	auto_opt_out?: boolean | undefined,
+	cont_help_text?: string | undefined,
 	contact?: string | undefined,
 	created_at?: GraphQLTypes["timestamp"] | undefined,
 	default_opt_in?: boolean | undefined,
@@ -42109,7 +42146,6 @@ export type GraphQLTypes = {
 	only_giver_vouch?: boolean | undefined,
 	organization_id?: number | undefined,
 	show_pending_gives?: boolean | undefined,
-	team_sel_text?: string | undefined,
 	team_selection?: boolean | undefined,
 	telegram_id?: string | undefined,
 	token_name?: string | undefined,
@@ -42179,6 +42215,7 @@ export type GraphQLTypes = {
 ["circles_stream_cursor_value_input"]: {
 		alloc_text?: string | undefined,
 	auto_opt_out?: boolean | undefined,
+	cont_help_text?: string | undefined,
 	contact?: string | undefined,
 	created_at?: GraphQLTypes["timestamp"] | undefined,
 	default_opt_in?: boolean | undefined,
@@ -42195,7 +42232,6 @@ export type GraphQLTypes = {
 	only_giver_vouch?: boolean | undefined,
 	organization_id?: number | undefined,
 	show_pending_gives?: boolean | undefined,
-	team_sel_text?: string | undefined,
 	team_selection?: boolean | undefined,
 	telegram_id?: string | undefined,
 	token_name?: string | undefined,
@@ -43243,8 +43279,9 @@ export type GraphQLTypes = {
 	circle: GraphQLTypes["circles"],
 	circle_id: GraphQLTypes["bigint"],
 	created_at: GraphQLTypes["timestamptz"],
+	discord_channel_id: string,
+	discord_role_id: string,
 	id: GraphQLTypes["bigint"],
-	server_role: string,
 	updated_at: GraphQLTypes["timestamptz"]
 };
 	/** aggregated selection of "discord.roles_circles" */
@@ -43282,8 +43319,9 @@ export type GraphQLTypes = {
 	circle?: GraphQLTypes["circles_bool_exp"] | undefined,
 	circle_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
 	created_at?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
+	discord_channel_id?: GraphQLTypes["String_comparison_exp"] | undefined,
+	discord_role_id?: GraphQLTypes["String_comparison_exp"] | undefined,
 	id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
-	server_role?: GraphQLTypes["String_comparison_exp"] | undefined,
 	updated_at?: GraphQLTypes["timestamptz_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "discord.roles_circles" */
@@ -43298,8 +43336,9 @@ export type GraphQLTypes = {
 		circle?: GraphQLTypes["circles_obj_rel_insert_input"] | undefined,
 	circle_id?: GraphQLTypes["bigint"] | undefined,
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	discord_channel_id?: string | undefined,
+	discord_role_id?: string | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
-	server_role?: string | undefined,
 	updated_at?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** aggregate max on columns */
@@ -43307,8 +43346,9 @@ export type GraphQLTypes = {
 	__typename: "discord_roles_circles_max_fields",
 	circle_id?: GraphQLTypes["bigint"] | undefined,
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	discord_channel_id?: string | undefined,
+	discord_role_id?: string | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
-	server_role?: string | undefined,
 	updated_at?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** aggregate min on columns */
@@ -43316,8 +43356,9 @@ export type GraphQLTypes = {
 	__typename: "discord_roles_circles_min_fields",
 	circle_id?: GraphQLTypes["bigint"] | undefined,
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	discord_channel_id?: string | undefined,
+	discord_role_id?: string | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
-	server_role?: string | undefined,
 	updated_at?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** response of any mutation on the table "discord.roles_circles" */
@@ -43339,8 +43380,9 @@ export type GraphQLTypes = {
 		circle?: GraphQLTypes["circles_order_by"] | undefined,
 	circle_id?: GraphQLTypes["order_by"] | undefined,
 	created_at?: GraphQLTypes["order_by"] | undefined,
+	discord_channel_id?: GraphQLTypes["order_by"] | undefined,
+	discord_role_id?: GraphQLTypes["order_by"] | undefined,
 	id?: GraphQLTypes["order_by"] | undefined,
-	server_role?: GraphQLTypes["order_by"] | undefined,
 	updated_at?: GraphQLTypes["order_by"] | undefined
 };
 	/** primary key columns input for table: discord.roles_circles */
@@ -43353,8 +43395,9 @@ export type GraphQLTypes = {
 ["discord_roles_circles_set_input"]: {
 		circle_id?: GraphQLTypes["bigint"] | undefined,
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	discord_channel_id?: string | undefined,
+	discord_role_id?: string | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
-	server_role?: string | undefined,
 	updated_at?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** aggregate stddev on columns */
@@ -43386,8 +43429,9 @@ export type GraphQLTypes = {
 ["discord_roles_circles_stream_cursor_value_input"]: {
 		circle_id?: GraphQLTypes["bigint"] | undefined,
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	discord_channel_id?: string | undefined,
+	discord_role_id?: string | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
-	server_role?: string | undefined,
 	updated_at?: GraphQLTypes["timestamptz"] | undefined
 };
 	/** aggregate sum on columns */
@@ -46753,6 +46797,8 @@ export type GraphQLTypes = {
 	insert_vouches?: GraphQLTypes["vouches_mutation_response"] | undefined,
 	/** insert a single row into the table: "vouches" */
 	insert_vouches_one?: GraphQLTypes["vouches"] | undefined,
+	/** allow authenticated users to link a discord channel to a circle they admin */
+	linkDiscordCircle?: GraphQLTypes["LinkDiscordCircleResponse"] | undefined,
 	/** allow authenticated users to link a discord account to their profile */
 	linkDiscordUser?: GraphQLTypes["LinkDiscordUserResponse"] | undefined,
 	logoutUser?: GraphQLTypes["LogoutResponse"] | undefined,
@@ -46763,7 +46809,7 @@ export type GraphQLTypes = {
 	/** users can modify contributions and update their dates. */
 	updateContribution?: GraphQLTypes["UpdateContributionResponse"] | undefined,
 	updateEpoch?: GraphQLTypes["EpochResponse"] | undefined,
-	updateProfileName?: GraphQLTypes["UpdateProfileNameResponse"] | undefined,
+	updateProfile?: GraphQLTypes["UpdateProfileResponse"] | undefined,
 	updateTeammates?: GraphQLTypes["UpdateTeammatesResponse"] | undefined,
 	/** Update own user */
 	updateUser?: GraphQLTypes["UserResponse"] | undefined,
@@ -46989,7 +47035,6 @@ export type GraphQLTypes = {
 	ended: boolean,
 	expiry_date: GraphQLTypes["timestamp"],
 	id: GraphQLTypes["bigint"],
-	name?: string | undefined,
 	nominated_by_user_id: number,
 	nominated_date: GraphQLTypes["date"],
 	/** An array relationship */
@@ -47077,7 +47122,6 @@ export type GraphQLTypes = {
 	ended?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	expiry_date?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
-	name?: GraphQLTypes["String_comparison_exp"] | undefined,
 	nominated_by_user_id?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	nominated_date?: GraphQLTypes["date_comparison_exp"] | undefined,
 	nominations?: GraphQLTypes["vouches_bool_exp"] | undefined,
@@ -47108,7 +47152,6 @@ export type GraphQLTypes = {
 	ended?: boolean | undefined,
 	expiry_date?: GraphQLTypes["timestamp"] | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
-	name?: string | undefined,
 	nominated_by_user_id?: number | undefined,
 	nominated_date?: GraphQLTypes["date"] | undefined,
 	nominations?: GraphQLTypes["vouches_arr_rel_insert_input"] | undefined,
@@ -47128,7 +47171,6 @@ export type GraphQLTypes = {
 	description?: string | undefined,
 	expiry_date?: GraphQLTypes["timestamp"] | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
-	name?: string | undefined,
 	nominated_by_user_id?: number | undefined,
 	nominated_date?: GraphQLTypes["date"] | undefined,
 	updated_at?: GraphQLTypes["timestamp"] | undefined,
@@ -47143,7 +47185,6 @@ export type GraphQLTypes = {
 	description?: GraphQLTypes["order_by"] | undefined,
 	expiry_date?: GraphQLTypes["order_by"] | undefined,
 	id?: GraphQLTypes["order_by"] | undefined,
-	name?: GraphQLTypes["order_by"] | undefined,
 	nominated_by_user_id?: GraphQLTypes["order_by"] | undefined,
 	nominated_date?: GraphQLTypes["order_by"] | undefined,
 	updated_at?: GraphQLTypes["order_by"] | undefined,
@@ -47159,7 +47200,6 @@ export type GraphQLTypes = {
 	description?: string | undefined,
 	expiry_date?: GraphQLTypes["timestamp"] | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
-	name?: string | undefined,
 	nominated_by_user_id?: number | undefined,
 	nominated_date?: GraphQLTypes["date"] | undefined,
 	updated_at?: GraphQLTypes["timestamp"] | undefined,
@@ -47174,7 +47214,6 @@ export type GraphQLTypes = {
 	description?: GraphQLTypes["order_by"] | undefined,
 	expiry_date?: GraphQLTypes["order_by"] | undefined,
 	id?: GraphQLTypes["order_by"] | undefined,
-	name?: GraphQLTypes["order_by"] | undefined,
 	nominated_by_user_id?: GraphQLTypes["order_by"] | undefined,
 	nominated_date?: GraphQLTypes["order_by"] | undefined,
 	updated_at?: GraphQLTypes["order_by"] | undefined,
@@ -47211,7 +47250,6 @@ export type GraphQLTypes = {
 	ended?: GraphQLTypes["order_by"] | undefined,
 	expiry_date?: GraphQLTypes["order_by"] | undefined,
 	id?: GraphQLTypes["order_by"] | undefined,
-	name?: GraphQLTypes["order_by"] | undefined,
 	nominated_by_user_id?: GraphQLTypes["order_by"] | undefined,
 	nominated_date?: GraphQLTypes["order_by"] | undefined,
 	nominations_aggregate?: GraphQLTypes["vouches_aggregate_order_by"] | undefined,
@@ -47237,7 +47275,6 @@ export type GraphQLTypes = {
 	ended?: boolean | undefined,
 	expiry_date?: GraphQLTypes["timestamp"] | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
-	name?: string | undefined,
 	nominated_by_user_id?: number | undefined,
 	nominated_date?: GraphQLTypes["date"] | undefined,
 	updated_at?: GraphQLTypes["timestamp"] | undefined,
@@ -47311,7 +47348,6 @@ export type GraphQLTypes = {
 	ended?: boolean | undefined,
 	expiry_date?: GraphQLTypes["timestamp"] | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
-	name?: string | undefined,
 	nominated_by_user_id?: number | undefined,
 	nominated_date?: GraphQLTypes["date"] | undefined,
 	updated_at?: GraphQLTypes["timestamp"] | undefined,
@@ -49198,7 +49234,6 @@ export type GraphQLTypes = {
 	personal_access_tokens_aggregate: GraphQLTypes["personal_access_tokens_aggregate"],
 	/** fetch data from the table: "personal_access_tokens" using primary key columns */
 	personal_access_tokens_by_pk?: GraphQLTypes["personal_access_tokens"] | undefined,
-	price_per_share: number,
 	/** fetch data from the table: "profiles" */
 	profiles: Array<GraphQLTypes["profiles"]>,
 	/** fetch aggregated fields from the table: "profiles" */
@@ -51479,7 +51514,6 @@ export type GraphQLTypes = {
 	org_id: GraphQLTypes["bigint"],
 	/** An object relationship */
 	organization: GraphQLTypes["organizations"],
-	price_per_share: number,
 	/** An object relationship */
 	profile: GraphQLTypes["profiles"],
 	simple_token_address: string,
@@ -52324,6 +52358,7 @@ export const enum circles_constraint {
 export const enum circles_select_column {
 	alloc_text = "alloc_text",
 	auto_opt_out = "auto_opt_out",
+	cont_help_text = "cont_help_text",
 	contact = "contact",
 	created_at = "created_at",
 	default_opt_in = "default_opt_in",
@@ -52340,7 +52375,6 @@ export const enum circles_select_column {
 	only_giver_vouch = "only_giver_vouch",
 	organization_id = "organization_id",
 	show_pending_gives = "show_pending_gives",
-	team_sel_text = "team_sel_text",
 	team_selection = "team_selection",
 	telegram_id = "telegram_id",
 	token_name = "token_name",
@@ -52352,6 +52386,7 @@ export const enum circles_select_column {
 export const enum circles_update_column {
 	alloc_text = "alloc_text",
 	auto_opt_out = "auto_opt_out",
+	cont_help_text = "cont_help_text",
 	contact = "contact",
 	created_at = "created_at",
 	default_opt_in = "default_opt_in",
@@ -52368,7 +52403,6 @@ export const enum circles_update_column {
 	only_giver_vouch = "only_giver_vouch",
 	organization_id = "organization_id",
 	show_pending_gives = "show_pending_gives",
-	team_sel_text = "team_sel_text",
 	team_selection = "team_selection",
 	telegram_id = "telegram_id",
 	token_name = "token_name",
@@ -52472,16 +52506,18 @@ export const enum discord_roles_circles_constraint {
 export const enum discord_roles_circles_select_column {
 	circle_id = "circle_id",
 	created_at = "created_at",
+	discord_channel_id = "discord_channel_id",
+	discord_role_id = "discord_role_id",
 	id = "id",
-	server_role = "server_role",
 	updated_at = "updated_at"
 }
 /** update columns of table "discord.roles_circles" */
 export const enum discord_roles_circles_update_column {
 	circle_id = "circle_id",
 	created_at = "created_at",
+	discord_channel_id = "discord_channel_id",
+	discord_role_id = "discord_role_id",
 	id = "id",
-	server_role = "server_role",
 	updated_at = "updated_at"
 }
 /** unique or primary key constraints on table "discord.users" */
@@ -52760,7 +52796,6 @@ export const enum nominees_select_column {
 	ended = "ended",
 	expiry_date = "expiry_date",
 	id = "id",
-	name = "name",
 	nominated_by_user_id = "nominated_by_user_id",
 	nominated_date = "nominated_date",
 	updated_at = "updated_at",
@@ -52776,7 +52811,6 @@ export const enum nominees_update_column {
 	ended = "ended",
 	expiry_date = "expiry_date",
 	id = "id",
-	name = "name",
 	nominated_by_user_id = "nominated_by_user_id",
 	nominated_date = "nominated_date",
 	updated_at = "updated_at",
@@ -53197,6 +53231,7 @@ type ZEUS_VARIABLES = {
 	["DeleteUserInput"]: ValueTypes["DeleteUserInput"];
 	["GenerateApiKeyInput"]: ValueTypes["GenerateApiKeyInput"];
 	["Int_comparison_exp"]: ValueTypes["Int_comparison_exp"];
+	["LinkDiscordCircleInput"]: ValueTypes["LinkDiscordCircleInput"];
 	["LinkDiscordUserInput"]: ValueTypes["LinkDiscordUserInput"];
 	["LogVaultTxInput"]: ValueTypes["LogVaultTxInput"];
 	["MarkClaimedInput"]: ValueTypes["MarkClaimedInput"];
@@ -53204,7 +53239,7 @@ type ZEUS_VARIABLES = {
 	["UpdateCircleInput"]: ValueTypes["UpdateCircleInput"];
 	["UpdateContributionInput"]: ValueTypes["UpdateContributionInput"];
 	["UpdateEpochInput"]: ValueTypes["UpdateEpochInput"];
-	["UpdateProfileNameInput"]: ValueTypes["UpdateProfileNameInput"];
+	["UpdateProfileInput"]: ValueTypes["UpdateProfileInput"];
 	["UpdateTeammatesInput"]: ValueTypes["UpdateTeammatesInput"];
 	["UpdateUserInput"]: ValueTypes["UpdateUserInput"];
 	["UploadCircleImageInput"]: ValueTypes["UploadCircleImageInput"];
