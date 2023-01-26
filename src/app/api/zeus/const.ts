@@ -70,6 +70,9 @@ export const AllTypesProps: Record<string,any> = {
 	Int_comparison_exp:{
 
 	},
+	LinkDiscordCircleInput:{
+
+	},
 	LinkDiscordUserInput:{
 
 	},
@@ -91,7 +94,7 @@ export const AllTypesProps: Record<string,any> = {
 	UpdateEpochInput:{
 		start_date:"timestamptz"
 	},
-	UpdateProfileNameInput:{
+	UpdateProfileInput:{
 
 	},
 	UpdateTeammatesInput:{
@@ -1023,6 +1026,7 @@ export const AllTypesProps: Record<string,any> = {
 		burns:"burns_bool_exp",
 		circle_metadata:"circle_metadata_bool_exp",
 		circle_private:"circle_private_bool_exp",
+		cont_help_text:"String_comparison_exp",
 		contact:"String_comparison_exp",
 		contributions:"contributions_bool_exp",
 		created_at:"timestamp_comparison_exp",
@@ -1045,7 +1049,6 @@ export const AllTypesProps: Record<string,any> = {
 		organization_id:"Int_comparison_exp",
 		pending_token_gifts:"pending_token_gifts_bool_exp",
 		show_pending_gives:"Boolean_comparison_exp",
-		team_sel_text:"String_comparison_exp",
 		team_selection:"Boolean_comparison_exp",
 		telegram_id:"String_comparison_exp",
 		token_gifts:"token_gifts_bool_exp",
@@ -1081,6 +1084,7 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	circles_max_order_by:{
 		alloc_text:"order_by",
+		cont_help_text:"order_by",
 		contact:"order_by",
 		created_at:"order_by",
 		deleted_at:"order_by",
@@ -1093,7 +1097,6 @@ export const AllTypesProps: Record<string,any> = {
 		name:"order_by",
 		nomination_days_limit:"order_by",
 		organization_id:"order_by",
-		team_sel_text:"order_by",
 		telegram_id:"order_by",
 		token_name:"order_by",
 		updated_at:"order_by",
@@ -1101,6 +1104,7 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	circles_min_order_by:{
 		alloc_text:"order_by",
+		cont_help_text:"order_by",
 		contact:"order_by",
 		created_at:"order_by",
 		deleted_at:"order_by",
@@ -1113,7 +1117,6 @@ export const AllTypesProps: Record<string,any> = {
 		name:"order_by",
 		nomination_days_limit:"order_by",
 		organization_id:"order_by",
-		team_sel_text:"order_by",
 		telegram_id:"order_by",
 		token_name:"order_by",
 		updated_at:"order_by",
@@ -1135,6 +1138,7 @@ export const AllTypesProps: Record<string,any> = {
 		burns_aggregate:"burns_aggregate_order_by",
 		circle_metadata_aggregate:"circle_metadata_aggregate_order_by",
 		circle_private:"circle_private_order_by",
+		cont_help_text:"order_by",
 		contact:"order_by",
 		contributions_aggregate:"contributions_aggregate_order_by",
 		created_at:"order_by",
@@ -1157,7 +1161,6 @@ export const AllTypesProps: Record<string,any> = {
 		organization_id:"order_by",
 		pending_token_gifts_aggregate:"pending_token_gifts_aggregate_order_by",
 		show_pending_gives:"order_by",
-		team_sel_text:"order_by",
 		team_selection:"order_by",
 		telegram_id:"order_by",
 		token_gifts_aggregate:"token_gifts_aggregate_order_by",
@@ -1724,8 +1727,9 @@ export const AllTypesProps: Record<string,any> = {
 		circle:"circles_bool_exp",
 		circle_id:"bigint_comparison_exp",
 		created_at:"timestamptz_comparison_exp",
+		discord_channel_id:"String_comparison_exp",
+		discord_role_id:"String_comparison_exp",
 		id:"bigint_comparison_exp",
-		server_role:"String_comparison_exp",
 		updated_at:"timestamptz_comparison_exp"
 	},
 	discord_roles_circles_constraint: "enum" as const,
@@ -1749,8 +1753,9 @@ export const AllTypesProps: Record<string,any> = {
 		circle:"circles_order_by",
 		circle_id:"order_by",
 		created_at:"order_by",
+		discord_channel_id:"order_by",
+		discord_role_id:"order_by",
 		id:"order_by",
-		server_role:"order_by",
 		updated_at:"order_by"
 	},
 	discord_roles_circles_pk_columns_input:{
@@ -3630,6 +3635,9 @@ export const AllTypesProps: Record<string,any> = {
 			object:"vouches_insert_input",
 			on_conflict:"vouches_on_conflict"
 		},
+		linkDiscordCircle:{
+			payload:"LinkDiscordCircleInput"
+		},
 		linkDiscordUser:{
 			payload:"LinkDiscordUserInput"
 		},
@@ -3651,8 +3659,8 @@ export const AllTypesProps: Record<string,any> = {
 		updateEpoch:{
 			payload:"UpdateEpochInput"
 		},
-		updateProfileName:{
-			payload:"UpdateProfileNameInput"
+		updateProfile:{
+			payload:"UpdateProfileInput"
 		},
 		updateTeammates:{
 			payload:"UpdateTeammatesInput"
@@ -4187,7 +4195,6 @@ export const AllTypesProps: Record<string,any> = {
 		ended:"Boolean_comparison_exp",
 		expiry_date:"timestamp_comparison_exp",
 		id:"bigint_comparison_exp",
-		name:"String_comparison_exp",
 		nominated_by_user_id:"Int_comparison_exp",
 		nominated_date:"date_comparison_exp",
 		nominations:"vouches_bool_exp",
@@ -4221,7 +4228,6 @@ export const AllTypesProps: Record<string,any> = {
 		description:"order_by",
 		expiry_date:"order_by",
 		id:"order_by",
-		name:"order_by",
 		nominated_by_user_id:"order_by",
 		nominated_date:"order_by",
 		updated_at:"order_by",
@@ -4235,7 +4241,6 @@ export const AllTypesProps: Record<string,any> = {
 		description:"order_by",
 		expiry_date:"order_by",
 		id:"order_by",
-		name:"order_by",
 		nominated_by_user_id:"order_by",
 		nominated_date:"order_by",
 		updated_at:"order_by",
@@ -4260,7 +4265,6 @@ export const AllTypesProps: Record<string,any> = {
 		ended:"order_by",
 		expiry_date:"order_by",
 		id:"order_by",
-		name:"order_by",
 		nominated_by_user_id:"order_by",
 		nominated_date:"order_by",
 		nominations_aggregate:"vouches_aggregate_order_by",
@@ -5416,9 +5420,6 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		personal_access_tokens_by_pk:{
 			id:"bigint"
-		},
-		price_per_share:{
-
 		},
 		profiles:{
 			distinct_on:"profiles_select_column",
@@ -7591,6 +7592,9 @@ export const ReturnTypes: Record<string,any> = {
 		circleApiKey:"circle_api_keys",
 		hash:"String"
 	},
+	LinkDiscordCircleResponse:{
+		id:"Int"
+	},
 	LinkDiscordUserResponse:{
 		id:"Int",
 		linkDiscordUser_DiscordUser:"discord_users"
@@ -7621,10 +7625,6 @@ export const ReturnTypes: Record<string,any> = {
 	UpdateOrgResponse:{
 		id:"Int",
 		org:"organizations"
-	},
-	UpdateProfileNameResponse:{
-		id:"Int",
-		profileName:"profiles"
 	},
 	UpdateProfileResponse:{
 		id:"Int",
@@ -8158,6 +8158,7 @@ export const ReturnTypes: Record<string,any> = {
 		circle_metadata:"circle_metadata",
 		circle_metadata_aggregate:"circle_metadata_aggregate",
 		circle_private:"circle_private",
+		cont_help_text:"String",
 		contact:"String",
 		contributions:"contributions",
 		contributions_aggregate:"contributions_aggregate",
@@ -8185,7 +8186,6 @@ export const ReturnTypes: Record<string,any> = {
 		pending_token_gifts:"pending_token_gifts",
 		pending_token_gifts_aggregate:"pending_token_gifts_aggregate",
 		show_pending_gives:"Boolean",
-		team_sel_text:"String",
 		team_selection:"Boolean",
 		telegram_id:"String",
 		token_gifts:"token_gifts",
@@ -8225,6 +8225,7 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	circles_max_fields:{
 		alloc_text:"String",
+		cont_help_text:"String",
 		contact:"String",
 		created_at:"timestamp",
 		deleted_at:"timestamp",
@@ -8237,7 +8238,6 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		nomination_days_limit:"Int",
 		organization_id:"Int",
-		team_sel_text:"String",
 		telegram_id:"String",
 		token_name:"String",
 		updated_at:"timestamp",
@@ -8245,6 +8245,7 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	circles_min_fields:{
 		alloc_text:"String",
+		cont_help_text:"String",
 		contact:"String",
 		created_at:"timestamp",
 		deleted_at:"timestamp",
@@ -8257,7 +8258,6 @@ export const ReturnTypes: Record<string,any> = {
 		name:"String",
 		nomination_days_limit:"Int",
 		organization_id:"Int",
-		team_sel_text:"String",
 		telegram_id:"String",
 		token_name:"String",
 		updated_at:"timestamp",
@@ -8619,8 +8619,9 @@ export const ReturnTypes: Record<string,any> = {
 		circle:"circles",
 		circle_id:"bigint",
 		created_at:"timestamptz",
+		discord_channel_id:"String",
+		discord_role_id:"String",
 		id:"bigint",
-		server_role:"String",
 		updated_at:"timestamptz"
 	},
 	discord_roles_circles_aggregate:{
@@ -8647,15 +8648,17 @@ export const ReturnTypes: Record<string,any> = {
 	discord_roles_circles_max_fields:{
 		circle_id:"bigint",
 		created_at:"timestamptz",
+		discord_channel_id:"String",
+		discord_role_id:"String",
 		id:"bigint",
-		server_role:"String",
 		updated_at:"timestamptz"
 	},
 	discord_roles_circles_min_fields:{
 		circle_id:"bigint",
 		created_at:"timestamptz",
+		discord_channel_id:"String",
+		discord_role_id:"String",
 		id:"bigint",
-		server_role:"String",
 		updated_at:"timestamptz"
 	},
 	discord_roles_circles_mutation_response:{
@@ -9984,6 +9987,7 @@ export const ReturnTypes: Record<string,any> = {
 		insert_vaults_one:"vaults",
 		insert_vouches:"vouches_mutation_response",
 		insert_vouches_one:"vouches",
+		linkDiscordCircle:"LinkDiscordCircleResponse",
 		linkDiscordUser:"LinkDiscordUserResponse",
 		logoutUser:"LogoutResponse",
 		markClaimed:"MarkClaimedOutput",
@@ -9992,7 +9996,7 @@ export const ReturnTypes: Record<string,any> = {
 		updateCircle:"UpdateCircleOutput",
 		updateContribution:"UpdateContributionResponse",
 		updateEpoch:"EpochResponse",
-		updateProfileName:"UpdateProfileNameResponse",
+		updateProfile:"UpdateProfileResponse",
 		updateTeammates:"UpdateTeammatesResponse",
 		updateUser:"UserResponse",
 		update_burns:"burns_mutation_response",
@@ -10112,7 +10116,6 @@ export const ReturnTypes: Record<string,any> = {
 		ended:"Boolean",
 		expiry_date:"timestamp",
 		id:"bigint",
-		name:"String",
 		nominated_by_user_id:"Int",
 		nominated_date:"date",
 		nominations:"vouches",
@@ -10155,7 +10158,6 @@ export const ReturnTypes: Record<string,any> = {
 		description:"String",
 		expiry_date:"timestamp",
 		id:"bigint",
-		name:"String",
 		nominated_by_user_id:"Int",
 		nominated_date:"date",
 		updated_at:"timestamp",
@@ -10169,7 +10171,6 @@ export const ReturnTypes: Record<string,any> = {
 		description:"String",
 		expiry_date:"timestamp",
 		id:"bigint",
-		name:"String",
 		nominated_by_user_id:"Int",
 		nominated_date:"date",
 		updated_at:"timestamp",
@@ -10919,7 +10920,6 @@ export const ReturnTypes: Record<string,any> = {
 		personal_access_tokens:"personal_access_tokens",
 		personal_access_tokens_aggregate:"personal_access_tokens_aggregate",
 		personal_access_tokens_by_pk:"personal_access_tokens",
-		price_per_share:"Float",
 		profiles:"profiles",
 		profiles_aggregate:"profiles_aggregate",
 		profiles_by_pk:"profiles",
@@ -11702,7 +11702,6 @@ export const ReturnTypes: Record<string,any> = {
 		id:"bigint",
 		org_id:"bigint",
 		organization:"organizations",
-		price_per_share:"Float",
 		profile:"profiles",
 		simple_token_address:"String",
 		symbol:"String",

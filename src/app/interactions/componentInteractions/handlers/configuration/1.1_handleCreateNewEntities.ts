@@ -1,6 +1,9 @@
+import { deleteDiscordRolesCircles } from '@api/deleteDiscordRolesCircles';
+import { insertDiscordRolesCircles } from '@api/insertDiscordRolesCircles';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CategoryChannel, Role, TextChannel } from 'discord.js';
 import { ComponentActionRow, ComponentContext, ComponentSelectMenu, ComponentSelectOption } from 'slash-create';
 import { DiscordService } from 'src/app/service/DiscordService';
+import Log from 'src/app/utils/Log';
 import { sleep } from 'src/app/utils/sleep';
 import { disableAllComponents } from '../common';
 import { handleSendAlerts } from './3_handleSendAlerts';
@@ -9,6 +12,19 @@ export const CREATE_NEW_ENTITIES_HANDLER_INTERACTIONS = {
 	Link: 'LINK_CIRCLE_BUTTON',
 	Skip: 'SKIP_LINK_CIRCLE_BUTTON',
 };
+
+type CleanUpProps = {
+	circleId: number;
+	role?: Role;
+	channel?: TextChannel;
+};
+
+async function cleanUp({ circleId, role, channel }: CleanUpProps): Promise<void> {
+	await deleteDiscordRolesCircles({ circleId });
+	
+	await role?.delete('Failed to create a channel for this role');
+	await channel?.delete('Failed to create a role for this channel');
+}
 
 /**
  * Create a new Channel and Role for each Circle in the Coordinape Category
@@ -42,6 +58,22 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 		if (!role) {
 			await ctx.send('Failed to create a role. Please contact coordinape');
 			await channel.delete('Failed to create a role for this channel');
+			continue;
+		}
+
+		try {
+			const { success, data: { circle_id, discord_channel_id, discord_role_id } } = await insertDiscordRolesCircles({
+				circleId: Number(circle.value),
+				channelId: channel?.id,
+				roleId: role?.id,
+			});
+
+			if (!success || !circle_id || !discord_channel_id || !discord_role_id) {
+				throw new Error('Failed to insert discord roles circles');
+			}
+		} catch (error) {
+			cleanUp({ circleId: Number(circle.value), role, channel });
+			Log.error(error);
 			continue;
 		}
 
