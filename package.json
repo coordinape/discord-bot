@@ -8,10 +8,11 @@
         "build": "tsc -p tsconfig.json",
         "test": "jest",
         "dev": "nodemon -r dotenv/config -r tsconfig-paths/register src/app/app.ts",
-        "serve": "nodemon -r dotenv/config -r tsconfig-paths/register src/app/server/index.ts",
+        "serve:dev": "nodemon -r dotenv/config -r tsconfig-paths/register src/app/server/index.ts",
         "generate": "zeus http://localhost:8080/v1/graphql ./src/app/api -n --ts -h=x-hasura-admin-secret:admin-secret -s graphql-ws",
         "prod": "node -r dotenv/config --trace-warnings dist/app.js dotenv_config_path=.env.prod",
         "start": "ts-node -r dotenv/config -r tsconfig-paths/register src/app/app.ts",
+        "serve": "ts-node -r dotenv/config -r tsconfig-paths/register src/app/server/index.ts",
         "lint": "eslint ./src/app/**/*.ts --ext .ts",
         "format": "eslint ./src/app/**/*.ts --ext .ts --fix",
         "watch": "tsc -p tsconfig.json -w"
