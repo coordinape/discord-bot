@@ -15,7 +15,7 @@ import {
 	handleCircleSelect,
 	handleCreateNewEntities,
 	handleFinalMessage,
-	handleFrequencyOfAlertsToSend,
+	// handleFrequencyOfAlertsToSend,
 	handleLinkCircles,
 	handleRequestApiKeys,
 } from './handlers';
@@ -36,7 +36,9 @@ export async function handleComponentInteraction({ ctx, discordService }: Props)
 	case NO_SEND_ALERTS_BUTTON.custom_id:
 		return handleFinalMessage(ctx);
 	case ALERTS_SELECT_CONFIRM_BUTTON.custom_id:
-		return handleFrequencyOfAlertsToSend(ctx);
+		// TODO Phase 2
+		// return handleFrequencyOfAlertsToSend(ctx);
+		return handleFinalMessage(ctx);
 	case ALERTS_SELECT_CANCEL_BUTTON.custom_id:
 		return handleFinalMessage(ctx);
 	case ALERTS_FREQUENCY_SELECT_CONFIRM_BUTTON.custom_id:
