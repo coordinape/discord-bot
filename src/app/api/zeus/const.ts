@@ -64,6 +64,9 @@ export const AllTypesProps: Record<string,any> = {
 	DeleteUserInput:{
 
 	},
+	DeleteUsersInput:{
+
+	},
 	GenerateApiKeyInput:{
 
 	},
@@ -916,6 +919,16 @@ export const AllTypesProps: Record<string,any> = {
 			order_by:"contributions_order_by",
 			where:"contributions_bool_exp"
 		},
+		discord_access_tokens:{
+			distinct_on:"discord_circle_api_tokens_select_column",
+			order_by:"discord_circle_api_tokens_order_by",
+			where:"discord_circle_api_tokens_bool_exp"
+		},
+		discord_access_tokens_aggregate:{
+			distinct_on:"discord_circle_api_tokens_select_column",
+			order_by:"discord_circle_api_tokens_order_by",
+			where:"discord_circle_api_tokens_bool_exp"
+		},
 		epochs:{
 			distinct_on:"epochs_select_column",
 			order_by:"epochs_order_by",
@@ -1032,6 +1045,8 @@ export const AllTypesProps: Record<string,any> = {
 		created_at:"timestamp_comparison_exp",
 		default_opt_in:"Boolean_comparison_exp",
 		deleted_at:"timestamp_comparison_exp",
+		discord_access_tokens:"discord_circle_api_tokens_bool_exp",
+		discord_circle:"discord_roles_circles_bool_exp",
 		discord_webhook:"String_comparison_exp",
 		epochs:"epochs_bool_exp",
 		fixed_payment_token_type:"String_comparison_exp",
@@ -1071,6 +1086,8 @@ export const AllTypesProps: Record<string,any> = {
 		contributions:"contributions_arr_rel_insert_input",
 		created_at:"timestamp",
 		deleted_at:"timestamp",
+		discord_access_tokens:"discord_circle_api_tokens_arr_rel_insert_input",
+		discord_circle:"discord_roles_circles_obj_rel_insert_input",
 		epochs:"epochs_arr_rel_insert_input",
 		id:"bigint",
 		integrations:"circle_integrations_arr_rel_insert_input",
@@ -1144,6 +1161,8 @@ export const AllTypesProps: Record<string,any> = {
 		created_at:"order_by",
 		default_opt_in:"order_by",
 		deleted_at:"order_by",
+		discord_access_tokens_aggregate:"discord_circle_api_tokens_aggregate_order_by",
+		discord_circle:"discord_roles_circles_order_by",
 		discord_webhook:"order_by",
 		epochs_aggregate:"epochs_aggregate_order_by",
 		fixed_payment_token_type:"order_by",
@@ -1659,6 +1678,27 @@ export const AllTypesProps: Record<string,any> = {
 			columns:"discord_circle_api_tokens_select_column"
 		}
 	},
+	discord_circle_api_tokens_aggregate_order_by:{
+		avg:"discord_circle_api_tokens_avg_order_by",
+		count:"order_by",
+		max:"discord_circle_api_tokens_max_order_by",
+		min:"discord_circle_api_tokens_min_order_by",
+		stddev:"discord_circle_api_tokens_stddev_order_by",
+		stddev_pop:"discord_circle_api_tokens_stddev_pop_order_by",
+		stddev_samp:"discord_circle_api_tokens_stddev_samp_order_by",
+		sum:"discord_circle_api_tokens_sum_order_by",
+		var_pop:"discord_circle_api_tokens_var_pop_order_by",
+		var_samp:"discord_circle_api_tokens_var_samp_order_by",
+		variance:"discord_circle_api_tokens_variance_order_by"
+	},
+	discord_circle_api_tokens_arr_rel_insert_input:{
+		data:"discord_circle_api_tokens_insert_input",
+		on_conflict:"discord_circle_api_tokens_on_conflict"
+	},
+	discord_circle_api_tokens_avg_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
 	discord_circle_api_tokens_bool_exp:{
 		_and:"discord_circle_api_tokens_bool_exp",
 		_not:"discord_circle_api_tokens_bool_exp",
@@ -1678,6 +1718,20 @@ export const AllTypesProps: Record<string,any> = {
 		circle_id:"bigint",
 		created_at:"timestamptz",
 		id:"bigint"
+	},
+	discord_circle_api_tokens_max_order_by:{
+		channel_snowflake:"order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		id:"order_by",
+		token:"order_by"
+	},
+	discord_circle_api_tokens_min_order_by:{
+		channel_snowflake:"order_by",
+		circle_id:"order_by",
+		created_at:"order_by",
+		id:"order_by",
+		token:"order_by"
 	},
 	discord_circle_api_tokens_on_conflict:{
 		constraint:"discord_circle_api_tokens_constraint",
@@ -1700,6 +1754,18 @@ export const AllTypesProps: Record<string,any> = {
 		created_at:"timestamptz",
 		id:"bigint"
 	},
+	discord_circle_api_tokens_stddev_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	discord_circle_api_tokens_stddev_pop_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	discord_circle_api_tokens_stddev_samp_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
 	discord_circle_api_tokens_stream_cursor_input:{
 		initial_value:"discord_circle_api_tokens_stream_cursor_value_input",
 		ordering:"cursor_ordering"
@@ -1709,11 +1775,27 @@ export const AllTypesProps: Record<string,any> = {
 		created_at:"timestamptz",
 		id:"bigint"
 	},
+	discord_circle_api_tokens_sum_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
 	discord_circle_api_tokens_update_column: "enum" as const,
 	discord_circle_api_tokens_updates:{
 		_inc:"discord_circle_api_tokens_inc_input",
 		_set:"discord_circle_api_tokens_set_input",
 		where:"discord_circle_api_tokens_bool_exp"
+	},
+	discord_circle_api_tokens_var_pop_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	discord_circle_api_tokens_var_samp_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
+	},
+	discord_circle_api_tokens_variance_order_by:{
+		circle_id:"order_by",
+		id:"order_by"
 	},
 	discord_roles_circles_aggregate_fields:{
 		count:{
@@ -1743,6 +1825,10 @@ export const AllTypesProps: Record<string,any> = {
 		created_at:"timestamptz",
 		id:"bigint",
 		updated_at:"timestamptz"
+	},
+	discord_roles_circles_obj_rel_insert_input:{
+		data:"discord_roles_circles_insert_input",
+		on_conflict:"discord_roles_circles_on_conflict"
 	},
 	discord_roles_circles_on_conflict:{
 		constraint:"discord_roles_circles_constraint",
@@ -1811,6 +1897,10 @@ export const AllTypesProps: Record<string,any> = {
 		profile:"profiles_obj_rel_insert_input",
 		profile_id:"bigint",
 		updated_at:"timestamptz"
+	},
+	discord_users_obj_rel_insert_input:{
+		data:"discord_users_insert_input",
+		on_conflict:"discord_users_on_conflict"
 	},
 	discord_users_on_conflict:{
 		constraint:"discord_users_constraint",
@@ -3156,6 +3246,9 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		deleteUser:{
 			payload:"DeleteUserInput"
+		},
+		deleteUsers:{
+			payload:"DeleteUsersInput"
 		},
 		delete_burns:{
 			where:"burns_bool_exp"
@@ -4997,6 +5090,7 @@ export const AllTypesProps: Record<string,any> = {
 		telegram_username:"String_comparison_exp",
 		twitter_username:"String_comparison_exp",
 		updated_at:"timestamp_comparison_exp",
+		user:"discord_users_bool_exp",
 		users:"users_bool_exp",
 		vault_transactions:"vault_transactions_bool_exp",
 		vaults:"vaults_bool_exp",
@@ -5014,6 +5108,7 @@ export const AllTypesProps: Record<string,any> = {
 		name:"citext",
 		nominees:"nominees_arr_rel_insert_input",
 		updated_at:"timestamp",
+		user:"discord_users_obj_rel_insert_input",
 		users:"users_arr_rel_insert_input",
 		vault_transactions:"vault_transactions_arr_rel_insert_input",
 		vaults:"vaults_arr_rel_insert_input"
@@ -5047,6 +5142,7 @@ export const AllTypesProps: Record<string,any> = {
 		telegram_username:"order_by",
 		twitter_username:"order_by",
 		updated_at:"order_by",
+		user:"discord_users_order_by",
 		users_aggregate:"users_aggregate_order_by",
 		vault_transactions_aggregate:"vault_transactions_aggregate_order_by",
 		vaults_aggregate:"vaults_aggregate_order_by",
@@ -5420,6 +5516,9 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		personal_access_tokens_by_pk:{
 			id:"bigint"
+		},
+		price_per_share:{
+
 		},
 		profiles:{
 			distinct_on:"profiles_select_column",
@@ -7583,6 +7682,9 @@ export const ReturnTypes: Record<string,any> = {
 	DeleteEpochResponse:{
 		success:"Boolean"
 	},
+	DeleteUsersResponse:{
+		success:"Boolean"
+	},
 	EpochResponse:{
 		epoch:"epochs",
 		id:"ID"
@@ -8165,6 +8267,9 @@ export const ReturnTypes: Record<string,any> = {
 		created_at:"timestamp",
 		default_opt_in:"Boolean",
 		deleted_at:"timestamp",
+		discord_access_tokens:"discord_circle_api_tokens",
+		discord_access_tokens_aggregate:"discord_circle_api_tokens_aggregate",
+		discord_circle:"discord_roles_circles",
 		discord_webhook:"String",
 		epochs:"epochs",
 		epochs_aggregate:"epochs_aggregate",
@@ -9849,6 +9954,7 @@ export const ReturnTypes: Record<string,any> = {
 		deleteDiscordUser:"ConfirmationResponse",
 		deleteEpoch:"DeleteEpochResponse",
 		deleteUser:"ConfirmationResponse",
+		deleteUsers:"DeleteUsersResponse",
 		delete_burns:"burns_mutation_response",
 		delete_burns_by_pk:"burns",
 		delete_circle_api_keys:"circle_api_keys_mutation_response",
@@ -10750,6 +10856,7 @@ export const ReturnTypes: Record<string,any> = {
 		telegram_username:"String",
 		twitter_username:"String",
 		updated_at:"timestamp",
+		user:"discord_users",
 		users:"users",
 		users_aggregate:"users_aggregate",
 		vault_transactions:"vault_transactions",
@@ -10920,6 +11027,7 @@ export const ReturnTypes: Record<string,any> = {
 		personal_access_tokens:"personal_access_tokens",
 		personal_access_tokens_aggregate:"personal_access_tokens_aggregate",
 		personal_access_tokens_by_pk:"personal_access_tokens",
+		price_per_share:"Float",
 		profiles:"profiles",
 		profiles_aggregate:"profiles_aggregate",
 		profiles_by_pk:"profiles",
@@ -11702,6 +11810,7 @@ export const ReturnTypes: Record<string,any> = {
 		id:"bigint",
 		org_id:"bigint",
 		organization:"organizations",
+		price_per_share:"Float",
 		profile:"profiles",
 		simple_token_address:"String",
 		symbol:"String",

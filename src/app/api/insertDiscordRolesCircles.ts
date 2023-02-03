@@ -16,7 +16,6 @@ export async function insertDiscordRolesCircles({ circleId, channelId, roleId }:
 			{
 				id: true,
 				circle_id: true,
-				discord_channel_id: true,
 				discord_role_id: true,
 			},
 		],

@@ -22,7 +22,7 @@ class HasuraWebSocket extends WebSocket {
 export const apiSubscription = (options: chainOptions) => {
   const client = createClient({
     url: String(options[0]),
-    webSocketImpl: HasuraWebSocket,
+    webSocketImpl: HasuraWebSocket
   });
 
   const ws = new Proxy(
@@ -1014,6 +1014,14 @@ users_aggregate?: [{	/** distinct select on columns */
 	address: string | Variable<any, string>,
 	circle_id: number | Variable<any, string>
 };
+	["DeleteUsersInput"]: {
+	addresses: Array<string> | Variable<any, string>,
+	circle_id: number | Variable<any, string>
+};
+	["DeleteUsersResponse"]: AliasType<{
+	success?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["EpochResponse"]: AliasType<{
 	epoch?:ValueTypes["epochs"],
 	id?:boolean | `@${string}`,
@@ -2934,6 +2942,20 @@ contributions_aggregate?: [{	/** distinct select on columns */
 	created_at?:boolean | `@${string}`,
 	default_opt_in?:boolean | `@${string}`,
 	deleted_at?:boolean | `@${string}`,
+discord_access_tokens?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["discord_circle_api_tokens_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["discord_circle_api_tokens_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["discord_circle_api_tokens_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["discord_circle_api_tokens"]],
+discord_access_tokens_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["discord_circle_api_tokens_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["discord_circle_api_tokens_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["discord_circle_api_tokens_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["discord_circle_api_tokens_aggregate"]],
+	/** An object relationship */
+	discord_circle?:ValueTypes["discord_roles_circles"],
 	discord_webhook?:boolean | `@${string}`,
 epochs?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["epochs_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
@@ -3115,6 +3137,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	created_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	default_opt_in?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	deleted_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
+	discord_access_tokens?: ValueTypes["discord_circle_api_tokens_bool_exp"] | undefined | null | Variable<any, string>,
+	discord_circle?: ValueTypes["discord_roles_circles_bool_exp"] | undefined | null | Variable<any, string>,
 	discord_webhook?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	epochs?: ValueTypes["epochs_bool_exp"] | undefined | null | Variable<any, string>,
 	fixed_payment_token_type?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
@@ -3166,6 +3190,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	created_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
 	default_opt_in?: boolean | undefined | null | Variable<any, string>,
 	deleted_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
+	discord_access_tokens?: ValueTypes["discord_circle_api_tokens_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
+	discord_circle?: ValueTypes["discord_roles_circles_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
 	discord_webhook?: string | undefined | null | Variable<any, string>,
 	epochs?: ValueTypes["epochs_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
 	fixed_payment_token_type?: string | undefined | null | Variable<any, string>,
@@ -3313,6 +3339,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	default_opt_in?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	deleted_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	discord_access_tokens_aggregate?: ValueTypes["discord_circle_api_tokens_aggregate_order_by"] | undefined | null | Variable<any, string>,
+	discord_circle?: ValueTypes["discord_roles_circles_order_by"] | undefined | null | Variable<any, string>,
 	discord_webhook?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	epochs_aggregate?: ValueTypes["epochs_aggregate_order_by"] | undefined | null | Variable<any, string>,
 	fixed_payment_token_type?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -4341,12 +4369,37 @@ count?: [{	columns?: Array<ValueTypes["discord_circle_api_tokens_select_column"]
 	variance?:ValueTypes["discord_circle_api_tokens_variance_fields"],
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by aggregate values of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_aggregate_order_by"]: {
+	avg?: ValueTypes["discord_circle_api_tokens_avg_order_by"] | undefined | null | Variable<any, string>,
+	count?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	max?: ValueTypes["discord_circle_api_tokens_max_order_by"] | undefined | null | Variable<any, string>,
+	min?: ValueTypes["discord_circle_api_tokens_min_order_by"] | undefined | null | Variable<any, string>,
+	stddev?: ValueTypes["discord_circle_api_tokens_stddev_order_by"] | undefined | null | Variable<any, string>,
+	stddev_pop?: ValueTypes["discord_circle_api_tokens_stddev_pop_order_by"] | undefined | null | Variable<any, string>,
+	stddev_samp?: ValueTypes["discord_circle_api_tokens_stddev_samp_order_by"] | undefined | null | Variable<any, string>,
+	sum?: ValueTypes["discord_circle_api_tokens_sum_order_by"] | undefined | null | Variable<any, string>,
+	var_pop?: ValueTypes["discord_circle_api_tokens_var_pop_order_by"] | undefined | null | Variable<any, string>,
+	var_samp?: ValueTypes["discord_circle_api_tokens_var_samp_order_by"] | undefined | null | Variable<any, string>,
+	variance?: ValueTypes["discord_circle_api_tokens_variance_order_by"] | undefined | null | Variable<any, string>
+};
+	/** input type for inserting array relation for remote table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_arr_rel_insert_input"]: {
+	data: Array<ValueTypes["discord_circle_api_tokens_insert_input"]> | Variable<any, string>,
+	/** upsert condition */
+	on_conflict?: ValueTypes["discord_circle_api_tokens_on_conflict"] | undefined | null | Variable<any, string>
+};
 	/** aggregate avg on columns */
 ["discord_circle_api_tokens_avg_fields"]: AliasType<{
 	circle_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by avg() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_avg_order_by"]: {
+	circle_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
 	/** Boolean expression to filter rows from the table "discord.circle_api_tokens". All fields are combined with a logical 'AND'. */
 ["discord_circle_api_tokens_bool_exp"]: {
 	_and?: Array<ValueTypes["discord_circle_api_tokens_bool_exp"]> | undefined | null | Variable<any, string>,
@@ -4382,6 +4435,14 @@ count?: [{	columns?: Array<ValueTypes["discord_circle_api_tokens_select_column"]
 	token?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by max() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_max_order_by"]: {
+	channel_snowflake?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	circle_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	token?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
 	/** aggregate min on columns */
 ["discord_circle_api_tokens_min_fields"]: AliasType<{
 	channel_snowflake?:boolean | `@${string}`,
@@ -4391,6 +4452,14 @@ count?: [{	columns?: Array<ValueTypes["discord_circle_api_tokens_select_column"]
 	token?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by min() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_min_order_by"]: {
+	channel_snowflake?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	circle_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	token?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
 	/** response of any mutation on the table "discord.circle_api_tokens" */
 ["discord_circle_api_tokens_mutation_response"]: AliasType<{
 	/** number of rows affected by the mutation */
@@ -4433,18 +4502,33 @@ count?: [{	columns?: Array<ValueTypes["discord_circle_api_tokens_select_column"]
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by stddev() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_stddev_order_by"]: {
+	circle_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
 	/** aggregate stddev_pop on columns */
 ["discord_circle_api_tokens_stddev_pop_fields"]: AliasType<{
 	circle_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by stddev_pop() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_stddev_pop_order_by"]: {
+	circle_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
 	/** aggregate stddev_samp on columns */
 ["discord_circle_api_tokens_stddev_samp_fields"]: AliasType<{
 	circle_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by stddev_samp() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_stddev_samp_order_by"]: {
+	circle_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
 	/** Streaming cursor of the table "discord_circle_api_tokens" */
 ["discord_circle_api_tokens_stream_cursor_input"]: {
 	/** Stream column input with initial value */
@@ -4466,6 +4550,11 @@ count?: [{	columns?: Array<ValueTypes["discord_circle_api_tokens_select_column"]
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by sum() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_sum_order_by"]: {
+	circle_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
 	/** update columns of table "discord.circle_api_tokens" */
 ["discord_circle_api_tokens_update_column"]:discord_circle_api_tokens_update_column;
 	["discord_circle_api_tokens_updates"]: {
@@ -4481,18 +4570,33 @@ count?: [{	columns?: Array<ValueTypes["discord_circle_api_tokens_select_column"]
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by var_pop() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_var_pop_order_by"]: {
+	circle_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
 	/** aggregate var_samp on columns */
 ["discord_circle_api_tokens_var_samp_fields"]: AliasType<{
 	circle_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by var_samp() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_var_samp_order_by"]: {
+	circle_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
 	/** aggregate variance on columns */
 ["discord_circle_api_tokens_variance_fields"]: AliasType<{
 	circle_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by variance() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_variance_order_by"]: {
+	circle_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
 	/** link a discord role to a circle  to control membership of the circle */
 ["discord_roles_circles"]: AliasType<{
 	/** An object relationship */
@@ -4590,6 +4694,12 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 	returning?:ValueTypes["discord_roles_circles"],
 		__typename?: boolean | `@${string}`
 }>;
+	/** input type for inserting object relation for remote table "discord.roles_circles" */
+["discord_roles_circles_obj_rel_insert_input"]: {
+	data: ValueTypes["discord_roles_circles_insert_input"] | Variable<any, string>,
+	/** upsert condition */
+	on_conflict?: ValueTypes["discord_roles_circles_on_conflict"] | undefined | null | Variable<any, string>
+};
 	/** on_conflict condition type for table "discord.roles_circles" */
 ["discord_roles_circles_on_conflict"]: {
 	constraint: ValueTypes["discord_roles_circles_constraint"] | Variable<any, string>,
@@ -4780,6 +4890,12 @@ count?: [{	columns?: Array<ValueTypes["discord_users_select_column"]> | undefine
 	returning?:ValueTypes["discord_users"],
 		__typename?: boolean | `@${string}`
 }>;
+	/** input type for inserting object relation for remote table "discord.users" */
+["discord_users_obj_rel_insert_input"]: {
+	data: ValueTypes["discord_users_insert_input"] | Variable<any, string>,
+	/** upsert condition */
+	on_conflict?: ValueTypes["discord_users_on_conflict"] | undefined | null | Variable<any, string>
+};
 	/** on_conflict condition type for table "discord.users" */
 ["discord_users_on_conflict"]: {
 	constraint: ValueTypes["discord_users_constraint"] | Variable<any, string>,
@@ -7798,6 +7914,7 @@ deleteContribution?: [{	payload: ValueTypes["DeleteContributionInput"] | Variabl
 deleteDiscordUser?: [{	payload: ValueTypes["DeleteDiscordUserInput"] | Variable<any, string>},ValueTypes["ConfirmationResponse"]],
 deleteEpoch?: [{	payload: ValueTypes["DeleteEpochInput"] | Variable<any, string>},ValueTypes["DeleteEpochResponse"]],
 deleteUser?: [{	payload: ValueTypes["DeleteUserInput"] | Variable<any, string>},ValueTypes["ConfirmationResponse"]],
+deleteUsers?: [{	payload: ValueTypes["DeleteUsersInput"] | Variable<any, string>},ValueTypes["DeleteUsersResponse"]],
 delete_burns?: [{	/** filter the rows which have to be deleted */
 	where: ValueTypes["burns_bool_exp"] | Variable<any, string>},ValueTypes["burns_mutation_response"]],
 delete_burns_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["burns"]],
@@ -10262,6 +10379,8 @@ nominees_aggregate?: [{	/** distinct select on columns */
 	telegram_username?:boolean | `@${string}`,
 	twitter_username?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
+	/** An object relationship */
+	user?:ValueTypes["discord_users"],
 users?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["users_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
 	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
@@ -10351,6 +10470,7 @@ count?: [{	columns?: Array<ValueTypes["profiles_select_column"]> | undefined | n
 	telegram_username?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	twitter_username?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
+	user?: ValueTypes["discord_users_bool_exp"] | undefined | null | Variable<any, string>,
 	users?: ValueTypes["users_bool_exp"] | undefined | null | Variable<any, string>,
 	vault_transactions?: ValueTypes["vault_transactions_bool_exp"] | undefined | null | Variable<any, string>,
 	vaults?: ValueTypes["vaults_bool_exp"] | undefined | null | Variable<any, string>,
@@ -10383,6 +10503,7 @@ count?: [{	columns?: Array<ValueTypes["profiles_select_column"]> | undefined | n
 	telegram_username?: string | undefined | null | Variable<any, string>,
 	twitter_username?: string | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
+	user?: ValueTypes["discord_users_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
 	users?: ValueTypes["users_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
 	vault_transactions?: ValueTypes["vault_transactions_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
 	vaults?: ValueTypes["vaults_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
@@ -10471,6 +10592,7 @@ count?: [{	columns?: Array<ValueTypes["profiles_select_column"]> | undefined | n
 	telegram_username?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	twitter_username?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	user?: ValueTypes["discord_users_order_by"] | undefined | null | Variable<any, string>,
 	users_aggregate?: ValueTypes["users_aggregate_order_by"] | undefined | null | Variable<any, string>,
 	vault_transactions_aggregate?: ValueTypes["vault_transactions_aggregate_order_by"] | undefined | null | Variable<any, string>,
 	vaults_aggregate?: ValueTypes["vaults_aggregate_order_by"] | undefined | null | Variable<any, string>,
@@ -10922,6 +11044,7 @@ personal_access_tokens_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ValueTypes["personal_access_tokens_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
 	where?: ValueTypes["personal_access_tokens_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["personal_access_tokens_aggregate"]],
 personal_access_tokens_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["personal_access_tokens"]],
+price_per_share?: [{	chain_id: number | Variable<any, string>,	token_address?: string | undefined | null | Variable<any, string>},boolean | `@${string}`],
 profiles?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["profiles_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
 	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
@@ -13682,6 +13805,7 @@ distributions_aggregate?: [{	/** distinct select on columns */
 	org_id?:boolean | `@${string}`,
 	/** An object relationship */
 	organization?:ValueTypes["organizations"],
+	price_per_share?:boolean | `@${string}`,
 	/** An object relationship */
 	profile?:ValueTypes["profiles"],
 	simple_token_address?:boolean | `@${string}`,
@@ -14532,6 +14656,14 @@ users_aggregate?: [{	/** distinct select on columns */
 	address: string,
 	circle_id: number
 };
+	["DeleteUsersInput"]: {
+	addresses: Array<string>,
+	circle_id: number
+};
+	["DeleteUsersResponse"]: AliasType<{
+	success?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["EpochResponse"]: AliasType<{
 	epoch?:ResolverInputTypes["epochs"],
 	id?:boolean | `@${string}`,
@@ -16452,6 +16584,20 @@ contributions_aggregate?: [{	/** distinct select on columns */
 	created_at?:boolean | `@${string}`,
 	default_opt_in?:boolean | `@${string}`,
 	deleted_at?:boolean | `@${string}`,
+discord_access_tokens?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["discord_circle_api_tokens_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["discord_circle_api_tokens_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["discord_circle_api_tokens_bool_exp"] | undefined | null},ResolverInputTypes["discord_circle_api_tokens"]],
+discord_access_tokens_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["discord_circle_api_tokens_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["discord_circle_api_tokens_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["discord_circle_api_tokens_bool_exp"] | undefined | null},ResolverInputTypes["discord_circle_api_tokens_aggregate"]],
+	/** An object relationship */
+	discord_circle?:ResolverInputTypes["discord_roles_circles"],
 	discord_webhook?:boolean | `@${string}`,
 epochs?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["epochs_select_column"]> | undefined | null,	/** limit the number of rows returned */
@@ -16633,6 +16779,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	created_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	default_opt_in?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	deleted_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
+	discord_access_tokens?: ResolverInputTypes["discord_circle_api_tokens_bool_exp"] | undefined | null,
+	discord_circle?: ResolverInputTypes["discord_roles_circles_bool_exp"] | undefined | null,
 	discord_webhook?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	epochs?: ResolverInputTypes["epochs_bool_exp"] | undefined | null,
 	fixed_payment_token_type?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
@@ -16684,6 +16832,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	created_at?: ResolverInputTypes["timestamp"] | undefined | null,
 	default_opt_in?: boolean | undefined | null,
 	deleted_at?: ResolverInputTypes["timestamp"] | undefined | null,
+	discord_access_tokens?: ResolverInputTypes["discord_circle_api_tokens_arr_rel_insert_input"] | undefined | null,
+	discord_circle?: ResolverInputTypes["discord_roles_circles_obj_rel_insert_input"] | undefined | null,
 	discord_webhook?: string | undefined | null,
 	epochs?: ResolverInputTypes["epochs_arr_rel_insert_input"] | undefined | null,
 	fixed_payment_token_type?: string | undefined | null,
@@ -16831,6 +16981,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	created_at?: ResolverInputTypes["order_by"] | undefined | null,
 	default_opt_in?: ResolverInputTypes["order_by"] | undefined | null,
 	deleted_at?: ResolverInputTypes["order_by"] | undefined | null,
+	discord_access_tokens_aggregate?: ResolverInputTypes["discord_circle_api_tokens_aggregate_order_by"] | undefined | null,
+	discord_circle?: ResolverInputTypes["discord_roles_circles_order_by"] | undefined | null,
 	discord_webhook?: ResolverInputTypes["order_by"] | undefined | null,
 	epochs_aggregate?: ResolverInputTypes["epochs_aggregate_order_by"] | undefined | null,
 	fixed_payment_token_type?: ResolverInputTypes["order_by"] | undefined | null,
@@ -17859,12 +18011,37 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_circle_api_tokens_select_
 	variance?:ResolverInputTypes["discord_circle_api_tokens_variance_fields"],
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by aggregate values of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_aggregate_order_by"]: {
+	avg?: ResolverInputTypes["discord_circle_api_tokens_avg_order_by"] | undefined | null,
+	count?: ResolverInputTypes["order_by"] | undefined | null,
+	max?: ResolverInputTypes["discord_circle_api_tokens_max_order_by"] | undefined | null,
+	min?: ResolverInputTypes["discord_circle_api_tokens_min_order_by"] | undefined | null,
+	stddev?: ResolverInputTypes["discord_circle_api_tokens_stddev_order_by"] | undefined | null,
+	stddev_pop?: ResolverInputTypes["discord_circle_api_tokens_stddev_pop_order_by"] | undefined | null,
+	stddev_samp?: ResolverInputTypes["discord_circle_api_tokens_stddev_samp_order_by"] | undefined | null,
+	sum?: ResolverInputTypes["discord_circle_api_tokens_sum_order_by"] | undefined | null,
+	var_pop?: ResolverInputTypes["discord_circle_api_tokens_var_pop_order_by"] | undefined | null,
+	var_samp?: ResolverInputTypes["discord_circle_api_tokens_var_samp_order_by"] | undefined | null,
+	variance?: ResolverInputTypes["discord_circle_api_tokens_variance_order_by"] | undefined | null
+};
+	/** input type for inserting array relation for remote table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_arr_rel_insert_input"]: {
+	data: Array<ResolverInputTypes["discord_circle_api_tokens_insert_input"]>,
+	/** upsert condition */
+	on_conflict?: ResolverInputTypes["discord_circle_api_tokens_on_conflict"] | undefined | null
+};
 	/** aggregate avg on columns */
 ["discord_circle_api_tokens_avg_fields"]: AliasType<{
 	circle_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by avg() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_avg_order_by"]: {
+	circle_id?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null
+};
 	/** Boolean expression to filter rows from the table "discord.circle_api_tokens". All fields are combined with a logical 'AND'. */
 ["discord_circle_api_tokens_bool_exp"]: {
 	_and?: Array<ResolverInputTypes["discord_circle_api_tokens_bool_exp"]> | undefined | null,
@@ -17900,6 +18077,14 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_circle_api_tokens_select_
 	token?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by max() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_max_order_by"]: {
+	channel_snowflake?: ResolverInputTypes["order_by"] | undefined | null,
+	circle_id?: ResolverInputTypes["order_by"] | undefined | null,
+	created_at?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	token?: ResolverInputTypes["order_by"] | undefined | null
+};
 	/** aggregate min on columns */
 ["discord_circle_api_tokens_min_fields"]: AliasType<{
 	channel_snowflake?:boolean | `@${string}`,
@@ -17909,6 +18094,14 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_circle_api_tokens_select_
 	token?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by min() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_min_order_by"]: {
+	channel_snowflake?: ResolverInputTypes["order_by"] | undefined | null,
+	circle_id?: ResolverInputTypes["order_by"] | undefined | null,
+	created_at?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	token?: ResolverInputTypes["order_by"] | undefined | null
+};
 	/** response of any mutation on the table "discord.circle_api_tokens" */
 ["discord_circle_api_tokens_mutation_response"]: AliasType<{
 	/** number of rows affected by the mutation */
@@ -17951,18 +18144,33 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_circle_api_tokens_select_
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by stddev() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_stddev_order_by"]: {
+	circle_id?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null
+};
 	/** aggregate stddev_pop on columns */
 ["discord_circle_api_tokens_stddev_pop_fields"]: AliasType<{
 	circle_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by stddev_pop() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_stddev_pop_order_by"]: {
+	circle_id?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null
+};
 	/** aggregate stddev_samp on columns */
 ["discord_circle_api_tokens_stddev_samp_fields"]: AliasType<{
 	circle_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by stddev_samp() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_stddev_samp_order_by"]: {
+	circle_id?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null
+};
 	/** Streaming cursor of the table "discord_circle_api_tokens" */
 ["discord_circle_api_tokens_stream_cursor_input"]: {
 	/** Stream column input with initial value */
@@ -17984,6 +18192,11 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_circle_api_tokens_select_
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by sum() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_sum_order_by"]: {
+	circle_id?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null
+};
 	/** update columns of table "discord.circle_api_tokens" */
 ["discord_circle_api_tokens_update_column"]:discord_circle_api_tokens_update_column;
 	["discord_circle_api_tokens_updates"]: {
@@ -17999,18 +18212,33 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_circle_api_tokens_select_
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by var_pop() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_var_pop_order_by"]: {
+	circle_id?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null
+};
 	/** aggregate var_samp on columns */
 ["discord_circle_api_tokens_var_samp_fields"]: AliasType<{
 	circle_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by var_samp() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_var_samp_order_by"]: {
+	circle_id?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null
+};
 	/** aggregate variance on columns */
 ["discord_circle_api_tokens_variance_fields"]: AliasType<{
 	circle_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** order by variance() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_variance_order_by"]: {
+	circle_id?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null
+};
 	/** link a discord role to a circle  to control membership of the circle */
 ["discord_roles_circles"]: AliasType<{
 	/** An object relationship */
@@ -18108,6 +18336,12 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 	returning?:ResolverInputTypes["discord_roles_circles"],
 		__typename?: boolean | `@${string}`
 }>;
+	/** input type for inserting object relation for remote table "discord.roles_circles" */
+["discord_roles_circles_obj_rel_insert_input"]: {
+	data: ResolverInputTypes["discord_roles_circles_insert_input"],
+	/** upsert condition */
+	on_conflict?: ResolverInputTypes["discord_roles_circles_on_conflict"] | undefined | null
+};
 	/** on_conflict condition type for table "discord.roles_circles" */
 ["discord_roles_circles_on_conflict"]: {
 	constraint: ResolverInputTypes["discord_roles_circles_constraint"],
@@ -18298,6 +18532,12 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_users_select_column"]> | 
 	returning?:ResolverInputTypes["discord_users"],
 		__typename?: boolean | `@${string}`
 }>;
+	/** input type for inserting object relation for remote table "discord.users" */
+["discord_users_obj_rel_insert_input"]: {
+	data: ResolverInputTypes["discord_users_insert_input"],
+	/** upsert condition */
+	on_conflict?: ResolverInputTypes["discord_users_on_conflict"] | undefined | null
+};
 	/** on_conflict condition type for table "discord.users" */
 ["discord_users_on_conflict"]: {
 	constraint: ResolverInputTypes["discord_users_constraint"],
@@ -21316,6 +21556,7 @@ deleteContribution?: [{	payload: ResolverInputTypes["DeleteContributionInput"]},
 deleteDiscordUser?: [{	payload: ResolverInputTypes["DeleteDiscordUserInput"]},ResolverInputTypes["ConfirmationResponse"]],
 deleteEpoch?: [{	payload: ResolverInputTypes["DeleteEpochInput"]},ResolverInputTypes["DeleteEpochResponse"]],
 deleteUser?: [{	payload: ResolverInputTypes["DeleteUserInput"]},ResolverInputTypes["ConfirmationResponse"]],
+deleteUsers?: [{	payload: ResolverInputTypes["DeleteUsersInput"]},ResolverInputTypes["DeleteUsersResponse"]],
 delete_burns?: [{	/** filter the rows which have to be deleted */
 	where: ResolverInputTypes["burns_bool_exp"]},ResolverInputTypes["burns_mutation_response"]],
 delete_burns_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["burns"]],
@@ -23780,6 +24021,8 @@ nominees_aggregate?: [{	/** distinct select on columns */
 	telegram_username?:boolean | `@${string}`,
 	twitter_username?:boolean | `@${string}`,
 	updated_at?:boolean | `@${string}`,
+	/** An object relationship */
+	user?:ResolverInputTypes["discord_users"],
 users?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["users_select_column"]> | undefined | null,	/** limit the number of rows returned */
 	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
@@ -23869,6 +24112,7 @@ count?: [{	columns?: Array<ResolverInputTypes["profiles_select_column"]> | undef
 	telegram_username?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	twitter_username?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
+	user?: ResolverInputTypes["discord_users_bool_exp"] | undefined | null,
 	users?: ResolverInputTypes["users_bool_exp"] | undefined | null,
 	vault_transactions?: ResolverInputTypes["vault_transactions_bool_exp"] | undefined | null,
 	vaults?: ResolverInputTypes["vaults_bool_exp"] | undefined | null,
@@ -23901,6 +24145,7 @@ count?: [{	columns?: Array<ResolverInputTypes["profiles_select_column"]> | undef
 	telegram_username?: string | undefined | null,
 	twitter_username?: string | undefined | null,
 	updated_at?: ResolverInputTypes["timestamp"] | undefined | null,
+	user?: ResolverInputTypes["discord_users_obj_rel_insert_input"] | undefined | null,
 	users?: ResolverInputTypes["users_arr_rel_insert_input"] | undefined | null,
 	vault_transactions?: ResolverInputTypes["vault_transactions_arr_rel_insert_input"] | undefined | null,
 	vaults?: ResolverInputTypes["vaults_arr_rel_insert_input"] | undefined | null,
@@ -23989,6 +24234,7 @@ count?: [{	columns?: Array<ResolverInputTypes["profiles_select_column"]> | undef
 	telegram_username?: ResolverInputTypes["order_by"] | undefined | null,
 	twitter_username?: ResolverInputTypes["order_by"] | undefined | null,
 	updated_at?: ResolverInputTypes["order_by"] | undefined | null,
+	user?: ResolverInputTypes["discord_users_order_by"] | undefined | null,
 	users_aggregate?: ResolverInputTypes["users_aggregate_order_by"] | undefined | null,
 	vault_transactions_aggregate?: ResolverInputTypes["vault_transactions_aggregate_order_by"] | undefined | null,
 	vaults_aggregate?: ResolverInputTypes["vaults_aggregate_order_by"] | undefined | null,
@@ -24440,6 +24686,7 @@ personal_access_tokens_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ResolverInputTypes["personal_access_tokens_order_by"]> | undefined | null,	/** filter the rows returned */
 	where?: ResolverInputTypes["personal_access_tokens_bool_exp"] | undefined | null},ResolverInputTypes["personal_access_tokens_aggregate"]],
 personal_access_tokens_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["personal_access_tokens"]],
+price_per_share?: [{	chain_id: number,	token_address?: string | undefined | null},boolean | `@${string}`],
 profiles?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["profiles_select_column"]> | undefined | null,	/** limit the number of rows returned */
 	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
@@ -27200,6 +27447,7 @@ distributions_aggregate?: [{	/** distinct select on columns */
 	org_id?:boolean | `@${string}`,
 	/** An object relationship */
 	organization?:ResolverInputTypes["organizations"],
+	price_per_share?:boolean | `@${string}`,
 	/** An object relationship */
 	profile?:ResolverInputTypes["profiles"],
 	simple_token_address?:boolean | `@${string}`,
@@ -28034,6 +28282,13 @@ export type ModelTypes = {
 	["DeleteUserInput"]: {
 	address: string,
 	circle_id: number
+};
+	["DeleteUsersInput"]: {
+	addresses: Array<string>,
+	circle_id: number
+};
+	["DeleteUsersResponse"]: {
+		success: boolean
 };
 	["EpochResponse"]: {
 		epoch?: ModelTypes["epochs"] | undefined,
@@ -29805,6 +30060,12 @@ export type ModelTypes = {
 	created_at: ModelTypes["timestamp"],
 	default_opt_in: boolean,
 	deleted_at?: ModelTypes["timestamp"] | undefined,
+	/** An array relationship */
+	discord_access_tokens: Array<ModelTypes["discord_circle_api_tokens"]>,
+	/** An aggregate relationship */
+	discord_access_tokens_aggregate: ModelTypes["discord_circle_api_tokens_aggregate"],
+	/** An object relationship */
+	discord_circle?: ModelTypes["discord_roles_circles"] | undefined,
 	discord_webhook?: string | undefined,
 	/** An array relationship */
 	epochs: Array<ModelTypes["epochs"]>,
@@ -29926,6 +30187,8 @@ export type ModelTypes = {
 	created_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	default_opt_in?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	deleted_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
+	discord_access_tokens?: ModelTypes["discord_circle_api_tokens_bool_exp"] | undefined,
+	discord_circle?: ModelTypes["discord_roles_circles_bool_exp"] | undefined,
 	discord_webhook?: ModelTypes["String_comparison_exp"] | undefined,
 	epochs?: ModelTypes["epochs_bool_exp"] | undefined,
 	fixed_payment_token_type?: ModelTypes["String_comparison_exp"] | undefined,
@@ -29976,6 +30239,8 @@ export type ModelTypes = {
 	created_at?: ModelTypes["timestamp"] | undefined,
 	default_opt_in?: boolean | undefined,
 	deleted_at?: ModelTypes["timestamp"] | undefined,
+	discord_access_tokens?: ModelTypes["discord_circle_api_tokens_arr_rel_insert_input"] | undefined,
+	discord_circle?: ModelTypes["discord_roles_circles_obj_rel_insert_input"] | undefined,
 	discord_webhook?: string | undefined,
 	epochs?: ModelTypes["epochs_arr_rel_insert_input"] | undefined,
 	fixed_payment_token_type?: string | undefined,
@@ -30120,6 +30385,8 @@ export type ModelTypes = {
 	created_at?: ModelTypes["order_by"] | undefined,
 	default_opt_in?: ModelTypes["order_by"] | undefined,
 	deleted_at?: ModelTypes["order_by"] | undefined,
+	discord_access_tokens_aggregate?: ModelTypes["discord_circle_api_tokens_aggregate_order_by"] | undefined,
+	discord_circle?: ModelTypes["discord_roles_circles_order_by"] | undefined,
 	discord_webhook?: ModelTypes["order_by"] | undefined,
 	epochs_aggregate?: ModelTypes["epochs_aggregate_order_by"] | undefined,
 	fixed_payment_token_type?: ModelTypes["order_by"] | undefined,
@@ -31101,10 +31368,35 @@ export type ModelTypes = {
 	var_samp?: ModelTypes["discord_circle_api_tokens_var_samp_fields"] | undefined,
 	variance?: ModelTypes["discord_circle_api_tokens_variance_fields"] | undefined
 };
+	/** order by aggregate values of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_aggregate_order_by"]: {
+	avg?: ModelTypes["discord_circle_api_tokens_avg_order_by"] | undefined,
+	count?: ModelTypes["order_by"] | undefined,
+	max?: ModelTypes["discord_circle_api_tokens_max_order_by"] | undefined,
+	min?: ModelTypes["discord_circle_api_tokens_min_order_by"] | undefined,
+	stddev?: ModelTypes["discord_circle_api_tokens_stddev_order_by"] | undefined,
+	stddev_pop?: ModelTypes["discord_circle_api_tokens_stddev_pop_order_by"] | undefined,
+	stddev_samp?: ModelTypes["discord_circle_api_tokens_stddev_samp_order_by"] | undefined,
+	sum?: ModelTypes["discord_circle_api_tokens_sum_order_by"] | undefined,
+	var_pop?: ModelTypes["discord_circle_api_tokens_var_pop_order_by"] | undefined,
+	var_samp?: ModelTypes["discord_circle_api_tokens_var_samp_order_by"] | undefined,
+	variance?: ModelTypes["discord_circle_api_tokens_variance_order_by"] | undefined
+};
+	/** input type for inserting array relation for remote table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_arr_rel_insert_input"]: {
+	data: Array<ModelTypes["discord_circle_api_tokens_insert_input"]>,
+	/** upsert condition */
+	on_conflict?: ModelTypes["discord_circle_api_tokens_on_conflict"] | undefined
+};
 	/** aggregate avg on columns */
 ["discord_circle_api_tokens_avg_fields"]: {
 		circle_id?: number | undefined,
 	id?: number | undefined
+};
+	/** order by avg() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_avg_order_by"]: {
+	circle_id?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined
 };
 	/** Boolean expression to filter rows from the table "discord.circle_api_tokens". All fields are combined with a logical 'AND'. */
 ["discord_circle_api_tokens_bool_exp"]: {
@@ -31139,6 +31431,14 @@ export type ModelTypes = {
 	id?: ModelTypes["bigint"] | undefined,
 	token?: string | undefined
 };
+	/** order by max() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_max_order_by"]: {
+	channel_snowflake?: ModelTypes["order_by"] | undefined,
+	circle_id?: ModelTypes["order_by"] | undefined,
+	created_at?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	token?: ModelTypes["order_by"] | undefined
+};
 	/** aggregate min on columns */
 ["discord_circle_api_tokens_min_fields"]: {
 		channel_snowflake?: string | undefined,
@@ -31146,6 +31446,14 @@ export type ModelTypes = {
 	created_at?: ModelTypes["timestamptz"] | undefined,
 	id?: ModelTypes["bigint"] | undefined,
 	token?: string | undefined
+};
+	/** order by min() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_min_order_by"]: {
+	channel_snowflake?: ModelTypes["order_by"] | undefined,
+	circle_id?: ModelTypes["order_by"] | undefined,
+	created_at?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	token?: ModelTypes["order_by"] | undefined
 };
 	/** response of any mutation on the table "discord.circle_api_tokens" */
 ["discord_circle_api_tokens_mutation_response"]: {
@@ -31186,15 +31494,30 @@ export type ModelTypes = {
 		circle_id?: number | undefined,
 	id?: number | undefined
 };
+	/** order by stddev() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_stddev_order_by"]: {
+	circle_id?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined
+};
 	/** aggregate stddev_pop on columns */
 ["discord_circle_api_tokens_stddev_pop_fields"]: {
 		circle_id?: number | undefined,
 	id?: number | undefined
 };
+	/** order by stddev_pop() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_stddev_pop_order_by"]: {
+	circle_id?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined
+};
 	/** aggregate stddev_samp on columns */
 ["discord_circle_api_tokens_stddev_samp_fields"]: {
 		circle_id?: number | undefined,
 	id?: number | undefined
+};
+	/** order by stddev_samp() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_stddev_samp_order_by"]: {
+	circle_id?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined
 };
 	/** Streaming cursor of the table "discord_circle_api_tokens" */
 ["discord_circle_api_tokens_stream_cursor_input"]: {
@@ -31216,6 +31539,11 @@ export type ModelTypes = {
 		circle_id?: ModelTypes["bigint"] | undefined,
 	id?: ModelTypes["bigint"] | undefined
 };
+	/** order by sum() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_sum_order_by"]: {
+	circle_id?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined
+};
 	["discord_circle_api_tokens_update_column"]:discord_circle_api_tokens_update_column;
 	["discord_circle_api_tokens_updates"]: {
 	/** increments the numeric columns with given value of the filtered values */
@@ -31229,15 +31557,30 @@ export type ModelTypes = {
 		circle_id?: number | undefined,
 	id?: number | undefined
 };
+	/** order by var_pop() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_var_pop_order_by"]: {
+	circle_id?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined
+};
 	/** aggregate var_samp on columns */
 ["discord_circle_api_tokens_var_samp_fields"]: {
 		circle_id?: number | undefined,
 	id?: number | undefined
 };
+	/** order by var_samp() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_var_samp_order_by"]: {
+	circle_id?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined
+};
 	/** aggregate variance on columns */
 ["discord_circle_api_tokens_variance_fields"]: {
 		circle_id?: number | undefined,
 	id?: number | undefined
+};
+	/** order by variance() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_variance_order_by"]: {
+	circle_id?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined
 };
 	/** link a discord role to a circle  to control membership of the circle */
 ["discord_roles_circles"]: {
@@ -31327,6 +31670,12 @@ export type ModelTypes = {
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
 	returning: Array<ModelTypes["discord_roles_circles"]>
+};
+	/** input type for inserting object relation for remote table "discord.roles_circles" */
+["discord_roles_circles_obj_rel_insert_input"]: {
+	data: ModelTypes["discord_roles_circles_insert_input"],
+	/** upsert condition */
+	on_conflict?: ModelTypes["discord_roles_circles_on_conflict"] | undefined
 };
 	/** on_conflict condition type for table "discord.roles_circles" */
 ["discord_roles_circles_on_conflict"]: {
@@ -31500,6 +31849,12 @@ export type ModelTypes = {
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
 	returning: Array<ModelTypes["discord_users"]>
+};
+	/** input type for inserting object relation for remote table "discord.users" */
+["discord_users_obj_rel_insert_input"]: {
+	data: ModelTypes["discord_users_insert_input"],
+	/** upsert condition */
+	on_conflict?: ModelTypes["discord_users_on_conflict"] | undefined
 };
 	/** on_conflict condition type for table "discord.users" */
 ["discord_users_on_conflict"]: {
@@ -34302,6 +34657,7 @@ export type ModelTypes = {
 	deleteDiscordUser?: ModelTypes["ConfirmationResponse"] | undefined,
 	deleteEpoch?: ModelTypes["DeleteEpochResponse"] | undefined,
 	deleteUser?: ModelTypes["ConfirmationResponse"] | undefined,
+	deleteUsers?: ModelTypes["DeleteUsersResponse"] | undefined,
 	/** delete data from the table: "burns" */
 	delete_burns?: ModelTypes["burns_mutation_response"] | undefined,
 	/** delete single row from the table: "burns" */
@@ -36469,6 +36825,8 @@ export type ModelTypes = {
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
 	updated_at: ModelTypes["timestamp"],
+	/** An object relationship */
+	user?: ModelTypes["discord_users"] | undefined,
 	/** An array relationship */
 	users: Array<ModelTypes["users"]>,
 	/** An aggregate relationship */
@@ -36530,6 +36888,7 @@ export type ModelTypes = {
 	telegram_username?: ModelTypes["String_comparison_exp"] | undefined,
 	twitter_username?: ModelTypes["String_comparison_exp"] | undefined,
 	updated_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
+	user?: ModelTypes["discord_users_bool_exp"] | undefined,
 	users?: ModelTypes["users_bool_exp"] | undefined,
 	vault_transactions?: ModelTypes["vault_transactions_bool_exp"] | undefined,
 	vaults?: ModelTypes["vaults_bool_exp"] | undefined,
@@ -36561,6 +36920,7 @@ export type ModelTypes = {
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
 	updated_at?: ModelTypes["timestamp"] | undefined,
+	user?: ModelTypes["discord_users_obj_rel_insert_input"] | undefined,
 	users?: ModelTypes["users_arr_rel_insert_input"] | undefined,
 	vault_transactions?: ModelTypes["vault_transactions_arr_rel_insert_input"] | undefined,
 	vaults?: ModelTypes["vaults_arr_rel_insert_input"] | undefined,
@@ -36646,6 +37006,7 @@ export type ModelTypes = {
 	telegram_username?: ModelTypes["order_by"] | undefined,
 	twitter_username?: ModelTypes["order_by"] | undefined,
 	updated_at?: ModelTypes["order_by"] | undefined,
+	user?: ModelTypes["discord_users_order_by"] | undefined,
 	users_aggregate?: ModelTypes["users_aggregate_order_by"] | undefined,
 	vault_transactions_aggregate?: ModelTypes["vault_transactions_aggregate_order_by"] | undefined,
 	vaults_aggregate?: ModelTypes["vaults_aggregate_order_by"] | undefined,
@@ -36896,6 +37257,7 @@ export type ModelTypes = {
 	personal_access_tokens_aggregate: ModelTypes["personal_access_tokens_aggregate"],
 	/** fetch data from the table: "personal_access_tokens" using primary key columns */
 	personal_access_tokens_by_pk?: ModelTypes["personal_access_tokens"] | undefined,
+	price_per_share: number,
 	/** fetch data from the table: "profiles" */
 	profiles: Array<ModelTypes["profiles"]>,
 	/** fetch aggregated fields from the table: "profiles" */
@@ -39083,6 +39445,7 @@ export type ModelTypes = {
 	org_id: ModelTypes["bigint"],
 	/** An object relationship */
 	organization: ModelTypes["organizations"],
+	price_per_share: number,
 	/** An object relationship */
 	profile: ModelTypes["profiles"],
 	simple_token_address: string,
@@ -39882,6 +40245,14 @@ export type GraphQLTypes = {
 	["DeleteUserInput"]: {
 		address: string,
 	circle_id: number
+};
+	["DeleteUsersInput"]: {
+		addresses: Array<string>,
+	circle_id: number
+};
+	["DeleteUsersResponse"]: {
+	__typename: "DeleteUsersResponse",
+	success: boolean
 };
 	["EpochResponse"]: {
 	__typename: "EpochResponse",
@@ -41770,6 +42141,12 @@ export type GraphQLTypes = {
 	created_at: GraphQLTypes["timestamp"],
 	default_opt_in: boolean,
 	deleted_at?: GraphQLTypes["timestamp"] | undefined,
+	/** An array relationship */
+	discord_access_tokens: Array<GraphQLTypes["discord_circle_api_tokens"]>,
+	/** An aggregate relationship */
+	discord_access_tokens_aggregate: GraphQLTypes["discord_circle_api_tokens_aggregate"],
+	/** An object relationship */
+	discord_circle?: GraphQLTypes["discord_roles_circles"] | undefined,
 	discord_webhook?: string | undefined,
 	/** An array relationship */
 	epochs: Array<GraphQLTypes["epochs"]>,
@@ -41894,6 +42271,8 @@ export type GraphQLTypes = {
 	created_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	default_opt_in?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	deleted_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
+	discord_access_tokens?: GraphQLTypes["discord_circle_api_tokens_bool_exp"] | undefined,
+	discord_circle?: GraphQLTypes["discord_roles_circles_bool_exp"] | undefined,
 	discord_webhook?: GraphQLTypes["String_comparison_exp"] | undefined,
 	epochs?: GraphQLTypes["epochs_bool_exp"] | undefined,
 	fixed_payment_token_type?: GraphQLTypes["String_comparison_exp"] | undefined,
@@ -41945,6 +42324,8 @@ export type GraphQLTypes = {
 	created_at?: GraphQLTypes["timestamp"] | undefined,
 	default_opt_in?: boolean | undefined,
 	deleted_at?: GraphQLTypes["timestamp"] | undefined,
+	discord_access_tokens?: GraphQLTypes["discord_circle_api_tokens_arr_rel_insert_input"] | undefined,
+	discord_circle?: GraphQLTypes["discord_roles_circles_obj_rel_insert_input"] | undefined,
 	discord_webhook?: string | undefined,
 	epochs?: GraphQLTypes["epochs_arr_rel_insert_input"] | undefined,
 	fixed_payment_token_type?: string | undefined,
@@ -42092,6 +42473,8 @@ export type GraphQLTypes = {
 	created_at?: GraphQLTypes["order_by"] | undefined,
 	default_opt_in?: GraphQLTypes["order_by"] | undefined,
 	deleted_at?: GraphQLTypes["order_by"] | undefined,
+	discord_access_tokens_aggregate?: GraphQLTypes["discord_circle_api_tokens_aggregate_order_by"] | undefined,
+	discord_circle?: GraphQLTypes["discord_roles_circles_order_by"] | undefined,
 	discord_webhook?: GraphQLTypes["order_by"] | undefined,
 	epochs_aggregate?: GraphQLTypes["epochs_aggregate_order_by"] | undefined,
 	fixed_payment_token_type?: GraphQLTypes["order_by"] | undefined,
@@ -43120,11 +43503,36 @@ export type GraphQLTypes = {
 	var_samp?: GraphQLTypes["discord_circle_api_tokens_var_samp_fields"] | undefined,
 	variance?: GraphQLTypes["discord_circle_api_tokens_variance_fields"] | undefined
 };
+	/** order by aggregate values of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_aggregate_order_by"]: {
+		avg?: GraphQLTypes["discord_circle_api_tokens_avg_order_by"] | undefined,
+	count?: GraphQLTypes["order_by"] | undefined,
+	max?: GraphQLTypes["discord_circle_api_tokens_max_order_by"] | undefined,
+	min?: GraphQLTypes["discord_circle_api_tokens_min_order_by"] | undefined,
+	stddev?: GraphQLTypes["discord_circle_api_tokens_stddev_order_by"] | undefined,
+	stddev_pop?: GraphQLTypes["discord_circle_api_tokens_stddev_pop_order_by"] | undefined,
+	stddev_samp?: GraphQLTypes["discord_circle_api_tokens_stddev_samp_order_by"] | undefined,
+	sum?: GraphQLTypes["discord_circle_api_tokens_sum_order_by"] | undefined,
+	var_pop?: GraphQLTypes["discord_circle_api_tokens_var_pop_order_by"] | undefined,
+	var_samp?: GraphQLTypes["discord_circle_api_tokens_var_samp_order_by"] | undefined,
+	variance?: GraphQLTypes["discord_circle_api_tokens_variance_order_by"] | undefined
+};
+	/** input type for inserting array relation for remote table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_arr_rel_insert_input"]: {
+		data: Array<GraphQLTypes["discord_circle_api_tokens_insert_input"]>,
+	/** upsert condition */
+	on_conflict?: GraphQLTypes["discord_circle_api_tokens_on_conflict"] | undefined
+};
 	/** aggregate avg on columns */
 ["discord_circle_api_tokens_avg_fields"]: {
 	__typename: "discord_circle_api_tokens_avg_fields",
 	circle_id?: number | undefined,
 	id?: number | undefined
+};
+	/** order by avg() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_avg_order_by"]: {
+		circle_id?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined
 };
 	/** Boolean expression to filter rows from the table "discord.circle_api_tokens". All fields are combined with a logical 'AND'. */
 ["discord_circle_api_tokens_bool_exp"]: {
@@ -43161,6 +43569,14 @@ export type GraphQLTypes = {
 	id?: GraphQLTypes["bigint"] | undefined,
 	token?: string | undefined
 };
+	/** order by max() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_max_order_by"]: {
+		channel_snowflake?: GraphQLTypes["order_by"] | undefined,
+	circle_id?: GraphQLTypes["order_by"] | undefined,
+	created_at?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	token?: GraphQLTypes["order_by"] | undefined
+};
 	/** aggregate min on columns */
 ["discord_circle_api_tokens_min_fields"]: {
 	__typename: "discord_circle_api_tokens_min_fields",
@@ -43169,6 +43585,14 @@ export type GraphQLTypes = {
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
 	token?: string | undefined
+};
+	/** order by min() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_min_order_by"]: {
+		channel_snowflake?: GraphQLTypes["order_by"] | undefined,
+	circle_id?: GraphQLTypes["order_by"] | undefined,
+	created_at?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	token?: GraphQLTypes["order_by"] | undefined
 };
 	/** response of any mutation on the table "discord.circle_api_tokens" */
 ["discord_circle_api_tokens_mutation_response"]: {
@@ -43212,17 +43636,32 @@ export type GraphQLTypes = {
 	circle_id?: number | undefined,
 	id?: number | undefined
 };
+	/** order by stddev() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_stddev_order_by"]: {
+		circle_id?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined
+};
 	/** aggregate stddev_pop on columns */
 ["discord_circle_api_tokens_stddev_pop_fields"]: {
 	__typename: "discord_circle_api_tokens_stddev_pop_fields",
 	circle_id?: number | undefined,
 	id?: number | undefined
 };
+	/** order by stddev_pop() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_stddev_pop_order_by"]: {
+		circle_id?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined
+};
 	/** aggregate stddev_samp on columns */
 ["discord_circle_api_tokens_stddev_samp_fields"]: {
 	__typename: "discord_circle_api_tokens_stddev_samp_fields",
 	circle_id?: number | undefined,
 	id?: number | undefined
+};
+	/** order by stddev_samp() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_stddev_samp_order_by"]: {
+		circle_id?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined
 };
 	/** Streaming cursor of the table "discord_circle_api_tokens" */
 ["discord_circle_api_tokens_stream_cursor_input"]: {
@@ -43245,6 +43684,11 @@ export type GraphQLTypes = {
 	circle_id?: GraphQLTypes["bigint"] | undefined,
 	id?: GraphQLTypes["bigint"] | undefined
 };
+	/** order by sum() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_sum_order_by"]: {
+		circle_id?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined
+};
 	/** update columns of table "discord.circle_api_tokens" */
 ["discord_circle_api_tokens_update_column"]: discord_circle_api_tokens_update_column;
 	["discord_circle_api_tokens_updates"]: {
@@ -43260,17 +43704,32 @@ export type GraphQLTypes = {
 	circle_id?: number | undefined,
 	id?: number | undefined
 };
+	/** order by var_pop() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_var_pop_order_by"]: {
+		circle_id?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined
+};
 	/** aggregate var_samp on columns */
 ["discord_circle_api_tokens_var_samp_fields"]: {
 	__typename: "discord_circle_api_tokens_var_samp_fields",
 	circle_id?: number | undefined,
 	id?: number | undefined
 };
+	/** order by var_samp() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_var_samp_order_by"]: {
+		circle_id?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined
+};
 	/** aggregate variance on columns */
 ["discord_circle_api_tokens_variance_fields"]: {
 	__typename: "discord_circle_api_tokens_variance_fields",
 	circle_id?: number | undefined,
 	id?: number | undefined
+};
+	/** order by variance() on columns of table "discord.circle_api_tokens" */
+["discord_circle_api_tokens_variance_order_by"]: {
+		circle_id?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined
 };
 	/** link a discord role to a circle  to control membership of the circle */
 ["discord_roles_circles"]: {
@@ -43368,6 +43827,12 @@ export type GraphQLTypes = {
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
 	returning: Array<GraphQLTypes["discord_roles_circles"]>
+};
+	/** input type for inserting object relation for remote table "discord.roles_circles" */
+["discord_roles_circles_obj_rel_insert_input"]: {
+		data: GraphQLTypes["discord_roles_circles_insert_input"],
+	/** upsert condition */
+	on_conflict?: GraphQLTypes["discord_roles_circles_on_conflict"] | undefined
 };
 	/** on_conflict condition type for table "discord.roles_circles" */
 ["discord_roles_circles_on_conflict"]: {
@@ -43558,6 +44023,12 @@ export type GraphQLTypes = {
 	affected_rows: number,
 	/** data from the rows affected by the mutation */
 	returning: Array<GraphQLTypes["discord_users"]>
+};
+	/** input type for inserting object relation for remote table "discord.users" */
+["discord_users_obj_rel_insert_input"]: {
+		data: GraphQLTypes["discord_users_insert_input"],
+	/** upsert condition */
+	on_conflict?: GraphQLTypes["discord_users_on_conflict"] | undefined
 };
 	/** on_conflict condition type for table "discord.users" */
 ["discord_users_on_conflict"]: {
@@ -46521,6 +46992,7 @@ export type GraphQLTypes = {
 	deleteDiscordUser?: GraphQLTypes["ConfirmationResponse"] | undefined,
 	deleteEpoch?: GraphQLTypes["DeleteEpochResponse"] | undefined,
 	deleteUser?: GraphQLTypes["ConfirmationResponse"] | undefined,
+	deleteUsers?: GraphQLTypes["DeleteUsersResponse"] | undefined,
 	/** delete data from the table: "burns" */
 	delete_burns?: GraphQLTypes["burns_mutation_response"] | undefined,
 	/** delete single row from the table: "burns" */
@@ -48790,6 +49262,8 @@ export type GraphQLTypes = {
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
 	updated_at: GraphQLTypes["timestamp"],
+	/** An object relationship */
+	user?: GraphQLTypes["discord_users"] | undefined,
 	/** An array relationship */
 	users: Array<GraphQLTypes["users"]>,
 	/** An aggregate relationship */
@@ -48854,6 +49328,7 @@ export type GraphQLTypes = {
 	telegram_username?: GraphQLTypes["String_comparison_exp"] | undefined,
 	twitter_username?: GraphQLTypes["String_comparison_exp"] | undefined,
 	updated_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
+	user?: GraphQLTypes["discord_users_bool_exp"] | undefined,
 	users?: GraphQLTypes["users_bool_exp"] | undefined,
 	vault_transactions?: GraphQLTypes["vault_transactions_bool_exp"] | undefined,
 	vaults?: GraphQLTypes["vaults_bool_exp"] | undefined,
@@ -48886,6 +49361,7 @@ export type GraphQLTypes = {
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
 	updated_at?: GraphQLTypes["timestamp"] | undefined,
+	user?: GraphQLTypes["discord_users_obj_rel_insert_input"] | undefined,
 	users?: GraphQLTypes["users_arr_rel_insert_input"] | undefined,
 	vault_transactions?: GraphQLTypes["vault_transactions_arr_rel_insert_input"] | undefined,
 	vaults?: GraphQLTypes["vaults_arr_rel_insert_input"] | undefined,
@@ -48974,6 +49450,7 @@ export type GraphQLTypes = {
 	telegram_username?: GraphQLTypes["order_by"] | undefined,
 	twitter_username?: GraphQLTypes["order_by"] | undefined,
 	updated_at?: GraphQLTypes["order_by"] | undefined,
+	user?: GraphQLTypes["discord_users_order_by"] | undefined,
 	users_aggregate?: GraphQLTypes["users_aggregate_order_by"] | undefined,
 	vault_transactions_aggregate?: GraphQLTypes["vault_transactions_aggregate_order_by"] | undefined,
 	vaults_aggregate?: GraphQLTypes["vaults_aggregate_order_by"] | undefined,
@@ -49234,6 +49711,7 @@ export type GraphQLTypes = {
 	personal_access_tokens_aggregate: GraphQLTypes["personal_access_tokens_aggregate"],
 	/** fetch data from the table: "personal_access_tokens" using primary key columns */
 	personal_access_tokens_by_pk?: GraphQLTypes["personal_access_tokens"] | undefined,
+	price_per_share: number,
 	/** fetch data from the table: "profiles" */
 	profiles: Array<GraphQLTypes["profiles"]>,
 	/** fetch aggregated fields from the table: "profiles" */
@@ -51514,6 +51992,7 @@ export type GraphQLTypes = {
 	org_id: GraphQLTypes["bigint"],
 	/** An object relationship */
 	organization: GraphQLTypes["organizations"],
+	price_per_share: number,
 	/** An object relationship */
 	profile: GraphQLTypes["profiles"],
 	simple_token_address: string,
@@ -53229,6 +53708,7 @@ type ZEUS_VARIABLES = {
 	["DeleteDiscordUserInput"]: ValueTypes["DeleteDiscordUserInput"];
 	["DeleteEpochInput"]: ValueTypes["DeleteEpochInput"];
 	["DeleteUserInput"]: ValueTypes["DeleteUserInput"];
+	["DeleteUsersInput"]: ValueTypes["DeleteUsersInput"];
 	["GenerateApiKeyInput"]: ValueTypes["GenerateApiKeyInput"];
 	["Int_comparison_exp"]: ValueTypes["Int_comparison_exp"];
 	["LinkDiscordCircleInput"]: ValueTypes["LinkDiscordCircleInput"];
@@ -53454,23 +53934,36 @@ type ZEUS_VARIABLES = {
 	["cursor_ordering"]: ValueTypes["cursor_ordering"];
 	["date"]: ValueTypes["date"];
 	["date_comparison_exp"]: ValueTypes["date_comparison_exp"];
+	["discord_circle_api_tokens_aggregate_order_by"]: ValueTypes["discord_circle_api_tokens_aggregate_order_by"];
+	["discord_circle_api_tokens_arr_rel_insert_input"]: ValueTypes["discord_circle_api_tokens_arr_rel_insert_input"];
+	["discord_circle_api_tokens_avg_order_by"]: ValueTypes["discord_circle_api_tokens_avg_order_by"];
 	["discord_circle_api_tokens_bool_exp"]: ValueTypes["discord_circle_api_tokens_bool_exp"];
 	["discord_circle_api_tokens_constraint"]: ValueTypes["discord_circle_api_tokens_constraint"];
 	["discord_circle_api_tokens_inc_input"]: ValueTypes["discord_circle_api_tokens_inc_input"];
 	["discord_circle_api_tokens_insert_input"]: ValueTypes["discord_circle_api_tokens_insert_input"];
+	["discord_circle_api_tokens_max_order_by"]: ValueTypes["discord_circle_api_tokens_max_order_by"];
+	["discord_circle_api_tokens_min_order_by"]: ValueTypes["discord_circle_api_tokens_min_order_by"];
 	["discord_circle_api_tokens_on_conflict"]: ValueTypes["discord_circle_api_tokens_on_conflict"];
 	["discord_circle_api_tokens_order_by"]: ValueTypes["discord_circle_api_tokens_order_by"];
 	["discord_circle_api_tokens_pk_columns_input"]: ValueTypes["discord_circle_api_tokens_pk_columns_input"];
 	["discord_circle_api_tokens_select_column"]: ValueTypes["discord_circle_api_tokens_select_column"];
 	["discord_circle_api_tokens_set_input"]: ValueTypes["discord_circle_api_tokens_set_input"];
+	["discord_circle_api_tokens_stddev_order_by"]: ValueTypes["discord_circle_api_tokens_stddev_order_by"];
+	["discord_circle_api_tokens_stddev_pop_order_by"]: ValueTypes["discord_circle_api_tokens_stddev_pop_order_by"];
+	["discord_circle_api_tokens_stddev_samp_order_by"]: ValueTypes["discord_circle_api_tokens_stddev_samp_order_by"];
 	["discord_circle_api_tokens_stream_cursor_input"]: ValueTypes["discord_circle_api_tokens_stream_cursor_input"];
 	["discord_circle_api_tokens_stream_cursor_value_input"]: ValueTypes["discord_circle_api_tokens_stream_cursor_value_input"];
+	["discord_circle_api_tokens_sum_order_by"]: ValueTypes["discord_circle_api_tokens_sum_order_by"];
 	["discord_circle_api_tokens_update_column"]: ValueTypes["discord_circle_api_tokens_update_column"];
 	["discord_circle_api_tokens_updates"]: ValueTypes["discord_circle_api_tokens_updates"];
+	["discord_circle_api_tokens_var_pop_order_by"]: ValueTypes["discord_circle_api_tokens_var_pop_order_by"];
+	["discord_circle_api_tokens_var_samp_order_by"]: ValueTypes["discord_circle_api_tokens_var_samp_order_by"];
+	["discord_circle_api_tokens_variance_order_by"]: ValueTypes["discord_circle_api_tokens_variance_order_by"];
 	["discord_roles_circles_bool_exp"]: ValueTypes["discord_roles_circles_bool_exp"];
 	["discord_roles_circles_constraint"]: ValueTypes["discord_roles_circles_constraint"];
 	["discord_roles_circles_inc_input"]: ValueTypes["discord_roles_circles_inc_input"];
 	["discord_roles_circles_insert_input"]: ValueTypes["discord_roles_circles_insert_input"];
+	["discord_roles_circles_obj_rel_insert_input"]: ValueTypes["discord_roles_circles_obj_rel_insert_input"];
 	["discord_roles_circles_on_conflict"]: ValueTypes["discord_roles_circles_on_conflict"];
 	["discord_roles_circles_order_by"]: ValueTypes["discord_roles_circles_order_by"];
 	["discord_roles_circles_pk_columns_input"]: ValueTypes["discord_roles_circles_pk_columns_input"];
@@ -53484,6 +53977,7 @@ type ZEUS_VARIABLES = {
 	["discord_users_constraint"]: ValueTypes["discord_users_constraint"];
 	["discord_users_inc_input"]: ValueTypes["discord_users_inc_input"];
 	["discord_users_insert_input"]: ValueTypes["discord_users_insert_input"];
+	["discord_users_obj_rel_insert_input"]: ValueTypes["discord_users_obj_rel_insert_input"];
 	["discord_users_on_conflict"]: ValueTypes["discord_users_on_conflict"];
 	["discord_users_order_by"]: ValueTypes["discord_users_order_by"];
 	["discord_users_pk_columns_input"]: ValueTypes["discord_users_pk_columns_input"];
