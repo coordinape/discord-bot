@@ -62,13 +62,13 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 		}
 
 		try {
-			const { success, data: { circle_id, discord_channel_id, discord_role_id } } = await insertDiscordRolesCircles({
+			const { success, data: { circle_id, discord_role_id } } = await insertDiscordRolesCircles({
 				circleId: Number(circle.value),
 				channelId: channel?.id,
 				roleId: role?.id,
 			});
 
-			if (!success || !circle_id || !discord_channel_id || !discord_role_id) {
+			if (!success || !circle_id || !discord_role_id) {
 				throw new Error('Failed to insert discord roles circles');
 			}
 		} catch (error) {
