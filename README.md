@@ -15,7 +15,7 @@ yarn && yarn dev
 
 ### Schema
 
-b909a08854ffd3ee8726de6a06026fa66fc49d28
+833507b123dbd7102efb408766abe240d2a4df2b (branch `karelianpie:feat/trigger-discord-epoch-events`)
 
 ### Zeus
 
