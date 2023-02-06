@@ -1,3 +1,4 @@
+import { getChannelLinkingStatus } from '@api/getChannelLinkingStatus';
 import { ButtonStyle,
 	CommandContext,
 	ComponentType,
@@ -26,10 +27,14 @@ export class ServiceSupport {
 		const linkComponents = await getLinkingComponents(this._ctx);
 		componentActionRows.push({ type: ComponentType.ACTION_ROW, components: linkComponents.map(({ component }) => component) });
 		callbackComponents.push(...linkComponents);
+
+		const isChannelLinked = await getChannelLinkingStatus({ channelId: this._ctx.channelID });
 		
-		const assignComponents = await getChangeRoleSelect();
-		componentActionRows.push({ type: ComponentType.ACTION_ROW, components: assignComponents.map(({ component }) => component) });
-		callbackComponents.push(...assignComponents);
+		if (isChannelLinked) {
+			const assignComponents = await getChangeRoleSelect();
+			componentActionRows.push({ type: ComponentType.ACTION_ROW, components: assignComponents.map(({ component }) => component) });
+			callbackComponents.push(...assignComponents);
+		}
 		
 		const configComponents = await getConfigureComponents();
 		componentActionRows.push({ type: ComponentType.ACTION_ROW, components: configComponents.map(({ component }) => component) });

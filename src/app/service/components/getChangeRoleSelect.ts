@@ -1,6 +1,8 @@
 import { ComponentType, ButtonStyle, ComponentContext, ComponentButton, ComponentSelectMenu } from 'slash-create';
 import { CallbackComponent } from '../types';
 import Log from '../../utils/Log';
+import { disableAllComponents } from 'src/app/interactions/componentInteractions/handlers/common';
+import { getCircle } from '@api/getCircle';
 
 const ASSIGN_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
@@ -33,8 +35,12 @@ export async function getChangeRoleSelect(): Promise<CallbackComponent[]> {
 
 	async function assignRoleFlow({ ctx }: { ctx: ComponentContext}): Promise<void> {
 		try {
+			await ctx.editParent({ components: disableAllComponents(ctx) });
+
+			const { circle } = await getCircle({ channelId: ctx.channelID });
+
 			await ctx.send({
-				content: 'Which user would you like to add to circle X?',
+				content: `Which user would you like to add to circle ${circle.name}?`,
 				components: [{ type: ComponentType.ACTION_ROW, components: [ASSIGN_ROLE_USER_SELECT] }],
 			});
 		} catch (error) {
@@ -45,6 +51,7 @@ export async function getChangeRoleSelect(): Promise<CallbackComponent[]> {
 
 	async function unassignRoleFlow({ ctx }: { ctx: ComponentContext}): Promise<void> {
 		try {
+			await ctx.editParent({ components: disableAllComponents(ctx) });
 			await ctx.send({
 				content: 'Which user would you like to remove from circle X?',
 				components: [{ type: ComponentType.ACTION_ROW, components: [UNASSIGN_ROLE_USER_SELECT] }],

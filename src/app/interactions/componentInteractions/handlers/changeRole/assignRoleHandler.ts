@@ -1,5 +1,6 @@
 import { getOAuth2Url } from '@api/constants';
 import { getLinkingStatus } from '@api/getLinkingStatus';
+import { getRoleId } from '@api/getRoleId';
 import { ButtonStyle, ComponentActionRow, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentType, Message } from 'slash-create';
 import Log from '../../../../utils/Log';
 import { disableFirstRowComponentButtons } from '../common';
@@ -52,20 +53,21 @@ export async function assignRoleHandler({ componentContext }: { componentContext
 				return;
 			}
 
-			// TODO Get the role created by the bot
-			const roleFoo = { id: '1046402573273411716' };
+			const { discord_role_id } = await getRoleId({ channelId: ctx.channelID });
 
 			const guild = await ctx.creator.client.guilds.fetch(ctx.guildID);
 
 			const guildMember = await guild.members.fetch(userId);
-			const role = await guild.roles.fetch(roleFoo.id);
+			const role = await guild.roles.fetch(discord_role_id);
 
 			if (!role) {
-				throw new Error(`Role ID ${roleFoo.id} not found!`);
+				throw new Error(`Role ID ${discord_role_id} not found!`);
 			}
 
 			const member = await guildMember.roles.add(role, 'add to circle');
 			await ctx.send({ content: `Role ${role} assigned to ${member}` });
+
+			// TODO Add user to circle in coordinape
 
 			disableFirstRowComponentButtons({ message: confirmationMessage });
 		});
