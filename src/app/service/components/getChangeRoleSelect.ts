@@ -52,8 +52,11 @@ export async function getChangeRoleSelect(): Promise<CallbackComponent[]> {
 	async function unassignRoleFlow({ ctx }: { ctx: ComponentContext}): Promise<void> {
 		try {
 			await ctx.editParent({ components: disableAllComponents(ctx) });
+
+			const { circle } = await getCircle({ channelId: ctx.channelID });
+
 			await ctx.send({
-				content: 'Which user would you like to remove from circle X?',
+				content: `Which user would you like to remove from circle ${circle.name}?`,
 				components: [{ type: ComponentType.ACTION_ROW, components: [UNASSIGN_ROLE_USER_SELECT] }],
 			});
 		} catch (error) {

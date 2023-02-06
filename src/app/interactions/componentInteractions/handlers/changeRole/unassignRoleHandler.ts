@@ -3,6 +3,7 @@ import { getOAuth2Url } from '@api/constants';
 import { getLinkingStatus } from '@api/getLinkingStatus';
 import Log from '../../../../utils/Log';
 import { disableFirstRowComponentButtons } from '../common';
+import { getRoleId } from '@api/getRoleId';
 
 export const UNASSIGN_ROLE_USER_SELECT_CONFIRM_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
@@ -52,20 +53,21 @@ export async function unassignRoleHandler({ componentContext }: { componentConte
 				return;
 			}
 
-			// TODO Get the role created by the bot
-			const roleFoo = { id: '1046402573273411716' };
+			const { discord_role_id } = await getRoleId({ channelId: ctx.channelID });
 
 			const guild = await ctx.creator.client.guilds.fetch(ctx.guildID);
 
 			const guildMember = await guild.members.fetch(userId);
-			const role = await guild.roles.fetch(roleFoo.id);
+			const role = await guild.roles.fetch(discord_role_id);
 
 			if (!role) {
-				throw new Error(`Role ID ${roleFoo.id} not found!`);
+				throw new Error(`Role ID ${discord_role_id} not found!`);
 			}
 
 			const member = await guildMember.roles.remove(role, 'remove from circle');
 			await ctx.send({ content: `Role ${role} unassigned from ${member}` });
+
+			// TODO Remove user from circle in coordinape
 
 			disableFirstRowComponentButtons({ message: confirmationMessage });
 		});
