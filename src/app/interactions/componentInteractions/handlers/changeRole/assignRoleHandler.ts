@@ -1,9 +1,11 @@
 import { getOAuth2Url } from '@api/constants';
-import { getLinkingStatus } from '@api/getLinkingStatus';
-import { getRoleId } from '@api/getRoleId';
+import { createUsersMutation } from '@api/createUsersMutation';
+import { getDiscordRolesCircles } from '@api/getDiscordRolesCircles';
 import { ButtonStyle, ComponentActionRow, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentType, Message } from 'slash-create';
 import Log from '../../../../utils/Log';
 import { disableFirstRowComponentButtons } from '../common';
+import { findProfileId } from '@api/findProfileId';
+import { findProfile } from '@api/findProfile';
 
 export const ASSIGN_ROLE_USER_SELECT_CONFIRM_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
@@ -46,14 +48,20 @@ export async function assignRoleHandler(componentContext: ComponentContext) {
 		] });
 
 		componentContext.registerComponent(ASSIGN_ROLE_USER_SELECT_CONFIRM_BUTTON.custom_id, async (ctx) => {
-			const isLinked = await getLinkingStatus(userId);
+			const profileId = await findProfileId({ userId });
 
-			if (!isLinked) {
+			if (!profileId) {
 				await ctx.send({ content: `<@${userId}> hasn't linked their Discord Account to Coordinape yet, please ask them to go [here](${getOAuth2Url()}) and link their accounts. Then you can try again\n\nYou can also add them directly in coordinape [here](https://app.coordinape.com/profile/me)` });
 				return;
 			}
 
-			const { discord_role_id } = await getRoleId({ channelId: ctx.channelID });
+			const profile = await findProfile({ profileId });
+
+			if (!profile) {
+				throw new Error(`User with profile ID ${profileId} not found!`);
+			}
+
+			const { discord_role_id, circle_id } = await getDiscordRolesCircles({ channelId: ctx.channelID });
 
 			const guild = await ctx.creator.client.guilds.fetch(ctx.guildID);
 
@@ -66,8 +74,11 @@ export async function assignRoleHandler(componentContext: ComponentContext) {
 
 			const member = await guildMember.roles.add(role, 'add to circle');
 			await ctx.send({ content: `Role ${role} assigned to ${member}` });
-
-			// TODO Add user to circle in coordinape
+			
+			const user = await createUsersMutation({ circleId: Number(circle_id), users: [profile] });
+			if (user) {
+				await ctx.send({ content: `User ${user.UserResponse?.profile.name} added to this circle` });
+			}
 
 			disableFirstRowComponentButtons({ message: confirmationMessage });
 		});

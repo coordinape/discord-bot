@@ -1,9 +1,9 @@
 import { ButtonStyle, ComponentActionRow, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentType, Message } from 'slash-create';
 import { getOAuth2Url } from '@api/constants';
-import { getLinkingStatus } from '@api/getLinkingStatus';
 import Log from '../../../../utils/Log';
 import { disableFirstRowComponentButtons } from '../common';
-import { getRoleId } from '@api/getRoleId';
+import { findProfileId } from '@api/findProfileId';
+import { getDiscordRolesCircles } from '@api/getDiscordRolesCircles';
 
 export const UNASSIGN_ROLE_USER_SELECT_CONFIRM_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
@@ -46,14 +46,14 @@ export async function unassignRoleHandler(componentContext: ComponentContext) {
 		] });
 
 		componentContext.registerComponent(UNASSIGN_ROLE_USER_SELECT_CONFIRM_BUTTON.custom_id, async (ctx) => {
-			const isLinked = await getLinkingStatus(userId);
+			const profileId = await findProfileId({ userId });
 
-			if (!isLinked) {
+			if (!profileId) {
 				await ctx.send({ content: `<@${userId}> hasn't linked their Discord Account to Coordinape yet, please ask them to go [here](${getOAuth2Url()}) and link their accounts. Then you can try again\n\nYou can also add them directly in coordinape [here](https://app.coordinape.com/profile/me)` });
 				return;
 			}
 
-			const { discord_role_id } = await getRoleId({ channelId: ctx.channelID });
+			const { discord_role_id } = await getDiscordRolesCircles({ channelId: ctx.channelID });
 
 			const guild = await ctx.creator.client.guilds.fetch(ctx.guildID);
 
