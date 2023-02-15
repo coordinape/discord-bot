@@ -66,5 +66,8 @@ export default async function handler(req: Request, res: Response) {
 }
 
 async function getContent({ role, discordId, address, tokenName, circleName, refunds }: { role: Role } & TUserOptsOut) {
-	return `${role}, ${getUsername({ discordId, address })} has opted out of the current Epoch for ${circleName} circle.\n\n${refunds.map(({ username, give }) => `${give} ${tokenName} was refunded to ${username}`).join(', ')}.`;
+	return (`
+		${role}, ${getUsername({ discordId, address })} has opted out of the current Epoch for ${circleName} circle.
+		\n${refunds.length ? refunds.map(({ username, give }) => `${give} ${tokenName} was refunded to ${username}`).join(', ') : `No ${tokenName} refunded`}.
+		`);
 }
