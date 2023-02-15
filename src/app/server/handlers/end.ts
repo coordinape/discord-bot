@@ -10,27 +10,26 @@ import { z } from 'zod';
   --url http://localhost:4000/api/epoch/end \
   --header 'Content-Type: application/json' \
   --data '{
-	"channelId": "1057926498524332083",
+	"channelId": "1072574945206480997",
 	"roleId": "1058334400540061747",
 	"epochName": "The Great Epoch",
+	"circleId": "5",
 	"circleName": "Circumference",
-	"endTime": "1672401564",
+	"endTime": "2023-02-15T22:00:00+00:00",
 	"giveCount": 1000,
-	"userCount": 9,
-	"circleHistoryLink": "http://localhost:3000/circles/12/history"
-}
-'
+	"userCount": 9
+}'
  */
 
 const End = z.object({
 	channelId: z.string(),
 	roleId: z.string(),
 	epochName: z.string(),
+	circleId: z.string(),
 	circleName: z.string(),
 	endTime: z.string(),
 	giveCount: z.number(),
 	userCount: z.number(),
-	circleHistoryLink: z.string(),
 });
 
 type TEnd = Omit<z.infer<typeof End>, 'channelId'>;
@@ -44,10 +43,15 @@ export default async function handler(req: Request, res: Response) {
 			throw new Error('Channel not found!');
 		}
 		
-		const actions: ButtonBuilder[] = ['Pulse Survey', 'Link', 'Contribute', 'Personal Summary'].map((label) => (new ButtonBuilder()
-			.setCustomId(`${label.toUpperCase()}_BUTTON`)
-			.setLabel(label)
-			.setStyle(ButtonStyle.Primary)));
+		const actions: ButtonBuilder[] = [{
+			label: 'Contribute',
+			url: `https://app.coordinape.com/circles/${data.circleId}/contributions`,
+		}].map(({ label, url }) =>
+			new ButtonBuilder()
+				.setURL(url)
+				.setLabel(label)
+				.setStyle(ButtonStyle.Link),
+		);
 		const row = new ActionRowBuilder<ButtonBuilder>().addComponents([...actions, COORDINAPE_BUTTON]);
 		
 		const guild = await client.guilds.fetch(channel.guildId);
@@ -64,6 +68,7 @@ export default async function handler(req: Request, res: Response) {
 	}
 }
 
-async function getContent({ role, epochName, circleName, endTime, giveCount, userCount, circleHistoryLink }: { role: Role } & TEnd) {
-	return `${role} You've done it! ${epochName} for ${circleName} ended <t:${endTime}:R>!\n\nI'm sure you crushed it. Your Circle gave ${giveCount} GIVE across ${userCount} users.\n\nTo see your results for the epoch click the Personal Summary button below, or view it in the app. ${circleHistoryLink}\n\nWe’d love to know how you felt about this epoch, if you react to this message we’ll use that data to make Coordinape better!\n\nIf you have 3 minutes you could also fill out the pulse survey below this data will help your team and Coordinape improve.\n\n**It's better to GIVE than receive**`;
+async function getContent({ role, epochName, circleName, endTime, giveCount, userCount, circleId }: { role: Role } & TEnd) {
+	const endTimeEpoch = new Date(endTime).getTime() / 1000;
+	return `${role} You've done it! ${epochName} for ${circleName} ended <t:${endTimeEpoch}:R>!\n\nI'm sure you crushed it. Your Circle gave ${giveCount} GIVE across ${userCount} users.\n\nTo see your results for the epoch click the Personal Summary button below, or view it in the app. https://app.coordinape.com/circles/${circleId}/history\n\nWe’d love to know how you felt about this epoch, if you react to this message we’ll use that data to make Coordinape better!\n\nIf you have 3 minutes you could also fill out the pulse survey below this data will help your team and Coordinape improve.\n\n**It's better to GIVE than receive**`;
 }

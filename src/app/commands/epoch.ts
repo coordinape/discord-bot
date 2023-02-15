@@ -80,7 +80,7 @@ export default class Coordinape extends SlashCommand {
 
 			switch (ctx.subcommands[0]) {
 			case 'epoch-start': {
-				const actions: ComponentButton[] = ['Link', 'Contribute', 'Epoch Statement', 'Opt-in'].map((label) => ({
+				const actions: ComponentButton[] = ['Contribute', 'Epoch Statement', 'Opt-in'].map((label) => ({
 					type: ComponentType.BUTTON,
 					label,
 					custom_id: `${label.toUpperCase()}_BUTTON`,
@@ -93,7 +93,7 @@ export default class Coordinape extends SlashCommand {
 				break;
 			}
 			case 'epoch-end': {
-				const actions: ComponentButton[] = ['Pulse Survey', 'Link', 'Contribute', 'Personal Summary'].map((label) => ({
+				const actions: ComponentButton[] = ['Contribute', 'Personal Summary'].map((label) => ({
 					type: ComponentType.BUTTON,
 					label,
 					custom_id: `${label.toUpperCase()}_BUTTON`,

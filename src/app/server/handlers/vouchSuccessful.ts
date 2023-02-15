@@ -10,14 +10,13 @@ import { z } from 'zod';
   --url http://localhost:4000/api/epoch/vouch-successful \
   --header 'Content-Type: application/json' \
   --data '{
-	"channelId": "1057926498524332083",
+	"channelId": "1072574945206480997",
 	"roleId": "1058334400540061747",
 	"nominee": "John Doe",
 	"nomineeProfile": "http://localhost:3000/profile/me",
 	"vouchers": ["Alice", "Bob", "Mallory"],
 	"nominationReason": "Good contributions"
-}
-'
+}'
  */
 
 const VouchSuccessful = z.object({
@@ -45,18 +44,8 @@ export default async function handler(req: Request, res: Response) {
 			.setLabel(`${data.nominee}'s Profile`)
 			.setStyle(ButtonStyle.Link);
 		
-		const VOUCH_SUCCESSFUL_NOTE_BUTTON = new ButtonBuilder()
-			.setCustomId('VOUCH_SUCCESSFUL_NOTE_BUTTON')
-			.setLabel('Note')
-			.setStyle(ButtonStyle.Primary);
-			
-		const LINK_BUTTON: ButtonBuilder = new ButtonBuilder()
-			.setURL('http://localhost:3000')
-			.setLabel('Link')
-			.setStyle(ButtonStyle.Link);
-
 		const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
-			[VOUCH_SUCCESSFUL_NOTE_BUTTON, NOMINEE_PROFILE_BUTTON, LINK_BUTTON, COORDINAPE_BUTTON],
+			[NOMINEE_PROFILE_BUTTON, COORDINAPE_BUTTON],
 		);
 		
 		const guild = await client.guilds.fetch(channel.guildId);

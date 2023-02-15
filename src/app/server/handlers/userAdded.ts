@@ -1,4 +1,4 @@
-import { ButtonBuilder, ActionRowBuilder, ButtonStyle, Role } from 'discord.js';
+import { ButtonBuilder, ActionRowBuilder, Role } from 'discord.js';
 import client from '../../app';
 import { COORDINAPE_BUTTON } from '../components';
 import { isTextChannel } from '../utils';
@@ -11,14 +11,13 @@ import { getUsername } from '../utils/getUsername';
   --url http://localhost:4000/api/epoch/user-added \
   --header 'Content-Type: application/json' \
   --data '{
-	"channelId": "1057926498524332083",
+	"channelId": "1072574945206480997",
 	"roleId": "1058334400540061747",
 	"discordId": "578033839910289408",
 	"address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
 	"circleName": "Circumference",
 	"methodOfAddition": "Successful Vouch"
-}
-'
+}'
  */
 
 const UserAdded = z
@@ -44,11 +43,7 @@ export default async function handler(req: Request, res: Response) {
 			throw new Error('Channel not found!');
 		}
 
-		const actions: ButtonBuilder[] = ['Note', 'Link'].map((label) => (new ButtonBuilder()
-			.setCustomId(`${label.toUpperCase()}_BUTTON`)
-			.setLabel(label)
-			.setStyle(ButtonStyle.Primary)));
-		const row = new ActionRowBuilder<ButtonBuilder>().addComponents([...actions, COORDINAPE_BUTTON]);
+		const row = new ActionRowBuilder<ButtonBuilder>().addComponents([COORDINAPE_BUTTON]);
 		
 		const guild = await client.guilds.fetch(channel.guildId);
 		const role = await guild.roles.fetch(data.roleId);

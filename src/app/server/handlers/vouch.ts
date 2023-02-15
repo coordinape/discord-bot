@@ -11,15 +11,15 @@ import { progressBar } from '../utils/progressBar';
   --url http://localhost:4000/api/epoch/vouch \
   --header 'Content-Type: application/json' \
   --data '{
-	"channelId": "1057926498524332083",
+	"channelId": "1072574945206480997",
 	"roleId": "1058334400540061747",
 	"nominee": "John Doe",
 	"voucher": "Jane Doe",
+	"circleId": "5",
 	"nominationReason": "great contributions",
 	"currentVouches": 1,
 	"requiredVouches": 3
-}
-'
+}'
  */
 
 const Vouch = z.object({
@@ -27,6 +27,7 @@ const Vouch = z.object({
 	roleId: z.string(),
 	nominee: z.string(),
 	voucher: z.string(),
+	circleId: z.string(),
 	nominationReason: z.string(),
 	currentVouches: z.number(),
 	requiredVouches: z.number(),
@@ -37,17 +38,21 @@ type TVouch = Omit<z.infer<typeof Vouch>, 'channelId'>;
 export default async function handler(req: Request, res: Response) {
 	try {
 		const { channelId, ...data } = Vouch.parse(req.body);
+
+		if (isLastVouchRequired(data)) {
+			return;
+		}
 		
 		const channel = await client.channels.fetch(channelId);
 		if (!channel || !isTextChannel(channel)) {
 			throw new Error('Channel not found!');
 		}
 		
-		const actions: ButtonBuilder[] = ['Vouch', 'Link'].map((label) => (new ButtonBuilder()
-			.setCustomId(`${label.toUpperCase()}_BUTTON`)
-			.setLabel(label)
-			.setStyle(ButtonStyle.Primary)));
-		const row = new ActionRowBuilder<ButtonBuilder>().addComponents([...actions, COORDINAPE_BUTTON]);
+		const VOUCH_BUTTON: ButtonBuilder = new ButtonBuilder()
+			.setURL(`https://app.coordinape.com/circles/${data.circleId}/members`)
+			.setLabel('Vouch')
+			.setStyle(ButtonStyle.Link);
+		const row = new ActionRowBuilder<ButtonBuilder>().addComponents([VOUCH_BUTTON, COORDINAPE_BUTTON]);
 		
 		const guild = await client.guilds.fetch(channel.guildId);
 		const role = await guild.roles.fetch(data.roleId);
@@ -64,9 +69,16 @@ export default async function handler(req: Request, res: Response) {
 }
 
 async function getContent({ role, nominee, voucher, nominationReason, currentVouches, requiredVouches }: { role: Role } & TVouch) {
-	return `${role} ${nominee} was Vouched by ${voucher} for ${nominationReason}!\nThey currently have ${currentVouches === 1 ? '1 vouch' : `${currentVouches} vouches`} and need ${requiredVouches} vouches to join the circle.\n${progressBar({
-		current: currentVouches,
+	// the actual nomination is in a way a "vouch"
+	const vouches = currentVouches + 1;
+	return `${role} ${nominee} was Vouched by ${voucher} for ${nominationReason}!\nThey currently have ${vouches} vouches and need ${requiredVouches} vouches to join the circle.\n${progressBar({
+		current: vouches,
 		max: requiredVouches,
 		length: 20,
 	})}`;
+}
+
+function isLastVouchRequired({ requiredVouches, currentVouches }: TVouch) {
+	// nomination is a "vouch"
+	return requiredVouches === currentVouches + 1;
 }

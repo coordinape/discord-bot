@@ -1,4 +1,4 @@
-import { ButtonBuilder, ActionRowBuilder, ButtonStyle, Role } from 'discord.js';
+import { ButtonBuilder, ActionRowBuilder, Role } from 'discord.js';
 import client from '../../app';
 import { COORDINAPE_BUTTON } from '../components';
 import { isTextChannel } from '../utils';
@@ -11,7 +11,7 @@ import { getUsername } from '../utils/getUsername';
   --url http://localhost:4000/api/epoch/user-opts-out \
   --header 'Content-Type: application/json' \
   --data '{
-	"channelId": "1057926498524332083",
+	"channelId": "1072574945206480997",
 	"roleId": "1058334400540061747",
 	"discordId": "578033839910289408",
 	"address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
@@ -21,8 +21,7 @@ import { getUsername } from '../utils/getUsername';
 		{ "username": "Bob", "give": 15 },
 		{ "username": "Mallory", "give": 75 }
 	]
-}
-'
+}'
  */
 
 const UserOptsOut = z
@@ -48,11 +47,7 @@ export default async function handler(req: Request, res: Response) {
 			throw new Error('Channel not found!');
 		}
 
-		const USER_OPTS_OUT_LINK_BUTTON: ButtonBuilder = new ButtonBuilder()
-			.setCustomId('USER_OPTS_OUT_LINK_BUTTON')
-			.setLabel('Link')
-			.setStyle(ButtonStyle.Primary);
-		const row = new ActionRowBuilder<ButtonBuilder>().addComponents([USER_OPTS_OUT_LINK_BUTTON, COORDINAPE_BUTTON]);
+		const row = new ActionRowBuilder<ButtonBuilder>().addComponents([COORDINAPE_BUTTON]);
 		
 		const guild = await client.guilds.fetch(channel.guildId);
 		const role = await guild.roles.fetch(data.roleId);

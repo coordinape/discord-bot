@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { ButtonBuilder, ActionRowBuilder, Role, ButtonStyle } from 'discord.js';
 import client from '../../app';
 import { COORDINAPE_BUTTON } from '../components';
@@ -10,25 +11,24 @@ import { z } from 'zod';
   --url http://localhost:4000/api/epoch/nomination \
   --header 'Content-Type: application/json' \
   --data '{
-	"channelId": "1057926498524332083",
+	"channelId": "1072574945206480997",
 	"roleId": "1058334400540061747",
+	"circleId": "5",
 	"nominee": "John Doe",
 	"nominator": "Jane Doe",
 	"nominationReason": "great contributions",
-	"numberOfVouches": 2,
-	"nominationLink": "https://app.coordinape.com/circles/10/members"
-}
-'
+	"numberOfVouches": 2
+}'
  */
 
 const Nomination = z.object({
 	channelId: z.string(),
 	roleId: z.string(),
+	circleId: z.string(),
 	nominee: z.string(),
 	nominator: z.string(),
 	nominationReason: z.string(),
 	numberOfVouches: z.number(),
-	nominationLink: z.string().url(),
 });
 
 type TNomination = Omit<z.infer<typeof Nomination>, 'channelId'>;
@@ -43,7 +43,7 @@ export default async function handler(req: Request, res: Response) {
 		}
 
 		const VOUCH_BUTTON: ButtonBuilder = new ButtonBuilder()
-			.setURL(data.nominationLink)
+			.setURL(`https://app.coordinape.com/circles/${data.circleId}/members`)
 			.setLabel('Vouch')
 			.setStyle(ButtonStyle.Link);
 		
