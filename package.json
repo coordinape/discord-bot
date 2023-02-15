@@ -77,7 +77,7 @@
     },
     "engines": {
         "node": "16",
-        "yarn": "*"
+        "yarn": "1.22.19"
     },
     "engineStrict": true,
     "_moduleAliases": {
