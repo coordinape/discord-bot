@@ -1,4 +1,4 @@
-import { ButtonBuilder, ActionRowBuilder, ButtonStyle, Role } from 'discord.js';
+import { ButtonBuilder, ActionRowBuilder, Role, ButtonStyle } from 'discord.js';
 import client from '../../app';
 import { COORDINAPE_BUTTON } from '../components';
 import { isTextChannel } from '../utils';
@@ -10,15 +10,16 @@ import { z } from 'zod';
   --url http://localhost:4000/api/epoch/vouch-unsuccessful \
   --header 'Content-Type: application/json' \
   --data '{
-	"channelId": "1057926498524332083",
+	"channelId": "1072574945206480997",
 	"roleId": "1058334400540061747",
-	"nominee": "John Doe"}
-'
+	"circleId": "5",
+	"nominee": "John Doe"}'
  */
 
 const VouchUnsuccessful = z.object({
 	channelId: z.string(),
 	roleId: z.string(),
+	circleId: z.string(),
 	nominee: z.string(),
 });
 
@@ -33,11 +34,11 @@ export default async function handler(req: Request, res: Response) {
 			throw new Error('Channel not found!');
 		}
 		
-		const actions: ButtonBuilder[] = ['Nominate', 'Link'].map((label) => (new ButtonBuilder()
-			.setCustomId(`${label.toUpperCase()}_BUTTON`)
-			.setLabel(label)
-			.setStyle(ButtonStyle.Primary)));
-		const row = new ActionRowBuilder<ButtonBuilder>().addComponents([...actions, COORDINAPE_BUTTON]);
+		const NOMINATE_LINK_BUTTON: ButtonBuilder = new ButtonBuilder()
+			.setURL(`https://app.coordinape.com/circles/${data.circleId}/members`)
+			.setLabel('Nominate')
+			.setStyle(ButtonStyle.Link);
+		const row = new ActionRowBuilder<ButtonBuilder>().addComponents([NOMINATE_LINK_BUTTON, COORDINAPE_BUTTON]);
 		
 		const guild = await client.guilds.fetch(channel.guildId);
 		const role = await guild.roles.fetch(data.roleId);

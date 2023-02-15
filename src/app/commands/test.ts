@@ -50,6 +50,11 @@ export default class Help extends SlashCommand {
 					type: CommandOptionType.SUB_COMMAND,
 					description: 'testing text formatting',
 				},
+				{
+					name: 'time',
+					type: CommandOptionType.SUB_COMMAND,
+					description: 'testing time formatting',
+				},
 			],
 		});
 	}
@@ -183,6 +188,11 @@ export default class Help extends SlashCommand {
 			case 'text':
 				await ctx.send('**bold**\n*italics*\n__underline__\n~~Strikethrough~~\n`one line code block`\n```\nmultiple\nline\ncodeblock```\n> Single line quote\n\n>>> multiline\nquote\nquote');
 				break;
+			case 'time': {
+				const epoch = new Date('2023-02-14T22:00:00+00:00').getTime() / 1000;
+				await ctx.send(`<t:${epoch}:f>`);
+				break;
+			}
 			}
 		} catch (error) {
 			console.log(error);
