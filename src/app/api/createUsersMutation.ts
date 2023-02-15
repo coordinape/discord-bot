@@ -1,4 +1,4 @@
-import { gqlBot } from './gqlClients';
+import { gqlApiKey } from './gqlClients';
 
 type Props = {
     circleId: number;
@@ -6,10 +6,11 @@ type Props = {
 		name: string;
 		address: string;
 	}[];
+	apiKey: string;
 }
 
-export async function createUsersMutation({ circleId, users }: Props) {
-	const { createUsers } = await gqlBot('mutation')({
+export async function createUsersMutation({ circleId, users, apiKey }: Props) {
+	const { createUsers } = await gqlApiKey(apiKey)('mutation')({
 		createUsers: [
 			{ payload: { circle_id: circleId, users } },
 			{
