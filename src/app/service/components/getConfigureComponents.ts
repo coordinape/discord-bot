@@ -17,13 +17,15 @@ export async function getConfigureComponents(): Promise<CallbackComponent[]> {
 		type: ComponentType.BUTTON,
 		style: ButtonStyle.SUCCESS,
 		label: 'CONFIGURE',
-		custom_id: 'CONFIGURE_BUTTON',
+		custom_id: CustomId.ConfigButton,
 	};
 
 	const components = [CONFIGURE_BUTTON];
 
 	const CALLBACKS = {
 		[CONFIGURE_BUTTON.custom_id]: async (ctx: ComponentContext) => {
+			await ctx.editParent({ components: disableAllComponents(ctx) });
+			
 			const isServerAdmin = ctx.member?.permissions.has(PermissionsBitField.Flags.Administrator);
 	
 			if (!isServerAdmin) {
@@ -34,8 +36,6 @@ export async function getConfigureComponents(): Promise<CallbackComponent[]> {
 				content: 'Thanks for adding the Coordinape Bot to your server! My job is to make using Coordinape as simple as possible for your team.\n\nTo do that I\'ll need to ask you a few questions first.\n\nIf you have any questions just click the help button below. If anything goes wrong in this process, you can always start this prompt over again by using the `/Coordinape` Command and clicking the Configure button',
 				components: [{ type: ComponentType.ACTION_ROW, components: [CONFIG_NEXT_BUTTON, HELP_BUTTON] }],
 			});
-			
-			disableAllComponents(ctx);
 		},
 	};
 

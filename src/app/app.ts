@@ -70,7 +70,6 @@ creator.on('componentInteraction', async (componentContext) => {
 			handleFn(componentContext);
 		}
 		
-		// handleComponentInteraction({ ctx: componentContext, discordService });
 	} catch (error) {
 		await componentContext.send({ content: 'Something went wrong with this interaction. Please contact coordinape support' });
 		Log.error(error);

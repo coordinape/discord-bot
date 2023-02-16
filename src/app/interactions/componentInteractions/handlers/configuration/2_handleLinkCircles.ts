@@ -1,8 +1,9 @@
-import { ButtonStyle, CommandContext, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentSelectOption, ComponentType } from 'slash-create';
+import { ButtonStyle, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentSelectOption, ComponentType } from 'slash-create';
 import _ from 'lodash';
 import { Circle, getCircles } from '@api/getCircles';
 import { getLinkedCircles } from '@api/getLinkedCircles';
 import { CustomId } from 'src/app/interactions/customId';
+import { disableAllComponents } from '../common';
 
 export const ALL_CIRCLES_LINKED_CONTINUE_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
@@ -33,7 +34,9 @@ export const buildCircleSelect = ({ circles, options }: {circles?: Circle[]; opt
  * 
  * TODO Remove the CommandContext once the `circle` command is no longer needed
  */
-export async function handleLinkCircles(ctx: CommandContext | ComponentContext): Promise<void> {
+export async function handleLinkCircles(ctx: ComponentContext): Promise<void> {
+	await ctx.editParent({ components: disableAllComponents(ctx) });
+
 	const circles = await getCircles({ userId: ctx.user.id });
 	const linkedCircles = await getLinkedCircles();
 

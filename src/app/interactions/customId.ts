@@ -5,6 +5,7 @@ export enum CustomId {
     AssignRoleUserSelect = 'ASSIGN_ROLE_USER_SELECT',
     CircleSelect = 'CIRCLE_SELECT',
     CircleSelectNextButton = 'CIRCLE_SELECT_NEXT_BUTTON',
+    ConfigButton = 'CONFIGURE_BUTTON',
     ConfigNextButton = 'CONFIG_NEXT_BUTTON',
     LinkCircleButton = 'LINK_CIRCLE_BUTTON',
     Skip = 'SKIP',
