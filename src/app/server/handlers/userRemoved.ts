@@ -16,12 +16,7 @@ import { getUsername } from '../utils/getUsername';
 	"discordId": "578033839910289408",
 	"address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
 	"circleName": "Circumference",
-	"methodOfRemoval": "Admin Removal",
-	"refunds": [
-		{ "username": "Alice", "give": 10 },
-		{ "username": "Bob", "give": 15 },
-		{ "username": "Mallory", "give": 75 }
-	]
+	"method": "Admin Removal"
 }'
  */
 
@@ -32,8 +27,7 @@ const UserRemoved = z
 		discordId: z.string().optional(),
 		address: z.string().optional(),
 		circleName: z.string(),
-		methodOfRemoval: z.string(),
-		refunds: z.array(z.object({ username: z.string(), give: z.number() })),
+		method: z.string(),
 	})
 	.partial({ discordId: true, address: true })
 	.refine(({ discordId, address }) => discordId || address, 'Either discordId or address should be filled in.');
@@ -65,6 +59,6 @@ export default async function handler(req: Request, res: Response) {
 	}
 }
 
-async function getContent({ role, discordId, address, circleName, methodOfRemoval, refunds }: { role: Role } & TUserRemoved) {
-	return `${role}, ${getUsername({ discordId, address })} has left the ${circleName} circle via ${methodOfRemoval}\n\n${refunds.map(({ username, give }) => `${give} GIVE was refunded to ${username}`).join(', ')}.`;
+async function getContent({ role, discordId, address, circleName, method }: { role: Role } & TUserRemoved) {
+	return `${role}, ${getUsername({ discordId, address })} has left the ${circleName} circle via ${method}.`;
 }
