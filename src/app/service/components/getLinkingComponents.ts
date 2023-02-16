@@ -35,6 +35,8 @@ export async function getLinkingComponents(commandContext: CommandContext): Prom
 
 	const CALLBACKS = {
 		[LINK_BUTTON.custom_id]: async (componentContext: ComponentContext) => {
+			await componentContext.editParent({ components: disableAllComponents(componentContext) });
+
 			try {
 				const onDiscordUsers = wsChain('subscription')({
 					discord_users: [
@@ -49,16 +51,16 @@ export async function getLinkingComponents(commandContext: CommandContext): Prom
 					}
 				});
 
-				disableAllComponents(componentContext);
 				await componentContext.send(`If you would like to interact with Coordinape within discord you will need to link your Coordinape account to your Discord. [Click here](${getOAuth2Url()}) to link your accounts. You will be asked to sign a message approving the bot to perform some Coordinape actions on your behalf.\n\nThis will not impact your ability to use the Coordinape app!`);
 			} catch (error) {
-				disableAllComponents(componentContext);
 				await componentContext.send({ content: `Failed to link. ${error}` });
 				Log.error(error);
 			}
 
 		},
 		[UNLINK_BUTTON.custom_id]: async (componentContext: ComponentContext) => {
+			await componentContext.editParent({ components: disableAllComponents(componentContext) });
+
 			try {
 				const { delete_discord_users } = await chain('mutation')({
 					delete_discord_users: [
@@ -71,10 +73,8 @@ export async function getLinkingComponents(commandContext: CommandContext): Prom
 					await componentContext.send({ content: 'I\'ve removed the link between Coordinape and Discord. I\'ll no longer be able to specifically notify you for any Coordinape events. You can still use the /coordinape Command in Discord severs where I\'m enabled!' });
 					return;
 				}
-				disableAllComponents(componentContext);
 				await componentContext.send({ content: 'Failed to unlink. Please run the command again' });
 			} catch (error) {
-				disableAllComponents(componentContext);
 				await componentContext.send({ content: 'An error has occured, please contact coordinape\'s support' });
 				Log.error(error);
 			}
