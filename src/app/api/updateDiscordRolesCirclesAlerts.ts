@@ -11,7 +11,7 @@ export async function updateDiscordRolesCirclesAlerts({ channelId, alerts }: Pro
 			{
 				where: { discord_channel_id: { _eq: channelId } },
 				_append: {
-					alerts,
+					alerts: $`alerts`,
 				},
 			},
 			{
@@ -21,7 +21,7 @@ export async function updateDiscordRolesCirclesAlerts({ channelId, alerts }: Pro
 				},
 			},
 		],
-	});
+	}, { variables: { alerts } });
 
 	if (!update_discord_roles_circles?.returning[0]) {
 		throw new Error('Something is wrong, please contact coordinape');
