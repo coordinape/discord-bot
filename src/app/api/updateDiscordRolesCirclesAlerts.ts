@@ -1,4 +1,5 @@
 import { gqlBot } from './gqlClients';
+import { $ } from './zeus';
 
 type Props = {
 	channelId: string;
@@ -11,7 +12,7 @@ export async function updateDiscordRolesCirclesAlerts({ channelId, alerts }: Pro
 			{
 				where: { discord_channel_id: { _eq: channelId } },
 				_append: {
-					alerts: $`alerts`,
+					alerts: $('alerts', 'jsonb'),
 				},
 			},
 			{
