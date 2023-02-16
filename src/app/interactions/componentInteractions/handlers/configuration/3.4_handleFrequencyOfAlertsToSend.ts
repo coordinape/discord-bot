@@ -1,4 +1,5 @@
 import { ButtonStyle, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentSelectOption, ComponentType } from 'slash-create';
+import { CustomId } from 'src/app/interactions/customId';
 import { disableAllComponents } from '../common';
 
 const OPTIONS: ComponentSelectOption[] = [
@@ -24,14 +25,14 @@ const ALERTS_FREQUENCY_STRING_SELECT: ComponentSelectMenu = {
 export const ALERTS_FREQUENCY_SELECT_CONFIRM_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
 	label: 'Confirm',
-	custom_id: 'ALERTS_FREQUENCY_SELECT_CONFIRM_BUTTON',
+	custom_id: CustomId.Skip,
 	style: ButtonStyle.SUCCESS,
 };
 
 export const ALERTS_FREQUENCY_SELECT_CANCEL_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
 	label: 'Cancel',
-	custom_id: 'ALERTS_FREQUENCY_SELECT_CANCEL_BUTTON',
+	custom_id: CustomId.Skip,
 	style: ButtonStyle.DESTRUCTIVE,
 };
 

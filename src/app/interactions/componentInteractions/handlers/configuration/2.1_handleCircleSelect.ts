@@ -1,23 +1,19 @@
 import { ButtonStyle, ComponentActionRow, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentType } from 'slash-create';
 import { HELP_BUTTON } from 'src/app/common';
+import { CustomId } from 'src/app/interactions/customId';
 import { buildCircleSelect } from './2_handleLinkCircles';
-
-export const CIRCLE_SELECT_HANDLER_INTERACTIONS = {
-	Next: 'CIRCLE_SELECT_NEXT_BUTTON',
-	Skip: 'CIRCLE_SELECT_SKIP_BUTTON',
-};
 
 export const CIRCLE_SELECT_NEXT_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
 	label: 'Next',
-	custom_id: CIRCLE_SELECT_HANDLER_INTERACTIONS.Next,
+	custom_id: CustomId.CircleSelectNextButton,
 	style: ButtonStyle.SUCCESS,
 };
 
 export const CIRCLE_SELECT_SKIP_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
 	label: 'Skip',
-	custom_id: CIRCLE_SELECT_HANDLER_INTERACTIONS.Skip,
+	custom_id: CustomId.Skip,
 	style: ButtonStyle.DESTRUCTIVE,
 };
 

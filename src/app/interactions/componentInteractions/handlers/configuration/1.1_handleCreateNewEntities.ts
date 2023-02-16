@@ -2,16 +2,12 @@ import { deleteDiscordRolesCircles } from '@api/deleteDiscordRolesCircles';
 import { insertDiscordRolesCircles } from '@api/insertDiscordRolesCircles';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CategoryChannel, Role, TextChannel } from 'discord.js';
 import { ComponentActionRow, ComponentContext, ComponentSelectMenu, ComponentSelectOption } from 'slash-create';
+import { CustomId } from 'src/app/interactions/customId';
 import { DiscordService } from 'src/app/service/DiscordService';
 import Log from 'src/app/utils/Log';
 import { sleep } from 'src/app/utils/sleep';
 import { disableAllComponents } from '../common';
 import { handleSendAlerts } from './3_handleSendAlerts';
-
-export const CREATE_NEW_ENTITIES_HANDLER_INTERACTIONS = {
-	Link: 'LINK_CIRCLE_BUTTON',
-	Skip: 'SKIP_LINK_CIRCLE_BUTTON',
-};
 
 type CleanUpProps = {
 	circleId: number;
@@ -81,13 +77,13 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 	}
 
 	const LINK_CIRCLE_BUTTON = new ButtonBuilder()
-		.setCustomId(CREATE_NEW_ENTITIES_HANDLER_INTERACTIONS.Link)
+		.setCustomId(CustomId.LinkCircleButton)
 		.setLabel('Link Circle')
 		.setStyle(ButtonStyle.Primary);
 
 	// Only load if they have at least 1 circle already linked
 	const SKIP_LINK_CIRCLE_BUTTON = new ButtonBuilder()
-		.setCustomId(CREATE_NEW_ENTITIES_HANDLER_INTERACTIONS.Skip)
+		.setCustomId(CustomId.Skip)
 		.setLabel('Skip Link Circle (TODO)')
 		.setStyle(ButtonStyle.Secondary);
 

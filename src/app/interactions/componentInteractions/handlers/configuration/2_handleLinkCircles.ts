@@ -2,30 +2,27 @@ import { ButtonStyle, CommandContext, ComponentButton, ComponentContext, Compone
 import _ from 'lodash';
 import { Circle, getCircles } from '@api/getCircles';
 import { getLinkedCircles } from '@api/getLinkedCircles';
-
-export const LINK_CIRCLE_HANDLER_INTERACTIONS = {
-	Select: 'CIRCLE_SELECT',
-};
+import { CustomId } from 'src/app/interactions/customId';
 
 export const ALL_CIRCLES_LINKED_CONTINUE_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
 	style: ButtonStyle.SUCCESS,
 	label: 'Setup Alerts',
-	custom_id: 'ALL_CIRCLES_LINKED_CONTINUE_BUTTON',
+	custom_id: CustomId.AllowAlertsButton,
 };
 
 export const ALL_CIRCLES_LINKED_SKIP_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
 	style: ButtonStyle.DESTRUCTIVE,
 	label: 'Skip',
-	custom_id: 'ALL_CIRCLES_LINKED_SKIP_BUTTON',
+	custom_id: CustomId.Skip,
 };
 
 export const buildCircleSelect = ({ circles, options }: {circles?: Circle[]; options?: ComponentSelectOption[]}): ComponentSelectMenu => ({
 	type: ComponentType.STRING_SELECT,
 	options: circles ? circles.map(({ name, id }) => ({ value: id.toString(), label: name })) : options,
 	placeholder: 'Please select the circles here',
-	custom_id: LINK_CIRCLE_HANDLER_INTERACTIONS.Select,
+	custom_id: CustomId.CircleSelect,
 	min_values: 0,
 	max_values: circles ? circles.length : options?.length,
 });

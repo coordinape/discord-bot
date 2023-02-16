@@ -19,7 +19,7 @@ export const UNASSIGN_ROLE_USER_SELECT_CANCEL_BUTTON: ComponentButton = {
 	style: ButtonStyle.DESTRUCTIVE,
 };
 
-export async function unassignRoleHandler({ componentContext }: { componentContext: ComponentContext }) {
+export async function unassignRoleHandler(componentContext: ComponentContext) {
 	try {
 		componentContext.defer();
 

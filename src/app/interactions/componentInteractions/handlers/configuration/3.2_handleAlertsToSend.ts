@@ -1,9 +1,6 @@
 import { ButtonStyle, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentSelectOption, ComponentType } from 'slash-create';
+import { CustomId } from 'src/app/interactions/customId';
 import { disableAllComponents } from '../common';
-
-export const ALERT_HANDLER_INTERACTIONS = {
-	Select: 'ALERTS_STRING_SELECT',
-};
 
 const OPTIONS: ComponentSelectOption[] = [
 	{ label: 'Epoch Start', value: 'epoch-start' },
@@ -21,7 +18,7 @@ export const buildAlertsSelect = ({ options }: {options?: ComponentSelectOption[
 	type: ComponentType.STRING_SELECT,
 	options,
 	placeholder: 'Select the alerts you\'d like me to send, if any',
-	custom_id: ALERT_HANDLER_INTERACTIONS.Select,
+	custom_id: CustomId.AlertsSelect,
 	min_values: 0,
 	max_values: OPTIONS.length,
 });
@@ -29,7 +26,7 @@ export const buildAlertsSelect = ({ options }: {options?: ComponentSelectOption[
 export const ALERTS_SELECT_CONFIRM_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
 	label: 'Confirm',
-	custom_id: 'ALERTS_SELECT_CONFIRM_BUTTON',
+	custom_id: CustomId.AlertsSelectConfirmButton,
 	style: ButtonStyle.SUCCESS,
 	disabled: true,
 };
@@ -37,7 +34,7 @@ export const ALERTS_SELECT_CONFIRM_BUTTON: ComponentButton = {
 export const ALERTS_SELECT_CANCEL_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
 	label: 'Cancel',
-	custom_id: 'ALERTS_SELECT_CANCEL_BUTTON',
+	custom_id: CustomId.Skip,
 	style: ButtonStyle.DESTRUCTIVE,
 };
 
