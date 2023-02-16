@@ -956,6 +956,11 @@ users_aggregate?: [{	/** distinct select on columns */
 }>;
 	["CreateEpochInput"]: {
 	circle_id: number | Variable<any, string>,
+	grant?: number | undefined | null | Variable<any, string>,
+	params: ValueTypes["EpochInputParams"] | Variable<any, string>
+};
+	["CreateEpochOldInput"]: {
+	circle_id: number | Variable<any, string>,
 	days: number | Variable<any, string>,
 	description?: string | undefined | null | Variable<any, string>,
 	grant?: number | undefined | null | Variable<any, string>,
@@ -979,7 +984,6 @@ users_aggregate?: [{	/** distinct select on columns */
 		__typename?: boolean | `@${string}`
 }>;
 	["CreateUserWithTokenInput"]: {
-	name: string | Variable<any, string>,
 	token: string | Variable<any, string>
 };
 	["CreateUsersInput"]: {
@@ -1022,6 +1026,22 @@ users_aggregate?: [{	/** distinct select on columns */
 	success?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	["EndEpochInput"]: {
+	circle_id: number | Variable<any, string>,
+	id: number | Variable<any, string>
+};
+	["EpochInputParams"]: {
+	duration?: number | undefined | null | Variable<any, string>,
+	duration_unit?: string | undefined | null | Variable<any, string>,
+	end_date: ValueTypes["timestamptz"] | Variable<any, string>,
+	frequency?: number | undefined | null | Variable<any, string>,
+	frequency_unit?: string | undefined | null | Variable<any, string>,
+	start_date: ValueTypes["timestamptz"] | Variable<any, string>,
+	time_zone?: string | undefined | null | Variable<any, string>,
+	type: string | Variable<any, string>,
+	week?: number | undefined | null | Variable<any, string>,
+	weekday?: number | undefined | null | Variable<any, string>
+};
 	["EpochResponse"]: AliasType<{
 	epoch?:ValueTypes["epochs"],
 	id?:boolean | `@${string}`,
@@ -1046,6 +1066,31 @@ users_aggregate?: [{	/** distinct select on columns */
 	api_key?:boolean | `@${string}`,
 	circleApiKey?:ValueTypes["circle_api_keys"],
 	hash?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["GuildAdmin"]: AliasType<{
+	address?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["GuildInfoInput"]: {
+	id: string | Variable<any, string>
+};
+	["GuildInfoOutput"]: AliasType<{
+	admins?:ValueTypes["GuildAdmin"],
+	description?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	image_url?:boolean | `@${string}`,
+	member_count?:boolean | `@${string}`,
+	name?:boolean | `@${string}`,
+	roles?:ValueTypes["GuildRole"],
+	url_name?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["GuildRole"]: AliasType<{
+	id?:boolean | `@${string}`,
+	image_url?:boolean | `@${string}`,
+	member_count?:boolean | `@${string}`,
+	name?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	/** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -1145,6 +1190,8 @@ users_aggregate?: [{	/** distinct select on columns */
 	discord_webhook?: string | undefined | null | Variable<any, string>,
 	fixed_payment_token_type?: string | undefined | null | Variable<any, string>,
 	fixed_payment_vault_id?: number | undefined | null | Variable<any, string>,
+	guild_id?: number | undefined | null | Variable<any, string>,
+	guild_role_id?: number | undefined | null | Variable<any, string>,
 	min_vouches?: number | undefined | null | Variable<any, string>,
 	name?: string | undefined | null | Variable<any, string>,
 	nomination_days_limit?: number | undefined | null | Variable<any, string>,
@@ -1177,6 +1224,13 @@ users_aggregate?: [{	/** distinct select on columns */
 		__typename?: boolean | `@${string}`
 }>;
 	["UpdateEpochInput"]: {
+	circle_id: number | Variable<any, string>,
+	description?: string | undefined | null | Variable<any, string>,
+	grant?: number | undefined | null | Variable<any, string>,
+	id: number | Variable<any, string>,
+	params?: ValueTypes["EpochInputParams"] | undefined | null | Variable<any, string>
+};
+	["UpdateEpochOldInput"]: {
 	circle_id: number | Variable<any, string>,
 	days: number | Variable<any, string>,
 	description?: string | undefined | null | Variable<any, string>,
@@ -2971,6 +3025,8 @@ epochs_aggregate?: [{	/** distinct select on columns */
 	where?: ValueTypes["epochs_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["epochs_aggregate"]],
 	fixed_payment_token_type?:boolean | `@${string}`,
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 integrations?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["circle_integrations_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
@@ -3106,6 +3162,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** aggregate avg on columns */
 ["circles_avg_fields"]: AliasType<{
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
@@ -3115,6 +3173,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** order by avg() on columns of table "circles" */
 ["circles_avg_order_by"]: {
 	fixed_payment_vault_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_role_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	min_vouches?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nomination_days_limit?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -3143,6 +3203,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	epochs?: ValueTypes["epochs_bool_exp"] | undefined | null | Variable<any, string>,
 	fixed_payment_token_type?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	fixed_payment_vault_id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
+	guild_id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
+	guild_role_id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
 	integrations?: ValueTypes["circle_integrations_bool_exp"] | undefined | null | Variable<any, string>,
 	is_verified?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
@@ -3171,6 +3233,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** input type for incrementing numeric columns in table "circles" */
 ["circles_inc_input"]: {
 	fixed_payment_vault_id?: number | undefined | null | Variable<any, string>,
+	guild_id?: number | undefined | null | Variable<any, string>,
+	guild_role_id?: number | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	min_vouches?: number | undefined | null | Variable<any, string>,
 	nomination_days_limit?: number | undefined | null | Variable<any, string>,
@@ -3196,6 +3260,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	epochs?: ValueTypes["epochs_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
 	fixed_payment_token_type?: string | undefined | null | Variable<any, string>,
 	fixed_payment_vault_id?: number | undefined | null | Variable<any, string>,
+	guild_id?: number | undefined | null | Variable<any, string>,
+	guild_role_id?: number | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	integrations?: ValueTypes["circle_integrations_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
 	is_verified?: boolean | undefined | null | Variable<any, string>,
@@ -3229,6 +3295,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	discord_webhook?:boolean | `@${string}`,
 	fixed_payment_token_type?:boolean | `@${string}`,
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	logo?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
@@ -3251,6 +3319,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	discord_webhook?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	fixed_payment_token_type?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	fixed_payment_vault_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_role_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	logo?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	min_vouches?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -3272,6 +3342,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	discord_webhook?:boolean | `@${string}`,
 	fixed_payment_token_type?:boolean | `@${string}`,
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	logo?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
@@ -3294,6 +3366,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	discord_webhook?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	fixed_payment_token_type?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	fixed_payment_vault_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_role_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	logo?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	min_vouches?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -3345,6 +3419,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	epochs_aggregate?: ValueTypes["epochs_aggregate_order_by"] | undefined | null | Variable<any, string>,
 	fixed_payment_token_type?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	fixed_payment_vault_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_role_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	integrations_aggregate?: ValueTypes["circle_integrations_aggregate_order_by"] | undefined | null | Variable<any, string>,
 	is_verified?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -3386,6 +3462,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	discord_webhook?: string | undefined | null | Variable<any, string>,
 	fixed_payment_token_type?: string | undefined | null | Variable<any, string>,
 	fixed_payment_vault_id?: number | undefined | null | Variable<any, string>,
+	guild_id?: number | undefined | null | Variable<any, string>,
+	guild_role_id?: number | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	is_verified?: boolean | undefined | null | Variable<any, string>,
 	logo?: string | undefined | null | Variable<any, string>,
@@ -3405,6 +3483,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** aggregate stddev on columns */
 ["circles_stddev_fields"]: AliasType<{
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
@@ -3414,6 +3494,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** order by stddev() on columns of table "circles" */
 ["circles_stddev_order_by"]: {
 	fixed_payment_vault_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_role_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	min_vouches?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nomination_days_limit?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -3422,6 +3504,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** aggregate stddev_pop on columns */
 ["circles_stddev_pop_fields"]: AliasType<{
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
@@ -3431,6 +3515,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** order by stddev_pop() on columns of table "circles" */
 ["circles_stddev_pop_order_by"]: {
 	fixed_payment_vault_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_role_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	min_vouches?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nomination_days_limit?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -3439,6 +3525,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** aggregate stddev_samp on columns */
 ["circles_stddev_samp_fields"]: AliasType<{
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
@@ -3448,6 +3536,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** order by stddev_samp() on columns of table "circles" */
 ["circles_stddev_samp_order_by"]: {
 	fixed_payment_vault_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_role_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	min_vouches?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nomination_days_limit?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -3472,6 +3562,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	discord_webhook?: string | undefined | null | Variable<any, string>,
 	fixed_payment_token_type?: string | undefined | null | Variable<any, string>,
 	fixed_payment_vault_id?: number | undefined | null | Variable<any, string>,
+	guild_id?: number | undefined | null | Variable<any, string>,
+	guild_role_id?: number | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	is_verified?: boolean | undefined | null | Variable<any, string>,
 	logo?: string | undefined | null | Variable<any, string>,
@@ -3491,6 +3583,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** aggregate sum on columns */
 ["circles_sum_fields"]: AliasType<{
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
@@ -3500,6 +3594,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** order by sum() on columns of table "circles" */
 ["circles_sum_order_by"]: {
 	fixed_payment_vault_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_role_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	min_vouches?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nomination_days_limit?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -3517,6 +3613,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** aggregate var_pop on columns */
 ["circles_var_pop_fields"]: AliasType<{
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
@@ -3526,6 +3624,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** order by var_pop() on columns of table "circles" */
 ["circles_var_pop_order_by"]: {
 	fixed_payment_vault_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_role_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	min_vouches?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nomination_days_limit?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -3534,6 +3634,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** aggregate var_samp on columns */
 ["circles_var_samp_fields"]: AliasType<{
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
@@ -3543,6 +3645,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** order by var_samp() on columns of table "circles" */
 ["circles_var_samp_order_by"]: {
 	fixed_payment_vault_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_role_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	min_vouches?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nomination_days_limit?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -3551,6 +3655,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** aggregate variance on columns */
 ["circles_variance_fields"]: AliasType<{
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
@@ -3560,6 +3666,8 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	/** order by variance() on columns of table "circles" */
 ["circles_variance_order_by"]: {
 	fixed_payment_vault_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	guild_role_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	min_vouches?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nomination_days_limit?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -4599,6 +4707,8 @@ count?: [{	columns?: Array<ValueTypes["discord_circle_api_tokens_select_column"]
 };
 	/** link a discord role to a circle  to control membership of the circle */
 ["discord_roles_circles"]: AliasType<{
+alerts?: [{	/** JSON select path */
+	path?: string | undefined | null | Variable<any, string>},boolean | `@${string}`],
 	/** An object relationship */
 	circle?:ValueTypes["circles"],
 	circle_id?:boolean | `@${string}`,
@@ -4630,6 +4740,10 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 	variance?:ValueTypes["discord_roles_circles_variance_fields"],
 		__typename?: boolean | `@${string}`
 }>;
+	/** append existing jsonb value of filtered columns with new jsonb value */
+["discord_roles_circles_append_input"]: {
+	alerts?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>
+};
 	/** aggregate avg on columns */
 ["discord_roles_circles_avg_fields"]: AliasType<{
 	circle_id?:boolean | `@${string}`,
@@ -4641,6 +4755,7 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 	_and?: Array<ValueTypes["discord_roles_circles_bool_exp"]> | undefined | null | Variable<any, string>,
 	_not?: ValueTypes["discord_roles_circles_bool_exp"] | undefined | null | Variable<any, string>,
 	_or?: Array<ValueTypes["discord_roles_circles_bool_exp"]> | undefined | null | Variable<any, string>,
+	alerts?: ValueTypes["jsonb_comparison_exp"] | undefined | null | Variable<any, string>,
 	circle?: ValueTypes["circles_bool_exp"] | undefined | null | Variable<any, string>,
 	circle_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamptz_comparison_exp"] | undefined | null | Variable<any, string>,
@@ -4651,6 +4766,18 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 };
 	/** unique or primary key constraints on table "discord.roles_circles" */
 ["discord_roles_circles_constraint"]:discord_roles_circles_constraint;
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+["discord_roles_circles_delete_at_path_input"]: {
+	alerts?: Array<string> | undefined | null | Variable<any, string>
+};
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+["discord_roles_circles_delete_elem_input"]: {
+	alerts?: number | undefined | null | Variable<any, string>
+};
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+["discord_roles_circles_delete_key_input"]: {
+	alerts?: string | undefined | null | Variable<any, string>
+};
 	/** input type for incrementing numeric columns in table "discord.roles_circles" */
 ["discord_roles_circles_inc_input"]: {
 	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
@@ -4658,6 +4785,7 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 };
 	/** input type for inserting data into table "discord.roles_circles" */
 ["discord_roles_circles_insert_input"]: {
+	alerts?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>,
 	circle?: ValueTypes["circles_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
 	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
@@ -4708,6 +4836,7 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 };
 	/** Ordering options when selecting data from "discord.roles_circles". */
 ["discord_roles_circles_order_by"]: {
+	alerts?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	circle?: ValueTypes["circles_order_by"] | undefined | null | Variable<any, string>,
 	circle_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -4720,10 +4849,15 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 ["discord_roles_circles_pk_columns_input"]: {
 	id: ValueTypes["bigint"] | Variable<any, string>
 };
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+["discord_roles_circles_prepend_input"]: {
+	alerts?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>
+};
 	/** select columns of table "discord.roles_circles" */
 ["discord_roles_circles_select_column"]:discord_roles_circles_select_column;
 	/** input type for updating data in table "discord.roles_circles" */
 ["discord_roles_circles_set_input"]: {
+	alerts?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>,
 	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
 	discord_channel_id?: string | undefined | null | Variable<any, string>,
@@ -4758,6 +4892,7 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 };
 	/** Initial value of the column from where the streaming should start */
 ["discord_roles_circles_stream_cursor_value_input"]: {
+	alerts?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>,
 	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
 	discord_channel_id?: string | undefined | null | Variable<any, string>,
@@ -4774,8 +4909,18 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 	/** update columns of table "discord.roles_circles" */
 ["discord_roles_circles_update_column"]:discord_roles_circles_update_column;
 	["discord_roles_circles_updates"]: {
+	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: ValueTypes["discord_roles_circles_append_input"] | undefined | null | Variable<any, string>,
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: ValueTypes["discord_roles_circles_delete_at_path_input"] | undefined | null | Variable<any, string>,
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: ValueTypes["discord_roles_circles_delete_elem_input"] | undefined | null | Variable<any, string>,
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: ValueTypes["discord_roles_circles_delete_key_input"] | undefined | null | Variable<any, string>,
 	/** increments the numeric columns with given value of the filtered values */
 	_inc?: ValueTypes["discord_roles_circles_inc_input"] | undefined | null | Variable<any, string>,
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: ValueTypes["discord_roles_circles_prepend_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["discord_roles_circles_set_input"] | undefined | null | Variable<any, string>,
 	where: ValueTypes["discord_roles_circles_bool_exp"] | Variable<any, string>
@@ -5837,6 +5982,8 @@ epoch_pending_token_gifts_aggregate?: [{	/** distinct select on columns */
 	pgive_data?:ValueTypes["epoch_pgive_data"],
 	regift_days?:boolean | `@${string}`,
 	repeat?:boolean | `@${string}`,
+repeat_data?: [{	/** JSON select path */
+	path?: string | undefined | null | Variable<any, string>},boolean | `@${string}`],
 	repeat_day_of_month?:boolean | `@${string}`,
 	start_date?:boolean | `@${string}`,
 token_gifts?: [{	/** distinct select on columns */
@@ -5888,6 +6035,10 @@ count?: [{	columns?: Array<ValueTypes["epochs_select_column"]> | undefined | nul
 	var_pop?: ValueTypes["epochs_var_pop_order_by"] | undefined | null | Variable<any, string>,
 	var_samp?: ValueTypes["epochs_var_samp_order_by"] | undefined | null | Variable<any, string>,
 	variance?: ValueTypes["epochs_variance_order_by"] | undefined | null | Variable<any, string>
+};
+	/** append existing jsonb value of filtered columns with new jsonb value */
+["epochs_append_input"]: {
+	repeat_data?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>
 };
 	/** input type for inserting array relation for remote table "epoches" */
 ["epochs_arr_rel_insert_input"]: {
@@ -5942,6 +6093,7 @@ count?: [{	columns?: Array<ValueTypes["epochs_select_column"]> | undefined | nul
 	pgive_data?: ValueTypes["epoch_pgive_data_bool_exp"] | undefined | null | Variable<any, string>,
 	regift_days?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	repeat?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
+	repeat_data?: ValueTypes["jsonb_comparison_exp"] | undefined | null | Variable<any, string>,
 	repeat_day_of_month?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	start_date?: ValueTypes["timestamptz_comparison_exp"] | undefined | null | Variable<any, string>,
 	token_gifts?: ValueTypes["token_gifts_bool_exp"] | undefined | null | Variable<any, string>,
@@ -5949,6 +6101,18 @@ count?: [{	columns?: Array<ValueTypes["epochs_select_column"]> | undefined | nul
 };
 	/** unique or primary key constraints on table "epoches" */
 ["epochs_constraint"]:epochs_constraint;
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+["epochs_delete_at_path_input"]: {
+	repeat_data?: Array<string> | undefined | null | Variable<any, string>
+};
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+["epochs_delete_elem_input"]: {
+	repeat_data?: number | undefined | null | Variable<any, string>
+};
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+["epochs_delete_key_input"]: {
+	repeat_data?: string | undefined | null | Variable<any, string>
+};
 	/** input type for incrementing numeric columns in table "epoches" */
 ["epochs_inc_input"]: {
 	circle_id?: number | undefined | null | Variable<any, string>,
@@ -5981,6 +6145,7 @@ count?: [{	columns?: Array<ValueTypes["epochs_select_column"]> | undefined | nul
 	pgive_data?: ValueTypes["epoch_pgive_data_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
 	regift_days?: number | undefined | null | Variable<any, string>,
 	repeat?: number | undefined | null | Variable<any, string>,
+	repeat_data?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>,
 	repeat_day_of_month?: number | undefined | null | Variable<any, string>,
 	start_date?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
 	token_gifts?: ValueTypes["token_gifts_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
@@ -6105,6 +6270,7 @@ count?: [{	columns?: Array<ValueTypes["epochs_select_column"]> | undefined | nul
 	pgive_data?: ValueTypes["epoch_pgive_data_order_by"] | undefined | null | Variable<any, string>,
 	regift_days?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	repeat?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	repeat_data?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	repeat_day_of_month?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	start_date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	token_gifts_aggregate?: ValueTypes["token_gifts_aggregate_order_by"] | undefined | null | Variable<any, string>,
@@ -6113,6 +6279,10 @@ count?: [{	columns?: Array<ValueTypes["epochs_select_column"]> | undefined | nul
 	/** primary key columns input for table: epoches */
 ["epochs_pk_columns_input"]: {
 	id: ValueTypes["bigint"] | Variable<any, string>
+};
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+["epochs_prepend_input"]: {
+	repeat_data?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>
 };
 	/** select columns of table "epoches" */
 ["epochs_select_column"]:epochs_select_column;
@@ -6132,6 +6302,7 @@ count?: [{	columns?: Array<ValueTypes["epochs_select_column"]> | undefined | nul
 	number?: number | undefined | null | Variable<any, string>,
 	regift_days?: number | undefined | null | Variable<any, string>,
 	repeat?: number | undefined | null | Variable<any, string>,
+	repeat_data?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>,
 	repeat_day_of_month?: number | undefined | null | Variable<any, string>,
 	start_date?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>
@@ -6228,6 +6399,7 @@ count?: [{	columns?: Array<ValueTypes["epochs_select_column"]> | undefined | nul
 	number?: number | undefined | null | Variable<any, string>,
 	regift_days?: number | undefined | null | Variable<any, string>,
 	repeat?: number | undefined | null | Variable<any, string>,
+	repeat_data?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>,
 	repeat_day_of_month?: number | undefined | null | Variable<any, string>,
 	start_date?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>
@@ -6258,8 +6430,18 @@ count?: [{	columns?: Array<ValueTypes["epochs_select_column"]> | undefined | nul
 	/** update columns of table "epoches" */
 ["epochs_update_column"]:epochs_update_column;
 	["epochs_updates"]: {
+	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: ValueTypes["epochs_append_input"] | undefined | null | Variable<any, string>,
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: ValueTypes["epochs_delete_at_path_input"] | undefined | null | Variable<any, string>,
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: ValueTypes["epochs_delete_elem_input"] | undefined | null | Variable<any, string>,
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: ValueTypes["epochs_delete_key_input"] | undefined | null | Variable<any, string>,
 	/** increments the numeric columns with given value of the filtered values */
 	_inc?: ValueTypes["epochs_inc_input"] | undefined | null | Variable<any, string>,
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: ValueTypes["epochs_prepend_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["epochs_set_input"] | undefined | null | Variable<any, string>,
 	where: ValueTypes["epochs_bool_exp"] | Variable<any, string>
@@ -7903,6 +8085,7 @@ adminUpdateUser?: [{	payload: ValueTypes["AdminUpdateUserInput"] | Variable<any,
 allocationCsv?: [{	payload: ValueTypes["AllocationCsvInput"] | Variable<any, string>},ValueTypes["AllocationCsvResponse"]],
 createCircle?: [{	payload: ValueTypes["CreateCircleInput"] | Variable<any, string>},ValueTypes["CreateCircleResponse"]],
 createEpoch?: [{	payload: ValueTypes["CreateEpochInput"] | Variable<any, string>},ValueTypes["EpochResponse"]],
+createEpochOld?: [{	payload: ValueTypes["CreateEpochOldInput"] | Variable<any, string>},ValueTypes["EpochResponse"]],
 createNominee?: [{	payload: ValueTypes["CreateNomineeInput"] | Variable<any, string>},ValueTypes["CreateNomineeResponse"]],
 	createSampleCircle?:ValueTypes["CreateSampleCircleResponse"],
 createUserWithToken?: [{	payload: ValueTypes["CreateUserWithTokenInput"] | Variable<any, string>},ValueTypes["UserResponse"]],
@@ -8017,6 +8200,7 @@ delete_vaults_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},Value
 delete_vouches?: [{	/** filter the rows which have to be deleted */
 	where: ValueTypes["vouches_bool_exp"] | Variable<any, string>},ValueTypes["vouches_mutation_response"]],
 delete_vouches_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["vouches"]],
+endEpoch?: [{	payload: ValueTypes["EndEpochInput"] | Variable<any, string>},ValueTypes["EpochResponse"]],
 generateApiKey?: [{	payload: ValueTypes["GenerateApiKeyInput"] | Variable<any, string>},ValueTypes["GenerateApiKeyResponse"]],
 insert_burns?: [{	/** the rows to be inserted */
 	objects: Array<ValueTypes["burns_insert_input"]> | Variable<any, string>,	/** upsert condition */
@@ -8231,6 +8415,7 @@ updateAllocations?: [{	payload: ValueTypes["Allocations"] | Variable<any, string
 updateCircle?: [{	payload: ValueTypes["UpdateCircleInput"] | Variable<any, string>},ValueTypes["UpdateCircleOutput"]],
 updateContribution?: [{	payload: ValueTypes["UpdateContributionInput"] | Variable<any, string>},ValueTypes["UpdateContributionResponse"]],
 updateEpoch?: [{	payload: ValueTypes["UpdateEpochInput"] | Variable<any, string>},ValueTypes["EpochResponse"]],
+updateEpochOld?: [{	payload: ValueTypes["UpdateEpochOldInput"] | Variable<any, string>},ValueTypes["EpochResponse"]],
 updateProfile?: [{	payload: ValueTypes["UpdateProfileInput"] | Variable<any, string>},ValueTypes["UpdateProfileResponse"]],
 updateTeammates?: [{	payload: ValueTypes["UpdateTeammatesInput"] | Variable<any, string>},ValueTypes["UpdateTeammatesResponse"]],
 updateUser?: [{	payload: ValueTypes["UpdateUserInput"] | Variable<any, string>},ValueTypes["UserResponse"]],
@@ -8321,12 +8506,22 @@ update_discord_circle_api_tokens_by_pk?: [{	/** increments the numeric columns w
 	_set?: ValueTypes["discord_circle_api_tokens_set_input"] | undefined | null | Variable<any, string>,	pk_columns: ValueTypes["discord_circle_api_tokens_pk_columns_input"] | Variable<any, string>},ValueTypes["discord_circle_api_tokens"]],
 update_discord_circle_api_tokens_many?: [{	/** updates to execute, in order */
 	updates: Array<ValueTypes["discord_circle_api_tokens_updates"]> | Variable<any, string>},ValueTypes["discord_circle_api_tokens_mutation_response"]],
-update_discord_roles_circles?: [{	/** increments the numeric columns with given value of the filtered values */
-	_inc?: ValueTypes["discord_roles_circles_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+update_discord_roles_circles?: [{	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: ValueTypes["discord_roles_circles_append_input"] | undefined | null | Variable<any, string>,	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: ValueTypes["discord_roles_circles_delete_at_path_input"] | undefined | null | Variable<any, string>,	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: ValueTypes["discord_roles_circles_delete_elem_input"] | undefined | null | Variable<any, string>,	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: ValueTypes["discord_roles_circles_delete_key_input"] | undefined | null | Variable<any, string>,	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["discord_roles_circles_inc_input"] | undefined | null | Variable<any, string>,	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: ValueTypes["discord_roles_circles_prepend_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["discord_roles_circles_set_input"] | undefined | null | Variable<any, string>,	/** filter the rows which have to be updated */
 	where: ValueTypes["discord_roles_circles_bool_exp"] | Variable<any, string>},ValueTypes["discord_roles_circles_mutation_response"]],
-update_discord_roles_circles_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
-	_inc?: ValueTypes["discord_roles_circles_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+update_discord_roles_circles_by_pk?: [{	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: ValueTypes["discord_roles_circles_append_input"] | undefined | null | Variable<any, string>,	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: ValueTypes["discord_roles_circles_delete_at_path_input"] | undefined | null | Variable<any, string>,	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: ValueTypes["discord_roles_circles_delete_elem_input"] | undefined | null | Variable<any, string>,	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: ValueTypes["discord_roles_circles_delete_key_input"] | undefined | null | Variable<any, string>,	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["discord_roles_circles_inc_input"] | undefined | null | Variable<any, string>,	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: ValueTypes["discord_roles_circles_prepend_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["discord_roles_circles_set_input"] | undefined | null | Variable<any, string>,	pk_columns: ValueTypes["discord_roles_circles_pk_columns_input"] | Variable<any, string>},ValueTypes["discord_roles_circles"]],
 update_discord_roles_circles_many?: [{	/** updates to execute, in order */
 	updates: Array<ValueTypes["discord_roles_circles_updates"]> | Variable<any, string>},ValueTypes["discord_roles_circles_mutation_response"]],
@@ -8367,12 +8562,22 @@ update_epoch_pgive_data_by_pk?: [{	/** increments the numeric columns with given
 	_set?: ValueTypes["epoch_pgive_data_set_input"] | undefined | null | Variable<any, string>,	pk_columns: ValueTypes["epoch_pgive_data_pk_columns_input"] | Variable<any, string>},ValueTypes["epoch_pgive_data"]],
 update_epoch_pgive_data_many?: [{	/** updates to execute, in order */
 	updates: Array<ValueTypes["epoch_pgive_data_updates"]> | Variable<any, string>},ValueTypes["epoch_pgive_data_mutation_response"]],
-update_epochs?: [{	/** increments the numeric columns with given value of the filtered values */
-	_inc?: ValueTypes["epochs_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+update_epochs?: [{	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: ValueTypes["epochs_append_input"] | undefined | null | Variable<any, string>,	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: ValueTypes["epochs_delete_at_path_input"] | undefined | null | Variable<any, string>,	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: ValueTypes["epochs_delete_elem_input"] | undefined | null | Variable<any, string>,	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: ValueTypes["epochs_delete_key_input"] | undefined | null | Variable<any, string>,	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["epochs_inc_input"] | undefined | null | Variable<any, string>,	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: ValueTypes["epochs_prepend_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["epochs_set_input"] | undefined | null | Variable<any, string>,	/** filter the rows which have to be updated */
 	where: ValueTypes["epochs_bool_exp"] | Variable<any, string>},ValueTypes["epochs_mutation_response"]],
-update_epochs_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
-	_inc?: ValueTypes["epochs_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+update_epochs_by_pk?: [{	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: ValueTypes["epochs_append_input"] | undefined | null | Variable<any, string>,	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: ValueTypes["epochs_delete_at_path_input"] | undefined | null | Variable<any, string>,	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: ValueTypes["epochs_delete_elem_input"] | undefined | null | Variable<any, string>,	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: ValueTypes["epochs_delete_key_input"] | undefined | null | Variable<any, string>,	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["epochs_inc_input"] | undefined | null | Variable<any, string>,	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: ValueTypes["epochs_prepend_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["epochs_set_input"] | undefined | null | Variable<any, string>,	pk_columns: ValueTypes["epochs_pk_columns_input"] | Variable<any, string>},ValueTypes["epochs"]],
 update_epochs_many?: [{	/** updates to execute, in order */
 	updates: Array<ValueTypes["epochs_updates"]> | Variable<any, string>},ValueTypes["epochs_mutation_response"]],
@@ -10890,6 +11095,7 @@ epochs_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ValueTypes["epochs_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
 	where?: ValueTypes["epochs_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["epochs_aggregate"]],
 epochs_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["epochs"]],
+getGuildInfo?: [{	payload: ValueTypes["GuildInfoInput"] | Variable<any, string>},ValueTypes["GuildInfoOutput"]],
 gift_private?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["gift_private_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
 	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
@@ -11044,7 +11250,6 @@ personal_access_tokens_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ValueTypes["personal_access_tokens_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
 	where?: ValueTypes["personal_access_tokens_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["personal_access_tokens_aggregate"]],
 personal_access_tokens_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["personal_access_tokens"]],
-price_per_share?: [{	chain_id: number | Variable<any, string>,	token_address?: string | undefined | null | Variable<any, string>},boolean | `@${string}`],
 profiles?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["profiles_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
 	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
@@ -13805,7 +14010,6 @@ distributions_aggregate?: [{	/** distinct select on columns */
 	org_id?:boolean | `@${string}`,
 	/** An object relationship */
 	organization?:ValueTypes["organizations"],
-	price_per_share?:boolean | `@${string}`,
 	/** An object relationship */
 	profile?:ValueTypes["profiles"],
 	simple_token_address?:boolean | `@${string}`,
@@ -14598,6 +14802,11 @@ users_aggregate?: [{	/** distinct select on columns */
 }>;
 	["CreateEpochInput"]: {
 	circle_id: number,
+	grant?: number | undefined | null,
+	params: ResolverInputTypes["EpochInputParams"]
+};
+	["CreateEpochOldInput"]: {
+	circle_id: number,
 	days: number,
 	description?: string | undefined | null,
 	grant?: number | undefined | null,
@@ -14621,7 +14830,6 @@ users_aggregate?: [{	/** distinct select on columns */
 		__typename?: boolean | `@${string}`
 }>;
 	["CreateUserWithTokenInput"]: {
-	name: string,
 	token: string
 };
 	["CreateUsersInput"]: {
@@ -14664,6 +14872,22 @@ users_aggregate?: [{	/** distinct select on columns */
 	success?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	["EndEpochInput"]: {
+	circle_id: number,
+	id: number
+};
+	["EpochInputParams"]: {
+	duration?: number | undefined | null,
+	duration_unit?: string | undefined | null,
+	end_date: ResolverInputTypes["timestamptz"],
+	frequency?: number | undefined | null,
+	frequency_unit?: string | undefined | null,
+	start_date: ResolverInputTypes["timestamptz"],
+	time_zone?: string | undefined | null,
+	type: string,
+	week?: number | undefined | null,
+	weekday?: number | undefined | null
+};
 	["EpochResponse"]: AliasType<{
 	epoch?:ResolverInputTypes["epochs"],
 	id?:boolean | `@${string}`,
@@ -14688,6 +14912,31 @@ users_aggregate?: [{	/** distinct select on columns */
 	api_key?:boolean | `@${string}`,
 	circleApiKey?:ResolverInputTypes["circle_api_keys"],
 	hash?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["GuildAdmin"]: AliasType<{
+	address?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["GuildInfoInput"]: {
+	id: string
+};
+	["GuildInfoOutput"]: AliasType<{
+	admins?:ResolverInputTypes["GuildAdmin"],
+	description?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	image_url?:boolean | `@${string}`,
+	member_count?:boolean | `@${string}`,
+	name?:boolean | `@${string}`,
+	roles?:ResolverInputTypes["GuildRole"],
+	url_name?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["GuildRole"]: AliasType<{
+	id?:boolean | `@${string}`,
+	image_url?:boolean | `@${string}`,
+	member_count?:boolean | `@${string}`,
+	name?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	/** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -14787,6 +15036,8 @@ users_aggregate?: [{	/** distinct select on columns */
 	discord_webhook?: string | undefined | null,
 	fixed_payment_token_type?: string | undefined | null,
 	fixed_payment_vault_id?: number | undefined | null,
+	guild_id?: number | undefined | null,
+	guild_role_id?: number | undefined | null,
 	min_vouches?: number | undefined | null,
 	name?: string | undefined | null,
 	nomination_days_limit?: number | undefined | null,
@@ -14819,6 +15070,13 @@ users_aggregate?: [{	/** distinct select on columns */
 		__typename?: boolean | `@${string}`
 }>;
 	["UpdateEpochInput"]: {
+	circle_id: number,
+	description?: string | undefined | null,
+	grant?: number | undefined | null,
+	id: number,
+	params?: ResolverInputTypes["EpochInputParams"] | undefined | null
+};
+	["UpdateEpochOldInput"]: {
 	circle_id: number,
 	days: number,
 	description?: string | undefined | null,
@@ -16613,6 +16871,8 @@ epochs_aggregate?: [{	/** distinct select on columns */
 	where?: ResolverInputTypes["epochs_bool_exp"] | undefined | null},ResolverInputTypes["epochs_aggregate"]],
 	fixed_payment_token_type?:boolean | `@${string}`,
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 integrations?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["circle_integrations_select_column"]> | undefined | null,	/** limit the number of rows returned */
@@ -16748,6 +17008,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** aggregate avg on columns */
 ["circles_avg_fields"]: AliasType<{
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
@@ -16757,6 +17019,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** order by avg() on columns of table "circles" */
 ["circles_avg_order_by"]: {
 	fixed_payment_vault_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_role_id?: ResolverInputTypes["order_by"] | undefined | null,
 	id?: ResolverInputTypes["order_by"] | undefined | null,
 	min_vouches?: ResolverInputTypes["order_by"] | undefined | null,
 	nomination_days_limit?: ResolverInputTypes["order_by"] | undefined | null,
@@ -16785,6 +17049,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	epochs?: ResolverInputTypes["epochs_bool_exp"] | undefined | null,
 	fixed_payment_token_type?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	fixed_payment_vault_id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
+	guild_id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
+	guild_role_id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
 	integrations?: ResolverInputTypes["circle_integrations_bool_exp"] | undefined | null,
 	is_verified?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
@@ -16813,6 +17079,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** input type for incrementing numeric columns in table "circles" */
 ["circles_inc_input"]: {
 	fixed_payment_vault_id?: number | undefined | null,
+	guild_id?: number | undefined | null,
+	guild_role_id?: number | undefined | null,
 	id?: ResolverInputTypes["bigint"] | undefined | null,
 	min_vouches?: number | undefined | null,
 	nomination_days_limit?: number | undefined | null,
@@ -16838,6 +17106,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	epochs?: ResolverInputTypes["epochs_arr_rel_insert_input"] | undefined | null,
 	fixed_payment_token_type?: string | undefined | null,
 	fixed_payment_vault_id?: number | undefined | null,
+	guild_id?: number | undefined | null,
+	guild_role_id?: number | undefined | null,
 	id?: ResolverInputTypes["bigint"] | undefined | null,
 	integrations?: ResolverInputTypes["circle_integrations_arr_rel_insert_input"] | undefined | null,
 	is_verified?: boolean | undefined | null,
@@ -16871,6 +17141,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	discord_webhook?:boolean | `@${string}`,
 	fixed_payment_token_type?:boolean | `@${string}`,
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	logo?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
@@ -16893,6 +17165,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	discord_webhook?: ResolverInputTypes["order_by"] | undefined | null,
 	fixed_payment_token_type?: ResolverInputTypes["order_by"] | undefined | null,
 	fixed_payment_vault_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_role_id?: ResolverInputTypes["order_by"] | undefined | null,
 	id?: ResolverInputTypes["order_by"] | undefined | null,
 	logo?: ResolverInputTypes["order_by"] | undefined | null,
 	min_vouches?: ResolverInputTypes["order_by"] | undefined | null,
@@ -16914,6 +17188,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	discord_webhook?:boolean | `@${string}`,
 	fixed_payment_token_type?:boolean | `@${string}`,
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	logo?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
@@ -16936,6 +17212,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	discord_webhook?: ResolverInputTypes["order_by"] | undefined | null,
 	fixed_payment_token_type?: ResolverInputTypes["order_by"] | undefined | null,
 	fixed_payment_vault_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_role_id?: ResolverInputTypes["order_by"] | undefined | null,
 	id?: ResolverInputTypes["order_by"] | undefined | null,
 	logo?: ResolverInputTypes["order_by"] | undefined | null,
 	min_vouches?: ResolverInputTypes["order_by"] | undefined | null,
@@ -16987,6 +17265,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	epochs_aggregate?: ResolverInputTypes["epochs_aggregate_order_by"] | undefined | null,
 	fixed_payment_token_type?: ResolverInputTypes["order_by"] | undefined | null,
 	fixed_payment_vault_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_role_id?: ResolverInputTypes["order_by"] | undefined | null,
 	id?: ResolverInputTypes["order_by"] | undefined | null,
 	integrations_aggregate?: ResolverInputTypes["circle_integrations_aggregate_order_by"] | undefined | null,
 	is_verified?: ResolverInputTypes["order_by"] | undefined | null,
@@ -17028,6 +17308,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	discord_webhook?: string | undefined | null,
 	fixed_payment_token_type?: string | undefined | null,
 	fixed_payment_vault_id?: number | undefined | null,
+	guild_id?: number | undefined | null,
+	guild_role_id?: number | undefined | null,
 	id?: ResolverInputTypes["bigint"] | undefined | null,
 	is_verified?: boolean | undefined | null,
 	logo?: string | undefined | null,
@@ -17047,6 +17329,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** aggregate stddev on columns */
 ["circles_stddev_fields"]: AliasType<{
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
@@ -17056,6 +17340,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** order by stddev() on columns of table "circles" */
 ["circles_stddev_order_by"]: {
 	fixed_payment_vault_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_role_id?: ResolverInputTypes["order_by"] | undefined | null,
 	id?: ResolverInputTypes["order_by"] | undefined | null,
 	min_vouches?: ResolverInputTypes["order_by"] | undefined | null,
 	nomination_days_limit?: ResolverInputTypes["order_by"] | undefined | null,
@@ -17064,6 +17350,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** aggregate stddev_pop on columns */
 ["circles_stddev_pop_fields"]: AliasType<{
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
@@ -17073,6 +17361,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** order by stddev_pop() on columns of table "circles" */
 ["circles_stddev_pop_order_by"]: {
 	fixed_payment_vault_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_role_id?: ResolverInputTypes["order_by"] | undefined | null,
 	id?: ResolverInputTypes["order_by"] | undefined | null,
 	min_vouches?: ResolverInputTypes["order_by"] | undefined | null,
 	nomination_days_limit?: ResolverInputTypes["order_by"] | undefined | null,
@@ -17081,6 +17371,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** aggregate stddev_samp on columns */
 ["circles_stddev_samp_fields"]: AliasType<{
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
@@ -17090,6 +17382,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** order by stddev_samp() on columns of table "circles" */
 ["circles_stddev_samp_order_by"]: {
 	fixed_payment_vault_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_role_id?: ResolverInputTypes["order_by"] | undefined | null,
 	id?: ResolverInputTypes["order_by"] | undefined | null,
 	min_vouches?: ResolverInputTypes["order_by"] | undefined | null,
 	nomination_days_limit?: ResolverInputTypes["order_by"] | undefined | null,
@@ -17114,6 +17408,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	discord_webhook?: string | undefined | null,
 	fixed_payment_token_type?: string | undefined | null,
 	fixed_payment_vault_id?: number | undefined | null,
+	guild_id?: number | undefined | null,
+	guild_role_id?: number | undefined | null,
 	id?: ResolverInputTypes["bigint"] | undefined | null,
 	is_verified?: boolean | undefined | null,
 	logo?: string | undefined | null,
@@ -17133,6 +17429,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** aggregate sum on columns */
 ["circles_sum_fields"]: AliasType<{
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
@@ -17142,6 +17440,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** order by sum() on columns of table "circles" */
 ["circles_sum_order_by"]: {
 	fixed_payment_vault_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_role_id?: ResolverInputTypes["order_by"] | undefined | null,
 	id?: ResolverInputTypes["order_by"] | undefined | null,
 	min_vouches?: ResolverInputTypes["order_by"] | undefined | null,
 	nomination_days_limit?: ResolverInputTypes["order_by"] | undefined | null,
@@ -17159,6 +17459,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** aggregate var_pop on columns */
 ["circles_var_pop_fields"]: AliasType<{
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
@@ -17168,6 +17470,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** order by var_pop() on columns of table "circles" */
 ["circles_var_pop_order_by"]: {
 	fixed_payment_vault_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_role_id?: ResolverInputTypes["order_by"] | undefined | null,
 	id?: ResolverInputTypes["order_by"] | undefined | null,
 	min_vouches?: ResolverInputTypes["order_by"] | undefined | null,
 	nomination_days_limit?: ResolverInputTypes["order_by"] | undefined | null,
@@ -17176,6 +17480,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** aggregate var_samp on columns */
 ["circles_var_samp_fields"]: AliasType<{
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
@@ -17185,6 +17491,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** order by var_samp() on columns of table "circles" */
 ["circles_var_samp_order_by"]: {
 	fixed_payment_vault_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_role_id?: ResolverInputTypes["order_by"] | undefined | null,
 	id?: ResolverInputTypes["order_by"] | undefined | null,
 	min_vouches?: ResolverInputTypes["order_by"] | undefined | null,
 	nomination_days_limit?: ResolverInputTypes["order_by"] | undefined | null,
@@ -17193,6 +17501,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** aggregate variance on columns */
 ["circles_variance_fields"]: AliasType<{
 	fixed_payment_vault_id?:boolean | `@${string}`,
+	guild_id?:boolean | `@${string}`,
+	guild_role_id?:boolean | `@${string}`,
 	id?:boolean | `@${string}`,
 	min_vouches?:boolean | `@${string}`,
 	nomination_days_limit?:boolean | `@${string}`,
@@ -17202,6 +17512,8 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	/** order by variance() on columns of table "circles" */
 ["circles_variance_order_by"]: {
 	fixed_payment_vault_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_id?: ResolverInputTypes["order_by"] | undefined | null,
+	guild_role_id?: ResolverInputTypes["order_by"] | undefined | null,
 	id?: ResolverInputTypes["order_by"] | undefined | null,
 	min_vouches?: ResolverInputTypes["order_by"] | undefined | null,
 	nomination_days_limit?: ResolverInputTypes["order_by"] | undefined | null,
@@ -18241,6 +18553,8 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_circle_api_tokens_select_
 };
 	/** link a discord role to a circle  to control membership of the circle */
 ["discord_roles_circles"]: AliasType<{
+alerts?: [{	/** JSON select path */
+	path?: string | undefined | null},boolean | `@${string}`],
 	/** An object relationship */
 	circle?:ResolverInputTypes["circles"],
 	circle_id?:boolean | `@${string}`,
@@ -18272,6 +18586,10 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 	variance?:ResolverInputTypes["discord_roles_circles_variance_fields"],
 		__typename?: boolean | `@${string}`
 }>;
+	/** append existing jsonb value of filtered columns with new jsonb value */
+["discord_roles_circles_append_input"]: {
+	alerts?: ResolverInputTypes["jsonb"] | undefined | null
+};
 	/** aggregate avg on columns */
 ["discord_roles_circles_avg_fields"]: AliasType<{
 	circle_id?:boolean | `@${string}`,
@@ -18283,6 +18601,7 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 	_and?: Array<ResolverInputTypes["discord_roles_circles_bool_exp"]> | undefined | null,
 	_not?: ResolverInputTypes["discord_roles_circles_bool_exp"] | undefined | null,
 	_or?: Array<ResolverInputTypes["discord_roles_circles_bool_exp"]> | undefined | null,
+	alerts?: ResolverInputTypes["jsonb_comparison_exp"] | undefined | null,
 	circle?: ResolverInputTypes["circles_bool_exp"] | undefined | null,
 	circle_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamptz_comparison_exp"] | undefined | null,
@@ -18293,6 +18612,18 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 };
 	/** unique or primary key constraints on table "discord.roles_circles" */
 ["discord_roles_circles_constraint"]:discord_roles_circles_constraint;
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+["discord_roles_circles_delete_at_path_input"]: {
+	alerts?: Array<string> | undefined | null
+};
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+["discord_roles_circles_delete_elem_input"]: {
+	alerts?: number | undefined | null
+};
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+["discord_roles_circles_delete_key_input"]: {
+	alerts?: string | undefined | null
+};
 	/** input type for incrementing numeric columns in table "discord.roles_circles" */
 ["discord_roles_circles_inc_input"]: {
 	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
@@ -18300,6 +18631,7 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 };
 	/** input type for inserting data into table "discord.roles_circles" */
 ["discord_roles_circles_insert_input"]: {
+	alerts?: ResolverInputTypes["jsonb"] | undefined | null,
 	circle?: ResolverInputTypes["circles_obj_rel_insert_input"] | undefined | null,
 	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
@@ -18350,6 +18682,7 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 };
 	/** Ordering options when selecting data from "discord.roles_circles". */
 ["discord_roles_circles_order_by"]: {
+	alerts?: ResolverInputTypes["order_by"] | undefined | null,
 	circle?: ResolverInputTypes["circles_order_by"] | undefined | null,
 	circle_id?: ResolverInputTypes["order_by"] | undefined | null,
 	created_at?: ResolverInputTypes["order_by"] | undefined | null,
@@ -18362,10 +18695,15 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 ["discord_roles_circles_pk_columns_input"]: {
 	id: ResolverInputTypes["bigint"]
 };
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+["discord_roles_circles_prepend_input"]: {
+	alerts?: ResolverInputTypes["jsonb"] | undefined | null
+};
 	/** select columns of table "discord.roles_circles" */
 ["discord_roles_circles_select_column"]:discord_roles_circles_select_column;
 	/** input type for updating data in table "discord.roles_circles" */
 ["discord_roles_circles_set_input"]: {
+	alerts?: ResolverInputTypes["jsonb"] | undefined | null,
 	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
 	discord_channel_id?: string | undefined | null,
@@ -18400,6 +18738,7 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 };
 	/** Initial value of the column from where the streaming should start */
 ["discord_roles_circles_stream_cursor_value_input"]: {
+	alerts?: ResolverInputTypes["jsonb"] | undefined | null,
 	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
 	discord_channel_id?: string | undefined | null,
@@ -18416,8 +18755,18 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 	/** update columns of table "discord.roles_circles" */
 ["discord_roles_circles_update_column"]:discord_roles_circles_update_column;
 	["discord_roles_circles_updates"]: {
+	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: ResolverInputTypes["discord_roles_circles_append_input"] | undefined | null,
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: ResolverInputTypes["discord_roles_circles_delete_at_path_input"] | undefined | null,
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: ResolverInputTypes["discord_roles_circles_delete_elem_input"] | undefined | null,
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: ResolverInputTypes["discord_roles_circles_delete_key_input"] | undefined | null,
 	/** increments the numeric columns with given value of the filtered values */
 	_inc?: ResolverInputTypes["discord_roles_circles_inc_input"] | undefined | null,
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: ResolverInputTypes["discord_roles_circles_prepend_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["discord_roles_circles_set_input"] | undefined | null,
 	where: ResolverInputTypes["discord_roles_circles_bool_exp"]
@@ -19479,6 +19828,8 @@ epoch_pending_token_gifts_aggregate?: [{	/** distinct select on columns */
 	pgive_data?:ResolverInputTypes["epoch_pgive_data"],
 	regift_days?:boolean | `@${string}`,
 	repeat?:boolean | `@${string}`,
+repeat_data?: [{	/** JSON select path */
+	path?: string | undefined | null},boolean | `@${string}`],
 	repeat_day_of_month?:boolean | `@${string}`,
 	start_date?:boolean | `@${string}`,
 token_gifts?: [{	/** distinct select on columns */
@@ -19530,6 +19881,10 @@ count?: [{	columns?: Array<ResolverInputTypes["epochs_select_column"]> | undefin
 	var_pop?: ResolverInputTypes["epochs_var_pop_order_by"] | undefined | null,
 	var_samp?: ResolverInputTypes["epochs_var_samp_order_by"] | undefined | null,
 	variance?: ResolverInputTypes["epochs_variance_order_by"] | undefined | null
+};
+	/** append existing jsonb value of filtered columns with new jsonb value */
+["epochs_append_input"]: {
+	repeat_data?: ResolverInputTypes["jsonb"] | undefined | null
 };
 	/** input type for inserting array relation for remote table "epoches" */
 ["epochs_arr_rel_insert_input"]: {
@@ -19584,6 +19939,7 @@ count?: [{	columns?: Array<ResolverInputTypes["epochs_select_column"]> | undefin
 	pgive_data?: ResolverInputTypes["epoch_pgive_data_bool_exp"] | undefined | null,
 	regift_days?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	repeat?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
+	repeat_data?: ResolverInputTypes["jsonb_comparison_exp"] | undefined | null,
 	repeat_day_of_month?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	start_date?: ResolverInputTypes["timestamptz_comparison_exp"] | undefined | null,
 	token_gifts?: ResolverInputTypes["token_gifts_bool_exp"] | undefined | null,
@@ -19591,6 +19947,18 @@ count?: [{	columns?: Array<ResolverInputTypes["epochs_select_column"]> | undefin
 };
 	/** unique or primary key constraints on table "epoches" */
 ["epochs_constraint"]:epochs_constraint;
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+["epochs_delete_at_path_input"]: {
+	repeat_data?: Array<string> | undefined | null
+};
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+["epochs_delete_elem_input"]: {
+	repeat_data?: number | undefined | null
+};
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+["epochs_delete_key_input"]: {
+	repeat_data?: string | undefined | null
+};
 	/** input type for incrementing numeric columns in table "epoches" */
 ["epochs_inc_input"]: {
 	circle_id?: number | undefined | null,
@@ -19623,6 +19991,7 @@ count?: [{	columns?: Array<ResolverInputTypes["epochs_select_column"]> | undefin
 	pgive_data?: ResolverInputTypes["epoch_pgive_data_obj_rel_insert_input"] | undefined | null,
 	regift_days?: number | undefined | null,
 	repeat?: number | undefined | null,
+	repeat_data?: ResolverInputTypes["jsonb"] | undefined | null,
 	repeat_day_of_month?: number | undefined | null,
 	start_date?: ResolverInputTypes["timestamptz"] | undefined | null,
 	token_gifts?: ResolverInputTypes["token_gifts_arr_rel_insert_input"] | undefined | null,
@@ -19747,6 +20116,7 @@ count?: [{	columns?: Array<ResolverInputTypes["epochs_select_column"]> | undefin
 	pgive_data?: ResolverInputTypes["epoch_pgive_data_order_by"] | undefined | null,
 	regift_days?: ResolverInputTypes["order_by"] | undefined | null,
 	repeat?: ResolverInputTypes["order_by"] | undefined | null,
+	repeat_data?: ResolverInputTypes["order_by"] | undefined | null,
 	repeat_day_of_month?: ResolverInputTypes["order_by"] | undefined | null,
 	start_date?: ResolverInputTypes["order_by"] | undefined | null,
 	token_gifts_aggregate?: ResolverInputTypes["token_gifts_aggregate_order_by"] | undefined | null,
@@ -19755,6 +20125,10 @@ count?: [{	columns?: Array<ResolverInputTypes["epochs_select_column"]> | undefin
 	/** primary key columns input for table: epoches */
 ["epochs_pk_columns_input"]: {
 	id: ResolverInputTypes["bigint"]
+};
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+["epochs_prepend_input"]: {
+	repeat_data?: ResolverInputTypes["jsonb"] | undefined | null
 };
 	/** select columns of table "epoches" */
 ["epochs_select_column"]:epochs_select_column;
@@ -19774,6 +20148,7 @@ count?: [{	columns?: Array<ResolverInputTypes["epochs_select_column"]> | undefin
 	number?: number | undefined | null,
 	regift_days?: number | undefined | null,
 	repeat?: number | undefined | null,
+	repeat_data?: ResolverInputTypes["jsonb"] | undefined | null,
 	repeat_day_of_month?: number | undefined | null,
 	start_date?: ResolverInputTypes["timestamptz"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamp"] | undefined | null
@@ -19870,6 +20245,7 @@ count?: [{	columns?: Array<ResolverInputTypes["epochs_select_column"]> | undefin
 	number?: number | undefined | null,
 	regift_days?: number | undefined | null,
 	repeat?: number | undefined | null,
+	repeat_data?: ResolverInputTypes["jsonb"] | undefined | null,
 	repeat_day_of_month?: number | undefined | null,
 	start_date?: ResolverInputTypes["timestamptz"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamp"] | undefined | null
@@ -19900,8 +20276,18 @@ count?: [{	columns?: Array<ResolverInputTypes["epochs_select_column"]> | undefin
 	/** update columns of table "epoches" */
 ["epochs_update_column"]:epochs_update_column;
 	["epochs_updates"]: {
+	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: ResolverInputTypes["epochs_append_input"] | undefined | null,
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: ResolverInputTypes["epochs_delete_at_path_input"] | undefined | null,
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: ResolverInputTypes["epochs_delete_elem_input"] | undefined | null,
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: ResolverInputTypes["epochs_delete_key_input"] | undefined | null,
 	/** increments the numeric columns with given value of the filtered values */
 	_inc?: ResolverInputTypes["epochs_inc_input"] | undefined | null,
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: ResolverInputTypes["epochs_prepend_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["epochs_set_input"] | undefined | null,
 	where: ResolverInputTypes["epochs_bool_exp"]
@@ -21545,6 +21931,7 @@ adminUpdateUser?: [{	payload: ResolverInputTypes["AdminUpdateUserInput"]},Resolv
 allocationCsv?: [{	payload: ResolverInputTypes["AllocationCsvInput"]},ResolverInputTypes["AllocationCsvResponse"]],
 createCircle?: [{	payload: ResolverInputTypes["CreateCircleInput"]},ResolverInputTypes["CreateCircleResponse"]],
 createEpoch?: [{	payload: ResolverInputTypes["CreateEpochInput"]},ResolverInputTypes["EpochResponse"]],
+createEpochOld?: [{	payload: ResolverInputTypes["CreateEpochOldInput"]},ResolverInputTypes["EpochResponse"]],
 createNominee?: [{	payload: ResolverInputTypes["CreateNomineeInput"]},ResolverInputTypes["CreateNomineeResponse"]],
 	createSampleCircle?:ResolverInputTypes["CreateSampleCircleResponse"],
 createUserWithToken?: [{	payload: ResolverInputTypes["CreateUserWithTokenInput"]},ResolverInputTypes["UserResponse"]],
@@ -21659,6 +22046,7 @@ delete_vaults_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["v
 delete_vouches?: [{	/** filter the rows which have to be deleted */
 	where: ResolverInputTypes["vouches_bool_exp"]},ResolverInputTypes["vouches_mutation_response"]],
 delete_vouches_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["vouches"]],
+endEpoch?: [{	payload: ResolverInputTypes["EndEpochInput"]},ResolverInputTypes["EpochResponse"]],
 generateApiKey?: [{	payload: ResolverInputTypes["GenerateApiKeyInput"]},ResolverInputTypes["GenerateApiKeyResponse"]],
 insert_burns?: [{	/** the rows to be inserted */
 	objects: Array<ResolverInputTypes["burns_insert_input"]>,	/** upsert condition */
@@ -21873,6 +22261,7 @@ updateAllocations?: [{	payload: ResolverInputTypes["Allocations"]},ResolverInput
 updateCircle?: [{	payload: ResolverInputTypes["UpdateCircleInput"]},ResolverInputTypes["UpdateCircleOutput"]],
 updateContribution?: [{	payload: ResolverInputTypes["UpdateContributionInput"]},ResolverInputTypes["UpdateContributionResponse"]],
 updateEpoch?: [{	payload: ResolverInputTypes["UpdateEpochInput"]},ResolverInputTypes["EpochResponse"]],
+updateEpochOld?: [{	payload: ResolverInputTypes["UpdateEpochOldInput"]},ResolverInputTypes["EpochResponse"]],
 updateProfile?: [{	payload: ResolverInputTypes["UpdateProfileInput"]},ResolverInputTypes["UpdateProfileResponse"]],
 updateTeammates?: [{	payload: ResolverInputTypes["UpdateTeammatesInput"]},ResolverInputTypes["UpdateTeammatesResponse"]],
 updateUser?: [{	payload: ResolverInputTypes["UpdateUserInput"]},ResolverInputTypes["UserResponse"]],
@@ -21963,12 +22352,22 @@ update_discord_circle_api_tokens_by_pk?: [{	/** increments the numeric columns w
 	_set?: ResolverInputTypes["discord_circle_api_tokens_set_input"] | undefined | null,	pk_columns: ResolverInputTypes["discord_circle_api_tokens_pk_columns_input"]},ResolverInputTypes["discord_circle_api_tokens"]],
 update_discord_circle_api_tokens_many?: [{	/** updates to execute, in order */
 	updates: Array<ResolverInputTypes["discord_circle_api_tokens_updates"]>},ResolverInputTypes["discord_circle_api_tokens_mutation_response"]],
-update_discord_roles_circles?: [{	/** increments the numeric columns with given value of the filtered values */
-	_inc?: ResolverInputTypes["discord_roles_circles_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+update_discord_roles_circles?: [{	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: ResolverInputTypes["discord_roles_circles_append_input"] | undefined | null,	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: ResolverInputTypes["discord_roles_circles_delete_at_path_input"] | undefined | null,	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: ResolverInputTypes["discord_roles_circles_delete_elem_input"] | undefined | null,	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: ResolverInputTypes["discord_roles_circles_delete_key_input"] | undefined | null,	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["discord_roles_circles_inc_input"] | undefined | null,	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: ResolverInputTypes["discord_roles_circles_prepend_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["discord_roles_circles_set_input"] | undefined | null,	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["discord_roles_circles_bool_exp"]},ResolverInputTypes["discord_roles_circles_mutation_response"]],
-update_discord_roles_circles_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
-	_inc?: ResolverInputTypes["discord_roles_circles_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+update_discord_roles_circles_by_pk?: [{	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: ResolverInputTypes["discord_roles_circles_append_input"] | undefined | null,	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: ResolverInputTypes["discord_roles_circles_delete_at_path_input"] | undefined | null,	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: ResolverInputTypes["discord_roles_circles_delete_elem_input"] | undefined | null,	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: ResolverInputTypes["discord_roles_circles_delete_key_input"] | undefined | null,	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["discord_roles_circles_inc_input"] | undefined | null,	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: ResolverInputTypes["discord_roles_circles_prepend_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["discord_roles_circles_set_input"] | undefined | null,	pk_columns: ResolverInputTypes["discord_roles_circles_pk_columns_input"]},ResolverInputTypes["discord_roles_circles"]],
 update_discord_roles_circles_many?: [{	/** updates to execute, in order */
 	updates: Array<ResolverInputTypes["discord_roles_circles_updates"]>},ResolverInputTypes["discord_roles_circles_mutation_response"]],
@@ -22009,12 +22408,22 @@ update_epoch_pgive_data_by_pk?: [{	/** increments the numeric columns with given
 	_set?: ResolverInputTypes["epoch_pgive_data_set_input"] | undefined | null,	pk_columns: ResolverInputTypes["epoch_pgive_data_pk_columns_input"]},ResolverInputTypes["epoch_pgive_data"]],
 update_epoch_pgive_data_many?: [{	/** updates to execute, in order */
 	updates: Array<ResolverInputTypes["epoch_pgive_data_updates"]>},ResolverInputTypes["epoch_pgive_data_mutation_response"]],
-update_epochs?: [{	/** increments the numeric columns with given value of the filtered values */
-	_inc?: ResolverInputTypes["epochs_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+update_epochs?: [{	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: ResolverInputTypes["epochs_append_input"] | undefined | null,	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: ResolverInputTypes["epochs_delete_at_path_input"] | undefined | null,	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: ResolverInputTypes["epochs_delete_elem_input"] | undefined | null,	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: ResolverInputTypes["epochs_delete_key_input"] | undefined | null,	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["epochs_inc_input"] | undefined | null,	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: ResolverInputTypes["epochs_prepend_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["epochs_set_input"] | undefined | null,	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["epochs_bool_exp"]},ResolverInputTypes["epochs_mutation_response"]],
-update_epochs_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
-	_inc?: ResolverInputTypes["epochs_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+update_epochs_by_pk?: [{	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: ResolverInputTypes["epochs_append_input"] | undefined | null,	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: ResolverInputTypes["epochs_delete_at_path_input"] | undefined | null,	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: ResolverInputTypes["epochs_delete_elem_input"] | undefined | null,	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: ResolverInputTypes["epochs_delete_key_input"] | undefined | null,	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["epochs_inc_input"] | undefined | null,	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: ResolverInputTypes["epochs_prepend_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["epochs_set_input"] | undefined | null,	pk_columns: ResolverInputTypes["epochs_pk_columns_input"]},ResolverInputTypes["epochs"]],
 update_epochs_many?: [{	/** updates to execute, in order */
 	updates: Array<ResolverInputTypes["epochs_updates"]>},ResolverInputTypes["epochs_mutation_response"]],
@@ -24532,6 +24941,7 @@ epochs_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ResolverInputTypes["epochs_order_by"]> | undefined | null,	/** filter the rows returned */
 	where?: ResolverInputTypes["epochs_bool_exp"] | undefined | null},ResolverInputTypes["epochs_aggregate"]],
 epochs_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["epochs"]],
+getGuildInfo?: [{	payload: ResolverInputTypes["GuildInfoInput"]},ResolverInputTypes["GuildInfoOutput"]],
 gift_private?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["gift_private_select_column"]> | undefined | null,	/** limit the number of rows returned */
 	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
@@ -24686,7 +25096,6 @@ personal_access_tokens_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ResolverInputTypes["personal_access_tokens_order_by"]> | undefined | null,	/** filter the rows returned */
 	where?: ResolverInputTypes["personal_access_tokens_bool_exp"] | undefined | null},ResolverInputTypes["personal_access_tokens_aggregate"]],
 personal_access_tokens_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["personal_access_tokens"]],
-price_per_share?: [{	chain_id: number,	token_address?: string | undefined | null},boolean | `@${string}`],
 profiles?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["profiles_select_column"]> | undefined | null,	/** limit the number of rows returned */
 	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
@@ -27447,7 +27856,6 @@ distributions_aggregate?: [{	/** distinct select on columns */
 	org_id?:boolean | `@${string}`,
 	/** An object relationship */
 	organization?:ResolverInputTypes["organizations"],
-	price_per_share?:boolean | `@${string}`,
 	/** An object relationship */
 	profile?:ResolverInputTypes["profiles"],
 	simple_token_address?:boolean | `@${string}`,
@@ -28228,6 +28636,11 @@ export type ModelTypes = {
 };
 	["CreateEpochInput"]: {
 	circle_id: number,
+	grant?: number | undefined,
+	params: ModelTypes["EpochInputParams"]
+};
+	["CreateEpochOldInput"]: {
+	circle_id: number,
 	days: number,
 	description?: string | undefined,
 	grant?: number | undefined,
@@ -28249,7 +28662,6 @@ export type ModelTypes = {
 	id: number
 };
 	["CreateUserWithTokenInput"]: {
-	name: string,
 	token: string
 };
 	["CreateUsersInput"]: {
@@ -28290,6 +28702,22 @@ export type ModelTypes = {
 	["DeleteUsersResponse"]: {
 		success: boolean
 };
+	["EndEpochInput"]: {
+	circle_id: number,
+	id: number
+};
+	["EpochInputParams"]: {
+	duration?: number | undefined,
+	duration_unit?: string | undefined,
+	end_date: ModelTypes["timestamptz"],
+	frequency?: number | undefined,
+	frequency_unit?: string | undefined,
+	start_date: ModelTypes["timestamptz"],
+	time_zone?: string | undefined,
+	type: string,
+	week?: number | undefined,
+	weekday?: number | undefined
+};
 	["EpochResponse"]: {
 		epoch?: ModelTypes["epochs"] | undefined,
 	id: string
@@ -28313,6 +28741,28 @@ export type ModelTypes = {
 		api_key: string,
 	circleApiKey?: ModelTypes["circle_api_keys"] | undefined,
 	hash: string
+};
+	["GuildAdmin"]: {
+		address: string
+};
+	["GuildInfoInput"]: {
+	id: string
+};
+	["GuildInfoOutput"]: {
+		admins?: Array<ModelTypes["GuildAdmin"] | undefined> | undefined,
+	description: string,
+	id: number,
+	image_url: string,
+	member_count: number,
+	name: string,
+	roles?: Array<ModelTypes["GuildRole"] | undefined> | undefined,
+	url_name: string
+};
+	["GuildRole"]: {
+		id: number,
+	image_url: string,
+	member_count: number,
+	name: string
 };
 	/** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 ["Int_comparison_exp"]: {
@@ -28406,6 +28856,8 @@ export type ModelTypes = {
 	discord_webhook?: string | undefined,
 	fixed_payment_token_type?: string | undefined,
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	min_vouches?: number | undefined,
 	name?: string | undefined,
 	nomination_days_limit?: number | undefined,
@@ -28435,6 +28887,13 @@ export type ModelTypes = {
 	updateContribution_Contribution?: ModelTypes["contributions"] | undefined
 };
 	["UpdateEpochInput"]: {
+	circle_id: number,
+	description?: string | undefined,
+	grant?: number | undefined,
+	id: number,
+	params?: ModelTypes["EpochInputParams"] | undefined
+};
+	["UpdateEpochOldInput"]: {
 	circle_id: number,
 	days: number,
 	description?: string | undefined,
@@ -30073,6 +30532,8 @@ export type ModelTypes = {
 	epochs_aggregate: ModelTypes["epochs_aggregate"],
 	fixed_payment_token_type?: string | undefined,
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id: ModelTypes["bigint"],
 	/** An array relationship */
 	integrations: Array<ModelTypes["circle_integrations"]>,
@@ -30157,6 +30618,8 @@ export type ModelTypes = {
 	/** aggregate avg on columns */
 ["circles_avg_fields"]: {
 		fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: number | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -30165,6 +30628,8 @@ export type ModelTypes = {
 	/** order by avg() on columns of table "circles" */
 ["circles_avg_order_by"]: {
 	fixed_payment_vault_id?: ModelTypes["order_by"] | undefined,
+	guild_id?: ModelTypes["order_by"] | undefined,
+	guild_role_id?: ModelTypes["order_by"] | undefined,
 	id?: ModelTypes["order_by"] | undefined,
 	min_vouches?: ModelTypes["order_by"] | undefined,
 	nomination_days_limit?: ModelTypes["order_by"] | undefined,
@@ -30193,6 +30658,8 @@ export type ModelTypes = {
 	epochs?: ModelTypes["epochs_bool_exp"] | undefined,
 	fixed_payment_token_type?: ModelTypes["String_comparison_exp"] | undefined,
 	fixed_payment_vault_id?: ModelTypes["Int_comparison_exp"] | undefined,
+	guild_id?: ModelTypes["Int_comparison_exp"] | undefined,
+	guild_role_id?: ModelTypes["Int_comparison_exp"] | undefined,
 	id?: ModelTypes["bigint_comparison_exp"] | undefined,
 	integrations?: ModelTypes["circle_integrations_bool_exp"] | undefined,
 	is_verified?: ModelTypes["Boolean_comparison_exp"] | undefined,
@@ -30220,6 +30687,8 @@ export type ModelTypes = {
 	/** input type for incrementing numeric columns in table "circles" */
 ["circles_inc_input"]: {
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: ModelTypes["bigint"] | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -30245,6 +30714,8 @@ export type ModelTypes = {
 	epochs?: ModelTypes["epochs_arr_rel_insert_input"] | undefined,
 	fixed_payment_token_type?: string | undefined,
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: ModelTypes["bigint"] | undefined,
 	integrations?: ModelTypes["circle_integrations_arr_rel_insert_input"] | undefined,
 	is_verified?: boolean | undefined,
@@ -30278,6 +30749,8 @@ export type ModelTypes = {
 	discord_webhook?: string | undefined,
 	fixed_payment_token_type?: string | undefined,
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: ModelTypes["bigint"] | undefined,
 	logo?: string | undefined,
 	min_vouches?: number | undefined,
@@ -30299,6 +30772,8 @@ export type ModelTypes = {
 	discord_webhook?: ModelTypes["order_by"] | undefined,
 	fixed_payment_token_type?: ModelTypes["order_by"] | undefined,
 	fixed_payment_vault_id?: ModelTypes["order_by"] | undefined,
+	guild_id?: ModelTypes["order_by"] | undefined,
+	guild_role_id?: ModelTypes["order_by"] | undefined,
 	id?: ModelTypes["order_by"] | undefined,
 	logo?: ModelTypes["order_by"] | undefined,
 	min_vouches?: ModelTypes["order_by"] | undefined,
@@ -30320,6 +30795,8 @@ export type ModelTypes = {
 	discord_webhook?: string | undefined,
 	fixed_payment_token_type?: string | undefined,
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: ModelTypes["bigint"] | undefined,
 	logo?: string | undefined,
 	min_vouches?: number | undefined,
@@ -30341,6 +30818,8 @@ export type ModelTypes = {
 	discord_webhook?: ModelTypes["order_by"] | undefined,
 	fixed_payment_token_type?: ModelTypes["order_by"] | undefined,
 	fixed_payment_vault_id?: ModelTypes["order_by"] | undefined,
+	guild_id?: ModelTypes["order_by"] | undefined,
+	guild_role_id?: ModelTypes["order_by"] | undefined,
 	id?: ModelTypes["order_by"] | undefined,
 	logo?: ModelTypes["order_by"] | undefined,
 	min_vouches?: ModelTypes["order_by"] | undefined,
@@ -30391,6 +30870,8 @@ export type ModelTypes = {
 	epochs_aggregate?: ModelTypes["epochs_aggregate_order_by"] | undefined,
 	fixed_payment_token_type?: ModelTypes["order_by"] | undefined,
 	fixed_payment_vault_id?: ModelTypes["order_by"] | undefined,
+	guild_id?: ModelTypes["order_by"] | undefined,
+	guild_role_id?: ModelTypes["order_by"] | undefined,
 	id?: ModelTypes["order_by"] | undefined,
 	integrations_aggregate?: ModelTypes["circle_integrations_aggregate_order_by"] | undefined,
 	is_verified?: ModelTypes["order_by"] | undefined,
@@ -30431,6 +30912,8 @@ export type ModelTypes = {
 	discord_webhook?: string | undefined,
 	fixed_payment_token_type?: string | undefined,
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: ModelTypes["bigint"] | undefined,
 	is_verified?: boolean | undefined,
 	logo?: string | undefined,
@@ -30450,6 +30933,8 @@ export type ModelTypes = {
 	/** aggregate stddev on columns */
 ["circles_stddev_fields"]: {
 		fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: number | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -30458,6 +30943,8 @@ export type ModelTypes = {
 	/** order by stddev() on columns of table "circles" */
 ["circles_stddev_order_by"]: {
 	fixed_payment_vault_id?: ModelTypes["order_by"] | undefined,
+	guild_id?: ModelTypes["order_by"] | undefined,
+	guild_role_id?: ModelTypes["order_by"] | undefined,
 	id?: ModelTypes["order_by"] | undefined,
 	min_vouches?: ModelTypes["order_by"] | undefined,
 	nomination_days_limit?: ModelTypes["order_by"] | undefined,
@@ -30466,6 +30953,8 @@ export type ModelTypes = {
 	/** aggregate stddev_pop on columns */
 ["circles_stddev_pop_fields"]: {
 		fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: number | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -30474,6 +30963,8 @@ export type ModelTypes = {
 	/** order by stddev_pop() on columns of table "circles" */
 ["circles_stddev_pop_order_by"]: {
 	fixed_payment_vault_id?: ModelTypes["order_by"] | undefined,
+	guild_id?: ModelTypes["order_by"] | undefined,
+	guild_role_id?: ModelTypes["order_by"] | undefined,
 	id?: ModelTypes["order_by"] | undefined,
 	min_vouches?: ModelTypes["order_by"] | undefined,
 	nomination_days_limit?: ModelTypes["order_by"] | undefined,
@@ -30482,6 +30973,8 @@ export type ModelTypes = {
 	/** aggregate stddev_samp on columns */
 ["circles_stddev_samp_fields"]: {
 		fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: number | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -30490,6 +30983,8 @@ export type ModelTypes = {
 	/** order by stddev_samp() on columns of table "circles" */
 ["circles_stddev_samp_order_by"]: {
 	fixed_payment_vault_id?: ModelTypes["order_by"] | undefined,
+	guild_id?: ModelTypes["order_by"] | undefined,
+	guild_role_id?: ModelTypes["order_by"] | undefined,
 	id?: ModelTypes["order_by"] | undefined,
 	min_vouches?: ModelTypes["order_by"] | undefined,
 	nomination_days_limit?: ModelTypes["order_by"] | undefined,
@@ -30514,6 +31009,8 @@ export type ModelTypes = {
 	discord_webhook?: string | undefined,
 	fixed_payment_token_type?: string | undefined,
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: ModelTypes["bigint"] | undefined,
 	is_verified?: boolean | undefined,
 	logo?: string | undefined,
@@ -30533,6 +31030,8 @@ export type ModelTypes = {
 	/** aggregate sum on columns */
 ["circles_sum_fields"]: {
 		fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: ModelTypes["bigint"] | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -30541,6 +31040,8 @@ export type ModelTypes = {
 	/** order by sum() on columns of table "circles" */
 ["circles_sum_order_by"]: {
 	fixed_payment_vault_id?: ModelTypes["order_by"] | undefined,
+	guild_id?: ModelTypes["order_by"] | undefined,
+	guild_role_id?: ModelTypes["order_by"] | undefined,
 	id?: ModelTypes["order_by"] | undefined,
 	min_vouches?: ModelTypes["order_by"] | undefined,
 	nomination_days_limit?: ModelTypes["order_by"] | undefined,
@@ -30557,6 +31058,8 @@ export type ModelTypes = {
 	/** aggregate var_pop on columns */
 ["circles_var_pop_fields"]: {
 		fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: number | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -30565,6 +31068,8 @@ export type ModelTypes = {
 	/** order by var_pop() on columns of table "circles" */
 ["circles_var_pop_order_by"]: {
 	fixed_payment_vault_id?: ModelTypes["order_by"] | undefined,
+	guild_id?: ModelTypes["order_by"] | undefined,
+	guild_role_id?: ModelTypes["order_by"] | undefined,
 	id?: ModelTypes["order_by"] | undefined,
 	min_vouches?: ModelTypes["order_by"] | undefined,
 	nomination_days_limit?: ModelTypes["order_by"] | undefined,
@@ -30573,6 +31078,8 @@ export type ModelTypes = {
 	/** aggregate var_samp on columns */
 ["circles_var_samp_fields"]: {
 		fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: number | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -30581,6 +31088,8 @@ export type ModelTypes = {
 	/** order by var_samp() on columns of table "circles" */
 ["circles_var_samp_order_by"]: {
 	fixed_payment_vault_id?: ModelTypes["order_by"] | undefined,
+	guild_id?: ModelTypes["order_by"] | undefined,
+	guild_role_id?: ModelTypes["order_by"] | undefined,
 	id?: ModelTypes["order_by"] | undefined,
 	min_vouches?: ModelTypes["order_by"] | undefined,
 	nomination_days_limit?: ModelTypes["order_by"] | undefined,
@@ -30589,6 +31098,8 @@ export type ModelTypes = {
 	/** aggregate variance on columns */
 ["circles_variance_fields"]: {
 		fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: number | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -30597,6 +31108,8 @@ export type ModelTypes = {
 	/** order by variance() on columns of table "circles" */
 ["circles_variance_order_by"]: {
 	fixed_payment_vault_id?: ModelTypes["order_by"] | undefined,
+	guild_id?: ModelTypes["order_by"] | undefined,
+	guild_role_id?: ModelTypes["order_by"] | undefined,
 	id?: ModelTypes["order_by"] | undefined,
 	min_vouches?: ModelTypes["order_by"] | undefined,
 	nomination_days_limit?: ModelTypes["order_by"] | undefined,
@@ -31584,7 +32097,8 @@ export type ModelTypes = {
 };
 	/** link a discord role to a circle  to control membership of the circle */
 ["discord_roles_circles"]: {
-		/** An object relationship */
+		alerts: ModelTypes["jsonb"],
+	/** An object relationship */
 	circle: ModelTypes["circles"],
 	circle_id: ModelTypes["bigint"],
 	created_at: ModelTypes["timestamptz"],
@@ -31612,6 +32126,10 @@ export type ModelTypes = {
 	var_samp?: ModelTypes["discord_roles_circles_var_samp_fields"] | undefined,
 	variance?: ModelTypes["discord_roles_circles_variance_fields"] | undefined
 };
+	/** append existing jsonb value of filtered columns with new jsonb value */
+["discord_roles_circles_append_input"]: {
+	alerts?: ModelTypes["jsonb"] | undefined
+};
 	/** aggregate avg on columns */
 ["discord_roles_circles_avg_fields"]: {
 		circle_id?: number | undefined,
@@ -31622,6 +32140,7 @@ export type ModelTypes = {
 	_and?: Array<ModelTypes["discord_roles_circles_bool_exp"]> | undefined,
 	_not?: ModelTypes["discord_roles_circles_bool_exp"] | undefined,
 	_or?: Array<ModelTypes["discord_roles_circles_bool_exp"]> | undefined,
+	alerts?: ModelTypes["jsonb_comparison_exp"] | undefined,
 	circle?: ModelTypes["circles_bool_exp"] | undefined,
 	circle_id?: ModelTypes["bigint_comparison_exp"] | undefined,
 	created_at?: ModelTypes["timestamptz_comparison_exp"] | undefined,
@@ -31631,6 +32150,18 @@ export type ModelTypes = {
 	updated_at?: ModelTypes["timestamptz_comparison_exp"] | undefined
 };
 	["discord_roles_circles_constraint"]:discord_roles_circles_constraint;
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+["discord_roles_circles_delete_at_path_input"]: {
+	alerts?: Array<string> | undefined
+};
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+["discord_roles_circles_delete_elem_input"]: {
+	alerts?: number | undefined
+};
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+["discord_roles_circles_delete_key_input"]: {
+	alerts?: string | undefined
+};
 	/** input type for incrementing numeric columns in table "discord.roles_circles" */
 ["discord_roles_circles_inc_input"]: {
 	circle_id?: ModelTypes["bigint"] | undefined,
@@ -31638,6 +32169,7 @@ export type ModelTypes = {
 };
 	/** input type for inserting data into table "discord.roles_circles" */
 ["discord_roles_circles_insert_input"]: {
+	alerts?: ModelTypes["jsonb"] | undefined,
 	circle?: ModelTypes["circles_obj_rel_insert_input"] | undefined,
 	circle_id?: ModelTypes["bigint"] | undefined,
 	created_at?: ModelTypes["timestamptz"] | undefined,
@@ -31685,6 +32217,7 @@ export type ModelTypes = {
 };
 	/** Ordering options when selecting data from "discord.roles_circles". */
 ["discord_roles_circles_order_by"]: {
+	alerts?: ModelTypes["order_by"] | undefined,
 	circle?: ModelTypes["circles_order_by"] | undefined,
 	circle_id?: ModelTypes["order_by"] | undefined,
 	created_at?: ModelTypes["order_by"] | undefined,
@@ -31697,9 +32230,14 @@ export type ModelTypes = {
 ["discord_roles_circles_pk_columns_input"]: {
 	id: ModelTypes["bigint"]
 };
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+["discord_roles_circles_prepend_input"]: {
+	alerts?: ModelTypes["jsonb"] | undefined
+};
 	["discord_roles_circles_select_column"]:discord_roles_circles_select_column;
 	/** input type for updating data in table "discord.roles_circles" */
 ["discord_roles_circles_set_input"]: {
+	alerts?: ModelTypes["jsonb"] | undefined,
 	circle_id?: ModelTypes["bigint"] | undefined,
 	created_at?: ModelTypes["timestamptz"] | undefined,
 	discord_channel_id?: string | undefined,
@@ -31731,6 +32269,7 @@ export type ModelTypes = {
 };
 	/** Initial value of the column from where the streaming should start */
 ["discord_roles_circles_stream_cursor_value_input"]: {
+	alerts?: ModelTypes["jsonb"] | undefined,
 	circle_id?: ModelTypes["bigint"] | undefined,
 	created_at?: ModelTypes["timestamptz"] | undefined,
 	discord_channel_id?: string | undefined,
@@ -31745,8 +32284,18 @@ export type ModelTypes = {
 };
 	["discord_roles_circles_update_column"]:discord_roles_circles_update_column;
 	["discord_roles_circles_updates"]: {
+	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: ModelTypes["discord_roles_circles_append_input"] | undefined,
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: ModelTypes["discord_roles_circles_delete_at_path_input"] | undefined,
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: ModelTypes["discord_roles_circles_delete_elem_input"] | undefined,
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: ModelTypes["discord_roles_circles_delete_key_input"] | undefined,
 	/** increments the numeric columns with given value of the filtered values */
 	_inc?: ModelTypes["discord_roles_circles_inc_input"] | undefined,
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: ModelTypes["discord_roles_circles_prepend_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["discord_roles_circles_set_input"] | undefined,
 	where: ModelTypes["discord_roles_circles_bool_exp"]
@@ -32713,6 +33262,7 @@ export type ModelTypes = {
 	pgive_data?: ModelTypes["epoch_pgive_data"] | undefined,
 	regift_days: number,
 	repeat: number,
+	repeat_data?: ModelTypes["jsonb"] | undefined,
 	repeat_day_of_month: number,
 	start_date: ModelTypes["timestamptz"],
 	/** An array relationship */
@@ -32753,6 +33303,10 @@ export type ModelTypes = {
 	var_pop?: ModelTypes["epochs_var_pop_order_by"] | undefined,
 	var_samp?: ModelTypes["epochs_var_samp_order_by"] | undefined,
 	variance?: ModelTypes["epochs_variance_order_by"] | undefined
+};
+	/** append existing jsonb value of filtered columns with new jsonb value */
+["epochs_append_input"]: {
+	repeat_data?: ModelTypes["jsonb"] | undefined
 };
 	/** input type for inserting array relation for remote table "epoches" */
 ["epochs_arr_rel_insert_input"]: {
@@ -32806,12 +33360,25 @@ export type ModelTypes = {
 	pgive_data?: ModelTypes["epoch_pgive_data_bool_exp"] | undefined,
 	regift_days?: ModelTypes["Int_comparison_exp"] | undefined,
 	repeat?: ModelTypes["Int_comparison_exp"] | undefined,
+	repeat_data?: ModelTypes["jsonb_comparison_exp"] | undefined,
 	repeat_day_of_month?: ModelTypes["Int_comparison_exp"] | undefined,
 	start_date?: ModelTypes["timestamptz_comparison_exp"] | undefined,
 	token_gifts?: ModelTypes["token_gifts_bool_exp"] | undefined,
 	updated_at?: ModelTypes["timestamp_comparison_exp"] | undefined
 };
 	["epochs_constraint"]:epochs_constraint;
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+["epochs_delete_at_path_input"]: {
+	repeat_data?: Array<string> | undefined
+};
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+["epochs_delete_elem_input"]: {
+	repeat_data?: number | undefined
+};
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+["epochs_delete_key_input"]: {
+	repeat_data?: string | undefined
+};
 	/** input type for incrementing numeric columns in table "epoches" */
 ["epochs_inc_input"]: {
 	circle_id?: number | undefined,
@@ -32844,6 +33411,7 @@ export type ModelTypes = {
 	pgive_data?: ModelTypes["epoch_pgive_data_obj_rel_insert_input"] | undefined,
 	regift_days?: number | undefined,
 	repeat?: number | undefined,
+	repeat_data?: ModelTypes["jsonb"] | undefined,
 	repeat_day_of_month?: number | undefined,
 	start_date?: ModelTypes["timestamptz"] | undefined,
 	token_gifts?: ModelTypes["token_gifts_arr_rel_insert_input"] | undefined,
@@ -32965,6 +33533,7 @@ export type ModelTypes = {
 	pgive_data?: ModelTypes["epoch_pgive_data_order_by"] | undefined,
 	regift_days?: ModelTypes["order_by"] | undefined,
 	repeat?: ModelTypes["order_by"] | undefined,
+	repeat_data?: ModelTypes["order_by"] | undefined,
 	repeat_day_of_month?: ModelTypes["order_by"] | undefined,
 	start_date?: ModelTypes["order_by"] | undefined,
 	token_gifts_aggregate?: ModelTypes["token_gifts_aggregate_order_by"] | undefined,
@@ -32973,6 +33542,10 @@ export type ModelTypes = {
 	/** primary key columns input for table: epoches */
 ["epochs_pk_columns_input"]: {
 	id: ModelTypes["bigint"]
+};
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+["epochs_prepend_input"]: {
+	repeat_data?: ModelTypes["jsonb"] | undefined
 };
 	["epochs_select_column"]:epochs_select_column;
 	/** input type for updating data in table "epoches" */
@@ -32991,6 +33564,7 @@ export type ModelTypes = {
 	number?: number | undefined,
 	regift_days?: number | undefined,
 	repeat?: number | undefined,
+	repeat_data?: ModelTypes["jsonb"] | undefined,
 	repeat_day_of_month?: number | undefined,
 	start_date?: ModelTypes["timestamptz"] | undefined,
 	updated_at?: ModelTypes["timestamp"] | undefined
@@ -33084,6 +33658,7 @@ export type ModelTypes = {
 	number?: number | undefined,
 	regift_days?: number | undefined,
 	repeat?: number | undefined,
+	repeat_data?: ModelTypes["jsonb"] | undefined,
 	repeat_day_of_month?: number | undefined,
 	start_date?: ModelTypes["timestamptz"] | undefined,
 	updated_at?: ModelTypes["timestamp"] | undefined
@@ -33112,8 +33687,18 @@ export type ModelTypes = {
 };
 	["epochs_update_column"]:epochs_update_column;
 	["epochs_updates"]: {
+	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: ModelTypes["epochs_append_input"] | undefined,
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: ModelTypes["epochs_delete_at_path_input"] | undefined,
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: ModelTypes["epochs_delete_elem_input"] | undefined,
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: ModelTypes["epochs_delete_key_input"] | undefined,
 	/** increments the numeric columns with given value of the filtered values */
 	_inc?: ModelTypes["epochs_inc_input"] | undefined,
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: ModelTypes["epochs_prepend_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["epochs_set_input"] | undefined,
 	where: ModelTypes["epochs_bool_exp"]
@@ -34644,7 +35229,9 @@ export type ModelTypes = {
 		adminUpdateUser?: ModelTypes["UserResponse"] | undefined,
 	allocationCsv?: ModelTypes["AllocationCsvResponse"] | undefined,
 	createCircle?: ModelTypes["CreateCircleResponse"] | undefined,
+	/** create epoch using new, more flexible api */
 	createEpoch?: ModelTypes["EpochResponse"] | undefined,
+	createEpochOld?: ModelTypes["EpochResponse"] | undefined,
 	createNominee?: ModelTypes["CreateNomineeResponse"] | undefined,
 	createSampleCircle?: ModelTypes["CreateSampleCircleResponse"] | undefined,
 	createUserWithToken?: ModelTypes["UserResponse"] | undefined,
@@ -34792,6 +35379,7 @@ export type ModelTypes = {
 	delete_vouches?: ModelTypes["vouches_mutation_response"] | undefined,
 	/** delete single row from the table: "vouches" */
 	delete_vouches_by_pk?: ModelTypes["vouches"] | undefined,
+	endEpoch?: ModelTypes["EpochResponse"] | undefined,
 	/** Generates an API key for a circle */
 	generateApiKey?: ModelTypes["GenerateApiKeyResponse"] | undefined,
 	/** insert data into the table: "burns" */
@@ -34946,6 +35534,7 @@ export type ModelTypes = {
 	/** users can modify contributions and update their dates. */
 	updateContribution?: ModelTypes["UpdateContributionResponse"] | undefined,
 	updateEpoch?: ModelTypes["EpochResponse"] | undefined,
+	updateEpochOld?: ModelTypes["EpochResponse"] | undefined,
 	updateProfile?: ModelTypes["UpdateProfileResponse"] | undefined,
 	updateTeammates?: ModelTypes["UpdateTeammatesResponse"] | undefined,
 	/** Update own user */
@@ -37189,6 +37778,7 @@ export type ModelTypes = {
 	epochs_aggregate: ModelTypes["epochs_aggregate"],
 	/** fetch data from the table: "epoches" using primary key columns */
 	epochs_by_pk?: ModelTypes["epochs"] | undefined,
+	getGuildInfo?: ModelTypes["GuildInfoOutput"] | undefined,
 	/** fetch data from the table: "gift_private" */
 	gift_private: Array<ModelTypes["gift_private"]>,
 	/** fetch aggregated fields from the table: "gift_private" */
@@ -37257,7 +37847,6 @@ export type ModelTypes = {
 	personal_access_tokens_aggregate: ModelTypes["personal_access_tokens_aggregate"],
 	/** fetch data from the table: "personal_access_tokens" using primary key columns */
 	personal_access_tokens_by_pk?: ModelTypes["personal_access_tokens"] | undefined,
-	price_per_share: number,
 	/** fetch data from the table: "profiles" */
 	profiles: Array<ModelTypes["profiles"]>,
 	/** fetch aggregated fields from the table: "profiles" */
@@ -39445,7 +40034,6 @@ export type ModelTypes = {
 	org_id: ModelTypes["bigint"],
 	/** An object relationship */
 	organization: ModelTypes["organizations"],
-	price_per_share: number,
 	/** An object relationship */
 	profile: ModelTypes["profiles"],
 	simple_token_address: string,
@@ -40188,6 +40776,11 @@ export type GraphQLTypes = {
 };
 	["CreateEpochInput"]: {
 		circle_id: number,
+	grant?: number | undefined,
+	params: GraphQLTypes["EpochInputParams"]
+};
+	["CreateEpochOldInput"]: {
+		circle_id: number,
 	days: number,
 	description?: string | undefined,
 	grant?: number | undefined,
@@ -40211,8 +40804,7 @@ export type GraphQLTypes = {
 	id: number
 };
 	["CreateUserWithTokenInput"]: {
-		name: string,
-	token: string
+		token: string
 };
 	["CreateUsersInput"]: {
 		circle_id: number,
@@ -40254,6 +40846,22 @@ export type GraphQLTypes = {
 	__typename: "DeleteUsersResponse",
 	success: boolean
 };
+	["EndEpochInput"]: {
+		circle_id: number,
+	id: number
+};
+	["EpochInputParams"]: {
+		duration?: number | undefined,
+	duration_unit?: string | undefined,
+	end_date: GraphQLTypes["timestamptz"],
+	frequency?: number | undefined,
+	frequency_unit?: string | undefined,
+	start_date: GraphQLTypes["timestamptz"],
+	time_zone?: string | undefined,
+	type: string,
+	week?: number | undefined,
+	weekday?: number | undefined
+};
 	["EpochResponse"]: {
 	__typename: "EpochResponse",
 	epoch?: GraphQLTypes["epochs"] | undefined,
@@ -40279,6 +40887,31 @@ export type GraphQLTypes = {
 	api_key: string,
 	circleApiKey?: GraphQLTypes["circle_api_keys"] | undefined,
 	hash: string
+};
+	["GuildAdmin"]: {
+	__typename: "GuildAdmin",
+	address: string
+};
+	["GuildInfoInput"]: {
+		id: string
+};
+	["GuildInfoOutput"]: {
+	__typename: "GuildInfoOutput",
+	admins?: Array<GraphQLTypes["GuildAdmin"] | undefined> | undefined,
+	description: string,
+	id: number,
+	image_url: string,
+	member_count: number,
+	name: string,
+	roles?: Array<GraphQLTypes["GuildRole"] | undefined> | undefined,
+	url_name: string
+};
+	["GuildRole"]: {
+	__typename: "GuildRole",
+	id: number,
+	image_url: string,
+	member_count: number,
+	name: string
 };
 	/** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 ["Int_comparison_exp"]: {
@@ -40377,6 +41010,8 @@ export type GraphQLTypes = {
 	discord_webhook?: string | undefined,
 	fixed_payment_token_type?: string | undefined,
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	min_vouches?: number | undefined,
 	name?: string | undefined,
 	nomination_days_limit?: number | undefined,
@@ -40409,6 +41044,13 @@ export type GraphQLTypes = {
 	updateContribution_Contribution?: GraphQLTypes["contributions"] | undefined
 };
 	["UpdateEpochInput"]: {
+		circle_id: number,
+	description?: string | undefined,
+	grant?: number | undefined,
+	id: number,
+	params?: GraphQLTypes["EpochInputParams"] | undefined
+};
+	["UpdateEpochOldInput"]: {
 		circle_id: number,
 	days: number,
 	description?: string | undefined,
@@ -42154,6 +42796,8 @@ export type GraphQLTypes = {
 	epochs_aggregate: GraphQLTypes["epochs_aggregate"],
 	fixed_payment_token_type?: string | undefined,
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id: GraphQLTypes["bigint"],
 	/** An array relationship */
 	integrations: Array<GraphQLTypes["circle_integrations"]>,
@@ -42241,6 +42885,8 @@ export type GraphQLTypes = {
 ["circles_avg_fields"]: {
 	__typename: "circles_avg_fields",
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: number | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -42249,6 +42895,8 @@ export type GraphQLTypes = {
 	/** order by avg() on columns of table "circles" */
 ["circles_avg_order_by"]: {
 		fixed_payment_vault_id?: GraphQLTypes["order_by"] | undefined,
+	guild_id?: GraphQLTypes["order_by"] | undefined,
+	guild_role_id?: GraphQLTypes["order_by"] | undefined,
 	id?: GraphQLTypes["order_by"] | undefined,
 	min_vouches?: GraphQLTypes["order_by"] | undefined,
 	nomination_days_limit?: GraphQLTypes["order_by"] | undefined,
@@ -42277,6 +42925,8 @@ export type GraphQLTypes = {
 	epochs?: GraphQLTypes["epochs_bool_exp"] | undefined,
 	fixed_payment_token_type?: GraphQLTypes["String_comparison_exp"] | undefined,
 	fixed_payment_vault_id?: GraphQLTypes["Int_comparison_exp"] | undefined,
+	guild_id?: GraphQLTypes["Int_comparison_exp"] | undefined,
+	guild_role_id?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
 	integrations?: GraphQLTypes["circle_integrations_bool_exp"] | undefined,
 	is_verified?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
@@ -42305,6 +42955,8 @@ export type GraphQLTypes = {
 	/** input type for incrementing numeric columns in table "circles" */
 ["circles_inc_input"]: {
 		fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -42330,6 +42982,8 @@ export type GraphQLTypes = {
 	epochs?: GraphQLTypes["epochs_arr_rel_insert_input"] | undefined,
 	fixed_payment_token_type?: string | undefined,
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
 	integrations?: GraphQLTypes["circle_integrations_arr_rel_insert_input"] | undefined,
 	is_verified?: boolean | undefined,
@@ -42364,6 +43018,8 @@ export type GraphQLTypes = {
 	discord_webhook?: string | undefined,
 	fixed_payment_token_type?: string | undefined,
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
 	logo?: string | undefined,
 	min_vouches?: number | undefined,
@@ -42385,6 +43041,8 @@ export type GraphQLTypes = {
 	discord_webhook?: GraphQLTypes["order_by"] | undefined,
 	fixed_payment_token_type?: GraphQLTypes["order_by"] | undefined,
 	fixed_payment_vault_id?: GraphQLTypes["order_by"] | undefined,
+	guild_id?: GraphQLTypes["order_by"] | undefined,
+	guild_role_id?: GraphQLTypes["order_by"] | undefined,
 	id?: GraphQLTypes["order_by"] | undefined,
 	logo?: GraphQLTypes["order_by"] | undefined,
 	min_vouches?: GraphQLTypes["order_by"] | undefined,
@@ -42407,6 +43065,8 @@ export type GraphQLTypes = {
 	discord_webhook?: string | undefined,
 	fixed_payment_token_type?: string | undefined,
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
 	logo?: string | undefined,
 	min_vouches?: number | undefined,
@@ -42428,6 +43088,8 @@ export type GraphQLTypes = {
 	discord_webhook?: GraphQLTypes["order_by"] | undefined,
 	fixed_payment_token_type?: GraphQLTypes["order_by"] | undefined,
 	fixed_payment_vault_id?: GraphQLTypes["order_by"] | undefined,
+	guild_id?: GraphQLTypes["order_by"] | undefined,
+	guild_role_id?: GraphQLTypes["order_by"] | undefined,
 	id?: GraphQLTypes["order_by"] | undefined,
 	logo?: GraphQLTypes["order_by"] | undefined,
 	min_vouches?: GraphQLTypes["order_by"] | undefined,
@@ -42479,6 +43141,8 @@ export type GraphQLTypes = {
 	epochs_aggregate?: GraphQLTypes["epochs_aggregate_order_by"] | undefined,
 	fixed_payment_token_type?: GraphQLTypes["order_by"] | undefined,
 	fixed_payment_vault_id?: GraphQLTypes["order_by"] | undefined,
+	guild_id?: GraphQLTypes["order_by"] | undefined,
+	guild_role_id?: GraphQLTypes["order_by"] | undefined,
 	id?: GraphQLTypes["order_by"] | undefined,
 	integrations_aggregate?: GraphQLTypes["circle_integrations_aggregate_order_by"] | undefined,
 	is_verified?: GraphQLTypes["order_by"] | undefined,
@@ -42520,6 +43184,8 @@ export type GraphQLTypes = {
 	discord_webhook?: string | undefined,
 	fixed_payment_token_type?: string | undefined,
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
 	is_verified?: boolean | undefined,
 	logo?: string | undefined,
@@ -42540,6 +43206,8 @@ export type GraphQLTypes = {
 ["circles_stddev_fields"]: {
 	__typename: "circles_stddev_fields",
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: number | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -42548,6 +43216,8 @@ export type GraphQLTypes = {
 	/** order by stddev() on columns of table "circles" */
 ["circles_stddev_order_by"]: {
 		fixed_payment_vault_id?: GraphQLTypes["order_by"] | undefined,
+	guild_id?: GraphQLTypes["order_by"] | undefined,
+	guild_role_id?: GraphQLTypes["order_by"] | undefined,
 	id?: GraphQLTypes["order_by"] | undefined,
 	min_vouches?: GraphQLTypes["order_by"] | undefined,
 	nomination_days_limit?: GraphQLTypes["order_by"] | undefined,
@@ -42557,6 +43227,8 @@ export type GraphQLTypes = {
 ["circles_stddev_pop_fields"]: {
 	__typename: "circles_stddev_pop_fields",
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: number | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -42565,6 +43237,8 @@ export type GraphQLTypes = {
 	/** order by stddev_pop() on columns of table "circles" */
 ["circles_stddev_pop_order_by"]: {
 		fixed_payment_vault_id?: GraphQLTypes["order_by"] | undefined,
+	guild_id?: GraphQLTypes["order_by"] | undefined,
+	guild_role_id?: GraphQLTypes["order_by"] | undefined,
 	id?: GraphQLTypes["order_by"] | undefined,
 	min_vouches?: GraphQLTypes["order_by"] | undefined,
 	nomination_days_limit?: GraphQLTypes["order_by"] | undefined,
@@ -42574,6 +43248,8 @@ export type GraphQLTypes = {
 ["circles_stddev_samp_fields"]: {
 	__typename: "circles_stddev_samp_fields",
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: number | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -42582,6 +43258,8 @@ export type GraphQLTypes = {
 	/** order by stddev_samp() on columns of table "circles" */
 ["circles_stddev_samp_order_by"]: {
 		fixed_payment_vault_id?: GraphQLTypes["order_by"] | undefined,
+	guild_id?: GraphQLTypes["order_by"] | undefined,
+	guild_role_id?: GraphQLTypes["order_by"] | undefined,
 	id?: GraphQLTypes["order_by"] | undefined,
 	min_vouches?: GraphQLTypes["order_by"] | undefined,
 	nomination_days_limit?: GraphQLTypes["order_by"] | undefined,
@@ -42606,6 +43284,8 @@ export type GraphQLTypes = {
 	discord_webhook?: string | undefined,
 	fixed_payment_token_type?: string | undefined,
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
 	is_verified?: boolean | undefined,
 	logo?: string | undefined,
@@ -42626,6 +43306,8 @@ export type GraphQLTypes = {
 ["circles_sum_fields"]: {
 	__typename: "circles_sum_fields",
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: GraphQLTypes["bigint"] | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -42634,6 +43316,8 @@ export type GraphQLTypes = {
 	/** order by sum() on columns of table "circles" */
 ["circles_sum_order_by"]: {
 		fixed_payment_vault_id?: GraphQLTypes["order_by"] | undefined,
+	guild_id?: GraphQLTypes["order_by"] | undefined,
+	guild_role_id?: GraphQLTypes["order_by"] | undefined,
 	id?: GraphQLTypes["order_by"] | undefined,
 	min_vouches?: GraphQLTypes["order_by"] | undefined,
 	nomination_days_limit?: GraphQLTypes["order_by"] | undefined,
@@ -42652,6 +43336,8 @@ export type GraphQLTypes = {
 ["circles_var_pop_fields"]: {
 	__typename: "circles_var_pop_fields",
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: number | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -42660,6 +43346,8 @@ export type GraphQLTypes = {
 	/** order by var_pop() on columns of table "circles" */
 ["circles_var_pop_order_by"]: {
 		fixed_payment_vault_id?: GraphQLTypes["order_by"] | undefined,
+	guild_id?: GraphQLTypes["order_by"] | undefined,
+	guild_role_id?: GraphQLTypes["order_by"] | undefined,
 	id?: GraphQLTypes["order_by"] | undefined,
 	min_vouches?: GraphQLTypes["order_by"] | undefined,
 	nomination_days_limit?: GraphQLTypes["order_by"] | undefined,
@@ -42669,6 +43357,8 @@ export type GraphQLTypes = {
 ["circles_var_samp_fields"]: {
 	__typename: "circles_var_samp_fields",
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: number | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -42677,6 +43367,8 @@ export type GraphQLTypes = {
 	/** order by var_samp() on columns of table "circles" */
 ["circles_var_samp_order_by"]: {
 		fixed_payment_vault_id?: GraphQLTypes["order_by"] | undefined,
+	guild_id?: GraphQLTypes["order_by"] | undefined,
+	guild_role_id?: GraphQLTypes["order_by"] | undefined,
 	id?: GraphQLTypes["order_by"] | undefined,
 	min_vouches?: GraphQLTypes["order_by"] | undefined,
 	nomination_days_limit?: GraphQLTypes["order_by"] | undefined,
@@ -42686,6 +43378,8 @@ export type GraphQLTypes = {
 ["circles_variance_fields"]: {
 	__typename: "circles_variance_fields",
 	fixed_payment_vault_id?: number | undefined,
+	guild_id?: number | undefined,
+	guild_role_id?: number | undefined,
 	id?: number | undefined,
 	min_vouches?: number | undefined,
 	nomination_days_limit?: number | undefined,
@@ -42694,6 +43388,8 @@ export type GraphQLTypes = {
 	/** order by variance() on columns of table "circles" */
 ["circles_variance_order_by"]: {
 		fixed_payment_vault_id?: GraphQLTypes["order_by"] | undefined,
+	guild_id?: GraphQLTypes["order_by"] | undefined,
+	guild_role_id?: GraphQLTypes["order_by"] | undefined,
 	id?: GraphQLTypes["order_by"] | undefined,
 	min_vouches?: GraphQLTypes["order_by"] | undefined,
 	nomination_days_limit?: GraphQLTypes["order_by"] | undefined,
@@ -43734,6 +44430,7 @@ export type GraphQLTypes = {
 	/** link a discord role to a circle  to control membership of the circle */
 ["discord_roles_circles"]: {
 	__typename: "discord_roles_circles",
+	alerts: GraphQLTypes["jsonb"],
 	/** An object relationship */
 	circle: GraphQLTypes["circles"],
 	circle_id: GraphQLTypes["bigint"],
@@ -43764,6 +44461,10 @@ export type GraphQLTypes = {
 	var_samp?: GraphQLTypes["discord_roles_circles_var_samp_fields"] | undefined,
 	variance?: GraphQLTypes["discord_roles_circles_variance_fields"] | undefined
 };
+	/** append existing jsonb value of filtered columns with new jsonb value */
+["discord_roles_circles_append_input"]: {
+		alerts?: GraphQLTypes["jsonb"] | undefined
+};
 	/** aggregate avg on columns */
 ["discord_roles_circles_avg_fields"]: {
 	__typename: "discord_roles_circles_avg_fields",
@@ -43775,6 +44476,7 @@ export type GraphQLTypes = {
 		_and?: Array<GraphQLTypes["discord_roles_circles_bool_exp"]> | undefined,
 	_not?: GraphQLTypes["discord_roles_circles_bool_exp"] | undefined,
 	_or?: Array<GraphQLTypes["discord_roles_circles_bool_exp"]> | undefined,
+	alerts?: GraphQLTypes["jsonb_comparison_exp"] | undefined,
 	circle?: GraphQLTypes["circles_bool_exp"] | undefined,
 	circle_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
 	created_at?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
@@ -43785,6 +44487,18 @@ export type GraphQLTypes = {
 };
 	/** unique or primary key constraints on table "discord.roles_circles" */
 ["discord_roles_circles_constraint"]: discord_roles_circles_constraint;
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+["discord_roles_circles_delete_at_path_input"]: {
+		alerts?: Array<string> | undefined
+};
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+["discord_roles_circles_delete_elem_input"]: {
+		alerts?: number | undefined
+};
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+["discord_roles_circles_delete_key_input"]: {
+		alerts?: string | undefined
+};
 	/** input type for incrementing numeric columns in table "discord.roles_circles" */
 ["discord_roles_circles_inc_input"]: {
 		circle_id?: GraphQLTypes["bigint"] | undefined,
@@ -43792,7 +44506,8 @@ export type GraphQLTypes = {
 };
 	/** input type for inserting data into table "discord.roles_circles" */
 ["discord_roles_circles_insert_input"]: {
-		circle?: GraphQLTypes["circles_obj_rel_insert_input"] | undefined,
+		alerts?: GraphQLTypes["jsonb"] | undefined,
+	circle?: GraphQLTypes["circles_obj_rel_insert_input"] | undefined,
 	circle_id?: GraphQLTypes["bigint"] | undefined,
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
 	discord_channel_id?: string | undefined,
@@ -43842,7 +44557,8 @@ export type GraphQLTypes = {
 };
 	/** Ordering options when selecting data from "discord.roles_circles". */
 ["discord_roles_circles_order_by"]: {
-		circle?: GraphQLTypes["circles_order_by"] | undefined,
+		alerts?: GraphQLTypes["order_by"] | undefined,
+	circle?: GraphQLTypes["circles_order_by"] | undefined,
 	circle_id?: GraphQLTypes["order_by"] | undefined,
 	created_at?: GraphQLTypes["order_by"] | undefined,
 	discord_channel_id?: GraphQLTypes["order_by"] | undefined,
@@ -43854,11 +44570,16 @@ export type GraphQLTypes = {
 ["discord_roles_circles_pk_columns_input"]: {
 		id: GraphQLTypes["bigint"]
 };
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+["discord_roles_circles_prepend_input"]: {
+		alerts?: GraphQLTypes["jsonb"] | undefined
+};
 	/** select columns of table "discord.roles_circles" */
 ["discord_roles_circles_select_column"]: discord_roles_circles_select_column;
 	/** input type for updating data in table "discord.roles_circles" */
 ["discord_roles_circles_set_input"]: {
-		circle_id?: GraphQLTypes["bigint"] | undefined,
+		alerts?: GraphQLTypes["jsonb"] | undefined,
+	circle_id?: GraphQLTypes["bigint"] | undefined,
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
 	discord_channel_id?: string | undefined,
 	discord_role_id?: string | undefined,
@@ -43892,7 +44613,8 @@ export type GraphQLTypes = {
 };
 	/** Initial value of the column from where the streaming should start */
 ["discord_roles_circles_stream_cursor_value_input"]: {
-		circle_id?: GraphQLTypes["bigint"] | undefined,
+		alerts?: GraphQLTypes["jsonb"] | undefined,
+	circle_id?: GraphQLTypes["bigint"] | undefined,
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
 	discord_channel_id?: string | undefined,
 	discord_role_id?: string | undefined,
@@ -43908,8 +44630,18 @@ export type GraphQLTypes = {
 	/** update columns of table "discord.roles_circles" */
 ["discord_roles_circles_update_column"]: discord_roles_circles_update_column;
 	["discord_roles_circles_updates"]: {
-		/** increments the numeric columns with given value of the filtered values */
+		/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: GraphQLTypes["discord_roles_circles_append_input"] | undefined,
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: GraphQLTypes["discord_roles_circles_delete_at_path_input"] | undefined,
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: GraphQLTypes["discord_roles_circles_delete_elem_input"] | undefined,
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: GraphQLTypes["discord_roles_circles_delete_key_input"] | undefined,
+	/** increments the numeric columns with given value of the filtered values */
 	_inc?: GraphQLTypes["discord_roles_circles_inc_input"] | undefined,
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: GraphQLTypes["discord_roles_circles_prepend_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["discord_roles_circles_set_input"] | undefined,
 	where: GraphQLTypes["discord_roles_circles_bool_exp"]
@@ -44931,6 +45663,7 @@ export type GraphQLTypes = {
 	pgive_data?: GraphQLTypes["epoch_pgive_data"] | undefined,
 	regift_days: number,
 	repeat: number,
+	repeat_data?: GraphQLTypes["jsonb"] | undefined,
 	repeat_day_of_month: number,
 	start_date: GraphQLTypes["timestamptz"],
 	/** An array relationship */
@@ -44973,6 +45706,10 @@ export type GraphQLTypes = {
 	var_pop?: GraphQLTypes["epochs_var_pop_order_by"] | undefined,
 	var_samp?: GraphQLTypes["epochs_var_samp_order_by"] | undefined,
 	variance?: GraphQLTypes["epochs_variance_order_by"] | undefined
+};
+	/** append existing jsonb value of filtered columns with new jsonb value */
+["epochs_append_input"]: {
+		repeat_data?: GraphQLTypes["jsonb"] | undefined
 };
 	/** input type for inserting array relation for remote table "epoches" */
 ["epochs_arr_rel_insert_input"]: {
@@ -45027,6 +45764,7 @@ export type GraphQLTypes = {
 	pgive_data?: GraphQLTypes["epoch_pgive_data_bool_exp"] | undefined,
 	regift_days?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	repeat?: GraphQLTypes["Int_comparison_exp"] | undefined,
+	repeat_data?: GraphQLTypes["jsonb_comparison_exp"] | undefined,
 	repeat_day_of_month?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	start_date?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
 	token_gifts?: GraphQLTypes["token_gifts_bool_exp"] | undefined,
@@ -45034,6 +45772,18 @@ export type GraphQLTypes = {
 };
 	/** unique or primary key constraints on table "epoches" */
 ["epochs_constraint"]: epochs_constraint;
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+["epochs_delete_at_path_input"]: {
+		repeat_data?: Array<string> | undefined
+};
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+["epochs_delete_elem_input"]: {
+		repeat_data?: number | undefined
+};
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+["epochs_delete_key_input"]: {
+		repeat_data?: string | undefined
+};
 	/** input type for incrementing numeric columns in table "epoches" */
 ["epochs_inc_input"]: {
 		circle_id?: number | undefined,
@@ -45066,6 +45816,7 @@ export type GraphQLTypes = {
 	pgive_data?: GraphQLTypes["epoch_pgive_data_obj_rel_insert_input"] | undefined,
 	regift_days?: number | undefined,
 	repeat?: number | undefined,
+	repeat_data?: GraphQLTypes["jsonb"] | undefined,
 	repeat_day_of_month?: number | undefined,
 	start_date?: GraphQLTypes["timestamptz"] | undefined,
 	token_gifts?: GraphQLTypes["token_gifts_arr_rel_insert_input"] | undefined,
@@ -45190,6 +45941,7 @@ export type GraphQLTypes = {
 	pgive_data?: GraphQLTypes["epoch_pgive_data_order_by"] | undefined,
 	regift_days?: GraphQLTypes["order_by"] | undefined,
 	repeat?: GraphQLTypes["order_by"] | undefined,
+	repeat_data?: GraphQLTypes["order_by"] | undefined,
 	repeat_day_of_month?: GraphQLTypes["order_by"] | undefined,
 	start_date?: GraphQLTypes["order_by"] | undefined,
 	token_gifts_aggregate?: GraphQLTypes["token_gifts_aggregate_order_by"] | undefined,
@@ -45198,6 +45950,10 @@ export type GraphQLTypes = {
 	/** primary key columns input for table: epoches */
 ["epochs_pk_columns_input"]: {
 		id: GraphQLTypes["bigint"]
+};
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+["epochs_prepend_input"]: {
+		repeat_data?: GraphQLTypes["jsonb"] | undefined
 };
 	/** select columns of table "epoches" */
 ["epochs_select_column"]: epochs_select_column;
@@ -45217,6 +45973,7 @@ export type GraphQLTypes = {
 	number?: number | undefined,
 	regift_days?: number | undefined,
 	repeat?: number | undefined,
+	repeat_data?: GraphQLTypes["jsonb"] | undefined,
 	repeat_day_of_month?: number | undefined,
 	start_date?: GraphQLTypes["timestamptz"] | undefined,
 	updated_at?: GraphQLTypes["timestamp"] | undefined
@@ -45313,6 +46070,7 @@ export type GraphQLTypes = {
 	number?: number | undefined,
 	regift_days?: number | undefined,
 	repeat?: number | undefined,
+	repeat_data?: GraphQLTypes["jsonb"] | undefined,
 	repeat_day_of_month?: number | undefined,
 	start_date?: GraphQLTypes["timestamptz"] | undefined,
 	updated_at?: GraphQLTypes["timestamp"] | undefined
@@ -45343,8 +46101,18 @@ export type GraphQLTypes = {
 	/** update columns of table "epoches" */
 ["epochs_update_column"]: epochs_update_column;
 	["epochs_updates"]: {
-		/** increments the numeric columns with given value of the filtered values */
+		/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: GraphQLTypes["epochs_append_input"] | undefined,
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: GraphQLTypes["epochs_delete_at_path_input"] | undefined,
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: GraphQLTypes["epochs_delete_elem_input"] | undefined,
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: GraphQLTypes["epochs_delete_key_input"] | undefined,
+	/** increments the numeric columns with given value of the filtered values */
 	_inc?: GraphQLTypes["epochs_inc_input"] | undefined,
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: GraphQLTypes["epochs_prepend_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["epochs_set_input"] | undefined,
 	where: GraphQLTypes["epochs_bool_exp"]
@@ -46979,7 +47747,9 @@ export type GraphQLTypes = {
 	adminUpdateUser?: GraphQLTypes["UserResponse"] | undefined,
 	allocationCsv?: GraphQLTypes["AllocationCsvResponse"] | undefined,
 	createCircle?: GraphQLTypes["CreateCircleResponse"] | undefined,
+	/** create epoch using new, more flexible api */
 	createEpoch?: GraphQLTypes["EpochResponse"] | undefined,
+	createEpochOld?: GraphQLTypes["EpochResponse"] | undefined,
 	createNominee?: GraphQLTypes["CreateNomineeResponse"] | undefined,
 	createSampleCircle?: GraphQLTypes["CreateSampleCircleResponse"] | undefined,
 	createUserWithToken?: GraphQLTypes["UserResponse"] | undefined,
@@ -47127,6 +47897,7 @@ export type GraphQLTypes = {
 	delete_vouches?: GraphQLTypes["vouches_mutation_response"] | undefined,
 	/** delete single row from the table: "vouches" */
 	delete_vouches_by_pk?: GraphQLTypes["vouches"] | undefined,
+	endEpoch?: GraphQLTypes["EpochResponse"] | undefined,
 	/** Generates an API key for a circle */
 	generateApiKey?: GraphQLTypes["GenerateApiKeyResponse"] | undefined,
 	/** insert data into the table: "burns" */
@@ -47281,6 +48052,7 @@ export type GraphQLTypes = {
 	/** users can modify contributions and update their dates. */
 	updateContribution?: GraphQLTypes["UpdateContributionResponse"] | undefined,
 	updateEpoch?: GraphQLTypes["EpochResponse"] | undefined,
+	updateEpochOld?: GraphQLTypes["EpochResponse"] | undefined,
 	updateProfile?: GraphQLTypes["UpdateProfileResponse"] | undefined,
 	updateTeammates?: GraphQLTypes["UpdateTeammatesResponse"] | undefined,
 	/** Update own user */
@@ -49643,6 +50415,7 @@ export type GraphQLTypes = {
 	epochs_aggregate: GraphQLTypes["epochs_aggregate"],
 	/** fetch data from the table: "epoches" using primary key columns */
 	epochs_by_pk?: GraphQLTypes["epochs"] | undefined,
+	getGuildInfo?: GraphQLTypes["GuildInfoOutput"] | undefined,
 	/** fetch data from the table: "gift_private" */
 	gift_private: Array<GraphQLTypes["gift_private"]>,
 	/** fetch aggregated fields from the table: "gift_private" */
@@ -49711,7 +50484,6 @@ export type GraphQLTypes = {
 	personal_access_tokens_aggregate: GraphQLTypes["personal_access_tokens_aggregate"],
 	/** fetch data from the table: "personal_access_tokens" using primary key columns */
 	personal_access_tokens_by_pk?: GraphQLTypes["personal_access_tokens"] | undefined,
-	price_per_share: number,
 	/** fetch data from the table: "profiles" */
 	profiles: Array<GraphQLTypes["profiles"]>,
 	/** fetch aggregated fields from the table: "profiles" */
@@ -51992,7 +52764,6 @@ export type GraphQLTypes = {
 	org_id: GraphQLTypes["bigint"],
 	/** An object relationship */
 	organization: GraphQLTypes["organizations"],
-	price_per_share: number,
 	/** An object relationship */
 	profile: GraphQLTypes["profiles"],
 	simple_token_address: string,
@@ -52845,6 +53616,8 @@ export const enum circles_select_column {
 	discord_webhook = "discord_webhook",
 	fixed_payment_token_type = "fixed_payment_token_type",
 	fixed_payment_vault_id = "fixed_payment_vault_id",
+	guild_id = "guild_id",
+	guild_role_id = "guild_role_id",
 	id = "id",
 	is_verified = "is_verified",
 	logo = "logo",
@@ -52873,6 +53646,8 @@ export const enum circles_update_column {
 	discord_webhook = "discord_webhook",
 	fixed_payment_token_type = "fixed_payment_token_type",
 	fixed_payment_vault_id = "fixed_payment_vault_id",
+	guild_id = "guild_id",
+	guild_role_id = "guild_role_id",
 	id = "id",
 	is_verified = "is_verified",
 	logo = "logo",
@@ -52983,6 +53758,7 @@ export const enum discord_roles_circles_constraint {
 }
 /** select columns of table "discord.roles_circles" */
 export const enum discord_roles_circles_select_column {
+	alerts = "alerts",
 	circle_id = "circle_id",
 	created_at = "created_at",
 	discord_channel_id = "discord_channel_id",
@@ -52992,6 +53768,7 @@ export const enum discord_roles_circles_select_column {
 }
 /** update columns of table "discord.roles_circles" */
 export const enum discord_roles_circles_update_column {
+	alerts = "alerts",
 	circle_id = "circle_id",
 	created_at = "created_at",
 	discord_channel_id = "discord_channel_id",
@@ -53106,6 +53883,7 @@ export const enum epochs_select_column {
 	number = "number",
 	regift_days = "regift_days",
 	repeat = "repeat",
+	repeat_data = "repeat_data",
 	repeat_day_of_month = "repeat_day_of_month",
 	start_date = "start_date",
 	updated_at = "updated_at"
@@ -53126,6 +53904,7 @@ export const enum epochs_update_column {
 	number = "number",
 	regift_days = "regift_days",
 	repeat = "repeat",
+	repeat_data = "repeat_data",
 	repeat_day_of_month = "repeat_day_of_month",
 	start_date = "start_date",
 	updated_at = "updated_at"
@@ -53699,6 +54478,7 @@ type ZEUS_VARIABLES = {
 	["CoordinapeInput"]: ValueTypes["CoordinapeInput"];
 	["CreateCircleInput"]: ValueTypes["CreateCircleInput"];
 	["CreateEpochInput"]: ValueTypes["CreateEpochInput"];
+	["CreateEpochOldInput"]: ValueTypes["CreateEpochOldInput"];
 	["CreateNomineeInput"]: ValueTypes["CreateNomineeInput"];
 	["CreateUserWithTokenInput"]: ValueTypes["CreateUserWithTokenInput"];
 	["CreateUsersInput"]: ValueTypes["CreateUsersInput"];
@@ -53709,7 +54489,10 @@ type ZEUS_VARIABLES = {
 	["DeleteEpochInput"]: ValueTypes["DeleteEpochInput"];
 	["DeleteUserInput"]: ValueTypes["DeleteUserInput"];
 	["DeleteUsersInput"]: ValueTypes["DeleteUsersInput"];
+	["EndEpochInput"]: ValueTypes["EndEpochInput"];
+	["EpochInputParams"]: ValueTypes["EpochInputParams"];
 	["GenerateApiKeyInput"]: ValueTypes["GenerateApiKeyInput"];
+	["GuildInfoInput"]: ValueTypes["GuildInfoInput"];
 	["Int_comparison_exp"]: ValueTypes["Int_comparison_exp"];
 	["LinkDiscordCircleInput"]: ValueTypes["LinkDiscordCircleInput"];
 	["LinkDiscordUserInput"]: ValueTypes["LinkDiscordUserInput"];
@@ -53719,6 +54502,7 @@ type ZEUS_VARIABLES = {
 	["UpdateCircleInput"]: ValueTypes["UpdateCircleInput"];
 	["UpdateContributionInput"]: ValueTypes["UpdateContributionInput"];
 	["UpdateEpochInput"]: ValueTypes["UpdateEpochInput"];
+	["UpdateEpochOldInput"]: ValueTypes["UpdateEpochOldInput"];
 	["UpdateProfileInput"]: ValueTypes["UpdateProfileInput"];
 	["UpdateTeammatesInput"]: ValueTypes["UpdateTeammatesInput"];
 	["UpdateUserInput"]: ValueTypes["UpdateUserInput"];
@@ -53959,14 +54743,19 @@ type ZEUS_VARIABLES = {
 	["discord_circle_api_tokens_var_pop_order_by"]: ValueTypes["discord_circle_api_tokens_var_pop_order_by"];
 	["discord_circle_api_tokens_var_samp_order_by"]: ValueTypes["discord_circle_api_tokens_var_samp_order_by"];
 	["discord_circle_api_tokens_variance_order_by"]: ValueTypes["discord_circle_api_tokens_variance_order_by"];
+	["discord_roles_circles_append_input"]: ValueTypes["discord_roles_circles_append_input"];
 	["discord_roles_circles_bool_exp"]: ValueTypes["discord_roles_circles_bool_exp"];
 	["discord_roles_circles_constraint"]: ValueTypes["discord_roles_circles_constraint"];
+	["discord_roles_circles_delete_at_path_input"]: ValueTypes["discord_roles_circles_delete_at_path_input"];
+	["discord_roles_circles_delete_elem_input"]: ValueTypes["discord_roles_circles_delete_elem_input"];
+	["discord_roles_circles_delete_key_input"]: ValueTypes["discord_roles_circles_delete_key_input"];
 	["discord_roles_circles_inc_input"]: ValueTypes["discord_roles_circles_inc_input"];
 	["discord_roles_circles_insert_input"]: ValueTypes["discord_roles_circles_insert_input"];
 	["discord_roles_circles_obj_rel_insert_input"]: ValueTypes["discord_roles_circles_obj_rel_insert_input"];
 	["discord_roles_circles_on_conflict"]: ValueTypes["discord_roles_circles_on_conflict"];
 	["discord_roles_circles_order_by"]: ValueTypes["discord_roles_circles_order_by"];
 	["discord_roles_circles_pk_columns_input"]: ValueTypes["discord_roles_circles_pk_columns_input"];
+	["discord_roles_circles_prepend_input"]: ValueTypes["discord_roles_circles_prepend_input"];
 	["discord_roles_circles_select_column"]: ValueTypes["discord_roles_circles_select_column"];
 	["discord_roles_circles_set_input"]: ValueTypes["discord_roles_circles_set_input"];
 	["discord_roles_circles_stream_cursor_input"]: ValueTypes["discord_roles_circles_stream_cursor_input"];
@@ -54033,10 +54822,14 @@ type ZEUS_VARIABLES = {
 	["epoch_pgive_data_update_column"]: ValueTypes["epoch_pgive_data_update_column"];
 	["epoch_pgive_data_updates"]: ValueTypes["epoch_pgive_data_updates"];
 	["epochs_aggregate_order_by"]: ValueTypes["epochs_aggregate_order_by"];
+	["epochs_append_input"]: ValueTypes["epochs_append_input"];
 	["epochs_arr_rel_insert_input"]: ValueTypes["epochs_arr_rel_insert_input"];
 	["epochs_avg_order_by"]: ValueTypes["epochs_avg_order_by"];
 	["epochs_bool_exp"]: ValueTypes["epochs_bool_exp"];
 	["epochs_constraint"]: ValueTypes["epochs_constraint"];
+	["epochs_delete_at_path_input"]: ValueTypes["epochs_delete_at_path_input"];
+	["epochs_delete_elem_input"]: ValueTypes["epochs_delete_elem_input"];
+	["epochs_delete_key_input"]: ValueTypes["epochs_delete_key_input"];
 	["epochs_inc_input"]: ValueTypes["epochs_inc_input"];
 	["epochs_insert_input"]: ValueTypes["epochs_insert_input"];
 	["epochs_max_order_by"]: ValueTypes["epochs_max_order_by"];
@@ -54045,6 +54838,7 @@ type ZEUS_VARIABLES = {
 	["epochs_on_conflict"]: ValueTypes["epochs_on_conflict"];
 	["epochs_order_by"]: ValueTypes["epochs_order_by"];
 	["epochs_pk_columns_input"]: ValueTypes["epochs_pk_columns_input"];
+	["epochs_prepend_input"]: ValueTypes["epochs_prepend_input"];
 	["epochs_select_column"]: ValueTypes["epochs_select_column"];
 	["epochs_set_input"]: ValueTypes["epochs_set_input"];
 	["epochs_stddev_order_by"]: ValueTypes["epochs_stddev_order_by"];

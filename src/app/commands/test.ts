@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { updateDiscordRolesCirclesAlerts } from '@api/updateDiscordRolesCirclesAlerts';
 import {
 	ButtonStyle,
 	CommandContext,
@@ -54,6 +55,11 @@ export default class Help extends SlashCommand {
 					name: 'time',
 					type: CommandOptionType.SUB_COMMAND,
 					description: 'testing time formatting',
+				},
+				{
+					name: 'alerts',
+					type: CommandOptionType.SUB_COMMAND,
+					description: 'testing alerts',
 				},
 			],
 		});
@@ -191,6 +197,16 @@ export default class Help extends SlashCommand {
 			case 'time': {
 				const epoch = new Date('2023-02-14T22:00:00+00:00').getTime() / 1000;
 				await ctx.send(`<t:${epoch}:f>`);
+				break;
+			}
+			case 'alerts': {
+				await updateDiscordRolesCirclesAlerts({
+					channelId: '1075854380210864270',
+					alerts: ['epoch-start', 'user-opts-out'].reduce((acc, alert) => {
+						acc[alert] = true;
+						return acc;
+					}, {} as Record<string, boolean>),
+				});
 				break;
 			}
 			}

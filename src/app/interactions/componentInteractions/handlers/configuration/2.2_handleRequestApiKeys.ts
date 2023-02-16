@@ -4,7 +4,9 @@ import { ButtonStyle, ComponentButtonLink, ComponentContext, ComponentType } fro
 import { DiscordService } from 'src/app/service/DiscordService';
 import { extractCircleId } from 'src/app/utils/extractCircleId';
 import { isMessage } from 'src/app/utils/isMessage';
+import { sleep } from 'src/app/utils/sleep';
 import { disableAllComponents } from '../common';
+import { handleSendAlerts } from './3_handleSendAlerts';
 
 /**
  * Request API keys flow
@@ -57,6 +59,12 @@ export async function handleRequestApiKeys(ctx: ComponentContext) {
 				message.edit({ components: [{ type: ComponentType.ACTION_ROW, components: [{ ...AUTHORIZE_LINK_CIRCLE_BUTTON, disabled: true }] }] });
 			}
 			await ctx.send({ content: `<@${ctx.user.id}>, you've linked the circle successfully!` });
+
+			// Just to improve message flow
+			await sleep(3000);
+
+			// Next question
+			return handleSendAlerts(ctx);
 		}
 	});
 }
