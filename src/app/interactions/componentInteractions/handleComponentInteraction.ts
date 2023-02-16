@@ -18,6 +18,9 @@ import {
 	// handleFrequencyOfAlertsToSend,
 	handleLinkCircles,
 	handleRequestApiKeys,
+	ALERT_HANDLER_INTERACTIONS,
+	handleAlertsSelect,
+	handleConfirmAlertsToSend,
 } from './handlers';
 import { DiscordService } from 'src/app/service/DiscordService';
 import { CONFIG_NEXT_BUTTON } from 'src/app/service/components/getConfigureComponents';
@@ -35,10 +38,10 @@ export async function handleComponentInteraction({ ctx, discordService }: Props)
 		return handleAlertsToSend(ctx);
 	case NO_SEND_ALERTS_BUTTON.custom_id:
 		return handleFinalMessage(ctx);
+	case ALERT_HANDLER_INTERACTIONS.Select:
+		return handleAlertsSelect(ctx);
 	case ALERTS_SELECT_CONFIRM_BUTTON.custom_id:
-		// TODO Phase 2
-		// return handleFrequencyOfAlertsToSend(ctx);
-		return handleFinalMessage(ctx);
+		return handleConfirmAlertsToSend(ctx);
 	case ALERTS_SELECT_CANCEL_BUTTON.custom_id:
 		return handleFinalMessage(ctx);
 	case ALERTS_FREQUENCY_SELECT_CONFIRM_BUTTON.custom_id:

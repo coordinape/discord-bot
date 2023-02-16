@@ -1,32 +1,37 @@
 import { ButtonStyle, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentSelectOption, ComponentType } from 'slash-create';
 import { disableAllComponents } from '../common';
 
+export const ALERT_HANDLER_INTERACTIONS = {
+	Select: 'ALERTS_STRING_SELECT',
+};
+
 const OPTIONS: ComponentSelectOption[] = [
-	{ label: 'Epoch Summary', value: 'epoch_summary', default: true },
-	{ label: 'Epoch Created', value: 'epoch_created' },
-	{ label: 'Epoch Start', value: 'epoch_start' },
-	{ label: 'Daily Change', value: 'daily_change' },
-	{ label: 'Nominations', value: 'nominations' },
-	{ label: 'Vouching', value: 'vouching' },
-	{ label: 'New Circle Member', value: 'new_circle_member' },
-	{ label: 'Member Leaves Circle', value: 'member_leaves_circle' },
-	{ label: 'When a user opts out of a circle', value: 'when_a_user_opts_out_of_a_circle' },
+	{ label: 'Epoch Start', value: 'epoch-start' },
+	{ label: 'Epoch End', value: 'epoch-end' },
+	{ label: 'Nomination', value: 'nomination' },
+	{ label: 'Vouch', value: 'vouch' },
+	{ label: 'Vouch Successful', value: 'vouch-successful' },
+	{ label: 'Vouch Unsuccessful', value: 'vouch-unsuccessful' },
+	{ label: 'User Added to Circle', value: 'user-added' },
+	{ label: 'User Leaves Circle', value: 'user-removed' },
+	{ label: 'User Opts Out', value: 'user-opts-out' },
 ];
 
-const ALERTS_STRING_SELECT: ComponentSelectMenu = {
+export const buildAlertsSelect = ({ options }: {options?: ComponentSelectOption[]}): ComponentSelectMenu => ({
 	type: ComponentType.STRING_SELECT,
-	options: OPTIONS,
+	options,
 	placeholder: 'Select the alerts you\'d like me to send, if any',
-	custom_id: 'ALERTS_STRING_SELECT',
+	custom_id: ALERT_HANDLER_INTERACTIONS.Select,
 	min_values: 0,
 	max_values: OPTIONS.length,
-};
+});
 
 export const ALERTS_SELECT_CONFIRM_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
 	label: 'Confirm',
 	custom_id: 'ALERTS_SELECT_CONFIRM_BUTTON',
 	style: ButtonStyle.SUCCESS,
+	disabled: true,
 };
 
 export const ALERTS_SELECT_CANCEL_BUTTON: ComponentButton = {
@@ -42,10 +47,13 @@ export const ALERTS_SELECT_CANCEL_BUTTON: ComponentButton = {
  */
 export async function handleAlertsToSend(ctx: ComponentContext) {
 	await ctx.editParent({ components: disableAllComponents(ctx) });
+
+	const selectComponent = buildAlertsSelect({ options: OPTIONS });
+	
 	await ctx.send({
 		content: 'What Alerts would you like me to send?',
 		components: [
-			{ type: ComponentType.ACTION_ROW, components: [ALERTS_STRING_SELECT] },
+			{ type: ComponentType.ACTION_ROW, components: [selectComponent] },
 			{ type: ComponentType.ACTION_ROW, components: [ALERTS_SELECT_CONFIRM_BUTTON, ALERTS_SELECT_CANCEL_BUTTON] },
 		],
 	});
