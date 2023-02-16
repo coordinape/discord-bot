@@ -5,6 +5,7 @@ import {
 	SlashCommand,
 	CommandContext,
 	ComponentType,
+	ComponentContext,
 } from 'slash-create';
 import Discord, {
 	Client,
@@ -19,16 +20,27 @@ import Log, { LogUtils } from './utils/Log';
 import apiKeys from './service/constants/apiKeys';
 import constants from './service/constants/constants';
 import { RewriteFrames } from '@sentry/integrations';
-import { handleComponentInteraction } from './interactions/componentInteractions/handleComponentInteraction';
-import { assignRoleHandler, unassignRoleHandler } from './interactions/componentInteractions/handlers';
-import { ASSIGN_ROLE_USER_SELECT, UNASSIGN_ROLE_USER_SELECT } from './service/components/getChangeRoleSelect';
-import { DiscordService } from './service/DiscordService';
+import { assignRoleHandler, handleAlertsSelect, handleAlertsToSend, handleCircleSelect, handleConfirmAlertsToSend, handleCreateNewEntities, handleFinalMessage, handleLinkCircles, handleRequestApiKeys, unassignRoleHandler } from './interactions/componentInteractions/handlers';
+import { CustomId } from './interactions/customId';
 
 initializeSentryIO();
 const client: Client = initializeClient();
 initializeEvents();
 
 export type SlashCreatorWithDiscordJS = Omit<SlashCreator, 'client'> & { client?: Client };
+
+const handleableInteractions: {[key: string]: (ctx: ComponentContext) => Promise<void>} = {
+	[CustomId.AlertsSelectConfirmButton]: handleConfirmAlertsToSend,
+	[CustomId.AlertsSelect]: handleAlertsSelect,
+	[CustomId.AllowAlertsButton]: handleAlertsToSend,
+	[CustomId.AssignRoleUserSelect]: assignRoleHandler,
+	[CustomId.CircleSelectNextButton]: handleCreateNewEntities,
+	[CustomId.CircleSelect]: handleCircleSelect,
+	[CustomId.ConfigNextButton]: handleLinkCircles,
+	[CustomId.LinkCircleButton]: handleRequestApiKeys,
+	[CustomId.Skip]: handleFinalMessage,
+	[CustomId.UnssignRoleUserSelect]: assignRoleHandler,
+};
 
 const creator: SlashCreatorWithDiscordJS = new SlashCreator({
 	applicationID: process.env.DISCORD_BOT_APPLICATION_ID || '',
@@ -44,17 +56,21 @@ creator.on('commandInteraction', (message) => Log.warn(`commandInteraction: ${ m
 creator.on('unknownInteraction', (message) => Log.warn(`unknownInteraction: ${ message }`));
 creator.on('componentInteraction', async (componentContext) => {
 	try {
-		const discordService = new DiscordService(componentContext);
 		if (componentContext.componentType === ComponentType.USER_SELECT) {
-			if (componentContext.customID === ASSIGN_ROLE_USER_SELECT.custom_id) {
-				return assignRoleHandler({ componentContext });
+			if (componentContext.customID === CustomId.AssignRoleUserSelect) {
+				return assignRoleHandler(componentContext);
 			}
-			if (componentContext.customID === UNASSIGN_ROLE_USER_SELECT.custom_id) {
-				return unassignRoleHandler({ componentContext });
+			if (componentContext.customID === CustomId.UnssignRoleUserSelect) {
+				return unassignRoleHandler(componentContext);
 			}
 		}
-		handleComponentInteraction({ ctx: componentContext, discordService });
-		Log.warn(`componentInteraction: ${ componentContext }`);
+		
+		const handleFn = handleableInteractions[componentContext.customID];
+		if (handleFn) {
+			handleFn(componentContext);
+		}
+		
+		// handleComponentInteraction({ ctx: componentContext, discordService });
 	} catch (error) {
 		await componentContext.send({ content: 'Something went wrong with this interaction. Please contact coordinape support' });
 		Log.error(error);

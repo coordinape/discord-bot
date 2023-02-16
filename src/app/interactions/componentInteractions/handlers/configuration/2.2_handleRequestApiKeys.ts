@@ -11,7 +11,9 @@ import { disableAllComponents } from '../common';
  * @param ctx the context
  * @param discordService the discord service
  */
-export async function handleRequestApiKeys(ctx: ComponentContext, discordService: DiscordService) {
+export async function handleRequestApiKeys(ctx: ComponentContext) {
+	const discordService = new DiscordService(ctx);
+
 	await ctx.editParent({ components: disableAllComponents(ctx) });
 
 	const channel = await discordService.findTextChannelById(ctx.channelID);

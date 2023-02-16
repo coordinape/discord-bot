@@ -3,6 +3,7 @@ import { CallbackComponent } from '../types';
 import Log from '../../utils/Log';
 import { disableAllComponents } from 'src/app/interactions/componentInteractions/handlers/common';
 import { getCircle } from '@api/getCircle';
+import { CustomId } from 'src/app/interactions/customId';
 
 const ASSIGN_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
@@ -21,7 +22,7 @@ const UNASSIGN_BUTTON: ComponentButton = {
 export const ASSIGN_ROLE_USER_SELECT: ComponentSelectMenu = {
 	type: ComponentType.USER_SELECT,
 	placeholder: 'Select the user to add',
-	custom_id: 'ASSIGN_ROLE_USER_SELECT',
+	custom_id: CustomId.AssignRoleUserSelect,
 };
 
 export const UNASSIGN_ROLE_USER_SELECT: ComponentSelectMenu = {

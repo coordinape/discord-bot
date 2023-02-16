@@ -1,17 +1,18 @@
 import { ButtonStyle, ComponentButton, ComponentContext, ComponentType } from 'slash-create';
+import { CustomId } from 'src/app/interactions/customId';
 
 export const YES_SEND_ALERTS_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
 	style: ButtonStyle.PRIMARY,
 	label: 'Yes please',
-	custom_id: 'YES_SEND_ALERTS_BUTTON',
+	custom_id: CustomId.AllowAlertsButton,
 };
 
 export const NO_SEND_ALERTS_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
 	style: ButtonStyle.SECONDARY,
 	label: 'No thanks',
-	custom_id: 'NO_SEND_ALERTS_BUTTON',
+	custom_id: CustomId.Skip,
 };
 
 /**
