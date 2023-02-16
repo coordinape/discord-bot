@@ -4,6 +4,7 @@ import {
 	GatewayServer,
 	SlashCommand,
 	CommandContext,
+	ComponentType,
 	ComponentContext,
 } from 'slash-create';
 import Discord, {
@@ -38,7 +39,7 @@ const handleableInteractions: {[key: string]: (ctx: ComponentContext) => Promise
 	[CustomId.ConfigNextButton]: handleLinkCircles,
 	[CustomId.LinkCircleButton]: handleRequestApiKeys,
 	[CustomId.Skip]: handleFinalMessage,
-	[CustomId.UnssignRoleUserSelect]: unassignRoleHandler,
+	[CustomId.UnssignRoleUserSelect]: assignRoleHandler,
 };
 
 const creator: SlashCreatorWithDiscordJS = new SlashCreator({
@@ -55,10 +56,21 @@ creator.on('commandInteraction', (message) => Log.warn(`commandInteraction: ${ m
 creator.on('unknownInteraction', (message) => Log.warn(`unknownInteraction: ${ message }`));
 creator.on('componentInteraction', async (componentContext) => {
 	try {
+		if (componentContext.componentType === ComponentType.USER_SELECT) {
+			if (componentContext.customID === CustomId.AssignRoleUserSelect) {
+				return assignRoleHandler(componentContext);
+			}
+			if (componentContext.customID === CustomId.UnssignRoleUserSelect) {
+				return unassignRoleHandler(componentContext);
+			}
+		}
+		
 		const handleFn = handleableInteractions[componentContext.customID];
 		if (handleFn) {
 			handleFn(componentContext);
 		}
+		
+		// handleComponentInteraction({ ctx: componentContext, discordService });
 	} catch (error) {
 		await componentContext.send({ content: 'Something went wrong with this interaction. Please contact coordinape support' });
 		Log.error(error);
