@@ -1,3 +1,4 @@
+import { updateDiscordRolesCirclesAlerts } from '@api/updateDiscordRolesCirclesAlerts';
 import { ComponentActionRow, ComponentContext, ComponentSelectMenu } from 'slash-create';
 import { disableAllComponents } from '../common';
 import { handleFinalMessage } from './4_handleFinalMessage';
@@ -14,8 +15,22 @@ export async function handleConfirmAlertsToSend(ctx: ComponentContext) {
 		
 	await ctx.editParent({ components: disableAllComponents(ctx) });
 
-	// TODO Mutation to store these values
-	await ctx.send(`You've selected ${alerts.map(({ value }) => `\`${value}\``).join(', ')}`);
+	const { success, data } = await updateDiscordRolesCirclesAlerts({
+		channelId: ctx.channelID,
+		alerts: alerts.reduce((acc, { value }) => {
+			acc[value] = true;
+			return acc;
+		}, {} as Record<string, boolean>),
+	});
+
+	if (!success) {
+		await ctx.send('Failed to update alerts to send');
+		return;
+	}
+
+	const storedAlerts = Object.keys(data?.alerts || {}).join(', ');
+
+	await ctx.send(`Your alerts (${storedAlerts}) have been successfully updated!`);
 
 	// TODO Phase 2
 	// return handleFrequencyOfAlertsToSend(ctx);

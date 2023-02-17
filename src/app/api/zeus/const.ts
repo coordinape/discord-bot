@@ -35,6 +35,9 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	CreateEpochInput:{
+		params:"EpochInputParams"
+	},
+	CreateEpochOldInput:{
 		start_date:"timestamptz"
 	},
 	CreateNomineeInput:{
@@ -67,7 +70,17 @@ export const AllTypesProps: Record<string,any> = {
 	DeleteUsersInput:{
 
 	},
+	EndEpochInput:{
+
+	},
+	EpochInputParams:{
+		end_date:"timestamptz",
+		start_date:"timestamptz"
+	},
 	GenerateApiKeyInput:{
+
+	},
+	GuildInfoInput:{
 
 	},
 	Int_comparison_exp:{
@@ -95,6 +108,9 @@ export const AllTypesProps: Record<string,any> = {
 		datetime_created:"timestamptz"
 	},
 	UpdateEpochInput:{
+		params:"EpochInputParams"
+	},
+	UpdateEpochOldInput:{
 		start_date:"timestamptz"
 	},
 	UpdateProfileInput:{
@@ -1024,6 +1040,8 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	circles_avg_order_by:{
 		fixed_payment_vault_id:"order_by",
+		guild_id:"order_by",
+		guild_role_id:"order_by",
 		id:"order_by",
 		min_vouches:"order_by",
 		nomination_days_limit:"order_by",
@@ -1051,6 +1069,8 @@ export const AllTypesProps: Record<string,any> = {
 		epochs:"epochs_bool_exp",
 		fixed_payment_token_type:"String_comparison_exp",
 		fixed_payment_vault_id:"Int_comparison_exp",
+		guild_id:"Int_comparison_exp",
+		guild_role_id:"Int_comparison_exp",
 		id:"bigint_comparison_exp",
 		integrations:"circle_integrations_bool_exp",
 		is_verified:"Boolean_comparison_exp",
@@ -1108,6 +1128,8 @@ export const AllTypesProps: Record<string,any> = {
 		discord_webhook:"order_by",
 		fixed_payment_token_type:"order_by",
 		fixed_payment_vault_id:"order_by",
+		guild_id:"order_by",
+		guild_role_id:"order_by",
 		id:"order_by",
 		logo:"order_by",
 		min_vouches:"order_by",
@@ -1128,6 +1150,8 @@ export const AllTypesProps: Record<string,any> = {
 		discord_webhook:"order_by",
 		fixed_payment_token_type:"order_by",
 		fixed_payment_vault_id:"order_by",
+		guild_id:"order_by",
+		guild_role_id:"order_by",
 		id:"order_by",
 		logo:"order_by",
 		min_vouches:"order_by",
@@ -1167,6 +1191,8 @@ export const AllTypesProps: Record<string,any> = {
 		epochs_aggregate:"epochs_aggregate_order_by",
 		fixed_payment_token_type:"order_by",
 		fixed_payment_vault_id:"order_by",
+		guild_id:"order_by",
+		guild_role_id:"order_by",
 		id:"order_by",
 		integrations_aggregate:"circle_integrations_aggregate_order_by",
 		is_verified:"order_by",
@@ -1202,6 +1228,8 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	circles_stddev_order_by:{
 		fixed_payment_vault_id:"order_by",
+		guild_id:"order_by",
+		guild_role_id:"order_by",
 		id:"order_by",
 		min_vouches:"order_by",
 		nomination_days_limit:"order_by",
@@ -1209,6 +1237,8 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	circles_stddev_pop_order_by:{
 		fixed_payment_vault_id:"order_by",
+		guild_id:"order_by",
+		guild_role_id:"order_by",
 		id:"order_by",
 		min_vouches:"order_by",
 		nomination_days_limit:"order_by",
@@ -1216,6 +1246,8 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	circles_stddev_samp_order_by:{
 		fixed_payment_vault_id:"order_by",
+		guild_id:"order_by",
+		guild_role_id:"order_by",
 		id:"order_by",
 		min_vouches:"order_by",
 		nomination_days_limit:"order_by",
@@ -1233,6 +1265,8 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	circles_sum_order_by:{
 		fixed_payment_vault_id:"order_by",
+		guild_id:"order_by",
+		guild_role_id:"order_by",
 		id:"order_by",
 		min_vouches:"order_by",
 		nomination_days_limit:"order_by",
@@ -1246,6 +1280,8 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	circles_var_pop_order_by:{
 		fixed_payment_vault_id:"order_by",
+		guild_id:"order_by",
+		guild_role_id:"order_by",
 		id:"order_by",
 		min_vouches:"order_by",
 		nomination_days_limit:"order_by",
@@ -1253,6 +1289,8 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	circles_var_samp_order_by:{
 		fixed_payment_vault_id:"order_by",
+		guild_id:"order_by",
+		guild_role_id:"order_by",
 		id:"order_by",
 		min_vouches:"order_by",
 		nomination_days_limit:"order_by",
@@ -1260,6 +1298,8 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	circles_variance_order_by:{
 		fixed_payment_vault_id:"order_by",
+		guild_id:"order_by",
+		guild_role_id:"order_by",
 		id:"order_by",
 		min_vouches:"order_by",
 		nomination_days_limit:"order_by",
@@ -1797,15 +1837,24 @@ export const AllTypesProps: Record<string,any> = {
 		circle_id:"order_by",
 		id:"order_by"
 	},
+	discord_roles_circles:{
+		alerts:{
+
+		}
+	},
 	discord_roles_circles_aggregate_fields:{
 		count:{
 			columns:"discord_roles_circles_select_column"
 		}
 	},
+	discord_roles_circles_append_input:{
+		alerts:"jsonb"
+	},
 	discord_roles_circles_bool_exp:{
 		_and:"discord_roles_circles_bool_exp",
 		_not:"discord_roles_circles_bool_exp",
 		_or:"discord_roles_circles_bool_exp",
+		alerts:"jsonb_comparison_exp",
 		circle:"circles_bool_exp",
 		circle_id:"bigint_comparison_exp",
 		created_at:"timestamptz_comparison_exp",
@@ -1815,11 +1864,21 @@ export const AllTypesProps: Record<string,any> = {
 		updated_at:"timestamptz_comparison_exp"
 	},
 	discord_roles_circles_constraint: "enum" as const,
+	discord_roles_circles_delete_at_path_input:{
+
+	},
+	discord_roles_circles_delete_elem_input:{
+
+	},
+	discord_roles_circles_delete_key_input:{
+
+	},
 	discord_roles_circles_inc_input:{
 		circle_id:"bigint",
 		id:"bigint"
 	},
 	discord_roles_circles_insert_input:{
+		alerts:"jsonb",
 		circle:"circles_obj_rel_insert_input",
 		circle_id:"bigint",
 		created_at:"timestamptz",
@@ -1836,6 +1895,7 @@ export const AllTypesProps: Record<string,any> = {
 		where:"discord_roles_circles_bool_exp"
 	},
 	discord_roles_circles_order_by:{
+		alerts:"order_by",
 		circle:"circles_order_by",
 		circle_id:"order_by",
 		created_at:"order_by",
@@ -1847,8 +1907,12 @@ export const AllTypesProps: Record<string,any> = {
 	discord_roles_circles_pk_columns_input:{
 		id:"bigint"
 	},
+	discord_roles_circles_prepend_input:{
+		alerts:"jsonb"
+	},
 	discord_roles_circles_select_column: "enum" as const,
 	discord_roles_circles_set_input:{
+		alerts:"jsonb",
 		circle_id:"bigint",
 		created_at:"timestamptz",
 		id:"bigint",
@@ -1859,6 +1923,7 @@ export const AllTypesProps: Record<string,any> = {
 		ordering:"cursor_ordering"
 	},
 	discord_roles_circles_stream_cursor_value_input:{
+		alerts:"jsonb",
 		circle_id:"bigint",
 		created_at:"timestamptz",
 		id:"bigint",
@@ -1866,7 +1931,12 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	discord_roles_circles_update_column: "enum" as const,
 	discord_roles_circles_updates:{
+		_append:"discord_roles_circles_append_input",
+		_delete_at_path:"discord_roles_circles_delete_at_path_input",
+		_delete_elem:"discord_roles_circles_delete_elem_input",
+		_delete_key:"discord_roles_circles_delete_key_input",
 		_inc:"discord_roles_circles_inc_input",
+		_prepend:"discord_roles_circles_prepend_input",
 		_set:"discord_roles_circles_set_input",
 		where:"discord_roles_circles_bool_exp"
 	},
@@ -2350,6 +2420,9 @@ export const AllTypesProps: Record<string,any> = {
 			order_by:"pending_token_gifts_order_by",
 			where:"pending_token_gifts_bool_exp"
 		},
+		repeat_data:{
+
+		},
 		token_gifts:{
 			distinct_on:"token_gifts_select_column",
 			order_by:"token_gifts_order_by",
@@ -2378,6 +2451,9 @@ export const AllTypesProps: Record<string,any> = {
 		var_pop:"epochs_var_pop_order_by",
 		var_samp:"epochs_var_samp_order_by",
 		variance:"epochs_variance_order_by"
+	},
+	epochs_append_input:{
+		repeat_data:"jsonb"
 	},
 	epochs_arr_rel_insert_input:{
 		data:"epochs_insert_input",
@@ -2416,12 +2492,22 @@ export const AllTypesProps: Record<string,any> = {
 		pgive_data:"epoch_pgive_data_bool_exp",
 		regift_days:"Int_comparison_exp",
 		repeat:"Int_comparison_exp",
+		repeat_data:"jsonb_comparison_exp",
 		repeat_day_of_month:"Int_comparison_exp",
 		start_date:"timestamptz_comparison_exp",
 		token_gifts:"token_gifts_bool_exp",
 		updated_at:"timestamp_comparison_exp"
 	},
 	epochs_constraint: "enum" as const,
+	epochs_delete_at_path_input:{
+
+	},
+	epochs_delete_elem_input:{
+
+	},
+	epochs_delete_key_input:{
+
+	},
 	epochs_inc_input:{
 		grant:"numeric",
 		id:"bigint"
@@ -2439,6 +2525,7 @@ export const AllTypesProps: Record<string,any> = {
 		notified_end:"timestamp",
 		notified_start:"timestamp",
 		pgive_data:"epoch_pgive_data_obj_rel_insert_input",
+		repeat_data:"jsonb",
 		start_date:"timestamptz",
 		token_gifts:"token_gifts_arr_rel_insert_input",
 		updated_at:"timestamp"
@@ -2508,6 +2595,7 @@ export const AllTypesProps: Record<string,any> = {
 		pgive_data:"epoch_pgive_data_order_by",
 		regift_days:"order_by",
 		repeat:"order_by",
+		repeat_data:"order_by",
 		repeat_day_of_month:"order_by",
 		start_date:"order_by",
 		token_gifts_aggregate:"token_gifts_aggregate_order_by",
@@ -2515,6 +2603,9 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	epochs_pk_columns_input:{
 		id:"bigint"
+	},
+	epochs_prepend_input:{
+		repeat_data:"jsonb"
 	},
 	epochs_select_column: "enum" as const,
 	epochs_set_input:{
@@ -2525,6 +2616,7 @@ export const AllTypesProps: Record<string,any> = {
 		notified_before_end:"timestamp",
 		notified_end:"timestamp",
 		notified_start:"timestamp",
+		repeat_data:"jsonb",
 		start_date:"timestamptz",
 		updated_at:"timestamp"
 	},
@@ -2570,6 +2662,7 @@ export const AllTypesProps: Record<string,any> = {
 		notified_before_end:"timestamp",
 		notified_end:"timestamp",
 		notified_start:"timestamp",
+		repeat_data:"jsonb",
 		start_date:"timestamptz",
 		updated_at:"timestamp"
 	},
@@ -2585,7 +2678,12 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	epochs_update_column: "enum" as const,
 	epochs_updates:{
+		_append:"epochs_append_input",
+		_delete_at_path:"epochs_delete_at_path_input",
+		_delete_elem:"epochs_delete_elem_input",
+		_delete_key:"epochs_delete_key_input",
 		_inc:"epochs_inc_input",
+		_prepend:"epochs_prepend_input",
 		_set:"epochs_set_input",
 		where:"epochs_bool_exp"
 	},
@@ -3217,6 +3315,9 @@ export const AllTypesProps: Record<string,any> = {
 		createEpoch:{
 			payload:"CreateEpochInput"
 		},
+		createEpochOld:{
+			payload:"CreateEpochOldInput"
+		},
 		createNominee:{
 			payload:"CreateNomineeInput"
 		},
@@ -3450,6 +3551,9 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		delete_vouches_by_pk:{
 			id:"bigint"
+		},
+		endEpoch:{
+			payload:"EndEpochInput"
 		},
 		generateApiKey:{
 			payload:"GenerateApiKeyInput"
@@ -3752,6 +3856,9 @@ export const AllTypesProps: Record<string,any> = {
 		updateEpoch:{
 			payload:"UpdateEpochInput"
 		},
+		updateEpochOld:{
+			payload:"UpdateEpochOldInput"
+		},
 		updateProfile:{
 			payload:"UpdateProfileInput"
 		},
@@ -3887,12 +3994,22 @@ export const AllTypesProps: Record<string,any> = {
 			updates:"discord_circle_api_tokens_updates"
 		},
 		update_discord_roles_circles:{
+			_append:"discord_roles_circles_append_input",
+			_delete_at_path:"discord_roles_circles_delete_at_path_input",
+			_delete_elem:"discord_roles_circles_delete_elem_input",
+			_delete_key:"discord_roles_circles_delete_key_input",
 			_inc:"discord_roles_circles_inc_input",
+			_prepend:"discord_roles_circles_prepend_input",
 			_set:"discord_roles_circles_set_input",
 			where:"discord_roles_circles_bool_exp"
 		},
 		update_discord_roles_circles_by_pk:{
+			_append:"discord_roles_circles_append_input",
+			_delete_at_path:"discord_roles_circles_delete_at_path_input",
+			_delete_elem:"discord_roles_circles_delete_elem_input",
+			_delete_key:"discord_roles_circles_delete_key_input",
 			_inc:"discord_roles_circles_inc_input",
+			_prepend:"discord_roles_circles_prepend_input",
 			_set:"discord_roles_circles_set_input",
 			pk_columns:"discord_roles_circles_pk_columns_input"
 		},
@@ -3949,12 +4066,22 @@ export const AllTypesProps: Record<string,any> = {
 			updates:"epoch_pgive_data_updates"
 		},
 		update_epochs:{
+			_append:"epochs_append_input",
+			_delete_at_path:"epochs_delete_at_path_input",
+			_delete_elem:"epochs_delete_elem_input",
+			_delete_key:"epochs_delete_key_input",
 			_inc:"epochs_inc_input",
+			_prepend:"epochs_prepend_input",
 			_set:"epochs_set_input",
 			where:"epochs_bool_exp"
 		},
 		update_epochs_by_pk:{
+			_append:"epochs_append_input",
+			_delete_at_path:"epochs_delete_at_path_input",
+			_delete_elem:"epochs_delete_elem_input",
+			_delete_key:"epochs_delete_key_input",
 			_inc:"epochs_inc_input",
+			_prepend:"epochs_prepend_input",
 			_set:"epochs_set_input",
 			pk_columns:"epochs_pk_columns_input"
 		},
@@ -5367,6 +5494,9 @@ export const AllTypesProps: Record<string,any> = {
 		epochs_by_pk:{
 			id:"bigint"
 		},
+		getGuildInfo:{
+			payload:"GuildInfoInput"
+		},
 		gift_private:{
 			distinct_on:"gift_private_select_column",
 			order_by:"gift_private_order_by",
@@ -5516,9 +5646,6 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		personal_access_tokens_by_pk:{
 			id:"bigint"
-		},
-		price_per_share:{
-
 		},
 		profiles:{
 			distinct_on:"profiles_select_column",
@@ -7694,6 +7821,25 @@ export const ReturnTypes: Record<string,any> = {
 		circleApiKey:"circle_api_keys",
 		hash:"String"
 	},
+	GuildAdmin:{
+		address:"String"
+	},
+	GuildInfoOutput:{
+		admins:"GuildAdmin",
+		description:"String",
+		id:"Int",
+		image_url:"String",
+		member_count:"Int",
+		name:"String",
+		roles:"GuildRole",
+		url_name:"String"
+	},
+	GuildRole:{
+		id:"Int",
+		image_url:"String",
+		member_count:"Int",
+		name:"String"
+	},
 	LinkDiscordCircleResponse:{
 		id:"Int"
 	},
@@ -8275,6 +8421,8 @@ export const ReturnTypes: Record<string,any> = {
 		epochs_aggregate:"epochs_aggregate",
 		fixed_payment_token_type:"String",
 		fixed_payment_vault_id:"Int",
+		guild_id:"Int",
+		guild_role_id:"Int",
 		id:"bigint",
 		integrations:"circle_integrations",
 		integrations_aggregate:"circle_integrations_aggregate",
@@ -8323,6 +8471,8 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	circles_avg_fields:{
 		fixed_payment_vault_id:"Float",
+		guild_id:"Float",
+		guild_role_id:"Float",
 		id:"Float",
 		min_vouches:"Float",
 		nomination_days_limit:"Float",
@@ -8337,6 +8487,8 @@ export const ReturnTypes: Record<string,any> = {
 		discord_webhook:"String",
 		fixed_payment_token_type:"String",
 		fixed_payment_vault_id:"Int",
+		guild_id:"Int",
+		guild_role_id:"Int",
 		id:"bigint",
 		logo:"String",
 		min_vouches:"Int",
@@ -8357,6 +8509,8 @@ export const ReturnTypes: Record<string,any> = {
 		discord_webhook:"String",
 		fixed_payment_token_type:"String",
 		fixed_payment_vault_id:"Int",
+		guild_id:"Int",
+		guild_role_id:"Int",
 		id:"bigint",
 		logo:"String",
 		min_vouches:"Int",
@@ -8374,6 +8528,8 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	circles_stddev_fields:{
 		fixed_payment_vault_id:"Float",
+		guild_id:"Float",
+		guild_role_id:"Float",
 		id:"Float",
 		min_vouches:"Float",
 		nomination_days_limit:"Float",
@@ -8381,6 +8537,8 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	circles_stddev_pop_fields:{
 		fixed_payment_vault_id:"Float",
+		guild_id:"Float",
+		guild_role_id:"Float",
 		id:"Float",
 		min_vouches:"Float",
 		nomination_days_limit:"Float",
@@ -8388,6 +8546,8 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	circles_stddev_samp_fields:{
 		fixed_payment_vault_id:"Float",
+		guild_id:"Float",
+		guild_role_id:"Float",
 		id:"Float",
 		min_vouches:"Float",
 		nomination_days_limit:"Float",
@@ -8395,6 +8555,8 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	circles_sum_fields:{
 		fixed_payment_vault_id:"Int",
+		guild_id:"Int",
+		guild_role_id:"Int",
 		id:"bigint",
 		min_vouches:"Int",
 		nomination_days_limit:"Int",
@@ -8402,6 +8564,8 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	circles_var_pop_fields:{
 		fixed_payment_vault_id:"Float",
+		guild_id:"Float",
+		guild_role_id:"Float",
 		id:"Float",
 		min_vouches:"Float",
 		nomination_days_limit:"Float",
@@ -8409,6 +8573,8 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	circles_var_samp_fields:{
 		fixed_payment_vault_id:"Float",
+		guild_id:"Float",
+		guild_role_id:"Float",
 		id:"Float",
 		min_vouches:"Float",
 		nomination_days_limit:"Float",
@@ -8416,6 +8582,8 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	circles_variance_fields:{
 		fixed_payment_vault_id:"Float",
+		guild_id:"Float",
+		guild_role_id:"Float",
 		id:"Float",
 		min_vouches:"Float",
 		nomination_days_limit:"Float",
@@ -8721,6 +8889,7 @@ export const ReturnTypes: Record<string,any> = {
 		id:"Float"
 	},
 	discord_roles_circles:{
+		alerts:"jsonb",
 		circle:"circles",
 		circle_id:"bigint",
 		created_at:"timestamptz",
@@ -9174,6 +9343,7 @@ export const ReturnTypes: Record<string,any> = {
 		pgive_data:"epoch_pgive_data",
 		regift_days:"Int",
 		repeat:"Int",
+		repeat_data:"jsonb",
 		repeat_day_of_month:"Int",
 		start_date:"timestamptz",
 		token_gifts:"token_gifts",
@@ -9943,6 +10113,7 @@ export const ReturnTypes: Record<string,any> = {
 		allocationCsv:"AllocationCsvResponse",
 		createCircle:"CreateCircleResponse",
 		createEpoch:"EpochResponse",
+		createEpochOld:"EpochResponse",
 		createNominee:"CreateNomineeResponse",
 		createSampleCircle:"CreateSampleCircleResponse",
 		createUserWithToken:"UserResponse",
@@ -10022,6 +10193,7 @@ export const ReturnTypes: Record<string,any> = {
 		delete_vaults_by_pk:"vaults",
 		delete_vouches:"vouches_mutation_response",
 		delete_vouches_by_pk:"vouches",
+		endEpoch:"EpochResponse",
 		generateApiKey:"GenerateApiKeyResponse",
 		insert_burns:"burns_mutation_response",
 		insert_burns_one:"burns",
@@ -10102,6 +10274,7 @@ export const ReturnTypes: Record<string,any> = {
 		updateCircle:"UpdateCircleOutput",
 		updateContribution:"UpdateContributionResponse",
 		updateEpoch:"EpochResponse",
+		updateEpochOld:"EpochResponse",
 		updateProfile:"UpdateProfileResponse",
 		updateTeammates:"UpdateTeammatesResponse",
 		updateUser:"UserResponse",
@@ -10993,6 +11166,7 @@ export const ReturnTypes: Record<string,any> = {
 		epochs:"epochs",
 		epochs_aggregate:"epochs_aggregate",
 		epochs_by_pk:"epochs",
+		getGuildInfo:"GuildInfoOutput",
 		gift_private:"gift_private",
 		gift_private_aggregate:"gift_private_aggregate",
 		histories:"histories",
@@ -11027,7 +11201,6 @@ export const ReturnTypes: Record<string,any> = {
 		personal_access_tokens:"personal_access_tokens",
 		personal_access_tokens_aggregate:"personal_access_tokens_aggregate",
 		personal_access_tokens_by_pk:"personal_access_tokens",
-		price_per_share:"Float",
 		profiles:"profiles",
 		profiles_aggregate:"profiles_aggregate",
 		profiles_by_pk:"profiles",
@@ -11810,7 +11983,6 @@ export const ReturnTypes: Record<string,any> = {
 		id:"bigint",
 		org_id:"bigint",
 		organization:"organizations",
-		price_per_share:"Float",
 		profile:"profiles",
 		simple_token_address:"String",
 		symbol:"String",

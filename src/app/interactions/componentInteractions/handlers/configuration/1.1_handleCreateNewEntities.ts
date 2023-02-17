@@ -5,9 +5,8 @@ import { ComponentActionRow, ComponentContext, ComponentSelectMenu, ComponentSel
 import { CustomId } from 'src/app/interactions/customId';
 import { DiscordService } from 'src/app/service/DiscordService';
 import Log from 'src/app/utils/Log';
-import { sleep } from 'src/app/utils/sleep';
 import { disableAllComponents } from '../common';
-import { handleSendAlerts } from './3_handleSendAlerts';
+import { handleFinalMessage } from './4_handleFinalMessage';
 
 type CleanUpProps = {
 	circleId: number;
@@ -106,11 +105,7 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 		await ctx.send(`I have created the following channels (under the ${coordinapeCategory} category) and roles, please go to each channel to manage circle permissions:\n${newEntitites.map(({ channel, role, circle }) => `> Channel ${channel} and role ${role} for circle \`${circle.label}\``).join('\n')}`);
 	}
 
-	// Just to improve message flow
-	await sleep(3000);
-
-	// Next question
-	return handleSendAlerts(ctx);
+	handleFinalMessage(ctx);
 }
 
 async function getCoordinapeCategory(discordService: DiscordService): Promise<CategoryChannel> {

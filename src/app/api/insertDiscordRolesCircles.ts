@@ -8,8 +8,6 @@ type Props = {
 }
 
 export async function insertDiscordRolesCircles({ circleId, channelId, roleId }: Props) {
-	console.log('insertDiscordRolesCircles', { circleId, channelId, roleId });
-	
 	const { insert_discord_roles_circles_one } = await gqlBot('mutation')({
 		insert_discord_roles_circles_one: [
 			{ object: { circle_id: circleId, discord_channel_id: channelId, discord_role_id: roleId } },
