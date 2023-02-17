@@ -15,8 +15,7 @@ import { getUsername } from '../utils/getUsername';
 	"roleId": "1058334400540061747",
 	"discordId": "578033839910289408",
 	"address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-	"circleName": "Circumference",
-	"method": "Admin Removal"
+	"circleName": "Circumference"
 }'
  */
 
@@ -27,7 +26,6 @@ const UserRemoved = z
 		discordId: z.string().optional(),
 		address: z.string().optional(),
 		circleName: z.string(),
-		method: z.string(),
 	})
 	.partial({ discordId: true, address: true })
 	.refine(({ discordId, address }) => discordId || address, 'Either discordId or address should be filled in.');
@@ -59,6 +57,6 @@ export default async function handler(req: Request, res: Response) {
 	}
 }
 
-async function getContent({ role, discordId, address, circleName, method }: { role: Role } & TUserRemoved) {
-	return `${role}, ${getUsername({ discordId, address })} has left the ${circleName} circle via ${method}.`;
+async function getContent({ role, discordId, address, circleName }: { role: Role } & TUserRemoved) {
+	return `${role}, ${getUsername({ discordId, address })} has left the ${circleName} circle.`;
 }
