@@ -10,4 +10,7 @@ export enum CustomId {
     LinkCircleButton = 'LINK_CIRCLE_BUTTON',
     Skip = 'SKIP',
     UnssignRoleUserSelect = 'UNASSIGN_ROLE_USER_SELECT',
+    LinkedChannelAlertsButton = 'LINKED_CHANNEL_ALERTS_BUTTON',
+    LinkedChannelAlertsUpdateButton = 'LINKED_CHANNEL_ALERTS_UPDATE_BUTTON',
+    LinkedChannelAlertsCancelButton = 'LINKED_CHANNEL_ALERTS_CANCEL_BUTTON',
 }

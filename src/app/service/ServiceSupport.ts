@@ -8,6 +8,7 @@ import Log from '../utils/Log';
 import { getLinkingComponents } from './components';
 import { getChangeRoleSelect } from './components/getChangeRoleSelect';
 import { getConfigureComponents } from './components/getConfigureComponents';
+import { getLinkedChannelComponents } from './components/getLinkedChannelComponents';
 import { DiscordService } from './DiscordService';
 import { CallbackComponent, CallbackComponentsWithActionRows } from './types';
 
@@ -34,6 +35,12 @@ export class ServiceSupport {
 			const assignComponents = await getChangeRoleSelect();
 			componentActionRows.push({ type: ComponentType.ACTION_ROW, components: assignComponents.map(({ component }) => component) });
 			callbackComponents.push(...assignComponents);
+			
+			const linkedChannelComponents = await getLinkedChannelComponents();
+			componentActionRows.push({ type: ComponentType.ACTION_ROW, components: linkedChannelComponents.map(({ component }) => component) });
+			callbackComponents.push(...linkedChannelComponents);
+
+			return { componentActionRows, callbackComponents };
 		}
 		
 		const configComponents = await getConfigureComponents();

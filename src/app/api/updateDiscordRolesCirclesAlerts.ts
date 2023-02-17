@@ -28,5 +28,11 @@ export async function updateDiscordRolesCirclesAlerts({ channelId, alerts }: Pro
 		throw new Error('Something is wrong, please contact coordinape');
 	}
 	
-	return { success: !!update_discord_roles_circles.returning[0], data: update_discord_roles_circles.returning[0] };
+	return { success: !!update_discord_roles_circles.returning[0], data: update_discord_roles_circles.returning[0] } as {
+		success: boolean;
+		data: {
+			alerts: Record<string, boolean>;
+			id: string;
+		}
+	};
 }

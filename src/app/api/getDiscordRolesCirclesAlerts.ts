@@ -8,5 +8,8 @@ export async function getDiscordRolesCirclesAlerts({ channelId }: {channelId: st
 		],
 	});
 
-	return discord_roles_circles[0];
+	return discord_roles_circles[0] as {
+		discord_channel_id: string;
+		alerts: Record<string, boolean>;
+	};
 }
