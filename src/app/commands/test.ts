@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { updateDiscordRolesCirclesAlerts } from '@api/updateDiscordRolesCirclesAlerts';
 import {
 	ButtonStyle,
@@ -211,7 +210,8 @@ export default class Help extends SlashCommand {
 			}
 			}
 		} catch (error) {
-			console.log(error);
+			// eslint-disable-next-line no-console
+			console.error(error);
 		}
 	}
 }

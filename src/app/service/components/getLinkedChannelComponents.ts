@@ -3,6 +3,7 @@ import { AnyComponentButton, ComponentType, ButtonStyle, ComponentContext, Compo
 import { ALERTS, getUniqueAlertKeys } from 'src/app/interactions/componentInteractions/handlers';
 import { disableAllComponents } from 'src/app/interactions/componentInteractions/handlers/common';
 import { CustomId } from 'src/app/interactions/customId';
+import { pluralize } from 'src/app/server/utils/pluralize';
 import { CallbackComponent } from '../types';
 
 export const LINKED_CHANNEL_ALERTS_UPDATE_BUTTON: ComponentButton = {
@@ -55,16 +56,19 @@ export async function getLinkedChannelComponents(): Promise<CallbackComponent[]>
 	return components.map(component => ({ component, callback: CALLBACKS[component.custom_id] }));
 }
 
-function getAlertsText({ activeAlerts, inactiveAlerts }: ReturnType<typeof getUniqueAlertKeys>) {
+export function getAlertsText({ activeAlerts, inactiveAlerts }: ReturnType<typeof getUniqueAlertKeys>) {
 	let text = '';
-	if (Object.keys(activeAlerts).length === 0) {
-		text += 'You are currently not receiving any alerts.';
+
+	if (activeAlerts.length === 0) {
+		text += 'No Active Alerts for this Circle\n';
 	} else {
-		text += `You are currently receiving ${activeAlerts.length === 1 ? '1 alert' : `${activeAlerts.length} alerts`}: ${activeAlerts.map((key) => (`\`${ALERTS[key]}\``)).join(', ')}`;
+		text += `${pluralize({ noun: 'Active Alert', count: activeAlerts.length })} for this Circle\n> ${activeAlerts.map((key) => ALERTS[key]).join(', ')}\n`;
 	}
 
-	if (Object.keys(inactiveAlerts).length !== 0) {
-		text += `\nYou are NOT receiving ${inactiveAlerts.length === 1 ? '1 alert' : `${inactiveAlerts.length} alerts`} alerts: ${inactiveAlerts.map((key) => (`\`${ALERTS[key]}\``)).join(', ')}`;
+	if (inactiveAlerts.length === 0) {
+		text += '\nNo Inactive Alerts for this Circle';
+	} else {
+		text += `\n${pluralize({ noun: 'Inactive Alert', count: inactiveAlerts.length })} for this Circle\n> ${inactiveAlerts.map((key) => ALERTS[key]).join(', ')}`;
 	}
 
 	return text;
