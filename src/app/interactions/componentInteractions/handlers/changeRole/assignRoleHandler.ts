@@ -6,6 +6,7 @@ import Log from '../../../../utils/Log';
 import { disableFirstRowComponentButtons } from '../common';
 import { findProfileId } from '@api/findProfileId';
 import { findProfile } from '@api/findProfile';
+import { findApiKey } from '@api/findApiKey';
 
 export const ASSIGN_ROLE_USER_SELECT_CONFIRM_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
@@ -75,7 +76,12 @@ export async function assignRoleHandler(componentContext: ComponentContext) {
 			const member = await guildMember.roles.add(role, 'add to circle');
 			await ctx.send({ content: `Role ${role} assigned to ${member}` });
 			
-			const user = await createUsersMutation({ circleId: Number(circle_id), users: [profile] });
+			const apiKey = await findApiKey({ channelId: ctx.channelID });
+			if (!apiKey) {
+				throw new Error('Api key not found!');
+			}
+
+			const user = await createUsersMutation({ circleId: Number(circle_id), users: [profile], apiKey });
 			if (user) {
 				await ctx.send({ content: `User ${user.UserResponse?.profile.name} added to this circle` });
 			}
