@@ -2,8 +2,9 @@ import { updateDiscordRolesCirclesAlerts } from '@api/updateDiscordRolesCirclesA
 import { ComponentActionRow, ComponentContext, ComponentSelectMenu } from 'slash-create';
 import { sleep } from 'src/app/utils/sleep';
 import { disableAllComponents } from '../common';
-import { ALERTS, getUniqueAlertKeys } from './3.2_handleAlertsToSend';
+import { getUniqueAlertKeys } from './3.2_handleAlertsToSend';
 import { handleFinalMessage } from './4_handleFinalMessage';
+import { getAlertsText } from 'src/app/service/components';
 
 /**
  * Confirm alerts to send handler
@@ -46,19 +47,4 @@ export async function handleConfirmAlertsToSend(ctx: ComponentContext) {
 	// return handleFrequencyOfAlertsToSend(ctx);
 
 	return handleFinalMessage(ctx);
-}
-
-function getAlertsText({ activeAlerts, inactiveAlerts }: ReturnType<typeof getUniqueAlertKeys>) {
-	let text = '';
-	if (Object.keys(activeAlerts).length === 0) {
-		text += 'You will no longer be receiving any alerts.';
-	} else {
-		text += `You will now receive ${activeAlerts.length === 1 ? '1 alert' : `${activeAlerts.length} alerts`}: ${activeAlerts.map((key) => (`\`${ALERTS[key]}\``)).join(', ')}`;
-	}
-
-	if (Object.keys(inactiveAlerts).length !== 0) {
-		text += `\nYou will NOT receive ${inactiveAlerts.length === 1 ? '1 alert' : `${inactiveAlerts.length} alerts`} alerts: ${inactiveAlerts.map((key) => (`\`${ALERTS[key]}\``)).join(', ')}`;
-	}
-
-	return text;
 }
