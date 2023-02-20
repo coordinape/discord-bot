@@ -1,10 +1,15 @@
 import { gqlBot } from './gqlClients';
 
-export async function getRoleId({ channelId }: {channelId: string}) {
+export async function getDiscordRolesCircles({ channelId }: {channelId: string}) {
 	const { discord_roles_circles } = await gqlBot('query')({
 		discord_roles_circles: [
 			{ where: { discord_channel_id: { _eq: channelId } } },
-			{ discord_role_id: true },
+			{
+				id: true,
+				circle_id: true,
+				discord_role_id: true,
+				discord_channel_id: true,
+			},
 		],
 	});
 

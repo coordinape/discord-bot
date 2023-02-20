@@ -1,4 +1,4 @@
-import { getProfileId } from './getProfileId';
+import { findProfileId } from './findProfileId';
 import { gqlBot } from './gqlClients';
 
 export type Circle = {
@@ -7,7 +7,7 @@ export type Circle = {
 };
 
 export async function getCircles({ userId }: { userId: string }): Promise<Circle[]> {
-	const profileId = await getProfileId({ userId });
+	const profileId = await findProfileId({ userId });
 
 	if (!profileId) {
 		throw new Error('profileId is required to get the circles');

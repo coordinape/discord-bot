@@ -2,12 +2,12 @@ import { ComponentType, ButtonStyle, ComponentContext, CommandContext, Component
 import { wsChain, chain } from '@api/gqlClients';
 import { CallbackComponent } from '../types';
 import Log from '../../utils/Log';
-import { getLinkingStatus } from '@api/getLinkingStatus';
 import { getOAuth2Url } from '@api/constants';
 import { disableAllComponents } from 'src/app/interactions/componentInteractions/handlers/common';
+import { findProfileId } from '@api/findProfileId';
 
 export async function getLinkingComponents(commandContext: CommandContext): Promise<CallbackComponent[]> {
-	const isLinked = await getLinkingStatus(commandContext.user.id);
+	const profileId = await findProfileId({ userId: commandContext.user.id });
 
 	/**
  	 * Link buttons must have a `url`, and cannot have a `custom_id`
@@ -20,7 +20,7 @@ export async function getLinkingComponents(commandContext: CommandContext): Prom
 		style: ButtonStyle.PRIMARY,
 		label: 'LINK',
 		custom_id: 'LINK_BUTTON',
-		disabled: isLinked,
+		disabled: !!profileId,
 	};
 
 	const UNLINK_BUTTON: ComponentButton = {
@@ -28,10 +28,10 @@ export async function getLinkingComponents(commandContext: CommandContext): Prom
 		style: ButtonStyle.DESTRUCTIVE,
 		label: 'UNLINK',
 		custom_id: 'UNLINK_BUTTON',
-		disabled: !isLinked,
+		disabled: !profileId,
 	};
 
-	const components = [...(isLinked ? [UNLINK_BUTTON] : [LINK_BUTTON])];
+	const components = [...(profileId ? [UNLINK_BUTTON] : [LINK_BUTTON])];
 
 	const CALLBACKS = {
 		[LINK_BUTTON.custom_id]: async (componentContext: ComponentContext) => {

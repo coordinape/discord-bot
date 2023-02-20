@@ -1,4 +1,7 @@
 import { updateDiscordRolesCirclesAlerts } from '@api/updateDiscordRolesCirclesAlerts';
+/* eslint-disable no-console */
+import { createUsersMutation } from '@api/createUsersMutation';
+import { findProfile } from '@api/findProfile';
 import {
 	ButtonStyle,
 	CommandContext,
@@ -59,6 +62,11 @@ export default class Help extends SlashCommand {
 					name: 'alerts',
 					type: CommandOptionType.SUB_COMMAND,
 					description: 'testing alerts',
+				},
+				{
+					name: 'add-to-circle',
+					type: CommandOptionType.SUB_COMMAND,
+					description: 'testing adding to circle',
 				},
 			],
 		});
@@ -196,6 +204,26 @@ export default class Help extends SlashCommand {
 			case 'time': {
 				const epoch = new Date('2023-02-14T22:00:00+00:00').getTime() / 1000;
 				await ctx.send(`<t:${epoch}:f>`);
+				break;
+			}
+			case 'add-to-circle': {
+				const profileId = 1;
+				const circle_id = 5;
+				try {
+					const profile = await findProfile({ profileId });
+					console.log({ name: profile?.name });
+					
+					await ctx.send(`Profile: ${profile?.address} - ${JSON.stringify(profile?.name)}`);
+					if (profile) {
+						const user = await createUsersMutation({ circleId: Number(circle_id), users: [profile], apiKey: '' });
+						await ctx.send(JSON.stringify(user));
+					} else {
+						await ctx.send('Profile not found');
+					}
+				} catch (error) {
+					await ctx.send(JSON.stringify(error));
+				}
+				
 				break;
 			}
 			case 'alerts': {
