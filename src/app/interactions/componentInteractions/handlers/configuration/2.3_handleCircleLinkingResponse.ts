@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import { findApiKey } from '@api/findApiKey';
 import { findCircle } from '@api/findCircle';
 import { wsChain } from '@api/gqlClients';
 import { ComponentContext } from 'slash-create';
@@ -13,29 +12,24 @@ export async function handleCircleLinkingResponse(ctx: ComponentContext): Promis
 	console.log('## ctx#interactionID', ctx.interactionID);
 	console.log('## ctx#customID', ctx.customID);
 
-	const apiKey = await findApiKey({ channelId: ctx.channelID });
-	if (!apiKey) {
-		throw new Error('Api key not found!');
-	}
+	const { circle_id } = await findCircle({ channelId: ctx.channelID });
 
-	const { circle } = await findCircle({ channelId: ctx.channelID, apiKey });
+	console.log('## circle', circle_id);
 
-	console.log('## circle', circle);
-
-	if (!circle.id) {
+	if (!circle_id) {
 		throw new Error('Missing channel or circle');
 	}
 
 	const onDiscordCircleApiToken = wsChain('subscription')({
 		discord_circle_api_tokens: [
-			{ where: { circle_id: { _eq: circle.id } } },
+			{ where: { circle_id: { _eq: circle_id } } },
 			{ circle_id: true, token: true },
 		],
 	});
 
 	onDiscordCircleApiToken.on(async ({ discord_circle_api_tokens }) => {
 		const circleApiToken = discord_circle_api_tokens.find(
-			({ circle_id }) => circle_id === circle.id,
+			(e) => e.circle_id === circle_id,
 		);
 
 		console.log('## circleApiToken', circleApiToken);
