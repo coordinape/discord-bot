@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { findApiKey } from '@api/findApiKey';
 import { findCircle } from '@api/findCircle';
 import { wsChain } from '@api/gqlClients';
 import { ComponentContext } from 'slash-create';
@@ -12,7 +13,12 @@ export async function handleCircleLinkingResponse(ctx: ComponentContext): Promis
 	console.log('## ctx#interactionID', ctx.interactionID);
 	console.log('## ctx#customID', ctx.customID);
 
-	const { circle } = await findCircle({ channelId: ctx.channelID });
+	const apiKey = await findApiKey({ channelId: ctx.channelID });
+	if (!apiKey) {
+		throw new Error('Api key not found!');
+	}
+
+	const { circle } = await findCircle({ channelId: ctx.channelID, apiKey });
 
 	console.log('## circle', circle);
 

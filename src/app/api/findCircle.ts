@@ -1,7 +1,12 @@
-import { gqlBot } from './gqlClients';
+import { gqlApiKey } from './gqlClients';
 
-export async function findCircle({ channelId }: {channelId: string}) {
-	const { discord_roles_circles } = await gqlBot('query')({
+type Props = {
+	channelId: string;
+	apiKey: string
+}
+
+export async function findCircle({ channelId, apiKey }: Props) {
+	const { discord_roles_circles } = await gqlApiKey(apiKey)('query')({
 		discord_roles_circles: [
 			{ where: { discord_channel_id: { _eq: channelId } } },
 			{ circle: { id: true, name: true } },
