@@ -27,8 +27,6 @@ async function cleanUp({ circleId, role, channel }: CleanUpProps): Promise<void>
  */
 export async function handleCreateNewEntities(ctx: ComponentContext) {
 	await ctx.editParent({ components: disableAllComponents(ctx) });
-	
-	await ctx.defer();
 
 	const discordService = new DiscordService(ctx);
 
@@ -39,6 +37,8 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 
 	const newEntitites: { channel: TextChannel; role: Role, circle: ComponentSelectOption }[] = [];
 	for (const circle of circles) {
+		await ctx.defer();
+
 		const channel = await discordService.createChannel({ name: circle.label, parent: coordinapeCategory });
 		const role = await discordService.createRole({ name: `${circle.label} Member` });
 
@@ -69,6 +69,7 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 				throw new Error('Failed to insert discord roles circles');
 			}
 		} catch (error) {
+			await ctx.send(JSON.stringify(error));
 			cleanUp({ circleId: Number(circle.value), role, channel });
 			Log.error(error);
 			continue;
