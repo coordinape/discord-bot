@@ -21,8 +21,6 @@ export const UNASSIGN_ROLE_USER_SELECT_CANCEL_BUTTON: ComponentButton = {
 
 export async function unassignRoleHandler(componentContext: ComponentContext) {
 	try {
-		componentContext.defer();
-
 		const [userId] = componentContext.data.data.values || [];
 
 		if (!userId) {

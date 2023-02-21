@@ -59,6 +59,8 @@ creator.on('modalInteraction', (message) => Log.warn(`modalInteraction: ${ messa
 creator.on('commandInteraction', (message) => Log.warn(`commandInteraction: ${ message }`));
 creator.on('unknownInteraction', (message) => Log.warn(`unknownInteraction: ${ message }`));
 creator.on('componentInteraction', async (componentContext) => {
+	componentContext.defer();
+	
 	try {
 		if (componentContext.componentType === ComponentType.USER_SELECT) {
 			if (componentContext.customID === CustomId.AssignRoleUserSelect) {
