@@ -44,6 +44,10 @@ const handleableInteractions: {[key: string]: (ctx: ComponentContext) => Promise
 	[CustomId.UnssignRoleUserSelect]: assignRoleHandler,
 	[CustomId.LinkedChannelAlertsCancelButton]: handleLinkedCircleAlertsCancel,
 	[CustomId.LinkedChannelAlertsUpdateButton]: handleLinkedCircleAlertsUpdate,
+	[CustomId.AuthorizeLinkCircleButton]: async (ctx) => {
+		await ctx.defer();
+		return;
+	},
 };
 
 const creator: SlashCreatorWithDiscordJS = new SlashCreator({
