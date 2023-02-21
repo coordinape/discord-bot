@@ -20,14 +20,22 @@ import Log, { LogUtils } from './utils/Log';
 import apiKeys from './service/constants/apiKeys';
 import constants from './service/constants/constants';
 import { RewriteFrames } from '@sentry/integrations';
-import { assignRoleHandler, handleAlertsSelect, handleAlertsToSend, handleCircleSelect, handleConfirmAlertsToSend, handleCreateNewEntities, handleFinalMessage, handleLinkCircles, handleRequestApiKeys, handleSendAlerts, unassignRoleHandler } from './interactions/componentInteractions/handlers';
+import {
+	assignRoleHandler,
+	handleAlertsSelect,
+	handleAlertsToSend,
+	handleCircleSelect,
+	handleConfirmAlertsToSend,
+	handleCreateNewEntities,
+	handleFinalMessage,
+	handleLinkCircles,
+	handleRequestApiKeys,
+	handleLinkedCircleAlertsCancel,
+	unassignRoleHandler,
+	handleLinkedCircleAlertsUpdate,
+	handleCircleLinkingResponse,
+} from './interactions/componentInteractions/handlers';
 import { CustomId } from './interactions/customId';
-import { handleLinkedCircleAlertsCancel } from './interactions/componentInteractions/handlers/configuration/handleLinkedCircleAlertsCancel';
-import { handleLinkedCircleAlertsUpdate } from './interactions/componentInteractions/handlers/configuration/handleLinkedCircleAlertsUpdate';
-import { wsChain } from '@api/gqlClients';
-import { sleep } from './utils/sleep';
-import { disableAllComponents } from './interactions/componentInteractions/handlers/common';
-import { extractCircleId } from './utils/extractCircleId';
 
 initializeSentryIO();
 const client: Client = initializeClient();
@@ -48,40 +56,7 @@ const handleableInteractions: {[key: string]: (ctx: ComponentContext) => Promise
 	[CustomId.UnssignRoleUserSelect]: assignRoleHandler,
 	[CustomId.LinkedChannelAlertsCancelButton]: handleLinkedCircleAlertsCancel,
 	[CustomId.LinkedChannelAlertsUpdateButton]: handleLinkedCircleAlertsUpdate,
-	[CustomId.AuthorizeLinkCircleButton]: async (ctx) => {
-		await ctx.defer();
-
-		const circleId = extractCircleId(ctx.message.content);
-	
-		if (!circleId) {
-			throw new Error('Missing channel or circle');
-		}
-
-		const onDiscordCircleApiToken = wsChain('subscription')({
-			discord_circle_api_tokens: [
-				{ where: { circle_id: { _eq: circleId } } },
-				{ circle_id: true, token: true },
-			],
-		});
-		
-		onDiscordCircleApiToken.on(async ({ discord_circle_api_tokens }) => {
-			const circleApiToken = discord_circle_api_tokens.find(({ circle_id }) => circle_id === circleId);
-			if (circleApiToken && circleApiToken.token) {
-				onDiscordCircleApiToken.ws.close();
-
-				disableAllComponents(ctx);
-				
-				await ctx.send({ content: `<@${ctx.user.id}>, you've linked the circle successfully!` });
-	
-				// Just to improve message flow
-				await sleep(3000);
-	
-				// Next question
-				return handleSendAlerts(ctx);
-			}
-		});
-		return;
-	},
+	[CustomId.AuthorizeLinkCircleButton]: handleCircleLinkingResponse,
 };
 
 const creator: SlashCreatorWithDiscordJS = new SlashCreator({
