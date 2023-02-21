@@ -13,5 +13,4 @@ export enum CustomId {
     LinkedChannelAlertsButton = 'LINKED_CHANNEL_ALERTS_BUTTON',
     LinkedChannelAlertsUpdateButton = 'LINKED_CHANNEL_ALERTS_UPDATE_BUTTON',
     LinkedChannelAlertsCancelButton = 'LINKED_CHANNEL_ALERTS_CANCEL_BUTTON',
-    AuthorizeLinkCircleButton = 'AUTHORIZE_LINK_CIRCLE_BUTTON',
 }

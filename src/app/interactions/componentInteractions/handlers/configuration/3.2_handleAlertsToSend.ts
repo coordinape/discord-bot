@@ -65,8 +65,6 @@ export const ALERTS_SELECT_CANCEL_BUTTON: ComponentButton = {
 export async function handleAlertsToSend(ctx: ComponentContext) {
 	await ctx.editParent({ components: disableAllComponents(ctx) });
 
-	await ctx.defer();
-
 	const selectComponent = buildAlertsSelect({ options: ALERT_OPTIONS });
 	
 	await ctx.send({
