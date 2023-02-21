@@ -11,10 +11,12 @@ import { getAlertsText } from 'src/app/service/components';
  * @param ctx the component context
  */
 export async function handleConfirmAlertsToSend(ctx: ComponentContext) {
+	await ctx.editParent({ components: disableAllComponents(ctx) });
+	
+	await ctx.defer();
+
 	const actionRow = ctx.message.components[0] as ComponentActionRow;
 	const select = actionRow.components[0] as ComponentSelectMenu;
-		
-	await ctx.editParent({ components: disableAllComponents(ctx) });
 
 	if (!select.options) {
 		await ctx.send('No options selected');

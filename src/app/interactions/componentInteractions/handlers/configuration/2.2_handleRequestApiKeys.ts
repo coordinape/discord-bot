@@ -14,9 +14,11 @@ import { handleSendAlerts } from './3_handleSendAlerts';
  * @param discordService the discord service
  */
 export async function handleRequestApiKeys(ctx: ComponentContext) {
-	const discordService = new DiscordService(ctx);
-
 	await ctx.editParent({ components: disableAllComponents(ctx) });
+	
+	await ctx.defer();
+
+	const discordService = new DiscordService(ctx);
 
 	const channel = await discordService.findTextChannelById(ctx.channelID);
 	const circleId = extractCircleId(ctx.message.content);

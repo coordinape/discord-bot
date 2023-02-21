@@ -5,6 +5,8 @@ import { ALERTS_SELECT_CANCEL_BUTTON, ALERTS_SELECT_CONFIRM_BUTTON, ALERTS, buil
 
 export async function handleLinkedCircleAlertsUpdate(ctx: ComponentContext): Promise<void> {
 	await ctx.editParent({ components: disableAllComponents(ctx) });
+	
+	await ctx.defer();
 
 	const { alerts } = await getDiscordRolesCirclesAlerts({ channelId: ctx.channelID });
 

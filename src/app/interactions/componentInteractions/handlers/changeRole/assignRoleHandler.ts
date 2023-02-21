@@ -47,6 +47,8 @@ export async function assignRoleHandler(componentContext: ComponentContext) {
 		] });
 
 		componentContext.registerComponent(ASSIGN_ROLE_USER_SELECT_CONFIRM_BUTTON.custom_id, async (ctx) => {
+			await ctx.defer();
+		
 			const profileId = await findProfileId({ userId });
 
 			if (!profileId) {
