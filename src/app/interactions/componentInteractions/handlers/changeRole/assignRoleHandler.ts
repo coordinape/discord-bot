@@ -24,6 +24,8 @@ export const ASSIGN_ROLE_USER_SELECT_CANCEL_BUTTON: ComponentButton = {
 
 export async function assignRoleHandler(componentContext: ComponentContext) {
 	try {
+		componentContext.defer();
+
 		const [userId] = componentContext.data.data.values || [];
 
 		if (!userId) {
@@ -47,8 +49,6 @@ export async function assignRoleHandler(componentContext: ComponentContext) {
 		] });
 
 		componentContext.registerComponent(ASSIGN_ROLE_USER_SELECT_CONFIRM_BUTTON.custom_id, async (ctx) => {
-			await ctx.defer();
-		
 			const profileId = await findProfileId({ userId });
 
 			if (!profileId) {

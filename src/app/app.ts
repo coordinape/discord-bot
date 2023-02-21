@@ -20,22 +20,10 @@ import Log, { LogUtils } from './utils/Log';
 import apiKeys from './service/constants/apiKeys';
 import constants from './service/constants/constants';
 import { RewriteFrames } from '@sentry/integrations';
-import {
-	assignRoleHandler,
-	handleAlertsSelect,
-	handleAlertsToSend,
-	handleCircleSelect,
-	handleConfirmAlertsToSend,
-	handleCreateNewEntities,
-	handleFinalMessage,
-	handleLinkCircles,
-	handleRequestApiKeys,
-	handleLinkedCircleAlertsCancel,
-	unassignRoleHandler,
-	handleLinkedCircleAlertsUpdate,
-	handleCircleLinkingResponse,
-} from './interactions/componentInteractions/handlers';
+import { assignRoleHandler, handleAlertsSelect, handleAlertsToSend, handleCircleSelect, handleConfirmAlertsToSend, handleCreateNewEntities, handleFinalMessage, handleLinkCircles, handleRequestApiKeys, unassignRoleHandler } from './interactions/componentInteractions/handlers';
 import { CustomId } from './interactions/customId';
+import { handleLinkedCircleAlertsCancel } from './interactions/componentInteractions/handlers/configuration/handleLinkedCircleAlertsCancel';
+import { handleLinkedCircleAlertsUpdate } from './interactions/componentInteractions/handlers/configuration/handleLinkedCircleAlertsUpdate';
 
 initializeSentryIO();
 const client: Client = initializeClient();
@@ -56,7 +44,6 @@ const handleableInteractions: {[key: string]: (ctx: ComponentContext) => Promise
 	[CustomId.UnssignRoleUserSelect]: assignRoleHandler,
 	[CustomId.LinkedChannelAlertsCancelButton]: handleLinkedCircleAlertsCancel,
 	[CustomId.LinkedChannelAlertsUpdateButton]: handleLinkedCircleAlertsUpdate,
-	[CustomId.AuthorizeLinkCircleButton]: handleCircleLinkingResponse,
 };
 
 const creator: SlashCreatorWithDiscordJS = new SlashCreator({

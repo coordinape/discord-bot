@@ -2,9 +2,8 @@ import { ComponentType, ButtonStyle, ComponentContext, ComponentButton, Componen
 import { CallbackComponent } from '../types';
 import Log from '../../utils/Log';
 import { disableAllComponents } from 'src/app/interactions/componentInteractions/handlers/common';
-import { findCircle } from '@api/findCircle';
+import { getCircle } from '@api/getCircle';
 import { CustomId } from 'src/app/interactions/customId';
-import { findApiKey } from '@api/findApiKey';
 
 const ASSIGN_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
@@ -39,12 +38,7 @@ export async function getChangeRoleSelect(): Promise<CallbackComponent[]> {
 		try {
 			await ctx.editParent({ components: disableAllComponents(ctx) });
 
-			const apiKey = await findApiKey({ channelId: ctx.channelID });
-			if (!apiKey) {
-				throw new Error('Api key not found!');
-			}
-			
-			const { circle } = await findCircle({ channelId: ctx.channelID, apiKey });
+			const { circle } = await getCircle({ channelId: ctx.channelID });
 
 			await ctx.send({
 				content: `Which user would you like to add to circle ${circle.name}?`,
@@ -60,12 +54,7 @@ export async function getChangeRoleSelect(): Promise<CallbackComponent[]> {
 		try {
 			await ctx.editParent({ components: disableAllComponents(ctx) });
 
-			const apiKey = await findApiKey({ channelId: ctx.channelID });
-			if (!apiKey) {
-				throw new Error('Api key not found!');
-			}
-
-			const { circle } = await findCircle({ channelId: ctx.channelID, apiKey });
+			const { circle } = await getCircle({ channelId: ctx.channelID });
 
 			await ctx.send({
 				content: `Which user would you like to remove from circle ${circle.name}?`,

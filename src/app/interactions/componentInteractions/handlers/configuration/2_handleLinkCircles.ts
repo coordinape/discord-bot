@@ -38,10 +38,9 @@ export const buildCircleSelect = ({ circles, options }: {circles?: Circle[]; opt
  */
 export async function handleLinkCircles(ctx: ComponentContext): Promise<void> {
 	await ctx.editParent({ components: disableAllComponents(ctx) });
-	
-	await ctx.defer();
 
-	const [circles, linkedCircles] = await Promise.all([getCircles({ userId: ctx.user.id }), getLinkedCircles()]);
+	const circles = await getCircles({ userId: ctx.user.id });
+	const linkedCircles = await getLinkedCircles();
 
 	const unlinkedCircles = circles.reduce((prev, curr) => {
 		if (linkedCircles.includes(curr.id)) {
@@ -58,7 +57,7 @@ export async function handleLinkCircles(ctx: ComponentContext): Promise<void> {
 		return;
 	}
 
-	await ctx.send({
+	ctx.send({
 		content: `I see you have ${getLinkedCirclesText(unlinkedCircles)}.\n\nI'll need to create a new channel and role in this server to link these Circles following this schema:\n\n> Channel = \`#circle-name\`\n> Role = \`@Circle Name Member\`\n\nFor example, for your circle "${unlinkedCircles[0].name}" I will create the channel \`#${_.kebabCase(unlinkedCircles[0].name)}\` and the role \`@${unlinkedCircles[0].name} Member\`\n\nPlease select the Circles that you want me to manage from the **dropdown list** and click Next`,
 		components: [
 			{ type: ComponentType.ACTION_ROW, components: [buildCircleSelect({ circles: unlinkedCircles })] },
