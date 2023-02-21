@@ -1,6 +1,7 @@
 import { wsChain } from '@api/gqlClients';
 import { insertCircleApiTokens } from '@api/insertCircleApiTokens';
-import { ButtonStyle, ComponentButtonLink, ComponentContext, ComponentType } from 'slash-create';
+import { ButtonStyle, ComponentButton, ComponentContext, ComponentType } from 'slash-create';
+import { CustomId } from 'src/app/interactions/customId';
 import { DiscordService } from 'src/app/service/DiscordService';
 import { extractCircleId } from 'src/app/utils/extractCircleId';
 import { isMessage } from 'src/app/utils/isMessage';
@@ -32,15 +33,15 @@ export async function handleRequestApiKeys(ctx: ComponentContext) {
 		throw new Error('Something went wrong, please contact coordinape support');
 	}
 
-	const AUTHORIZE_LINK_CIRCLE_BUTTON: ComponentButtonLink = {
+	const AUTHORIZE_LINK_CIRCLE_BUTTON: ComponentButton = {
 		type: ComponentType.BUTTON,
-		label: 'Authorize',
-		style: ButtonStyle.LINK,
-		url: `https://coordinape-git-staging-coordinape.vercel.app/discord/link?id=${rowId}&circleId=${circleId}`,
+		label: 'Listen for Authorization',
+		style: ButtonStyle.PRIMARY,
+		custom_id: CustomId.AuthorizeLinkCircleButton,
 	};
 
 	const message = await ctx.send({
-		content: 'Click on the button below to authorize',
+		content: `In order for discord to detect your authorization please click the button below, then go to the following link https://coordinape-git-staging-coordinape.vercel.app/discord/link?id=${rowId}&circleId=${circleId}`,
 		components: [
 			{ type: ComponentType.ACTION_ROW, components: [AUTHORIZE_LINK_CIRCLE_BUTTON] },
 		],
