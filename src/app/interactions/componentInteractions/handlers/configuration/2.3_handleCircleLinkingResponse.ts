@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { findCircle } from '@api/findCircle';
 import { wsChain } from '@api/gqlClients';
 import { ComponentContext } from 'slash-create';
@@ -8,7 +9,12 @@ import { handleSendAlerts } from './3_handleSendAlerts';
 export async function handleCircleLinkingResponse(ctx: ComponentContext): Promise<void> {
 	await ctx.defer();
 
+	console.log('## ctx#interactionID', ctx.interactionID);
+	console.log('## ctx#customID', ctx.customID);
+
 	const { circle } = await findCircle({ channelId: ctx.channelID });
+
+	console.log('## circle', circle);
 
 	if (!circle.id) {
 		throw new Error('Missing channel or circle');
@@ -25,10 +31,15 @@ export async function handleCircleLinkingResponse(ctx: ComponentContext): Promis
 		const circleApiToken = discord_circle_api_tokens.find(
 			({ circle_id }) => circle_id === circle.id,
 		);
+
+		console.log('## circleApiToken', circleApiToken);
+
 		if (circleApiToken && circleApiToken.token) {
 			onDiscordCircleApiToken.ws.close();
 
 			disableAllComponents(ctx);
+
+			console.log('## ctx', ctx);
 
 			await ctx.send({
 				content: `<@${ctx.user.id}>, you've linked the circle successfully!`,
