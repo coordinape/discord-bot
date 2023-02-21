@@ -38,6 +38,8 @@ export const buildCircleSelect = ({ circles, options }: {circles?: Circle[]; opt
  */
 export async function handleLinkCircles(ctx: ComponentContext): Promise<void> {
 	await ctx.editParent({ components: disableAllComponents(ctx) });
+	
+	await ctx.defer();
 
 	const [circles, linkedCircles] = await Promise.all([getCircles({ userId: ctx.user.id }), getLinkedCircles()]);
 

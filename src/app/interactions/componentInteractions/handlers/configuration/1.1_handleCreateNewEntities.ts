@@ -27,6 +27,8 @@ async function cleanUp({ circleId, role, channel }: CleanUpProps): Promise<void>
  */
 export async function handleCreateNewEntities(ctx: ComponentContext) {
 	await ctx.editParent({ components: disableAllComponents(ctx) });
+	
+	await ctx.defer();
 
 	const discordService = new DiscordService(ctx);
 
