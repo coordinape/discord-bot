@@ -24,10 +24,10 @@ export async function getConfigureComponents(): Promise<CallbackComponent[]> {
 
 	const CALLBACKS = {
 		[CONFIGURE_BUTTON.custom_id]: async (ctx: ComponentContext) => {
-			await ctx.defer();
-			
 			await ctx.editParent({ components: disableAllComponents(ctx) });
 			
+			await ctx.defer();
+
 			const isServerAdmin = ctx.member?.permissions.has(PermissionsBitField.Flags.Administrator);
 	
 			if (!isServerAdmin) {
