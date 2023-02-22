@@ -21,6 +21,20 @@ async function cleanUp({ circleId, role, channel }: CleanUpProps): Promise<void>
 	await channel?.delete('Failed to create a role for this channel');
 }
 
+const LINK_CIRCLE_BUTTON = new ButtonBuilder()
+	.setCustomId(CustomId.LinkCircleButton)
+	.setLabel('Link Circle')
+	.setStyle(ButtonStyle.Primary);
+
+const SKIP_LINK_CIRCLE_BUTTON = new ButtonBuilder()
+	.setCustomId(CustomId.Skip)
+	.setLabel('Skip Link Circle (TODO)')
+	.setStyle(ButtonStyle.Secondary);
+
+const linkCircleRow = new ActionRowBuilder<ButtonBuilder>()
+	.addComponents(LINK_CIRCLE_BUTTON)
+	.addComponents(SKIP_LINK_CIRCLE_BUTTON);
+
 /**
  * Create a new Channel and Role for each Circle in the Coordinape Category
  * @param ctx the component context
@@ -37,6 +51,7 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 		const coordinapeCategory = await getCoordinapeCategory(discordService);
 	
 		const newEntitites: { channel: TextChannel; role: Role, circle: ComponentSelectOption }[] = [];
+
 		for (const circle of circles) {
 			const channel = await discordService.createChannel({ name: circle.label, parent: coordinapeCategory });
 			const role = await discordService.createRole({ name: `${circle.label} Member` });
@@ -75,27 +90,16 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 	
 			newEntitites.push({ channel, role, circle });
 		}
-	
-		const LINK_CIRCLE_BUTTON = new ButtonBuilder()
-			.setCustomId(CustomId.LinkCircleButton)
-			.setLabel('Link Circle')
-			.setStyle(ButtonStyle.Primary);
-	
-		// Only load if they have at least 1 circle already linked
-		const SKIP_LINK_CIRCLE_BUTTON = new ButtonBuilder()
-			.setCustomId(CustomId.Skip)
-			.setLabel('Skip Link Circle (TODO)')
-			.setStyle(ButtonStyle.Secondary);
-	
-		const linkCircleRow = new ActionRowBuilder<ButtonBuilder>()
-			.addComponents(LINK_CIRCLE_BUTTON)
-			.addComponents(SKIP_LINK_CIRCLE_BUTTON);
-		
+
 		for (const { channel, role, circle } of newEntitites) {
 			await channel.send({
 				content: `<@${ctx.user.id}> to manage \`${circle.label}\` (Circle ID: ${circle.value}) in Discord I'll need to get the API Key for the circle. This will enable me to watch this circle so I can send alerts, to manage circle membership (with the role ${role}), and to let circle members interact with Coordinape from within Discord. With your permission I'll go get that now.`,
 				components: [linkCircleRow],
 			});
+		}
+
+		if (newEntitites.length === 0) {
+			throw new Error('No channels or roles were created');
 		}
 		
 		if (newEntitites.length === 1) {
@@ -106,7 +110,7 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 			await ctx.send(`I have created the following channels (under the ${coordinapeCategory} category) and roles, please go to each channel to manage circle permissions:\n${newEntitites.map(({ channel, role, circle }) => `> Channel ${channel} and role ${role} for circle \`${circle.label}\``).join('\n')}`);
 		}
 	
-		handleFinalMessage(ctx);
+		await handleFinalMessage(ctx);
 	} catch (error) {
 		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleCreateNewEntities] ${error}`);
 		Log.error(error);
