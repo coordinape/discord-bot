@@ -60,25 +60,19 @@ creator.on('warn', (message) => Log.warn(`warn: ${ message }`));
 creator.on('modalInteraction', (message) => Log.warn(`modalInteraction: ${ message }`));
 creator.on('commandInteraction', (message) => Log.warn(`commandInteraction: ${ message }`));
 creator.on('unknownInteraction', (message) => Log.warn(`unknownInteraction: ${ message }`));
-creator.on('componentInteraction', async (componentContext) => {
-	try {
-		if (componentContext.componentType === ComponentType.USER_SELECT) {
-			if (componentContext.customID === CustomId.AssignRoleUserSelect) {
-				return handlers.handleAssignButton(componentContext);
-			}
-			if (componentContext.customID === CustomId.UnssignRoleUserSelect) {
-				return handlers.handleUnassignButton(componentContext);
-			}
+creator.on('componentInteraction', async (ctx) => {
+	if (ctx.componentType === ComponentType.USER_SELECT) {
+		if (ctx.customID === CustomId.AssignRoleUserSelect) {
+			return handlers.handleAssignButton;
 		}
-		
-		const handleFn = handleableInteractions[componentContext.customID];
-		if (handleFn) {
-			handleFn(componentContext);
+		if (ctx.customID === CustomId.UnssignRoleUserSelect) {
+			return handlers.handleUnassignButton;
 		}
+	}
 		
-	} catch (error) {
-		await componentContext.send({ content: 'Something went wrong with this interaction. Please contact coordinape support' });
-		Log.error(error);
+	const handleFn = handleableInteractions[ctx.customID];
+	if (handleFn) {
+		handleFn(ctx);
 	}
 });
 creator.on('modalInteraction', async (message) => {

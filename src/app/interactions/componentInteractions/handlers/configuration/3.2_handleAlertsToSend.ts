@@ -1,6 +1,7 @@
 import { ButtonStyle, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentSelectOption, ComponentType } from 'slash-create';
 import { CustomId } from 'src/app/interactions/customId';
-import { disableAllComponents } from '../common';
+import Log from 'src/app/utils/Log';
+import { disableAllParentComponents } from '../common';
 
 export type Alert = keyof typeof ALERTS;
 
@@ -63,15 +64,20 @@ export const ALERTS_SELECT_CANCEL_BUTTON: ComponentButton = {
  * @param ctx the component context
  */
 export async function handleAlertsToSend(ctx: ComponentContext) {
-	await ctx.editParent({ components: disableAllComponents(ctx) });
-
-	const selectComponent = buildAlertsSelect({ options: ALERT_OPTIONS });
+	try {
+		await disableAllParentComponents(ctx);
 	
-	await ctx.send({
-		content: 'What Alerts would you like me to send?',
-		components: [
-			{ type: ComponentType.ACTION_ROW, components: [selectComponent] },
-			{ type: ComponentType.ACTION_ROW, components: [ALERTS_SELECT_CONFIRM_BUTTON, ALERTS_SELECT_CANCEL_BUTTON] },
-		],
-	});
+		const selectComponent = buildAlertsSelect({ options: ALERT_OPTIONS });
+		
+		await ctx.send({
+			content: 'What Alerts would you like me to send?',
+			components: [
+				{ type: ComponentType.ACTION_ROW, components: [selectComponent] },
+				{ type: ComponentType.ACTION_ROW, components: [ALERTS_SELECT_CONFIRM_BUTTON, ALERTS_SELECT_CANCEL_BUTTON] },
+			],
+		});
+	} catch (error) {
+		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleAlertsToSend] ${error}`);
+		Log.error(error);
+	}
 }

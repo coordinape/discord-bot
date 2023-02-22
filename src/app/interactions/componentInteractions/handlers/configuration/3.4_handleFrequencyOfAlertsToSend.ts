@@ -1,6 +1,7 @@
 import { ButtonStyle, ComponentButton, ComponentContext, ComponentSelectMenu, ComponentSelectOption, ComponentType } from 'slash-create';
 import { CustomId } from 'src/app/interactions/customId';
-import { disableAllComponents } from '../common';
+import Log from 'src/app/utils/Log';
+import { disableAllParentComponents } from '../common';
 
 const OPTIONS: ComponentSelectOption[] = [
 	{ label: 'End of Epoch', value: 'end_of_epoch', default: true },
@@ -41,12 +42,18 @@ export const ALERTS_FREQUENCY_SELECT_CANCEL_BUTTON: ComponentButton = {
  * @param ctx the component context
  */
 export async function handleFrequencyOfAlertsToSend(ctx: ComponentContext) {
-	await ctx.editParent({ components: disableAllComponents(ctx) });
-	await ctx.send({
-		content: 'I can set the frequency of General Epoch Alerts.',
-		components: [
-			{ type: ComponentType.ACTION_ROW, components: [ALERTS_FREQUENCY_STRING_SELECT] },
-			{ type: ComponentType.ACTION_ROW, components: [ALERTS_FREQUENCY_SELECT_CONFIRM_BUTTON, ALERTS_FREQUENCY_SELECT_CANCEL_BUTTON] },
-		],
-	});
+	try {
+		await disableAllParentComponents(ctx);
+
+		await ctx.send({
+			content: 'I can set the frequency of General Epoch Alerts.',
+			components: [
+				{ type: ComponentType.ACTION_ROW, components: [ALERTS_FREQUENCY_STRING_SELECT] },
+				{ type: ComponentType.ACTION_ROW, components: [ALERTS_FREQUENCY_SELECT_CONFIRM_BUTTON, ALERTS_FREQUENCY_SELECT_CANCEL_BUTTON] },
+			],
+		});
+	} catch (error) {
+		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleFrequencyOfAlertsToSend] ${error}`);
+		Log.error(error);
+	}
 }
