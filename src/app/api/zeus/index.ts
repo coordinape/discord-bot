@@ -13,7 +13,8 @@ class HasuraWebSocket extends WebSocket {
 	constructor(address: string, protocols: string) {
 		super(address, protocols, {
 			headers: {
-				'x-hasura-admin-secret': 'admin-secret'
+				'authorization': process.env.DISCORD_BOT_AUTHORIZATION_HEADER || 'no_secret',
+				'x-hasura-role': 'discord-bot',
 			},
 		});
 	}
