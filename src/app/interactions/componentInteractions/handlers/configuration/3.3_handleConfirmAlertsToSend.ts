@@ -1,10 +1,9 @@
 import { updateDiscordRolesCirclesAlerts } from '@api/updateDiscordRolesCirclesAlerts';
 import { ComponentActionRow, ComponentContext, ComponentSelectMenu } from 'slash-create';
 import { sleep } from 'src/app/utils/sleep';
-import { disableAllComponents } from '../common';
+import { disableAllComponents, getAlertsText } from '../common';
 import { getUniqueAlertKeys } from './3.2_handleAlertsToSend';
 import { handleFinalMessage } from './4_handleFinalMessage';
-import { getAlertsText } from 'src/app/service/components';
 
 /**
  * Confirm alerts to send handler

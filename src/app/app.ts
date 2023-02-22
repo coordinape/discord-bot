@@ -20,10 +20,8 @@ import Log, { LogUtils } from './utils/Log';
 import apiKeys from './service/constants/apiKeys';
 import constants from './service/constants/constants';
 import { RewriteFrames } from '@sentry/integrations';
-import { assignRoleHandler, handleAlertsSelect, handleAlertsToSend, handleCircleSelect, handleConfirmAlertsToSend, handleCreateNewEntities, handleFinalMessage, handleLinkCircles, handleRequestApiKeys, unassignRoleHandler } from './interactions/componentInteractions/handlers';
+import * as handlers from './interactions/componentInteractions/handlers';
 import { CustomId } from './interactions/customId';
-import { handleLinkedCircleAlertsCancel } from './interactions/componentInteractions/handlers/configuration/handleLinkedCircleAlertsCancel';
-import { handleLinkedCircleAlertsUpdate } from './interactions/componentInteractions/handlers/configuration/handleLinkedCircleAlertsUpdate';
 
 initializeSentryIO();
 const client: Client = initializeClient();
@@ -32,18 +30,22 @@ initializeEvents();
 export type SlashCreatorWithDiscordJS = Omit<SlashCreator, 'client'> & { client?: Client };
 
 const handleableInteractions: {[key: string]: (ctx: ComponentContext) => Promise<void>} = {
-	[CustomId.AlertsSelectConfirmButton]: handleConfirmAlertsToSend,
-	[CustomId.AlertsSelect]: handleAlertsSelect,
-	[CustomId.AllowAlertsButton]: handleAlertsToSend,
-	[CustomId.AssignRoleUserSelect]: assignRoleHandler,
-	[CustomId.CircleSelectNextButton]: handleCreateNewEntities,
-	[CustomId.CircleSelect]: handleCircleSelect,
-	[CustomId.ConfigNextButton]: handleLinkCircles,
-	[CustomId.LinkCircleButton]: handleRequestApiKeys,
-	[CustomId.Skip]: handleFinalMessage,
-	[CustomId.UnssignRoleUserSelect]: assignRoleHandler,
-	[CustomId.LinkedChannelAlertsCancelButton]: handleLinkedCircleAlertsCancel,
-	[CustomId.LinkedChannelAlertsUpdateButton]: handleLinkedCircleAlertsUpdate,
+	[CustomId.AlertsSelectConfirmButton]: handlers.handleConfirmAlertsToSend,
+	[CustomId.AlertsSelect]: handlers.handleAlertsSelect,
+	[CustomId.AllowAlertsButton]: handlers.handleAlertsToSend,
+	[CustomId.AssignRoleUserSelect]: handlers.assignRoleHandler,
+	[CustomId.CircleSelectNextButton]: handlers.handleCreateNewEntities,
+	[CustomId.CircleSelect]: handlers.handleCircleSelect,
+	[CustomId.ConfigButton]: handlers.handleConfigButton,
+	[CustomId.ConfigNextButton]: handlers.handleLinkCircles,
+	[CustomId.LinkButton]: handlers.handleLinkButton,
+	[CustomId.LinkCircleButton]: handlers.handleRequestApiKeys,
+	[CustomId.LinkedChannelAlertsCancelButton]: handlers.handleLinkedCircleAlertsCancel,
+	[CustomId.LinkedChannelAlertsUpdateButton]: handlers.handleLinkedCircleAlertsUpdate,
+	[CustomId.Skip]: handlers.handleFinalMessage,
+	[CustomId.UnlinkButton]: handlers.handleUnlinkButton,
+	[CustomId.UnssignRoleUserSelect]: handlers.assignRoleHandler,
+	[CustomId.UpdateAlertsButton]: handlers.handleUpdateAlertsButton,
 };
 
 const creator: SlashCreatorWithDiscordJS = new SlashCreator({
@@ -62,10 +64,10 @@ creator.on('componentInteraction', async (componentContext) => {
 	try {
 		if (componentContext.componentType === ComponentType.USER_SELECT) {
 			if (componentContext.customID === CustomId.AssignRoleUserSelect) {
-				return assignRoleHandler(componentContext);
+				return handlers.handleAssignButton(componentContext);
 			}
 			if (componentContext.customID === CustomId.UnssignRoleUserSelect) {
-				return unassignRoleHandler(componentContext);
+				return handlers.handleUnassignButton(componentContext);
 			}
 		}
 		

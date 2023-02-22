@@ -1,16 +1,10 @@
-import { getChannelLinkingStatus } from '@api/getChannelLinkingStatus';
 import { ButtonStyle,
 	CommandContext,
 	ComponentType,
 	ComponentActionRow,
 } from 'slash-create';
 import Log from '../utils/Log';
-import { getLinkingComponents } from './components';
-import { getChangeRoleSelect } from './components/getChangeRoleSelect';
-import { getConfigureComponents } from './components/getConfigureComponents';
-import { getLinkedChannelComponents } from './components/getLinkedChannelComponents';
 import { DiscordService } from './DiscordService';
-import { CallbackComponent, CallbackComponentsWithActionRows } from './types';
 
 export class ServiceSupport {
 	private _ctx: CommandContext;
@@ -19,35 +13,6 @@ export class ServiceSupport {
 	constructor(ctx: CommandContext) {
 		this._ctx = ctx;
 		this._client = new DiscordService(ctx);
-	}
-
-	async getCallbackComponentsWithRows(): Promise<CallbackComponentsWithActionRows> {
-		const componentActionRows: ComponentActionRow[] = [];
-		const callbackComponents: CallbackComponent[] = [];
-
-		const linkComponents = await getLinkingComponents(this._ctx);
-		componentActionRows.push({ type: ComponentType.ACTION_ROW, components: linkComponents.map(({ component }) => component) });
-		callbackComponents.push(...linkComponents);
-
-		const isChannelLinked = await getChannelLinkingStatus({ channelId: this._ctx.channelID });
-		
-		if (isChannelLinked) {
-			const assignComponents = await getChangeRoleSelect();
-			componentActionRows.push({ type: ComponentType.ACTION_ROW, components: assignComponents.map(({ component }) => component) });
-			callbackComponents.push(...assignComponents);
-			
-			const linkedChannelComponents = await getLinkedChannelComponents();
-			componentActionRows.push({ type: ComponentType.ACTION_ROW, components: linkedChannelComponents.map(({ component }) => component) });
-			callbackComponents.push(...linkedChannelComponents);
-
-			return { componentActionRows, callbackComponents };
-		}
-		
-		const configComponents = await getConfigureComponents();
-		componentActionRows.push({ type: ComponentType.ACTION_ROW, components: configComponents.map(({ component }) => component) });
-		callbackComponents.push(...configComponents);
-
-		return { componentActionRows, callbackComponents };
 	}
 
 	async ephemeralError({ msg }: {msg?: string}): Promise<void> {
