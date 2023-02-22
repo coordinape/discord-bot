@@ -3,9 +3,10 @@ import _ from 'lodash';
 import { Circle, getCircles } from '@api/getCircles';
 import { getLinkedCircles } from '@api/getLinkedCircles';
 import { CustomId } from 'src/app/interactions/customId';
-import { disableAllComponents } from '../common';
+import { disableAllParentComponents } from '../common';
 import { CIRCLE_SELECT_NEXT_BUTTON, CIRCLE_SELECT_SKIP_BUTTON } from './2.1_handleCircleSelect';
 import { HELP_BUTTON } from 'src/app/common';
+import Log from 'src/app/utils/Log';
 
 export const ALL_CIRCLES_LINKED_CONTINUE_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
@@ -37,33 +38,38 @@ export const buildCircleSelect = ({ circles, options }: {circles?: Circle[]; opt
  * TODO Remove the CommandContext once the `circle` command is no longer needed
  */
 export async function handleLinkCircles(ctx: ComponentContext): Promise<void> {
-	await ctx.editParent({ components: disableAllComponents(ctx) });
-
-	const circles = await getCircles({ userId: ctx.user.id });
-	const linkedCircles = await getLinkedCircles();
-
-	const unlinkedCircles = circles.reduce((prev, curr) => {
-		if (linkedCircles.includes(curr.id)) {
-			return prev;
+	try {
+		await disableAllParentComponents(ctx);
+	
+		const circles = await getCircles({ userId: ctx.user.id });
+		const linkedCircles = await getLinkedCircles();
+	
+		const unlinkedCircles = circles.reduce((prev, curr) => {
+			if (linkedCircles.includes(curr.id)) {
+				return prev;
+			}
+			return [...prev, curr];
+		}, [] as Circle[]);
+	
+		if (unlinkedCircles.length === 0) {
+			await ctx.send({
+				content: 'All your circles are already linked! Would you like to setup circle alerts?',
+				components: [{ type: ComponentType.ACTION_ROW, components: [ALL_CIRCLES_LINKED_CONTINUE_BUTTON, ALL_CIRCLES_LINKED_SKIP_BUTTON] }],
+			});
+			return;
 		}
-		return [...prev, curr];
-	}, [] as Circle[]);
-
-	if (unlinkedCircles.length === 0) {
+	
 		await ctx.send({
-			content: 'All your circles are already linked! Would you like to setup circle alerts?',
-			components: [{ type: ComponentType.ACTION_ROW, components: [ALL_CIRCLES_LINKED_CONTINUE_BUTTON, ALL_CIRCLES_LINKED_SKIP_BUTTON] }],
+			content: `I see you have ${getLinkedCirclesText(unlinkedCircles)}.\n\nI'll need to create a new channel and role in this server to link these Circles following this schema:\n\n> Channel = \`#circle-name\`\n> Role = \`@Circle Name Member\`\n\nFor example, for your circle "${unlinkedCircles[0].name}" I will create the channel \`#${_.kebabCase(unlinkedCircles[0].name)}\` and the role \`@${unlinkedCircles[0].name} Member\`\n\nPlease select the Circles that you want me to manage from the **dropdown list** and click Next`,
+			components: [
+				{ type: ComponentType.ACTION_ROW, components: [buildCircleSelect({ circles: unlinkedCircles })] },
+				{ type: ComponentType.ACTION_ROW, components: [ { ...CIRCLE_SELECT_NEXT_BUTTON, disabled: true }, CIRCLE_SELECT_SKIP_BUTTON, HELP_BUTTON ] },
+			],
 		});
-		return;
+	} catch (error) {
+		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleLinkCircles] ${error}`);
+		Log.error(error);
 	}
-
-	ctx.send({
-		content: `I see you have ${getLinkedCirclesText(unlinkedCircles)}.\n\nI'll need to create a new channel and role in this server to link these Circles following this schema:\n\n> Channel = \`#circle-name\`\n> Role = \`@Circle Name Member\`\n\nFor example, for your circle "${unlinkedCircles[0].name}" I will create the channel \`#${_.kebabCase(unlinkedCircles[0].name)}\` and the role \`@${unlinkedCircles[0].name} Member\`\n\nPlease select the Circles that you want me to manage from the **dropdown list** and click Next`,
-		components: [
-			{ type: ComponentType.ACTION_ROW, components: [buildCircleSelect({ circles: unlinkedCircles })] },
-			{ type: ComponentType.ACTION_ROW, components: [ { ...CIRCLE_SELECT_NEXT_BUTTON, disabled: true }, CIRCLE_SELECT_SKIP_BUTTON, HELP_BUTTON ] },
-		],
-	});
 }
 
 function getLinkedCirclesText(circles: Circle[]) {
