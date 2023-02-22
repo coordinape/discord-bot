@@ -18,17 +18,10 @@ export const gqlBot = Chain(hasuraUrl, {
 	},
 });
 
-export const chain = Chain(hasuraUrl, {
-	headers: {
-		'x-hasura-admin-secret': 'admin-secret',
-		'x-hasura-role': 'discord-bot',
-	},
-});
-
 export const wsChain = Subscription(hasuraWsUrl, {
 	get headers() {
 		return {
-			'x-hasura-admin-secret': 'admin-secret',
+			'authorization': process.env.DISCORD_BOT_AUTHORIZATION_HEADER || 'no_secret',
 			'x-hasura-role': 'discord-bot',
 		};
 	},

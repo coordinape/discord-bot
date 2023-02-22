@@ -1,4 +1,4 @@
-import { chain } from '@api/gqlClients';
+import { gqlBot } from '@api/gqlClients';
 import { ComponentContext } from 'slash-create';
 import Log from 'src/app/utils/Log';
 import { disableAllParentComponents } from '../common';
@@ -7,7 +7,7 @@ export async function handleUnlinkButton(ctx: ComponentContext): Promise<void> {
 	try {
 		await disableAllParentComponents(ctx);
 	
-		const { delete_discord_users } = await chain('mutation')({
+		const { delete_discord_users } = await gqlBot('mutation')({
 			delete_discord_users: [
 				{ where: { user_snowflake: { _eq: ctx.user.id } } },
 				{ affected_rows: true },
