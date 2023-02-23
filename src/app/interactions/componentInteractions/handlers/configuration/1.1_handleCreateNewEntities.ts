@@ -27,8 +27,8 @@ const LINK_CIRCLE_BUTTON = new ButtonBuilder()
 	.setStyle(ButtonStyle.Primary);
 
 const SKIP_LINK_CIRCLE_BUTTON = new ButtonBuilder()
-	.setCustomId(CustomId.Skip)
-	.setLabel('Skip Link Circle (TODO)')
+	.setCustomId(CustomId.SkipLinkCircleButton)
+	.setLabel('Skip Link Circle')
 	.setStyle(ButtonStyle.Secondary);
 
 const linkCircleRow = new ActionRowBuilder<ButtonBuilder>()
