@@ -9,12 +9,12 @@ import Log from 'src/app/utils/Log';
 
 /**
  * curl --request POST \
-  --url http://localhost:4000/api/epoch/nomination \
+  --url https://coordinape-discord-bot.herokuapp.com/api/epoch/nomination \
   --header 'Content-Type: application/json' \
   --data '{
-	"channelId": "1072574945206480997",
-	"roleId": "1058334400540061747",
-	"circleId": "5",
+	"channelId": "1078378830433099928",
+	"roleId": "1078378845759082587",
+	"circleId": "2663",
 	"nominee": "John Doe",
 	"nominator": "Jane Doe",
 	"nominationReason": "great contributions",
