@@ -53,8 +53,7 @@ export async function handleLinkCircles(ctx: ComponentContext): Promise<void> {
 	
 		if (unlinkedCircles.length === 0) {
 			await ctx.send({
-				content: 'All your circles are already linked! Would you like to setup circle alerts?',
-				components: [{ type: ComponentType.ACTION_ROW, components: [ALL_CIRCLES_LINKED_CONTINUE_BUTTON, ALL_CIRCLES_LINKED_SKIP_BUTTON] }],
+				content: 'All your circles are already linked!',
 			});
 			return;
 		}
