@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { wsChain } from '@api/gqlClients';
 import { insertCircleApiTokens } from '@api/insertCircleApiTokens';
 import { ButtonStyle, ComponentButtonLink, ComponentContext, ComponentType } from 'slash-create';
@@ -24,8 +23,6 @@ export async function handleRequestApiKeys(ctx: ComponentContext) {
 		const channel = await discordService.findTextChannelById(ctx.channelID);
 		const circleId = extractCircleId(ctx.message.content);
 
-		console.log({ channel, circleId });
-	
 		if (!channel || !circleId) {
 			throw new Error('Missing channel or circle');
 		}
@@ -49,8 +46,6 @@ export async function handleRequestApiKeys(ctx: ComponentContext) {
 			],
 		});
 
-		console.log({ message });
-	
 		const onDiscordCircleApiToken = wsChain('subscription')({
 			discord_circle_api_tokens: [
 				{ where: { circle_id: { _eq: circleId } } },
@@ -58,13 +53,9 @@ export async function handleRequestApiKeys(ctx: ComponentContext) {
 			],
 		});
 
-		console.log({ onDiscordCircleApiToken });
-		
 		onDiscordCircleApiToken.on(async ({ discord_circle_api_tokens }) => {
-			console.log({ discord_circle_api_tokens });
-
 			const circleApiToken = discord_circle_api_tokens.find(({ circle_id }) => circle_id === circleId);
-			console.log({ circleApiToken });
+
 			if (circleApiToken && circleApiToken.token) {
 				onDiscordCircleApiToken.ws.close();
 				if (isMessage(message)) {
