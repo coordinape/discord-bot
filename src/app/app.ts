@@ -43,6 +43,7 @@ const handleableInteractions: {[key: string]: (ctx: ComponentContext) => Promise
 	[CustomId.LinkedChannelAlertsCancelButton]: handlers.handleLinkedCircleAlertsCancel,
 	[CustomId.LinkedChannelAlertsUpdateButton]: handlers.handleLinkedCircleAlertsUpdate,
 	[CustomId.Skip]: handlers.handleFinalMessage,
+	[CustomId.SkipLinkCircleButton]: handlers.handleSkipLinkCircleButton,
 	[CustomId.UnlinkButton]: handlers.handleUnlinkButton,
 	[CustomId.UnssignRoleUserSelect]: handlers.assignRoleHandler,
 	[CustomId.UpdateAlertsButton]: handlers.handleUpdateAlertsButton,

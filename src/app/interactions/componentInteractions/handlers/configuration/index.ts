@@ -10,6 +10,7 @@ export * from './0_handleUpdateAlertsButton';
 export * from './1.1_handleCreateNewEntities';
 export * from './2.1_handleCircleSelect';
 export * from './2.2_handleRequestApiKeys';
+export * from './2.3_handleSkipLinkCircleButton';
 export * from './2_handleLinkCircles';
 export * from './3.1_handleAlertsSelect';
 export * from './3.2_handleAlertsToSend';
