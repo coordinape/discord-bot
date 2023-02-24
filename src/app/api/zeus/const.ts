@@ -137,6 +137,127 @@ export const AllTypesProps: Record<string,any> = {
 	VouchInput:{
 
 	},
+	activities_aggregate_fields:{
+		count:{
+			columns:"activities_select_column"
+		}
+	},
+	activities_bool_exp:{
+		_and:"activities_bool_exp",
+		_not:"activities_bool_exp",
+		_or:"activities_bool_exp",
+		action:"String_comparison_exp",
+		actor_profile:"profiles_bool_exp",
+		actor_profile_id:"bigint_comparison_exp",
+		circle:"circles_bool_exp",
+		circle_id:"bigint_comparison_exp",
+		contribution:"contributions_bool_exp",
+		contribution_id:"bigint_comparison_exp",
+		created_at:"timestamptz_comparison_exp",
+		epoch:"epochs_bool_exp",
+		epoch_id:"bigint_comparison_exp",
+		id:"bigint_comparison_exp",
+		organization:"organizations_bool_exp",
+		organization_id:"bigint_comparison_exp",
+		target_profile:"profiles_bool_exp",
+		target_profile_id:"bigint_comparison_exp",
+		updated_at:"timestamptz_comparison_exp",
+		user:"users_bool_exp",
+		user_id:"bigint_comparison_exp"
+	},
+	activities_constraint: "enum" as const,
+	activities_inc_input:{
+		actor_profile_id:"bigint",
+		circle_id:"bigint",
+		contribution_id:"bigint",
+		epoch_id:"bigint",
+		id:"bigint",
+		organization_id:"bigint",
+		target_profile_id:"bigint",
+		user_id:"bigint"
+	},
+	activities_insert_input:{
+		actor_profile:"profiles_obj_rel_insert_input",
+		actor_profile_id:"bigint",
+		circle:"circles_obj_rel_insert_input",
+		circle_id:"bigint",
+		contribution:"contributions_obj_rel_insert_input",
+		contribution_id:"bigint",
+		created_at:"timestamptz",
+		epoch:"epochs_obj_rel_insert_input",
+		epoch_id:"bigint",
+		id:"bigint",
+		organization:"organizations_obj_rel_insert_input",
+		organization_id:"bigint",
+		target_profile:"profiles_obj_rel_insert_input",
+		target_profile_id:"bigint",
+		updated_at:"timestamptz",
+		user:"users_obj_rel_insert_input",
+		user_id:"bigint"
+	},
+	activities_on_conflict:{
+		constraint:"activities_constraint",
+		update_columns:"activities_update_column",
+		where:"activities_bool_exp"
+	},
+	activities_order_by:{
+		action:"order_by",
+		actor_profile:"profiles_order_by",
+		actor_profile_id:"order_by",
+		circle:"circles_order_by",
+		circle_id:"order_by",
+		contribution:"contributions_order_by",
+		contribution_id:"order_by",
+		created_at:"order_by",
+		epoch:"epochs_order_by",
+		epoch_id:"order_by",
+		id:"order_by",
+		organization:"organizations_order_by",
+		organization_id:"order_by",
+		target_profile:"profiles_order_by",
+		target_profile_id:"order_by",
+		updated_at:"order_by",
+		user:"users_order_by",
+		user_id:"order_by"
+	},
+	activities_pk_columns_input:{
+		id:"bigint"
+	},
+	activities_select_column: "enum" as const,
+	activities_set_input:{
+		actor_profile_id:"bigint",
+		circle_id:"bigint",
+		contribution_id:"bigint",
+		created_at:"timestamptz",
+		epoch_id:"bigint",
+		id:"bigint",
+		organization_id:"bigint",
+		target_profile_id:"bigint",
+		updated_at:"timestamptz",
+		user_id:"bigint"
+	},
+	activities_stream_cursor_input:{
+		initial_value:"activities_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	activities_stream_cursor_value_input:{
+		actor_profile_id:"bigint",
+		circle_id:"bigint",
+		contribution_id:"bigint",
+		created_at:"timestamptz",
+		epoch_id:"bigint",
+		id:"bigint",
+		organization_id:"bigint",
+		target_profile_id:"bigint",
+		updated_at:"timestamptz",
+		user_id:"bigint"
+	},
+	activities_update_column: "enum" as const,
+	activities_updates:{
+		_inc:"activities_inc_input",
+		_set:"activities_set_input",
+		where:"activities_bool_exp"
+	},
 	bigint: `scalar.bigint` as const,
 	bigint_comparison_exp:{
 		_eq:"bigint",
@@ -147,6 +268,14 @@ export const AllTypesProps: Record<string,any> = {
 		_lte:"bigint",
 		_neq:"bigint",
 		_nin:"bigint"
+	},
+	burns_aggregate_bool_exp:{
+		count:"burns_aggregate_bool_exp_count"
+	},
+	burns_aggregate_bool_exp_count:{
+		arguments:"burns_select_column",
+		filter:"burns_bool_exp",
+		predicate:"Int_comparison_exp"
 	},
 	burns_aggregate_fields:{
 		count:{
@@ -348,6 +477,26 @@ export const AllTypesProps: Record<string,any> = {
 		tokens_burnt:"order_by",
 		user_id:"order_by"
 	},
+	circle_api_keys_aggregate_bool_exp:{
+		bool_and:"circle_api_keys_aggregate_bool_exp_bool_and",
+		bool_or:"circle_api_keys_aggregate_bool_exp_bool_or",
+		count:"circle_api_keys_aggregate_bool_exp_count"
+	},
+	circle_api_keys_aggregate_bool_exp_bool_and:{
+		arguments:"circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns",
+		filter:"circle_api_keys_bool_exp",
+		predicate:"Boolean_comparison_exp"
+	},
+	circle_api_keys_aggregate_bool_exp_bool_or:{
+		arguments:"circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns",
+		filter:"circle_api_keys_bool_exp",
+		predicate:"Boolean_comparison_exp"
+	},
+	circle_api_keys_aggregate_bool_exp_count:{
+		arguments:"circle_api_keys_select_column",
+		filter:"circle_api_keys_bool_exp",
+		predicate:"Int_comparison_exp"
+	},
 	circle_api_keys_aggregate_fields:{
 		count:{
 			columns:"circle_api_keys_select_column"
@@ -386,6 +535,7 @@ export const AllTypesProps: Record<string,any> = {
 		created_at:"timestamptz_comparison_exp",
 		created_by:"bigint_comparison_exp",
 		hash:"String_comparison_exp",
+		manage_users:"Boolean_comparison_exp",
 		name:"String_comparison_exp",
 		read_circle:"Boolean_comparison_exp",
 		read_contributions:"Boolean_comparison_exp",
@@ -441,6 +591,7 @@ export const AllTypesProps: Record<string,any> = {
 		created_at:"order_by",
 		created_by:"order_by",
 		hash:"order_by",
+		manage_users:"order_by",
 		name:"order_by",
 		read_circle:"order_by",
 		read_contributions:"order_by",
@@ -456,6 +607,8 @@ export const AllTypesProps: Record<string,any> = {
 
 	},
 	circle_api_keys_select_column: "enum" as const,
+	circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns: "enum" as const,
+	circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns: "enum" as const,
 	circle_api_keys_set_input:{
 		circle_id:"bigint",
 		created_at:"timestamptz",
@@ -508,6 +661,14 @@ export const AllTypesProps: Record<string,any> = {
 		data:{
 
 		}
+	},
+	circle_integrations_aggregate_bool_exp:{
+		count:"circle_integrations_aggregate_bool_exp_count"
+	},
+	circle_integrations_aggregate_bool_exp_count:{
+		arguments:"circle_integrations_select_column",
+		filter:"circle_integrations_bool_exp",
+		predicate:"Int_comparison_exp"
 	},
 	circle_integrations_aggregate_fields:{
 		count:{
@@ -652,6 +813,14 @@ export const AllTypesProps: Record<string,any> = {
 		json:{
 
 		}
+	},
+	circle_metadata_aggregate_bool_exp:{
+		count:"circle_metadata_aggregate_bool_exp_count"
+	},
+	circle_metadata_aggregate_bool_exp_count:{
+		arguments:"circle_metadata_select_column",
+		filter:"circle_metadata_bool_exp",
+		predicate:"Int_comparison_exp"
 	},
 	circle_metadata_aggregate_fields:{
 		count:{
@@ -1016,6 +1185,26 @@ export const AllTypesProps: Record<string,any> = {
 			where:"vault_transactions_bool_exp"
 		}
 	},
+	circles_aggregate_bool_exp:{
+		bool_and:"circles_aggregate_bool_exp_bool_and",
+		bool_or:"circles_aggregate_bool_exp_bool_or",
+		count:"circles_aggregate_bool_exp_count"
+	},
+	circles_aggregate_bool_exp_bool_and:{
+		arguments:"circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns",
+		filter:"circles_bool_exp",
+		predicate:"Boolean_comparison_exp"
+	},
+	circles_aggregate_bool_exp_bool_or:{
+		arguments:"circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns",
+		filter:"circles_bool_exp",
+		predicate:"Boolean_comparison_exp"
+	},
+	circles_aggregate_bool_exp_count:{
+		arguments:"circles_select_column",
+		filter:"circles_bool_exp",
+		predicate:"Int_comparison_exp"
+	},
 	circles_aggregate_fields:{
 		count:{
 			columns:"circles_select_column"
@@ -1053,44 +1242,56 @@ export const AllTypesProps: Record<string,any> = {
 		_or:"circles_bool_exp",
 		alloc_text:"String_comparison_exp",
 		api_keys:"circle_api_keys_bool_exp",
+		api_keys_aggregate:"circle_api_keys_aggregate_bool_exp",
 		auto_opt_out:"Boolean_comparison_exp",
 		burns:"burns_bool_exp",
+		burns_aggregate:"burns_aggregate_bool_exp",
 		circle_metadata:"circle_metadata_bool_exp",
+		circle_metadata_aggregate:"circle_metadata_aggregate_bool_exp",
 		circle_private:"circle_private_bool_exp",
 		cont_help_text:"String_comparison_exp",
 		contact:"String_comparison_exp",
 		contributions:"contributions_bool_exp",
+		contributions_aggregate:"contributions_aggregate_bool_exp",
 		created_at:"timestamp_comparison_exp",
 		default_opt_in:"Boolean_comparison_exp",
 		deleted_at:"timestamp_comparison_exp",
 		discord_access_tokens:"discord_circle_api_tokens_bool_exp",
+		discord_access_tokens_aggregate:"discord_circle_api_tokens_aggregate_bool_exp",
 		discord_circle:"discord_roles_circles_bool_exp",
 		discord_webhook:"String_comparison_exp",
 		epochs:"epochs_bool_exp",
+		epochs_aggregate:"epochs_aggregate_bool_exp",
 		fixed_payment_token_type:"String_comparison_exp",
 		fixed_payment_vault_id:"Int_comparison_exp",
 		guild_id:"Int_comparison_exp",
 		guild_role_id:"Int_comparison_exp",
 		id:"bigint_comparison_exp",
 		integrations:"circle_integrations_bool_exp",
+		integrations_aggregate:"circle_integrations_aggregate_bool_exp",
 		is_verified:"Boolean_comparison_exp",
 		logo:"String_comparison_exp",
 		min_vouches:"Int_comparison_exp",
 		name:"String_comparison_exp",
 		nomination_days_limit:"Int_comparison_exp",
 		nominees:"nominees_bool_exp",
+		nominees_aggregate:"nominees_aggregate_bool_exp",
 		only_giver_vouch:"Boolean_comparison_exp",
 		organization:"organizations_bool_exp",
 		organization_id:"Int_comparison_exp",
 		pending_token_gifts:"pending_token_gifts_bool_exp",
+		pending_token_gifts_aggregate:"pending_token_gifts_aggregate_bool_exp",
 		show_pending_gives:"Boolean_comparison_exp",
 		team_selection:"Boolean_comparison_exp",
 		telegram_id:"String_comparison_exp",
 		token_gifts:"token_gifts_bool_exp",
+		token_gifts_aggregate:"token_gifts_aggregate_bool_exp",
 		token_name:"String_comparison_exp",
 		updated_at:"timestamp_comparison_exp",
 		users:"users_bool_exp",
+		users_aggregate:"users_aggregate_bool_exp",
 		vault_transactions:"vault_transactions_bool_exp",
+		vault_transactions_aggregate:"vault_transactions_aggregate_bool_exp",
 		vouching:"Boolean_comparison_exp",
 		vouching_text:"String_comparison_exp"
 	},
@@ -1220,6 +1421,8 @@ export const AllTypesProps: Record<string,any> = {
 		id:"bigint"
 	},
 	circles_select_column: "enum" as const,
+	circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns: "enum" as const,
+	circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns: "enum" as const,
 	circles_set_input:{
 		created_at:"timestamp",
 		deleted_at:"timestamp",
@@ -1325,6 +1528,14 @@ export const AllTypesProps: Record<string,any> = {
 		_nsimilar:"citext",
 		_regex:"citext",
 		_similar:"citext"
+	},
+	claims_aggregate_bool_exp:{
+		count:"claims_aggregate_bool_exp_count"
+	},
+	claims_aggregate_bool_exp_count:{
+		arguments:"claims_select_column",
+		filter:"claims_bool_exp",
+		predicate:"Int_comparison_exp"
 	},
 	claims_aggregate_fields:{
 		count:{
@@ -1531,6 +1742,14 @@ export const AllTypesProps: Record<string,any> = {
 		new_amount:"order_by",
 		profile_id:"order_by"
 	},
+	contributions_aggregate_bool_exp:{
+		count:"contributions_aggregate_bool_exp_count"
+	},
+	contributions_aggregate_bool_exp_count:{
+		arguments:"contributions_select_column",
+		filter:"contributions_bool_exp",
+		predicate:"Int_comparison_exp"
+	},
 	contributions_aggregate_fields:{
 		count:{
 			columns:"contributions_select_column"
@@ -1614,6 +1833,10 @@ export const AllTypesProps: Record<string,any> = {
 		id:"order_by",
 		updated_at:"order_by",
 		user_id:"order_by"
+	},
+	contributions_obj_rel_insert_input:{
+		data:"contributions_insert_input",
+		on_conflict:"contributions_on_conflict"
 	},
 	contributions_on_conflict:{
 		constraint:"contributions_constraint",
@@ -1712,6 +1935,14 @@ export const AllTypesProps: Record<string,any> = {
 		_lte:"date",
 		_neq:"date",
 		_nin:"date"
+	},
+	discord_circle_api_tokens_aggregate_bool_exp:{
+		count:"discord_circle_api_tokens_aggregate_bool_exp_count"
+	},
+	discord_circle_api_tokens_aggregate_bool_exp_count:{
+		arguments:"discord_circle_api_tokens_select_column",
+		filter:"discord_circle_api_tokens_bool_exp",
+		predicate:"Int_comparison_exp"
 	},
 	discord_circle_api_tokens_aggregate_fields:{
 		count:{
@@ -2036,6 +2267,14 @@ export const AllTypesProps: Record<string,any> = {
 			where:"vault_transactions_bool_exp"
 		}
 	},
+	distributions_aggregate_bool_exp:{
+		count:"distributions_aggregate_bool_exp_count"
+	},
+	distributions_aggregate_bool_exp_count:{
+		arguments:"distributions_select_column",
+		filter:"distributions_bool_exp",
+		predicate:"Int_comparison_exp"
+	},
 	distributions_aggregate_fields:{
 		count:{
 			columns:"distributions_select_column"
@@ -2076,6 +2315,7 @@ export const AllTypesProps: Record<string,any> = {
 		_not:"distributions_bool_exp",
 		_or:"distributions_bool_exp",
 		claims:"claims_bool_exp",
+		claims_aggregate:"claims_aggregate_bool_exp",
 		created_at:"timestamp_comparison_exp",
 		created_by:"bigint_comparison_exp",
 		distribution_epoch_id:"bigint_comparison_exp",
@@ -2093,7 +2333,8 @@ export const AllTypesProps: Record<string,any> = {
 		updated_at:"timestamp_comparison_exp",
 		vault:"vaults_bool_exp",
 		vault_id:"bigint_comparison_exp",
-		vault_transactions:"vault_transactions_bool_exp"
+		vault_transactions:"vault_transactions_bool_exp",
+		vault_transactions_aggregate:"vault_transactions_aggregate_bool_exp"
 	},
 	distributions_constraint: "enum" as const,
 	distributions_delete_at_path_input:{
@@ -2434,6 +2675,26 @@ export const AllTypesProps: Record<string,any> = {
 			where:"token_gifts_bool_exp"
 		}
 	},
+	epochs_aggregate_bool_exp:{
+		bool_and:"epochs_aggregate_bool_exp_bool_and",
+		bool_or:"epochs_aggregate_bool_exp_bool_or",
+		count:"epochs_aggregate_bool_exp_count"
+	},
+	epochs_aggregate_bool_exp_bool_and:{
+		arguments:"epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns",
+		filter:"epochs_bool_exp",
+		predicate:"Boolean_comparison_exp"
+	},
+	epochs_aggregate_bool_exp_bool_or:{
+		arguments:"epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns",
+		filter:"epochs_bool_exp",
+		predicate:"Boolean_comparison_exp"
+	},
+	epochs_aggregate_bool_exp_count:{
+		arguments:"epochs_select_column",
+		filter:"epochs_bool_exp",
+		predicate:"Int_comparison_exp"
+	},
 	epochs_aggregate_fields:{
 		count:{
 			columns:"epochs_select_column"
@@ -2474,15 +2735,18 @@ export const AllTypesProps: Record<string,any> = {
 		_not:"epochs_bool_exp",
 		_or:"epochs_bool_exp",
 		burns:"burns_bool_exp",
+		burns_aggregate:"burns_aggregate_bool_exp",
 		circle:"circles_bool_exp",
 		circle_id:"Int_comparison_exp",
 		created_at:"timestamp_comparison_exp",
 		days:"Int_comparison_exp",
 		description:"String_comparison_exp",
 		distributions:"distributions_bool_exp",
+		distributions_aggregate:"distributions_aggregate_bool_exp",
 		end_date:"timestamptz_comparison_exp",
 		ended:"Boolean_comparison_exp",
 		epoch_pending_token_gifts:"pending_token_gifts_bool_exp",
+		epoch_pending_token_gifts_aggregate:"pending_token_gifts_aggregate_bool_exp",
 		grant:"numeric_comparison_exp",
 		id:"bigint_comparison_exp",
 		notified_before_end:"timestamp_comparison_exp",
@@ -2496,6 +2760,7 @@ export const AllTypesProps: Record<string,any> = {
 		repeat_day_of_month:"Int_comparison_exp",
 		start_date:"timestamptz_comparison_exp",
 		token_gifts:"token_gifts_bool_exp",
+		token_gifts_aggregate:"token_gifts_aggregate_bool_exp",
 		updated_at:"timestamp_comparison_exp"
 	},
 	epochs_constraint: "enum" as const,
@@ -2608,6 +2873,8 @@ export const AllTypesProps: Record<string,any> = {
 		repeat_data:"jsonb"
 	},
 	epochs_select_column: "enum" as const,
+	epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns: "enum" as const,
+	epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns: "enum" as const,
 	epochs_set_input:{
 		created_at:"timestamp",
 		end_date:"timestamptz",
@@ -2979,6 +3246,14 @@ export const AllTypesProps: Record<string,any> = {
 		_neq:"jsonb",
 		_nin:"jsonb"
 	},
+	locked_token_distribution_gifts_aggregate_bool_exp:{
+		count:"locked_token_distribution_gifts_aggregate_bool_exp_count"
+	},
+	locked_token_distribution_gifts_aggregate_bool_exp_count:{
+		arguments:"locked_token_distribution_gifts_select_column",
+		filter:"locked_token_distribution_gifts_bool_exp",
+		predicate:"Int_comparison_exp"
+	},
 	locked_token_distribution_gifts_aggregate_fields:{
 		count:{
 			columns:"locked_token_distribution_gifts_select_column"
@@ -3154,6 +3429,7 @@ export const AllTypesProps: Record<string,any> = {
 		gift_amount:"numeric_comparison_exp",
 		id:"bigint_comparison_exp",
 		locked_token_distribution_gifts:"locked_token_distribution_gifts_bool_exp",
+		locked_token_distribution_gifts_aggregate:"locked_token_distribution_gifts_aggregate_bool_exp",
 		profile:"profiles_bool_exp",
 		token_contract_address:"String_comparison_exp",
 		token_decimals:"Int_comparison_exp",
@@ -3351,6 +3627,12 @@ export const AllTypesProps: Record<string,any> = {
 		deleteUsers:{
 			payload:"DeleteUsersInput"
 		},
+		delete_activities:{
+			where:"activities_bool_exp"
+		},
+		delete_activities_by_pk:{
+			id:"bigint"
+		},
 		delete_burns:{
 			where:"burns_bool_exp"
 		},
@@ -3477,6 +3759,12 @@ export const AllTypesProps: Record<string,any> = {
 		delete_nominees_by_pk:{
 			id:"bigint"
 		},
+		delete_org_members:{
+			where:"org_members_bool_exp"
+		},
+		delete_org_members_by_pk:{
+			id:"bigint"
+		},
 		delete_organizations:{
 			where:"organizations_bool_exp"
 		},
@@ -3557,6 +3845,14 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		generateApiKey:{
 			payload:"GenerateApiKeyInput"
+		},
+		insert_activities:{
+			objects:"activities_insert_input",
+			on_conflict:"activities_on_conflict"
+		},
+		insert_activities_one:{
+			object:"activities_insert_input",
+			on_conflict:"activities_on_conflict"
 		},
 		insert_burns:{
 			objects:"burns_insert_input",
@@ -3730,6 +4026,14 @@ export const AllTypesProps: Record<string,any> = {
 			object:"nominees_insert_input",
 			on_conflict:"nominees_on_conflict"
 		},
+		insert_org_members:{
+			objects:"org_members_insert_input",
+			on_conflict:"org_members_on_conflict"
+		},
+		insert_org_members_one:{
+			object:"org_members_insert_input",
+			on_conflict:"org_members_on_conflict"
+		},
 		insert_organizations:{
 			objects:"organizations_insert_input",
 			on_conflict:"organizations_on_conflict"
@@ -3867,6 +4171,19 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		updateUser:{
 			payload:"UpdateUserInput"
+		},
+		update_activities:{
+			_inc:"activities_inc_input",
+			_set:"activities_set_input",
+			where:"activities_bool_exp"
+		},
+		update_activities_by_pk:{
+			_inc:"activities_inc_input",
+			_set:"activities_set_input",
+			pk_columns:"activities_pk_columns_input"
+		},
+		update_activities_many:{
+			updates:"activities_updates"
 		},
 		update_burns:{
 			_inc:"burns_inc_input",
@@ -4184,6 +4501,19 @@ export const AllTypesProps: Record<string,any> = {
 		update_nominees_many:{
 			updates:"nominees_updates"
 		},
+		update_org_members:{
+			_inc:"org_members_inc_input",
+			_set:"org_members_set_input",
+			where:"org_members_bool_exp"
+		},
+		update_org_members_by_pk:{
+			_inc:"org_members_inc_input",
+			_set:"org_members_set_input",
+			pk_columns:"org_members_pk_columns_input"
+		},
+		update_org_members_many:{
+			updates:"org_members_updates"
+		},
 		update_organizations:{
 			_inc:"organizations_inc_input",
 			_set:"organizations_set_input",
@@ -4374,6 +4704,26 @@ export const AllTypesProps: Record<string,any> = {
 			where:"vouches_bool_exp"
 		}
 	},
+	nominees_aggregate_bool_exp:{
+		bool_and:"nominees_aggregate_bool_exp_bool_and",
+		bool_or:"nominees_aggregate_bool_exp_bool_or",
+		count:"nominees_aggregate_bool_exp_count"
+	},
+	nominees_aggregate_bool_exp_bool_and:{
+		arguments:"nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns",
+		filter:"nominees_bool_exp",
+		predicate:"Boolean_comparison_exp"
+	},
+	nominees_aggregate_bool_exp_bool_or:{
+		arguments:"nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns",
+		filter:"nominees_bool_exp",
+		predicate:"Boolean_comparison_exp"
+	},
+	nominees_aggregate_bool_exp_count:{
+		arguments:"nominees_select_column",
+		filter:"nominees_bool_exp",
+		predicate:"Int_comparison_exp"
+	},
 	nominees_aggregate_fields:{
 		count:{
 			columns:"nominees_select_column"
@@ -4418,6 +4768,7 @@ export const AllTypesProps: Record<string,any> = {
 		nominated_by_user_id:"Int_comparison_exp",
 		nominated_date:"date_comparison_exp",
 		nominations:"vouches_bool_exp",
+		nominations_aggregate:"vouches_aggregate_bool_exp",
 		nominator:"users_bool_exp",
 		profile:"profiles_bool_exp",
 		updated_at:"timestamp_comparison_exp",
@@ -4499,6 +4850,8 @@ export const AllTypesProps: Record<string,any> = {
 		id:"bigint"
 	},
 	nominees_select_column: "enum" as const,
+	nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns: "enum" as const,
+	nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns: "enum" as const,
 	nominees_set_input:{
 		created_at:"timestamp",
 		expiry_date:"timestamp",
@@ -4584,6 +4937,178 @@ export const AllTypesProps: Record<string,any> = {
 		_nin:"numeric"
 	},
 	order_by: "enum" as const,
+	org_members_aggregate_bool_exp:{
+		count:"org_members_aggregate_bool_exp_count"
+	},
+	org_members_aggregate_bool_exp_count:{
+		arguments:"org_members_select_column",
+		filter:"org_members_bool_exp",
+		predicate:"Int_comparison_exp"
+	},
+	org_members_aggregate_fields:{
+		count:{
+			columns:"org_members_select_column"
+		}
+	},
+	org_members_aggregate_order_by:{
+		avg:"org_members_avg_order_by",
+		count:"order_by",
+		max:"org_members_max_order_by",
+		min:"org_members_min_order_by",
+		stddev:"org_members_stddev_order_by",
+		stddev_pop:"org_members_stddev_pop_order_by",
+		stddev_samp:"org_members_stddev_samp_order_by",
+		sum:"org_members_sum_order_by",
+		var_pop:"org_members_var_pop_order_by",
+		var_samp:"org_members_var_samp_order_by",
+		variance:"org_members_variance_order_by"
+	},
+	org_members_arr_rel_insert_input:{
+		data:"org_members_insert_input",
+		on_conflict:"org_members_on_conflict"
+	},
+	org_members_avg_order_by:{
+		id:"order_by",
+		org_id:"order_by",
+		profile_id:"order_by",
+		role:"order_by"
+	},
+	org_members_bool_exp:{
+		_and:"org_members_bool_exp",
+		_not:"org_members_bool_exp",
+		_or:"org_members_bool_exp",
+		created_at:"timestamp_comparison_exp",
+		deleted_at:"timestamp_comparison_exp",
+		id:"bigint_comparison_exp",
+		org_id:"bigint_comparison_exp",
+		organization:"organizations_bool_exp",
+		profile:"profiles_bool_exp",
+		profile_id:"bigint_comparison_exp",
+		role:"Int_comparison_exp",
+		updated_at:"timestamp_comparison_exp"
+	},
+	org_members_constraint: "enum" as const,
+	org_members_inc_input:{
+		id:"bigint",
+		org_id:"bigint",
+		profile_id:"bigint"
+	},
+	org_members_insert_input:{
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		id:"bigint",
+		org_id:"bigint",
+		organization:"organizations_obj_rel_insert_input",
+		profile:"profiles_obj_rel_insert_input",
+		profile_id:"bigint",
+		updated_at:"timestamp"
+	},
+	org_members_max_order_by:{
+		created_at:"order_by",
+		deleted_at:"order_by",
+		id:"order_by",
+		org_id:"order_by",
+		profile_id:"order_by",
+		role:"order_by",
+		updated_at:"order_by"
+	},
+	org_members_min_order_by:{
+		created_at:"order_by",
+		deleted_at:"order_by",
+		id:"order_by",
+		org_id:"order_by",
+		profile_id:"order_by",
+		role:"order_by",
+		updated_at:"order_by"
+	},
+	org_members_on_conflict:{
+		constraint:"org_members_constraint",
+		update_columns:"org_members_update_column",
+		where:"org_members_bool_exp"
+	},
+	org_members_order_by:{
+		created_at:"order_by",
+		deleted_at:"order_by",
+		id:"order_by",
+		org_id:"order_by",
+		organization:"organizations_order_by",
+		profile:"profiles_order_by",
+		profile_id:"order_by",
+		role:"order_by",
+		updated_at:"order_by"
+	},
+	org_members_pk_columns_input:{
+		id:"bigint"
+	},
+	org_members_select_column: "enum" as const,
+	org_members_set_input:{
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		id:"bigint",
+		org_id:"bigint",
+		profile_id:"bigint",
+		updated_at:"timestamp"
+	},
+	org_members_stddev_order_by:{
+		id:"order_by",
+		org_id:"order_by",
+		profile_id:"order_by",
+		role:"order_by"
+	},
+	org_members_stddev_pop_order_by:{
+		id:"order_by",
+		org_id:"order_by",
+		profile_id:"order_by",
+		role:"order_by"
+	},
+	org_members_stddev_samp_order_by:{
+		id:"order_by",
+		org_id:"order_by",
+		profile_id:"order_by",
+		role:"order_by"
+	},
+	org_members_stream_cursor_input:{
+		initial_value:"org_members_stream_cursor_value_input",
+		ordering:"cursor_ordering"
+	},
+	org_members_stream_cursor_value_input:{
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		id:"bigint",
+		org_id:"bigint",
+		profile_id:"bigint",
+		updated_at:"timestamp"
+	},
+	org_members_sum_order_by:{
+		id:"order_by",
+		org_id:"order_by",
+		profile_id:"order_by",
+		role:"order_by"
+	},
+	org_members_update_column: "enum" as const,
+	org_members_updates:{
+		_inc:"org_members_inc_input",
+		_set:"org_members_set_input",
+		where:"org_members_bool_exp"
+	},
+	org_members_var_pop_order_by:{
+		id:"order_by",
+		org_id:"order_by",
+		profile_id:"order_by",
+		role:"order_by"
+	},
+	org_members_var_samp_order_by:{
+		id:"order_by",
+		org_id:"order_by",
+		profile_id:"order_by",
+		role:"order_by"
+	},
+	org_members_variance_order_by:{
+		id:"order_by",
+		org_id:"order_by",
+		profile_id:"order_by",
+		role:"order_by"
+	},
 	organizations:{
 		circles:{
 			distinct_on:"circles_select_column",
@@ -4594,6 +5119,16 @@ export const AllTypesProps: Record<string,any> = {
 			distinct_on:"circles_select_column",
 			order_by:"circles_order_by",
 			where:"circles_bool_exp"
+		},
+		members:{
+			distinct_on:"org_members_select_column",
+			order_by:"org_members_order_by",
+			where:"org_members_bool_exp"
+		},
+		members_aggregate:{
+			distinct_on:"org_members_select_column",
+			order_by:"org_members_order_by",
+			where:"org_members_bool_exp"
 		},
 		vaults:{
 			distinct_on:"vaults_select_column",
@@ -4616,17 +5151,21 @@ export const AllTypesProps: Record<string,any> = {
 		_not:"organizations_bool_exp",
 		_or:"organizations_bool_exp",
 		circles:"circles_bool_exp",
+		circles_aggregate:"circles_aggregate_bool_exp",
 		created_at:"timestamp_comparison_exp",
 		created_by:"Int_comparison_exp",
 		id:"bigint_comparison_exp",
 		is_verified:"Boolean_comparison_exp",
 		logo:"String_comparison_exp",
+		members:"org_members_bool_exp",
+		members_aggregate:"org_members_aggregate_bool_exp",
 		name:"String_comparison_exp",
 		profile:"profiles_bool_exp",
 		sample:"Boolean_comparison_exp",
 		telegram_id:"String_comparison_exp",
 		updated_at:"timestamp_comparison_exp",
-		vaults:"vaults_bool_exp"
+		vaults:"vaults_bool_exp",
+		vaults_aggregate:"vaults_aggregate_bool_exp"
 	},
 	organizations_constraint: "enum" as const,
 	organizations_inc_input:{
@@ -4636,6 +5175,7 @@ export const AllTypesProps: Record<string,any> = {
 		circles:"circles_arr_rel_insert_input",
 		created_at:"timestamp",
 		id:"bigint",
+		members:"org_members_arr_rel_insert_input",
 		profile:"profiles_obj_rel_insert_input",
 		updated_at:"timestamp",
 		vaults:"vaults_arr_rel_insert_input"
@@ -4656,6 +5196,7 @@ export const AllTypesProps: Record<string,any> = {
 		id:"order_by",
 		is_verified:"order_by",
 		logo:"order_by",
+		members_aggregate:"org_members_aggregate_order_by",
 		name:"order_by",
 		profile:"profiles_order_by",
 		sample:"order_by",
@@ -4745,6 +5286,14 @@ export const AllTypesProps: Record<string,any> = {
 		_inc:"pending_gift_private_inc_input",
 		_set:"pending_gift_private_set_input",
 		where:"pending_gift_private_bool_exp"
+	},
+	pending_token_gifts_aggregate_bool_exp:{
+		count:"pending_token_gifts_aggregate_bool_exp_count"
+	},
+	pending_token_gifts_aggregate_bool_exp_count:{
+		arguments:"pending_token_gifts_select_column",
+		filter:"pending_token_gifts_bool_exp",
+		predicate:"Int_comparison_exp"
 	},
 	pending_token_gifts_aggregate_fields:{
 		count:{
@@ -5158,6 +5707,16 @@ export const AllTypesProps: Record<string,any> = {
 			order_by:"nominees_order_by",
 			where:"nominees_bool_exp"
 		},
+		org_members:{
+			distinct_on:"org_members_select_column",
+			order_by:"org_members_order_by",
+			where:"org_members_bool_exp"
+		},
+		org_members_aggregate:{
+			distinct_on:"org_members_select_column",
+			order_by:"org_members_order_by",
+			where:"org_members_bool_exp"
+		},
 		users:{
 			distinct_on:"users_select_column",
 			order_by:"users_order_by",
@@ -5204,23 +5763,31 @@ export const AllTypesProps: Record<string,any> = {
 		bio:"String_comparison_exp",
 		chat_id:"String_comparison_exp",
 		claims:"claims_bool_exp",
+		claims_aggregate:"claims_aggregate_bool_exp",
 		connector:"String_comparison_exp",
 		created_at:"timestamp_comparison_exp",
 		discord_username:"String_comparison_exp",
 		distributions:"distributions_bool_exp",
+		distributions_aggregate:"distributions_aggregate_bool_exp",
 		github_username:"String_comparison_exp",
 		id:"bigint_comparison_exp",
 		medium_username:"String_comparison_exp",
 		name:"citext_comparison_exp",
 		nominees:"nominees_bool_exp",
+		nominees_aggregate:"nominees_aggregate_bool_exp",
+		org_members:"org_members_bool_exp",
+		org_members_aggregate:"org_members_aggregate_bool_exp",
 		skills:"String_comparison_exp",
 		telegram_username:"String_comparison_exp",
 		twitter_username:"String_comparison_exp",
 		updated_at:"timestamp_comparison_exp",
 		user:"discord_users_bool_exp",
 		users:"users_bool_exp",
+		users_aggregate:"users_aggregate_bool_exp",
 		vault_transactions:"vault_transactions_bool_exp",
+		vault_transactions_aggregate:"vault_transactions_aggregate_bool_exp",
 		vaults:"vaults_bool_exp",
+		vaults_aggregate:"vaults_aggregate_bool_exp",
 		website:"String_comparison_exp"
 	},
 	profiles_constraint: "enum" as const,
@@ -5234,6 +5801,7 @@ export const AllTypesProps: Record<string,any> = {
 		id:"bigint",
 		name:"citext",
 		nominees:"nominees_arr_rel_insert_input",
+		org_members:"org_members_arr_rel_insert_input",
 		updated_at:"timestamp",
 		user:"discord_users_obj_rel_insert_input",
 		users:"users_arr_rel_insert_input",
@@ -5265,6 +5833,7 @@ export const AllTypesProps: Record<string,any> = {
 		medium_username:"order_by",
 		name:"order_by",
 		nominees_aggregate:"nominees_aggregate_order_by",
+		org_members_aggregate:"org_members_aggregate_order_by",
 		skills:"order_by",
 		telegram_username:"order_by",
 		twitter_username:"order_by",
@@ -5302,6 +5871,19 @@ export const AllTypesProps: Record<string,any> = {
 		where:"profiles_bool_exp"
 	},
 	query_root:{
+		activities:{
+			distinct_on:"activities_select_column",
+			order_by:"activities_order_by",
+			where:"activities_bool_exp"
+		},
+		activities_aggregate:{
+			distinct_on:"activities_select_column",
+			order_by:"activities_order_by",
+			where:"activities_bool_exp"
+		},
+		activities_by_pk:{
+			id:"bigint"
+		},
 		burns:{
 			distinct_on:"burns_select_column",
 			order_by:"burns_order_by",
@@ -5585,6 +6167,19 @@ export const AllTypesProps: Record<string,any> = {
 		nominees_by_pk:{
 			id:"bigint"
 		},
+		org_members:{
+			distinct_on:"org_members_select_column",
+			order_by:"org_members_order_by",
+			where:"org_members_bool_exp"
+		},
+		org_members_aggregate:{
+			distinct_on:"org_members_select_column",
+			order_by:"org_members_order_by",
+			where:"org_members_bool_exp"
+		},
+		org_members_by_pk:{
+			id:"bigint"
+		},
 		organizations:{
 			distinct_on:"organizations_select_column",
 			order_by:"organizations_order_by",
@@ -5763,6 +6358,23 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	subscription_root:{
+		activities:{
+			distinct_on:"activities_select_column",
+			order_by:"activities_order_by",
+			where:"activities_bool_exp"
+		},
+		activities_aggregate:{
+			distinct_on:"activities_select_column",
+			order_by:"activities_order_by",
+			where:"activities_bool_exp"
+		},
+		activities_by_pk:{
+			id:"bigint"
+		},
+		activities_stream:{
+			cursor:"activities_stream_cursor_input",
+			where:"activities_bool_exp"
+		},
 		burns:{
 			distinct_on:"burns_select_column",
 			order_by:"burns_order_by",
@@ -6131,6 +6743,23 @@ export const AllTypesProps: Record<string,any> = {
 			cursor:"nominees_stream_cursor_input",
 			where:"nominees_bool_exp"
 		},
+		org_members:{
+			distinct_on:"org_members_select_column",
+			order_by:"org_members_order_by",
+			where:"org_members_bool_exp"
+		},
+		org_members_aggregate:{
+			distinct_on:"org_members_select_column",
+			order_by:"org_members_order_by",
+			where:"org_members_bool_exp"
+		},
+		org_members_by_pk:{
+			id:"bigint"
+		},
+		org_members_stream:{
+			cursor:"org_members_stream_cursor_input",
+			where:"org_members_bool_exp"
+		},
 		organizations:{
 			distinct_on:"organizations_select_column",
 			order_by:"organizations_order_by",
@@ -6364,6 +6993,14 @@ export const AllTypesProps: Record<string,any> = {
 			where:"vouches_bool_exp"
 		}
 	},
+	teammates_aggregate_bool_exp:{
+		count:"teammates_aggregate_bool_exp_count"
+	},
+	teammates_aggregate_bool_exp_count:{
+		arguments:"teammates_select_column",
+		filter:"teammates_bool_exp",
+		predicate:"Int_comparison_exp"
+	},
 	teammates_aggregate_fields:{
 		count:{
 			columns:"teammates_select_column"
@@ -6522,6 +7159,14 @@ export const AllTypesProps: Record<string,any> = {
 		_lte:"timestamptz",
 		_neq:"timestamptz",
 		_nin:"timestamptz"
+	},
+	token_gifts_aggregate_bool_exp:{
+		count:"token_gifts_aggregate_bool_exp_count"
+	},
+	token_gifts_aggregate_bool_exp_count:{
+		arguments:"token_gifts_select_column",
+		filter:"token_gifts_bool_exp",
+		predicate:"Int_comparison_exp"
 	},
 	token_gifts_aggregate_fields:{
 		count:{
@@ -6872,6 +7517,26 @@ export const AllTypesProps: Record<string,any> = {
 			where:"vouches_bool_exp"
 		}
 	},
+	users_aggregate_bool_exp:{
+		bool_and:"users_aggregate_bool_exp_bool_and",
+		bool_or:"users_aggregate_bool_exp_bool_or",
+		count:"users_aggregate_bool_exp_count"
+	},
+	users_aggregate_bool_exp_bool_and:{
+		arguments:"users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns",
+		filter:"users_bool_exp",
+		predicate:"Boolean_comparison_exp"
+	},
+	users_aggregate_bool_exp_bool_or:{
+		arguments:"users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns",
+		filter:"users_bool_exp",
+		predicate:"Boolean_comparison_exp"
+	},
+	users_aggregate_bool_exp_count:{
+		arguments:"users_select_column",
+		filter:"users_bool_exp",
+		predicate:"Int_comparison_exp"
+	},
 	users_aggregate_fields:{
 		count:{
 			columns:"users_select_column"
@@ -6910,10 +7575,13 @@ export const AllTypesProps: Record<string,any> = {
 		address:"String_comparison_exp",
 		bio:"String_comparison_exp",
 		burns:"burns_bool_exp",
+		burns_aggregate:"burns_aggregate_bool_exp",
 		circle:"circles_bool_exp",
 		circle_api_keys:"circle_api_keys_bool_exp",
+		circle_api_keys_aggregate:"circle_api_keys_aggregate_bool_exp",
 		circle_id:"bigint_comparison_exp",
 		contributions:"contributions_bool_exp",
+		contributions_aggregate:"contributions_aggregate_bool_exp",
 		created_at:"timestamp_comparison_exp",
 		deleted_at:"timestamp_comparison_exp",
 		entrance:"String_comparison_exp",
@@ -6927,16 +7595,22 @@ export const AllTypesProps: Record<string,any> = {
 		non_giver:"Boolean_comparison_exp",
 		non_receiver:"Boolean_comparison_exp",
 		pending_received_gifts:"pending_token_gifts_bool_exp",
+		pending_received_gifts_aggregate:"pending_token_gifts_aggregate_bool_exp",
 		pending_sent_gifts:"pending_token_gifts_bool_exp",
+		pending_sent_gifts_aggregate:"pending_token_gifts_aggregate_bool_exp",
 		profile:"profiles_bool_exp",
 		received_gifts:"token_gifts_bool_exp",
+		received_gifts_aggregate:"token_gifts_aggregate_bool_exp",
 		role:"Int_comparison_exp",
 		sent_gifts:"token_gifts_bool_exp",
+		sent_gifts_aggregate:"token_gifts_aggregate_bool_exp",
 		starting_tokens:"Int_comparison_exp",
 		teammates:"teammates_bool_exp",
+		teammates_aggregate:"teammates_aggregate_bool_exp",
 		updated_at:"timestamp_comparison_exp",
 		user_private:"user_private_bool_exp",
-		vouches:"vouches_bool_exp"
+		vouches:"vouches_bool_exp",
+		vouches_aggregate:"vouches_aggregate_bool_exp"
 	},
 	users_constraint: "enum" as const,
 	users_inc_input:{
@@ -7041,6 +7715,8 @@ export const AllTypesProps: Record<string,any> = {
 		id:"bigint"
 	},
 	users_select_column: "enum" as const,
+	users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns: "enum" as const,
+	users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns: "enum" as const,
 	users_set_input:{
 		circle_id:"bigint",
 		created_at:"timestamp",
@@ -7140,6 +7816,14 @@ export const AllTypesProps: Record<string,any> = {
 		_lte:"uuid",
 		_neq:"uuid",
 		_nin:"uuid"
+	},
+	vault_transactions_aggregate_bool_exp:{
+		count:"vault_transactions_aggregate_bool_exp_count"
+	},
+	vault_transactions_aggregate_bool_exp_count:{
+		arguments:"vault_transactions_select_column",
+		filter:"vault_transactions_bool_exp",
+		predicate:"Int_comparison_exp"
 	},
 	vault_transactions_aggregate_fields:{
 		count:{
@@ -7359,7 +8043,8 @@ export const AllTypesProps: Record<string,any> = {
 		_or:"vault_tx_types_bool_exp",
 		comment:"String_comparison_exp",
 		value:"String_comparison_exp",
-		vault_transactions:"vault_transactions_bool_exp"
+		vault_transactions:"vault_transactions_bool_exp",
+		vault_transactions_aggregate:"vault_transactions_aggregate_bool_exp"
 	},
 	vault_tx_types_constraint: "enum" as const,
 	vault_tx_types_enum: "enum" as const,
@@ -7427,6 +8112,14 @@ export const AllTypesProps: Record<string,any> = {
 			where:"vault_transactions_bool_exp"
 		}
 	},
+	vaults_aggregate_bool_exp:{
+		count:"vaults_aggregate_bool_exp_count"
+	},
+	vaults_aggregate_bool_exp_count:{
+		arguments:"vaults_select_column",
+		filter:"vaults_bool_exp",
+		predicate:"Int_comparison_exp"
+	},
 	vaults_aggregate_fields:{
 		count:{
 			columns:"vaults_select_column"
@@ -7467,6 +8160,7 @@ export const AllTypesProps: Record<string,any> = {
 		decimals:"Int_comparison_exp",
 		deployment_block:"bigint_comparison_exp",
 		distributions:"distributions_bool_exp",
+		distributions_aggregate:"distributions_aggregate_bool_exp",
 		id:"bigint_comparison_exp",
 		org_id:"bigint_comparison_exp",
 		organization:"organizations_bool_exp",
@@ -7476,7 +8170,8 @@ export const AllTypesProps: Record<string,any> = {
 		token_address:"String_comparison_exp",
 		updated_at:"timestamptz_comparison_exp",
 		vault_address:"String_comparison_exp",
-		vault_transactions:"vault_transactions_bool_exp"
+		vault_transactions:"vault_transactions_bool_exp",
+		vault_transactions_aggregate:"vault_transactions_aggregate_bool_exp"
 	},
 	vaults_constraint: "enum" as const,
 	vaults_inc_input:{
@@ -7637,6 +8332,14 @@ export const AllTypesProps: Record<string,any> = {
 		deployment_block:"order_by",
 		id:"order_by",
 		org_id:"order_by"
+	},
+	vouches_aggregate_bool_exp:{
+		count:"vouches_aggregate_bool_exp_count"
+	},
+	vouches_aggregate_bool_exp_count:{
+		arguments:"vouches_select_column",
+		filter:"vouches_bool_exp",
+		predicate:"Int_comparison_exp"
 	},
 	vouches_aggregate_fields:{
 		count:{
@@ -7894,6 +8597,153 @@ export const ReturnTypes: Record<string,any> = {
 		id:"Int",
 		nominee:"nominees"
 	},
+	activities:{
+		action:"String",
+		actor_profile:"profiles",
+		actor_profile_id:"bigint",
+		circle:"circles",
+		circle_id:"bigint",
+		contribution:"contributions",
+		contribution_id:"bigint",
+		created_at:"timestamptz",
+		epoch:"epochs",
+		epoch_id:"bigint",
+		id:"bigint",
+		organization:"organizations",
+		organization_id:"bigint",
+		target_profile:"profiles",
+		target_profile_id:"bigint",
+		updated_at:"timestamptz",
+		user:"users",
+		user_id:"bigint"
+	},
+	activities_aggregate:{
+		aggregate:"activities_aggregate_fields",
+		nodes:"activities"
+	},
+	activities_aggregate_fields:{
+		avg:"activities_avg_fields",
+		count:"Int",
+		max:"activities_max_fields",
+		min:"activities_min_fields",
+		stddev:"activities_stddev_fields",
+		stddev_pop:"activities_stddev_pop_fields",
+		stddev_samp:"activities_stddev_samp_fields",
+		sum:"activities_sum_fields",
+		var_pop:"activities_var_pop_fields",
+		var_samp:"activities_var_samp_fields",
+		variance:"activities_variance_fields"
+	},
+	activities_avg_fields:{
+		actor_profile_id:"Float",
+		circle_id:"Float",
+		contribution_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		organization_id:"Float",
+		target_profile_id:"Float",
+		user_id:"Float"
+	},
+	activities_max_fields:{
+		action:"String",
+		actor_profile_id:"bigint",
+		circle_id:"bigint",
+		contribution_id:"bigint",
+		created_at:"timestamptz",
+		epoch_id:"bigint",
+		id:"bigint",
+		organization_id:"bigint",
+		target_profile_id:"bigint",
+		updated_at:"timestamptz",
+		user_id:"bigint"
+	},
+	activities_min_fields:{
+		action:"String",
+		actor_profile_id:"bigint",
+		circle_id:"bigint",
+		contribution_id:"bigint",
+		created_at:"timestamptz",
+		epoch_id:"bigint",
+		id:"bigint",
+		organization_id:"bigint",
+		target_profile_id:"bigint",
+		updated_at:"timestamptz",
+		user_id:"bigint"
+	},
+	activities_mutation_response:{
+		affected_rows:"Int",
+		returning:"activities"
+	},
+	activities_stddev_fields:{
+		actor_profile_id:"Float",
+		circle_id:"Float",
+		contribution_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		organization_id:"Float",
+		target_profile_id:"Float",
+		user_id:"Float"
+	},
+	activities_stddev_pop_fields:{
+		actor_profile_id:"Float",
+		circle_id:"Float",
+		contribution_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		organization_id:"Float",
+		target_profile_id:"Float",
+		user_id:"Float"
+	},
+	activities_stddev_samp_fields:{
+		actor_profile_id:"Float",
+		circle_id:"Float",
+		contribution_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		organization_id:"Float",
+		target_profile_id:"Float",
+		user_id:"Float"
+	},
+	activities_sum_fields:{
+		actor_profile_id:"bigint",
+		circle_id:"bigint",
+		contribution_id:"bigint",
+		epoch_id:"bigint",
+		id:"bigint",
+		organization_id:"bigint",
+		target_profile_id:"bigint",
+		user_id:"bigint"
+	},
+	activities_var_pop_fields:{
+		actor_profile_id:"Float",
+		circle_id:"Float",
+		contribution_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		organization_id:"Float",
+		target_profile_id:"Float",
+		user_id:"Float"
+	},
+	activities_var_samp_fields:{
+		actor_profile_id:"Float",
+		circle_id:"Float",
+		contribution_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		organization_id:"Float",
+		target_profile_id:"Float",
+		user_id:"Float"
+	},
+	activities_variance_fields:{
+		actor_profile_id:"Float",
+		circle_id:"Float",
+		contribution_id:"Float",
+		epoch_id:"Float",
+		id:"Float",
+		organization_id:"Float",
+		target_profile_id:"Float",
+		user_id:"Float"
+	},
 	bigint: `scalar.bigint` as const,
 	burns:{
 		circle:"circles",
@@ -8033,6 +8883,7 @@ export const ReturnTypes: Record<string,any> = {
 		created_at:"timestamptz",
 		created_by:"bigint",
 		hash:"String",
+		manage_users:"Boolean",
 		name:"String",
 		read_circle:"Boolean",
 		read_contributions:"Boolean",
@@ -10126,6 +10977,8 @@ export const ReturnTypes: Record<string,any> = {
 		deleteEpoch:"DeleteEpochResponse",
 		deleteUser:"ConfirmationResponse",
 		deleteUsers:"DeleteUsersResponse",
+		delete_activities:"activities_mutation_response",
+		delete_activities_by_pk:"activities",
 		delete_burns:"burns_mutation_response",
 		delete_burns_by_pk:"burns",
 		delete_circle_api_keys:"circle_api_keys_mutation_response",
@@ -10168,6 +11021,8 @@ export const ReturnTypes: Record<string,any> = {
 		delete_member_epoch_pgives_by_pk:"member_epoch_pgives",
 		delete_nominees:"nominees_mutation_response",
 		delete_nominees_by_pk:"nominees",
+		delete_org_members:"org_members_mutation_response",
+		delete_org_members_by_pk:"org_members",
 		delete_organizations:"organizations_mutation_response",
 		delete_organizations_by_pk:"organizations",
 		delete_pending_gift_private:"pending_gift_private_mutation_response",
@@ -10195,6 +11050,8 @@ export const ReturnTypes: Record<string,any> = {
 		delete_vouches_by_pk:"vouches",
 		endEpoch:"EpochResponse",
 		generateApiKey:"GenerateApiKeyResponse",
+		insert_activities:"activities_mutation_response",
+		insert_activities_one:"activities",
 		insert_burns:"burns_mutation_response",
 		insert_burns_one:"burns",
 		insert_circle_api_keys:"circle_api_keys_mutation_response",
@@ -10239,6 +11096,8 @@ export const ReturnTypes: Record<string,any> = {
 		insert_member_epoch_pgives_one:"member_epoch_pgives",
 		insert_nominees:"nominees_mutation_response",
 		insert_nominees_one:"nominees",
+		insert_org_members:"org_members_mutation_response",
+		insert_org_members_one:"org_members",
 		insert_organizations:"organizations_mutation_response",
 		insert_organizations_one:"organizations",
 		insert_pending_gift_private:"pending_gift_private_mutation_response",
@@ -10278,6 +11137,9 @@ export const ReturnTypes: Record<string,any> = {
 		updateProfile:"UpdateProfileResponse",
 		updateTeammates:"UpdateTeammatesResponse",
 		updateUser:"UserResponse",
+		update_activities:"activities_mutation_response",
+		update_activities_by_pk:"activities",
+		update_activities_many:"activities_mutation_response",
 		update_burns:"burns_mutation_response",
 		update_burns_by_pk:"burns",
 		update_burns_many:"burns_mutation_response",
@@ -10342,6 +11204,9 @@ export const ReturnTypes: Record<string,any> = {
 		update_nominees:"nominees_mutation_response",
 		update_nominees_by_pk:"nominees",
 		update_nominees_many:"nominees_mutation_response",
+		update_org_members:"org_members_mutation_response",
+		update_org_members_by_pk:"org_members",
+		update_org_members_many:"org_members_mutation_response",
 		update_organizations:"organizations_mutation_response",
 		update_organizations_by_pk:"organizations",
 		update_organizations_many:"organizations_mutation_response",
@@ -10510,6 +11375,104 @@ export const ReturnTypes: Record<string,any> = {
 		vouches_required:"Float"
 	},
 	numeric: `scalar.numeric` as const,
+	org_members:{
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		id:"bigint",
+		org_id:"bigint",
+		organization:"organizations",
+		profile:"profiles",
+		profile_id:"bigint",
+		role:"Int",
+		updated_at:"timestamp"
+	},
+	org_members_aggregate:{
+		aggregate:"org_members_aggregate_fields",
+		nodes:"org_members"
+	},
+	org_members_aggregate_fields:{
+		avg:"org_members_avg_fields",
+		count:"Int",
+		max:"org_members_max_fields",
+		min:"org_members_min_fields",
+		stddev:"org_members_stddev_fields",
+		stddev_pop:"org_members_stddev_pop_fields",
+		stddev_samp:"org_members_stddev_samp_fields",
+		sum:"org_members_sum_fields",
+		var_pop:"org_members_var_pop_fields",
+		var_samp:"org_members_var_samp_fields",
+		variance:"org_members_variance_fields"
+	},
+	org_members_avg_fields:{
+		id:"Float",
+		org_id:"Float",
+		profile_id:"Float",
+		role:"Float"
+	},
+	org_members_max_fields:{
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		id:"bigint",
+		org_id:"bigint",
+		profile_id:"bigint",
+		role:"Int",
+		updated_at:"timestamp"
+	},
+	org_members_min_fields:{
+		created_at:"timestamp",
+		deleted_at:"timestamp",
+		id:"bigint",
+		org_id:"bigint",
+		profile_id:"bigint",
+		role:"Int",
+		updated_at:"timestamp"
+	},
+	org_members_mutation_response:{
+		affected_rows:"Int",
+		returning:"org_members"
+	},
+	org_members_stddev_fields:{
+		id:"Float",
+		org_id:"Float",
+		profile_id:"Float",
+		role:"Float"
+	},
+	org_members_stddev_pop_fields:{
+		id:"Float",
+		org_id:"Float",
+		profile_id:"Float",
+		role:"Float"
+	},
+	org_members_stddev_samp_fields:{
+		id:"Float",
+		org_id:"Float",
+		profile_id:"Float",
+		role:"Float"
+	},
+	org_members_sum_fields:{
+		id:"bigint",
+		org_id:"bigint",
+		profile_id:"bigint",
+		role:"Int"
+	},
+	org_members_var_pop_fields:{
+		id:"Float",
+		org_id:"Float",
+		profile_id:"Float",
+		role:"Float"
+	},
+	org_members_var_samp_fields:{
+		id:"Float",
+		org_id:"Float",
+		profile_id:"Float",
+		role:"Float"
+	},
+	org_members_variance_fields:{
+		id:"Float",
+		org_id:"Float",
+		profile_id:"Float",
+		role:"Float"
+	},
 	organizations:{
 		circles:"circles",
 		circles_aggregate:"circles_aggregate",
@@ -10518,6 +11481,8 @@ export const ReturnTypes: Record<string,any> = {
 		id:"bigint",
 		is_verified:"Boolean",
 		logo:"String",
+		members:"org_members",
+		members_aggregate:"org_members_aggregate",
 		name:"String",
 		profile:"profiles",
 		sample:"Boolean",
@@ -11025,6 +11990,8 @@ export const ReturnTypes: Record<string,any> = {
 		name:"citext",
 		nominees:"nominees",
 		nominees_aggregate:"nominees_aggregate",
+		org_members:"org_members",
+		org_members_aggregate:"org_members_aggregate",
 		skills:"String",
 		telegram_username:"String",
 		twitter_username:"String",
@@ -11122,6 +12089,9 @@ export const ReturnTypes: Record<string,any> = {
 		id:"Float"
 	},
 	query_root:{
+		activities:"activities",
+		activities_aggregate:"activities_aggregate",
+		activities_by_pk:"activities",
 		burns:"burns",
 		burns_aggregate:"burns_aggregate",
 		burns_by_pk:"burns",
@@ -11187,6 +12157,9 @@ export const ReturnTypes: Record<string,any> = {
 		nominees:"nominees",
 		nominees_aggregate:"nominees_aggregate",
 		nominees_by_pk:"nominees",
+		org_members:"org_members",
+		org_members_aggregate:"org_members_aggregate",
+		org_members_by_pk:"org_members",
 		organizations:"organizations",
 		organizations_aggregate:"organizations_aggregate",
 		organizations_by_pk:"organizations",
@@ -11229,6 +12202,10 @@ export const ReturnTypes: Record<string,any> = {
 		vouches_by_pk:"vouches"
 	},
 	subscription_root:{
+		activities:"activities",
+		activities_aggregate:"activities_aggregate",
+		activities_by_pk:"activities",
+		activities_stream:"activities",
 		burns:"burns",
 		burns_aggregate:"burns_aggregate",
 		burns_by_pk:"burns",
@@ -11315,6 +12292,10 @@ export const ReturnTypes: Record<string,any> = {
 		nominees_aggregate:"nominees_aggregate",
 		nominees_by_pk:"nominees",
 		nominees_stream:"nominees",
+		org_members:"org_members",
+		org_members_aggregate:"org_members_aggregate",
+		org_members_by_pk:"org_members",
+		org_members_stream:"org_members",
 		organizations:"organizations",
 		organizations_aggregate:"organizations_aggregate",
 		organizations_by_pk:"organizations",

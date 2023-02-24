@@ -15,12 +15,6 @@ export async function createUsersMutation({ circleId, users, apiKey }: Props) {
 			{ payload: { circle_id: circleId, users } },
 			{
 				id: true,
-				UserResponse: {
-					address: true,
-					profile: {
-						name: true,
-					},
-				},
 			}],
 	});
 
