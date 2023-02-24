@@ -215,7 +215,11 @@ export default class Help extends SlashCommand {
 					
 					await ctx.send(`Profile: ${profile?.address} - ${JSON.stringify(profile?.name)}`);
 					if (profile) {
-						const user = await createUsersMutation({ circleId: Number(circle_id), users: [profile], apiKey: '' });
+						const user = await createUsersMutation({
+							circleId: Number(circle_id),
+							users: [{ ...profile, entrance: 'manual-address-entry' }],
+							apiKey: '',
+						});
 						await ctx.send(JSON.stringify(user));
 					} else {
 						await ctx.send('Profile not found');
