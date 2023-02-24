@@ -48,7 +48,7 @@ export async function handleAddUserCircle(ctx: ComponentContext): Promise<void> 
 
 		const user = await createUsersMutation({ circleId: Number(circle_id), users: [profile], apiKey });
 		if (user) {
-			await ctx.send({ content: `User ${user.UserResponse?.profile.name} added to this circle` });
+			await ctx.send({ content: `User ${profile.name} added to this circle` });
 		}
 	} catch (error) {
 		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleAddUserCircle] ${error}`);

@@ -23,7 +23,7 @@ class HasuraWebSocket extends WebSocket {
 export const apiSubscription = (options: chainOptions) => {
   const client = createClient({
     url: String(options[0]),
-    webSocketImpl: HasuraWebSocket
+    webSocketImpl: HasuraWebSocket,
   });
 
   const ws = new Proxy(
@@ -1052,6 +1052,7 @@ users_aggregate?: [{	/** distinct select on columns */
 	circle_id: number | Variable<any, string>,
 	create_contributions?: boolean | undefined | null | Variable<any, string>,
 	create_vouches?: boolean | undefined | null | Variable<any, string>,
+	manage_users?: boolean | undefined | null | Variable<any, string>,
 	name: string | Variable<any, string>,
 	read_circle?: boolean | undefined | null | Variable<any, string>,
 	read_contributions?: boolean | undefined | null | Variable<any, string>,
@@ -1315,6 +1316,326 @@ users_aggregate?: [{	/** distinct select on columns */
 	nominee?:ValueTypes["nominees"],
 		__typename?: boolean | `@${string}`
 }>;
+	/** Table containing activity on our platform */
+["activities"]: AliasType<{
+	action?:boolean | `@${string}`,
+	/** An object relationship */
+	actor_profile?:ValueTypes["profiles"],
+	actor_profile_id?:boolean | `@${string}`,
+	/** An object relationship */
+	circle?:ValueTypes["circles"],
+	circle_id?:boolean | `@${string}`,
+	/** An object relationship */
+	contribution?:ValueTypes["contributions"],
+	contribution_id?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	/** An object relationship */
+	epoch?:ValueTypes["epochs"],
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	/** An object relationship */
+	organization?:ValueTypes["organizations"],
+	organization_id?:boolean | `@${string}`,
+	/** An object relationship */
+	target_profile?:ValueTypes["profiles"],
+	target_profile_id?:boolean | `@${string}`,
+	updated_at?:boolean | `@${string}`,
+	/** An object relationship */
+	user?:ValueTypes["users"],
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregated selection of "activities" */
+["activities_aggregate"]: AliasType<{
+	aggregate?:ValueTypes["activities_aggregate_fields"],
+	nodes?:ValueTypes["activities"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate fields of "activities" */
+["activities_aggregate_fields"]: AliasType<{
+	avg?:ValueTypes["activities_avg_fields"],
+count?: [{	columns?: Array<ValueTypes["activities_select_column"]> | undefined | null | Variable<any, string>,	distinct?: boolean | undefined | null | Variable<any, string>},boolean | `@${string}`],
+	max?:ValueTypes["activities_max_fields"],
+	min?:ValueTypes["activities_min_fields"],
+	stddev?:ValueTypes["activities_stddev_fields"],
+	stddev_pop?:ValueTypes["activities_stddev_pop_fields"],
+	stddev_samp?:ValueTypes["activities_stddev_samp_fields"],
+	sum?:ValueTypes["activities_sum_fields"],
+	var_pop?:ValueTypes["activities_var_pop_fields"],
+	var_samp?:ValueTypes["activities_var_samp_fields"],
+	variance?:ValueTypes["activities_variance_fields"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate avg on columns */
+["activities_avg_fields"]: AliasType<{
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Boolean expression to filter rows from the table "activities". All fields are combined with a logical 'AND'. */
+["activities_bool_exp"]: {
+	_and?: Array<ValueTypes["activities_bool_exp"]> | undefined | null | Variable<any, string>,
+	_not?: ValueTypes["activities_bool_exp"] | undefined | null | Variable<any, string>,
+	_or?: Array<ValueTypes["activities_bool_exp"]> | undefined | null | Variable<any, string>,
+	action?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
+	actor_profile?: ValueTypes["profiles_bool_exp"] | undefined | null | Variable<any, string>,
+	actor_profile_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	circle?: ValueTypes["circles_bool_exp"] | undefined | null | Variable<any, string>,
+	circle_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	contribution?: ValueTypes["contributions_bool_exp"] | undefined | null | Variable<any, string>,
+	contribution_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["timestamptz_comparison_exp"] | undefined | null | Variable<any, string>,
+	epoch?: ValueTypes["epochs_bool_exp"] | undefined | null | Variable<any, string>,
+	epoch_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	organization?: ValueTypes["organizations_bool_exp"] | undefined | null | Variable<any, string>,
+	organization_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	target_profile?: ValueTypes["profiles_bool_exp"] | undefined | null | Variable<any, string>,
+	target_profile_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	updated_at?: ValueTypes["timestamptz_comparison_exp"] | undefined | null | Variable<any, string>,
+	user?: ValueTypes["users_bool_exp"] | undefined | null | Variable<any, string>,
+	user_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>
+};
+	/** unique or primary key constraints on table "activities" */
+["activities_constraint"]:activities_constraint;
+	/** input type for incrementing numeric columns in table "activities" */
+["activities_inc_input"]: {
+	actor_profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	contribution_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	epoch_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	organization_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	target_profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	user_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>
+};
+	/** input type for inserting data into table "activities" */
+["activities_insert_input"]: {
+	action?: string | undefined | null | Variable<any, string>,
+	actor_profile?: ValueTypes["profiles_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	actor_profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	circle?: ValueTypes["circles_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	contribution?: ValueTypes["contributions_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	contribution_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	epoch?: ValueTypes["epochs_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	epoch_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	organization?: ValueTypes["organizations_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	organization_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	target_profile?: ValueTypes["profiles_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	target_profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	updated_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	user?: ValueTypes["users_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	user_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>
+};
+	/** aggregate max on columns */
+["activities_max_fields"]: AliasType<{
+	action?:boolean | `@${string}`,
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	updated_at?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate min on columns */
+["activities_min_fields"]: AliasType<{
+	action?:boolean | `@${string}`,
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	updated_at?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** response of any mutation on the table "activities" */
+["activities_mutation_response"]: AliasType<{
+	/** number of rows affected by the mutation */
+	affected_rows?:boolean | `@${string}`,
+	/** data from the rows affected by the mutation */
+	returning?:ValueTypes["activities"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** on_conflict condition type for table "activities" */
+["activities_on_conflict"]: {
+	constraint: ValueTypes["activities_constraint"] | Variable<any, string>,
+	update_columns: Array<ValueTypes["activities_update_column"]> | Variable<any, string>,
+	where?: ValueTypes["activities_bool_exp"] | undefined | null | Variable<any, string>
+};
+	/** Ordering options when selecting data from "activities". */
+["activities_order_by"]: {
+	action?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	actor_profile?: ValueTypes["profiles_order_by"] | undefined | null | Variable<any, string>,
+	actor_profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	circle?: ValueTypes["circles_order_by"] | undefined | null | Variable<any, string>,
+	circle_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	contribution?: ValueTypes["contributions_order_by"] | undefined | null | Variable<any, string>,
+	contribution_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	epoch?: ValueTypes["epochs_order_by"] | undefined | null | Variable<any, string>,
+	epoch_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	organization?: ValueTypes["organizations_order_by"] | undefined | null | Variable<any, string>,
+	organization_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	target_profile?: ValueTypes["profiles_order_by"] | undefined | null | Variable<any, string>,
+	target_profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	updated_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	user?: ValueTypes["users_order_by"] | undefined | null | Variable<any, string>,
+	user_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** primary key columns input for table: activities */
+["activities_pk_columns_input"]: {
+	id: ValueTypes["bigint"] | Variable<any, string>
+};
+	/** select columns of table "activities" */
+["activities_select_column"]:activities_select_column;
+	/** input type for updating data in table "activities" */
+["activities_set_input"]: {
+	action?: string | undefined | null | Variable<any, string>,
+	actor_profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	contribution_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	epoch_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	organization_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	target_profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	updated_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	user_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>
+};
+	/** aggregate stddev on columns */
+["activities_stddev_fields"]: AliasType<{
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_pop on columns */
+["activities_stddev_pop_fields"]: AliasType<{
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_samp on columns */
+["activities_stddev_samp_fields"]: AliasType<{
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Streaming cursor of the table "activities" */
+["activities_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ValueTypes["activities_stream_cursor_value_input"] | Variable<any, string>,
+	/** cursor ordering */
+	ordering?: ValueTypes["cursor_ordering"] | undefined | null | Variable<any, string>
+};
+	/** Initial value of the column from where the streaming should start */
+["activities_stream_cursor_value_input"]: {
+	action?: string | undefined | null | Variable<any, string>,
+	actor_profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	contribution_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	epoch_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	organization_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	target_profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	updated_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
+	user_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>
+};
+	/** aggregate sum on columns */
+["activities_sum_fields"]: AliasType<{
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** update columns of table "activities" */
+["activities_update_column"]:activities_update_column;
+	["activities_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["activities_inc_input"] | undefined | null | Variable<any, string>,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["activities_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
+	where: ValueTypes["activities_bool_exp"] | Variable<any, string>
+};
+	/** aggregate var_pop on columns */
+["activities_var_pop_fields"]: AliasType<{
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate var_samp on columns */
+["activities_var_samp_fields"]: AliasType<{
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate variance on columns */
+["activities_variance_fields"]: AliasType<{
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["bigint"]:unknown;
 	/** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
 ["bigint_comparison_exp"]: {
@@ -1353,6 +1674,15 @@ users_aggregate?: [{	/** distinct select on columns */
 	nodes?:ValueTypes["burns"],
 		__typename?: boolean | `@${string}`
 }>;
+	["burns_aggregate_bool_exp"]: {
+	count?: ValueTypes["burns_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["burns_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["burns_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["burns_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "burns" */
 ["burns_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["burns_avg_fields"],
@@ -1661,6 +1991,7 @@ count?: [{	columns?: Array<ValueTypes["burns_select_column"]> | undefined | null
 	_inc?: ValueTypes["burns_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["burns_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["burns_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -1738,6 +2069,7 @@ count?: [{	columns?: Array<ValueTypes["burns_select_column"]> | undefined | null
 	created_at?:boolean | `@${string}`,
 	created_by?:boolean | `@${string}`,
 	hash?:boolean | `@${string}`,
+	manage_users?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
 	read_circle?:boolean | `@${string}`,
 	read_contributions?:boolean | `@${string}`,
@@ -1756,6 +2088,29 @@ count?: [{	columns?: Array<ValueTypes["burns_select_column"]> | undefined | null
 	nodes?:ValueTypes["circle_api_keys"],
 		__typename?: boolean | `@${string}`
 }>;
+	["circle_api_keys_aggregate_bool_exp"]: {
+	bool_and?: ValueTypes["circle_api_keys_aggregate_bool_exp_bool_and"] | undefined | null | Variable<any, string>,
+	bool_or?: ValueTypes["circle_api_keys_aggregate_bool_exp_bool_or"] | undefined | null | Variable<any, string>,
+	count?: ValueTypes["circle_api_keys_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["circle_api_keys_aggregate_bool_exp_bool_and"]: {
+	arguments: ValueTypes["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns"] | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["circle_api_keys_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Boolean_comparison_exp"] | Variable<any, string>
+};
+	["circle_api_keys_aggregate_bool_exp_bool_or"]: {
+	arguments: ValueTypes["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns"] | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["circle_api_keys_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Boolean_comparison_exp"] | Variable<any, string>
+};
+	["circle_api_keys_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["circle_api_keys_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["circle_api_keys_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "circle_api_keys" */
 ["circle_api_keys_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["circle_api_keys_avg_fields"],
@@ -1815,6 +2170,7 @@ count?: [{	columns?: Array<ValueTypes["circle_api_keys_select_column"]> | undefi
 	created_at?: ValueTypes["timestamptz_comparison_exp"] | undefined | null | Variable<any, string>,
 	created_by?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
 	hash?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
+	manage_users?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	name?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	read_circle?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	read_contributions?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
@@ -1843,6 +2199,7 @@ count?: [{	columns?: Array<ValueTypes["circle_api_keys_select_column"]> | undefi
 	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
 	created_by?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	hash?: string | undefined | null | Variable<any, string>,
+	manage_users?: boolean | undefined | null | Variable<any, string>,
 	name?: string | undefined | null | Variable<any, string>,
 	read_circle?: boolean | undefined | null | Variable<any, string>,
 	read_contributions?: boolean | undefined | null | Variable<any, string>,
@@ -1918,6 +2275,7 @@ count?: [{	columns?: Array<ValueTypes["circle_api_keys_select_column"]> | undefi
 	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	created_by?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	hash?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	manage_users?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	read_circle?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	read_contributions?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -1935,6 +2293,10 @@ count?: [{	columns?: Array<ValueTypes["circle_api_keys_select_column"]> | undefi
 };
 	/** select columns of table "circle_api_keys" */
 ["circle_api_keys_select_column"]:circle_api_keys_select_column;
+	/** select "circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns" columns of table "circle_api_keys" */
+["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns"]:circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns;
+	/** select "circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns" columns of table "circle_api_keys" */
+["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns"]:circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "circle_api_keys" */
 ["circle_api_keys_set_input"]: {
 	circle_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
@@ -1943,6 +2305,7 @@ count?: [{	columns?: Array<ValueTypes["circle_api_keys_select_column"]> | undefi
 	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
 	created_by?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	hash?: string | undefined | null | Variable<any, string>,
+	manage_users?: boolean | undefined | null | Variable<any, string>,
 	name?: string | undefined | null | Variable<any, string>,
 	read_circle?: boolean | undefined | null | Variable<any, string>,
 	read_contributions?: boolean | undefined | null | Variable<any, string>,
@@ -2002,6 +2365,7 @@ count?: [{	columns?: Array<ValueTypes["circle_api_keys_select_column"]> | undefi
 	created_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
 	created_by?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	hash?: string | undefined | null | Variable<any, string>,
+	manage_users?: boolean | undefined | null | Variable<any, string>,
 	name?: string | undefined | null | Variable<any, string>,
 	read_circle?: boolean | undefined | null | Variable<any, string>,
 	read_contributions?: boolean | undefined | null | Variable<any, string>,
@@ -2031,6 +2395,7 @@ count?: [{	columns?: Array<ValueTypes["circle_api_keys_select_column"]> | undefi
 	_inc?: ValueTypes["circle_api_keys_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["circle_api_keys_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["circle_api_keys_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -2086,6 +2451,15 @@ data?: [{	/** JSON select path */
 	nodes?:ValueTypes["circle_integrations"],
 		__typename?: boolean | `@${string}`
 }>;
+	["circle_integrations_aggregate_bool_exp"]: {
+	count?: ValueTypes["circle_integrations_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["circle_integrations_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["circle_integrations_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["circle_integrations_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "circle_integrations" */
 ["circle_integrations_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["circle_integrations_avg_fields"],
@@ -2311,6 +2685,7 @@ count?: [{	columns?: Array<ValueTypes["circle_integrations_select_column"]> | un
 	_inc?: ValueTypes["circle_integrations_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["circle_integrations_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["circle_integrations_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -2364,6 +2739,15 @@ json?: [{	/** JSON select path */
 	nodes?:ValueTypes["circle_metadata"],
 		__typename?: boolean | `@${string}`
 }>;
+	["circle_metadata_aggregate_bool_exp"]: {
+	count?: ValueTypes["circle_metadata_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["circle_metadata_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["circle_metadata_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["circle_metadata_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "circle_metadata" */
 ["circle_metadata_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["circle_metadata_avg_fields"],
@@ -2571,6 +2955,7 @@ count?: [{	columns?: Array<ValueTypes["circle_metadata_select_column"]> | undefi
 	_inc?: ValueTypes["circle_metadata_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["circle_metadata_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["circle_metadata_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -2733,6 +3118,7 @@ count?: [{	columns?: Array<ValueTypes["circle_private_select_column"]> | undefin
 	_inc?: ValueTypes["circle_private_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["circle_private_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["circle_private_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -2918,6 +3304,7 @@ count?: [{	columns?: Array<ValueTypes["circle_share_tokens_select_column"]> | un
 	_inc?: ValueTypes["circle_share_tokens_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["circle_share_tokens_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["circle_share_tokens_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -3125,6 +3512,29 @@ vault_transactions_aggregate?: [{	/** distinct select on columns */
 	nodes?:ValueTypes["circles"],
 		__typename?: boolean | `@${string}`
 }>;
+	["circles_aggregate_bool_exp"]: {
+	bool_and?: ValueTypes["circles_aggregate_bool_exp_bool_and"] | undefined | null | Variable<any, string>,
+	bool_or?: ValueTypes["circles_aggregate_bool_exp_bool_or"] | undefined | null | Variable<any, string>,
+	count?: ValueTypes["circles_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["circles_aggregate_bool_exp_bool_and"]: {
+	arguments: ValueTypes["circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns"] | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["circles_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Boolean_comparison_exp"] | Variable<any, string>
+};
+	["circles_aggregate_bool_exp_bool_or"]: {
+	arguments: ValueTypes["circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns"] | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["circles_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Boolean_comparison_exp"] | Variable<any, string>
+};
+	["circles_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["circles_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["circles_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "circles" */
 ["circles_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["circles_avg_fields"],
@@ -3188,44 +3598,56 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	_or?: Array<ValueTypes["circles_bool_exp"]> | undefined | null | Variable<any, string>,
 	alloc_text?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	api_keys?: ValueTypes["circle_api_keys_bool_exp"] | undefined | null | Variable<any, string>,
+	api_keys_aggregate?: ValueTypes["circle_api_keys_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	auto_opt_out?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	burns?: ValueTypes["burns_bool_exp"] | undefined | null | Variable<any, string>,
+	burns_aggregate?: ValueTypes["burns_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	circle_metadata?: ValueTypes["circle_metadata_bool_exp"] | undefined | null | Variable<any, string>,
+	circle_metadata_aggregate?: ValueTypes["circle_metadata_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	circle_private?: ValueTypes["circle_private_bool_exp"] | undefined | null | Variable<any, string>,
 	cont_help_text?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	contact?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	contributions?: ValueTypes["contributions_bool_exp"] | undefined | null | Variable<any, string>,
+	contributions_aggregate?: ValueTypes["contributions_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	default_opt_in?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	deleted_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	discord_access_tokens?: ValueTypes["discord_circle_api_tokens_bool_exp"] | undefined | null | Variable<any, string>,
+	discord_access_tokens_aggregate?: ValueTypes["discord_circle_api_tokens_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	discord_circle?: ValueTypes["discord_roles_circles_bool_exp"] | undefined | null | Variable<any, string>,
 	discord_webhook?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	epochs?: ValueTypes["epochs_bool_exp"] | undefined | null | Variable<any, string>,
+	epochs_aggregate?: ValueTypes["epochs_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	fixed_payment_token_type?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	fixed_payment_vault_id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	guild_id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	guild_role_id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
 	integrations?: ValueTypes["circle_integrations_bool_exp"] | undefined | null | Variable<any, string>,
+	integrations_aggregate?: ValueTypes["circle_integrations_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	is_verified?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	logo?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	min_vouches?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	name?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	nomination_days_limit?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	nominees?: ValueTypes["nominees_bool_exp"] | undefined | null | Variable<any, string>,
+	nominees_aggregate?: ValueTypes["nominees_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	only_giver_vouch?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	organization?: ValueTypes["organizations_bool_exp"] | undefined | null | Variable<any, string>,
 	organization_id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	pending_token_gifts?: ValueTypes["pending_token_gifts_bool_exp"] | undefined | null | Variable<any, string>,
+	pending_token_gifts_aggregate?: ValueTypes["pending_token_gifts_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	show_pending_gives?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	team_selection?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	telegram_id?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	token_gifts?: ValueTypes["token_gifts_bool_exp"] | undefined | null | Variable<any, string>,
+	token_gifts_aggregate?: ValueTypes["token_gifts_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	token_name?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	users?: ValueTypes["users_bool_exp"] | undefined | null | Variable<any, string>,
+	users_aggregate?: ValueTypes["users_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	vault_transactions?: ValueTypes["vault_transactions_bool_exp"] | undefined | null | Variable<any, string>,
+	vault_transactions_aggregate?: ValueTypes["vault_transactions_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	vouching?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	vouching_text?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>
 };
@@ -3451,6 +3873,10 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 };
 	/** select columns of table "circles" */
 ["circles_select_column"]:circles_select_column;
+	/** select "circles_aggregate_bool_exp_bool_and_arguments_columns" columns of table "circles" */
+["circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns"]:circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns;
+	/** select "circles_aggregate_bool_exp_bool_or_arguments_columns" columns of table "circles" */
+["circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns"]:circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "circles" */
 ["circles_set_input"]: {
 	alloc_text?: string | undefined | null | Variable<any, string>,
@@ -3609,6 +4035,7 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	_inc?: ValueTypes["circles_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["circles_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["circles_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -3732,6 +4159,15 @@ count?: [{	columns?: Array<ValueTypes["circles_select_column"]> | undefined | nu
 	nodes?:ValueTypes["claims"],
 		__typename?: boolean | `@${string}`
 }>;
+	["claims_aggregate_bool_exp"]: {
+	count?: ValueTypes["claims_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["claims_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["claims_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["claims_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "claims" */
 ["claims_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["claims_avg_fields"],
@@ -4044,6 +4480,7 @@ count?: [{	columns?: Array<ValueTypes["claims_select_column"]> | undefined | nul
 	_inc?: ValueTypes["claims_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["claims_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["claims_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -4128,6 +4565,15 @@ count?: [{	columns?: Array<ValueTypes["claims_select_column"]> | undefined | nul
 	nodes?:ValueTypes["contributions"],
 		__typename?: boolean | `@${string}`
 }>;
+	["contributions_aggregate_bool_exp"]: {
+	count?: ValueTypes["contributions_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["contributions_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["contributions_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["contributions_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "contributions" */
 ["contributions_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["contributions_avg_fields"],
@@ -4275,6 +4721,12 @@ count?: [{	columns?: Array<ValueTypes["contributions_select_column"]> | undefine
 	returning?:ValueTypes["contributions"],
 		__typename?: boolean | `@${string}`
 }>;
+	/** input type for inserting object relation for remote table "contributions" */
+["contributions_obj_rel_insert_input"]: {
+	data: ValueTypes["contributions_insert_input"] | Variable<any, string>,
+	/** upsert condition */
+	on_conflict?: ValueTypes["contributions_on_conflict"] | undefined | null | Variable<any, string>
+};
 	/** on_conflict condition type for table "contributions" */
 ["contributions_on_conflict"]: {
 	constraint: ValueTypes["contributions_constraint"] | Variable<any, string>,
@@ -4392,6 +4844,7 @@ count?: [{	columns?: Array<ValueTypes["contributions_select_column"]> | undefine
 	_inc?: ValueTypes["contributions_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["contributions_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["contributions_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -4463,6 +4916,15 @@ count?: [{	columns?: Array<ValueTypes["contributions_select_column"]> | undefine
 	nodes?:ValueTypes["discord_circle_api_tokens"],
 		__typename?: boolean | `@${string}`
 }>;
+	["discord_circle_api_tokens_aggregate_bool_exp"]: {
+	count?: ValueTypes["discord_circle_api_tokens_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["discord_circle_api_tokens_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["discord_circle_api_tokens_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["discord_circle_api_tokens_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "discord.circle_api_tokens" */
 ["discord_circle_api_tokens_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["discord_circle_api_tokens_avg_fields"],
@@ -4671,6 +5133,7 @@ count?: [{	columns?: Array<ValueTypes["discord_circle_api_tokens_select_column"]
 	_inc?: ValueTypes["discord_circle_api_tokens_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["discord_circle_api_tokens_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["discord_circle_api_tokens_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -4924,6 +5387,7 @@ count?: [{	columns?: Array<ValueTypes["discord_roles_circles_select_column"]> | 
 	_prepend?: ValueTypes["discord_roles_circles_prepend_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["discord_roles_circles_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["discord_roles_circles_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -5117,6 +5581,7 @@ count?: [{	columns?: Array<ValueTypes["discord_users_select_column"]> | undefine
 	_inc?: ValueTypes["discord_users_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["discord_users_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["discord_users_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -5192,6 +5657,15 @@ vault_transactions_aggregate?: [{	/** distinct select on columns */
 	nodes?:ValueTypes["distributions"],
 		__typename?: boolean | `@${string}`
 }>;
+	["distributions_aggregate_bool_exp"]: {
+	count?: ValueTypes["distributions_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["distributions_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["distributions_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["distributions_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "distributions" */
 ["distributions_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["distributions_avg_fields"],
@@ -5260,6 +5734,7 @@ count?: [{	columns?: Array<ValueTypes["distributions_select_column"]> | undefine
 	_not?: ValueTypes["distributions_bool_exp"] | undefined | null | Variable<any, string>,
 	_or?: Array<ValueTypes["distributions_bool_exp"]> | undefined | null | Variable<any, string>,
 	claims?: ValueTypes["claims_bool_exp"] | undefined | null | Variable<any, string>,
+	claims_aggregate?: ValueTypes["claims_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	created_by?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
 	distribution_epoch_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
@@ -5277,7 +5752,8 @@ count?: [{	columns?: Array<ValueTypes["distributions_select_column"]> | undefine
 	updated_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	vault?: ValueTypes["vaults_bool_exp"] | undefined | null | Variable<any, string>,
 	vault_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
-	vault_transactions?: ValueTypes["vault_transactions_bool_exp"] | undefined | null | Variable<any, string>
+	vault_transactions?: ValueTypes["vault_transactions_bool_exp"] | undefined | null | Variable<any, string>,
+	vault_transactions_aggregate?: ValueTypes["vault_transactions_aggregate_bool_exp"] | undefined | null | Variable<any, string>
 };
 	/** unique or primary key constraints on table "distributions" */
 ["distributions_constraint"]:distributions_constraint;
@@ -5594,6 +6070,7 @@ count?: [{	columns?: Array<ValueTypes["distributions_select_column"]> | undefine
 	_prepend?: ValueTypes["distributions_prepend_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["distributions_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["distributions_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -5892,6 +6369,7 @@ count?: [{	columns?: Array<ValueTypes["epoch_pgive_data_select_column"]> | undef
 	_inc?: ValueTypes["epoch_pgive_data_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["epoch_pgive_data_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["epoch_pgive_data_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -6008,6 +6486,29 @@ token_gifts_aggregate?: [{	/** distinct select on columns */
 	nodes?:ValueTypes["epochs"],
 		__typename?: boolean | `@${string}`
 }>;
+	["epochs_aggregate_bool_exp"]: {
+	bool_and?: ValueTypes["epochs_aggregate_bool_exp_bool_and"] | undefined | null | Variable<any, string>,
+	bool_or?: ValueTypes["epochs_aggregate_bool_exp_bool_or"] | undefined | null | Variable<any, string>,
+	count?: ValueTypes["epochs_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["epochs_aggregate_bool_exp_bool_and"]: {
+	arguments: ValueTypes["epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns"] | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["epochs_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Boolean_comparison_exp"] | Variable<any, string>
+};
+	["epochs_aggregate_bool_exp_bool_or"]: {
+	arguments: ValueTypes["epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns"] | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["epochs_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Boolean_comparison_exp"] | Variable<any, string>
+};
+	["epochs_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["epochs_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["epochs_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "epoches" */
 ["epochs_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["epochs_avg_fields"],
@@ -6076,15 +6577,18 @@ count?: [{	columns?: Array<ValueTypes["epochs_select_column"]> | undefined | nul
 	_not?: ValueTypes["epochs_bool_exp"] | undefined | null | Variable<any, string>,
 	_or?: Array<ValueTypes["epochs_bool_exp"]> | undefined | null | Variable<any, string>,
 	burns?: ValueTypes["burns_bool_exp"] | undefined | null | Variable<any, string>,
+	burns_aggregate?: ValueTypes["burns_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	circle?: ValueTypes["circles_bool_exp"] | undefined | null | Variable<any, string>,
 	circle_id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	days?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	description?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	distributions?: ValueTypes["distributions_bool_exp"] | undefined | null | Variable<any, string>,
+	distributions_aggregate?: ValueTypes["distributions_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	end_date?: ValueTypes["timestamptz_comparison_exp"] | undefined | null | Variable<any, string>,
 	ended?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	epoch_pending_token_gifts?: ValueTypes["pending_token_gifts_bool_exp"] | undefined | null | Variable<any, string>,
+	epoch_pending_token_gifts_aggregate?: ValueTypes["pending_token_gifts_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	grant?: ValueTypes["numeric_comparison_exp"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
 	notified_before_end?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
@@ -6098,6 +6602,7 @@ count?: [{	columns?: Array<ValueTypes["epochs_select_column"]> | undefined | nul
 	repeat_day_of_month?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	start_date?: ValueTypes["timestamptz_comparison_exp"] | undefined | null | Variable<any, string>,
 	token_gifts?: ValueTypes["token_gifts_bool_exp"] | undefined | null | Variable<any, string>,
+	token_gifts_aggregate?: ValueTypes["token_gifts_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>
 };
 	/** unique or primary key constraints on table "epoches" */
@@ -6287,6 +6792,10 @@ count?: [{	columns?: Array<ValueTypes["epochs_select_column"]> | undefined | nul
 };
 	/** select columns of table "epoches" */
 ["epochs_select_column"]:epochs_select_column;
+	/** select "epochs_aggregate_bool_exp_bool_and_arguments_columns" columns of table "epoches" */
+["epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns"]:epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns;
+	/** select "epochs_aggregate_bool_exp_bool_or_arguments_columns" columns of table "epoches" */
+["epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns"]:epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "epoches" */
 ["epochs_set_input"]: {
 	circle_id?: number | undefined | null | Variable<any, string>,
@@ -6445,6 +6954,7 @@ count?: [{	columns?: Array<ValueTypes["epochs_select_column"]> | undefined | nul
 	_prepend?: ValueTypes["epochs_prepend_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["epochs_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["epochs_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -6676,6 +7186,7 @@ count?: [{	columns?: Array<ValueTypes["gift_private_select_column"]> | undefined
 	_inc?: ValueTypes["gift_private_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["gift_private_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["gift_private_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -6904,6 +7415,7 @@ count?: [{	columns?: Array<ValueTypes["histories_select_column"]> | undefined | 
 	_inc?: ValueTypes["histories_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["histories_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["histories_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -7180,6 +7692,7 @@ count?: [{	columns?: Array<ValueTypes["interaction_events_select_column"]> | und
 	_prepend?: ValueTypes["interaction_events_prepend_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["interaction_events_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["interaction_events_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -7264,6 +7777,15 @@ count?: [{	columns?: Array<ValueTypes["interaction_events_select_column"]> | und
 	nodes?:ValueTypes["locked_token_distribution_gifts"],
 		__typename?: boolean | `@${string}`
 }>;
+	["locked_token_distribution_gifts_aggregate_bool_exp"]: {
+	count?: ValueTypes["locked_token_distribution_gifts_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["locked_token_distribution_gifts_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["locked_token_distribution_gifts_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "locked_token_distribution_gifts" */
 ["locked_token_distribution_gifts_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["locked_token_distribution_gifts_avg_fields"],
@@ -7491,6 +8013,7 @@ count?: [{	columns?: Array<ValueTypes["locked_token_distribution_gifts_select_co
 	_inc?: ValueTypes["locked_token_distribution_gifts_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["locked_token_distribution_gifts_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["locked_token_distribution_gifts_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -7610,6 +8133,7 @@ count?: [{	columns?: Array<ValueTypes["locked_token_distributions_select_column"
 	gift_amount?: ValueTypes["numeric_comparison_exp"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
 	locked_token_distribution_gifts?: ValueTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null | Variable<any, string>,
+	locked_token_distribution_gifts_aggregate?: ValueTypes["locked_token_distribution_gifts_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	profile?: ValueTypes["profiles_bool_exp"] | undefined | null | Variable<any, string>,
 	token_contract_address?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	token_decimals?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
@@ -7787,6 +8311,7 @@ count?: [{	columns?: Array<ValueTypes["locked_token_distributions_select_column"
 	_inc?: ValueTypes["locked_token_distributions_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["locked_token_distributions_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["locked_token_distributions_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -8045,6 +8570,7 @@ count?: [{	columns?: Array<ValueTypes["member_epoch_pgives_select_column"]> | un
 	_inc?: ValueTypes["member_epoch_pgives_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["member_epoch_pgives_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["member_epoch_pgives_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -8099,6 +8625,9 @@ deleteDiscordUser?: [{	payload: ValueTypes["DeleteDiscordUserInput"] | Variable<
 deleteEpoch?: [{	payload: ValueTypes["DeleteEpochInput"] | Variable<any, string>},ValueTypes["DeleteEpochResponse"]],
 deleteUser?: [{	payload: ValueTypes["DeleteUserInput"] | Variable<any, string>},ValueTypes["ConfirmationResponse"]],
 deleteUsers?: [{	payload: ValueTypes["DeleteUsersInput"] | Variable<any, string>},ValueTypes["DeleteUsersResponse"]],
+delete_activities?: [{	/** filter the rows which have to be deleted */
+	where: ValueTypes["activities_bool_exp"] | Variable<any, string>},ValueTypes["activities_mutation_response"]],
+delete_activities_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["activities"]],
 delete_burns?: [{	/** filter the rows which have to be deleted */
 	where: ValueTypes["burns_bool_exp"] | Variable<any, string>},ValueTypes["burns_mutation_response"]],
 delete_burns_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["burns"]],
@@ -8163,6 +8692,9 @@ delete_member_epoch_pgives_by_pk?: [{	id: number | Variable<any, string>},ValueT
 delete_nominees?: [{	/** filter the rows which have to be deleted */
 	where: ValueTypes["nominees_bool_exp"] | Variable<any, string>},ValueTypes["nominees_mutation_response"]],
 delete_nominees_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["nominees"]],
+delete_org_members?: [{	/** filter the rows which have to be deleted */
+	where: ValueTypes["org_members_bool_exp"] | Variable<any, string>},ValueTypes["org_members_mutation_response"]],
+delete_org_members_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["org_members"]],
 delete_organizations?: [{	/** filter the rows which have to be deleted */
 	where: ValueTypes["organizations_bool_exp"] | Variable<any, string>},ValueTypes["organizations_mutation_response"]],
 delete_organizations_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["organizations"]],
@@ -8203,6 +8735,12 @@ delete_vouches?: [{	/** filter the rows which have to be deleted */
 delete_vouches_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["vouches"]],
 endEpoch?: [{	payload: ValueTypes["EndEpochInput"] | Variable<any, string>},ValueTypes["EpochResponse"]],
 generateApiKey?: [{	payload: ValueTypes["GenerateApiKeyInput"] | Variable<any, string>},ValueTypes["GenerateApiKeyResponse"]],
+insert_activities?: [{	/** the rows to be inserted */
+	objects: Array<ValueTypes["activities_insert_input"]> | Variable<any, string>,	/** upsert condition */
+	on_conflict?: ValueTypes["activities_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["activities_mutation_response"]],
+insert_activities_one?: [{	/** the row to be inserted */
+	object: ValueTypes["activities_insert_input"] | Variable<any, string>,	/** upsert condition */
+	on_conflict?: ValueTypes["activities_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["activities"]],
 insert_burns?: [{	/** the rows to be inserted */
 	objects: Array<ValueTypes["burns_insert_input"]> | Variable<any, string>,	/** upsert condition */
 	on_conflict?: ValueTypes["burns_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["burns_mutation_response"]],
@@ -8331,6 +8869,12 @@ insert_nominees?: [{	/** the rows to be inserted */
 insert_nominees_one?: [{	/** the row to be inserted */
 	object: ValueTypes["nominees_insert_input"] | Variable<any, string>,	/** upsert condition */
 	on_conflict?: ValueTypes["nominees_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["nominees"]],
+insert_org_members?: [{	/** the rows to be inserted */
+	objects: Array<ValueTypes["org_members_insert_input"]> | Variable<any, string>,	/** upsert condition */
+	on_conflict?: ValueTypes["org_members_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["org_members_mutation_response"]],
+insert_org_members_one?: [{	/** the row to be inserted */
+	object: ValueTypes["org_members_insert_input"] | Variable<any, string>,	/** upsert condition */
+	on_conflict?: ValueTypes["org_members_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["org_members"]],
 insert_organizations?: [{	/** the rows to be inserted */
 	objects: Array<ValueTypes["organizations_insert_input"]> | Variable<any, string>,	/** upsert condition */
 	on_conflict?: ValueTypes["organizations_on_conflict"] | undefined | null | Variable<any, string>},ValueTypes["organizations_mutation_response"]],
@@ -8420,6 +8964,15 @@ updateEpochOld?: [{	payload: ValueTypes["UpdateEpochOldInput"] | Variable<any, s
 updateProfile?: [{	payload: ValueTypes["UpdateProfileInput"] | Variable<any, string>},ValueTypes["UpdateProfileResponse"]],
 updateTeammates?: [{	payload: ValueTypes["UpdateTeammatesInput"] | Variable<any, string>},ValueTypes["UpdateTeammatesResponse"]],
 updateUser?: [{	payload: ValueTypes["UpdateUserInput"] | Variable<any, string>},ValueTypes["UserResponse"]],
+update_activities?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["activities_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["activities_set_input"] | undefined | null | Variable<any, string>,	/** filter the rows which have to be updated */
+	where: ValueTypes["activities_bool_exp"] | Variable<any, string>},ValueTypes["activities_mutation_response"]],
+update_activities_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["activities_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["activities_set_input"] | undefined | null | Variable<any, string>,	pk_columns: ValueTypes["activities_pk_columns_input"] | Variable<any, string>},ValueTypes["activities"]],
+update_activities_many?: [{	/** updates to execute, in order */
+	updates: Array<ValueTypes["activities_updates"]> | Variable<any, string>},ValueTypes["activities_mutation_response"]],
 update_burns?: [{	/** increments the numeric columns with given value of the filtered values */
 	_inc?: ValueTypes["burns_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["burns_set_input"] | undefined | null | Variable<any, string>,	/** filter the rows which have to be updated */
@@ -8652,6 +9205,15 @@ update_nominees_by_pk?: [{	/** increments the numeric columns with given value o
 	_set?: ValueTypes["nominees_set_input"] | undefined | null | Variable<any, string>,	pk_columns: ValueTypes["nominees_pk_columns_input"] | Variable<any, string>},ValueTypes["nominees"]],
 update_nominees_many?: [{	/** updates to execute, in order */
 	updates: Array<ValueTypes["nominees_updates"]> | Variable<any, string>},ValueTypes["nominees_mutation_response"]],
+update_org_members?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["org_members_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["org_members_set_input"] | undefined | null | Variable<any, string>,	/** filter the rows which have to be updated */
+	where: ValueTypes["org_members_bool_exp"] | Variable<any, string>},ValueTypes["org_members_mutation_response"]],
+update_org_members_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["org_members_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["org_members_set_input"] | undefined | null | Variable<any, string>,	pk_columns: ValueTypes["org_members_pk_columns_input"] | Variable<any, string>},ValueTypes["org_members"]],
+update_org_members_many?: [{	/** updates to execute, in order */
+	updates: Array<ValueTypes["org_members_updates"]> | Variable<any, string>},ValueTypes["org_members_mutation_response"]],
 update_organizations?: [{	/** increments the numeric columns with given value of the filtered values */
 	_inc?: ValueTypes["organizations_inc_input"] | undefined | null | Variable<any, string>,	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["organizations_set_input"] | undefined | null | Variable<any, string>,	/** filter the rows which have to be updated */
@@ -8813,6 +9375,29 @@ nominations_aggregate?: [{	/** distinct select on columns */
 	nodes?:ValueTypes["nominees"],
 		__typename?: boolean | `@${string}`
 }>;
+	["nominees_aggregate_bool_exp"]: {
+	bool_and?: ValueTypes["nominees_aggregate_bool_exp_bool_and"] | undefined | null | Variable<any, string>,
+	bool_or?: ValueTypes["nominees_aggregate_bool_exp_bool_or"] | undefined | null | Variable<any, string>,
+	count?: ValueTypes["nominees_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["nominees_aggregate_bool_exp_bool_and"]: {
+	arguments: ValueTypes["nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns"] | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["nominees_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Boolean_comparison_exp"] | Variable<any, string>
+};
+	["nominees_aggregate_bool_exp_bool_or"]: {
+	arguments: ValueTypes["nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns"] | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["nominees_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Boolean_comparison_exp"] | Variable<any, string>
+};
+	["nominees_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["nominees_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["nominees_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "nominees" */
 ["nominees_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["nominees_avg_fields"],
@@ -8881,6 +9466,7 @@ count?: [{	columns?: Array<ValueTypes["nominees_select_column"]> | undefined | n
 	nominated_by_user_id?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	nominated_date?: ValueTypes["date_comparison_exp"] | undefined | null | Variable<any, string>,
 	nominations?: ValueTypes["vouches_bool_exp"] | undefined | null | Variable<any, string>,
+	nominations_aggregate?: ValueTypes["vouches_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	nominator?: ValueTypes["users_bool_exp"] | undefined | null | Variable<any, string>,
 	profile?: ValueTypes["profiles_bool_exp"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
@@ -9022,6 +9608,10 @@ count?: [{	columns?: Array<ValueTypes["nominees_select_column"]> | undefined | n
 };
 	/** select columns of table "nominees" */
 ["nominees_select_column"]:nominees_select_column;
+	/** select "nominees_aggregate_bool_exp_bool_and_arguments_columns" columns of table "nominees" */
+["nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns"]:nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns;
+	/** select "nominees_aggregate_bool_exp_bool_or_arguments_columns" columns of table "nominees" */
+["nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns"]:nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "nominees" */
 ["nominees_set_input"]: {
 	address?: string | undefined | null | Variable<any, string>,
@@ -9134,6 +9724,7 @@ count?: [{	columns?: Array<ValueTypes["nominees_select_column"]> | undefined | n
 	_inc?: ValueTypes["nominees_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["nominees_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["nominees_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -9202,6 +9793,338 @@ count?: [{	columns?: Array<ValueTypes["nominees_select_column"]> | undefined | n
 };
 	/** column ordering options */
 ["order_by"]:order_by;
+	/** columns and relationships of "org_members" */
+["org_members"]: AliasType<{
+	created_at?:boolean | `@${string}`,
+	deleted_at?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	/** An object relationship */
+	organization?:ValueTypes["organizations"],
+	/** An object relationship */
+	profile?:ValueTypes["profiles"],
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+	updated_at?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregated selection of "org_members" */
+["org_members_aggregate"]: AliasType<{
+	aggregate?:ValueTypes["org_members_aggregate_fields"],
+	nodes?:ValueTypes["org_members"],
+		__typename?: boolean | `@${string}`
+}>;
+	["org_members_aggregate_bool_exp"]: {
+	count?: ValueTypes["org_members_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["org_members_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["org_members_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["org_members_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
+	/** aggregate fields of "org_members" */
+["org_members_aggregate_fields"]: AliasType<{
+	avg?:ValueTypes["org_members_avg_fields"],
+count?: [{	columns?: Array<ValueTypes["org_members_select_column"]> | undefined | null | Variable<any, string>,	distinct?: boolean | undefined | null | Variable<any, string>},boolean | `@${string}`],
+	max?:ValueTypes["org_members_max_fields"],
+	min?:ValueTypes["org_members_min_fields"],
+	stddev?:ValueTypes["org_members_stddev_fields"],
+	stddev_pop?:ValueTypes["org_members_stddev_pop_fields"],
+	stddev_samp?:ValueTypes["org_members_stddev_samp_fields"],
+	sum?:ValueTypes["org_members_sum_fields"],
+	var_pop?:ValueTypes["org_members_var_pop_fields"],
+	var_samp?:ValueTypes["org_members_var_samp_fields"],
+	variance?:ValueTypes["org_members_variance_fields"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by aggregate values of table "org_members" */
+["org_members_aggregate_order_by"]: {
+	avg?: ValueTypes["org_members_avg_order_by"] | undefined | null | Variable<any, string>,
+	count?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	max?: ValueTypes["org_members_max_order_by"] | undefined | null | Variable<any, string>,
+	min?: ValueTypes["org_members_min_order_by"] | undefined | null | Variable<any, string>,
+	stddev?: ValueTypes["org_members_stddev_order_by"] | undefined | null | Variable<any, string>,
+	stddev_pop?: ValueTypes["org_members_stddev_pop_order_by"] | undefined | null | Variable<any, string>,
+	stddev_samp?: ValueTypes["org_members_stddev_samp_order_by"] | undefined | null | Variable<any, string>,
+	sum?: ValueTypes["org_members_sum_order_by"] | undefined | null | Variable<any, string>,
+	var_pop?: ValueTypes["org_members_var_pop_order_by"] | undefined | null | Variable<any, string>,
+	var_samp?: ValueTypes["org_members_var_samp_order_by"] | undefined | null | Variable<any, string>,
+	variance?: ValueTypes["org_members_variance_order_by"] | undefined | null | Variable<any, string>
+};
+	/** input type for inserting array relation for remote table "org_members" */
+["org_members_arr_rel_insert_input"]: {
+	data: Array<ValueTypes["org_members_insert_input"]> | Variable<any, string>,
+	/** upsert condition */
+	on_conflict?: ValueTypes["org_members_on_conflict"] | undefined | null | Variable<any, string>
+};
+	/** aggregate avg on columns */
+["org_members_avg_fields"]: AliasType<{
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by avg() on columns of table "org_members" */
+["org_members_avg_order_by"]: {
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	org_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	role?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** Boolean expression to filter rows from the table "org_members". All fields are combined with a logical 'AND'. */
+["org_members_bool_exp"]: {
+	_and?: Array<ValueTypes["org_members_bool_exp"]> | undefined | null | Variable<any, string>,
+	_not?: ValueTypes["org_members_bool_exp"] | undefined | null | Variable<any, string>,
+	_or?: Array<ValueTypes["org_members_bool_exp"]> | undefined | null | Variable<any, string>,
+	created_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
+	deleted_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	org_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	organization?: ValueTypes["organizations_bool_exp"] | undefined | null | Variable<any, string>,
+	profile?: ValueTypes["profiles_bool_exp"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
+	role?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
+	updated_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>
+};
+	/** unique or primary key constraints on table "org_members" */
+["org_members_constraint"]:org_members_constraint;
+	/** input type for incrementing numeric columns in table "org_members" */
+["org_members_inc_input"]: {
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	org_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	role?: number | undefined | null | Variable<any, string>
+};
+	/** input type for inserting data into table "org_members" */
+["org_members_insert_input"]: {
+	created_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
+	deleted_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	org_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	organization?: ValueTypes["organizations_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	profile?: ValueTypes["profiles_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	role?: number | undefined | null | Variable<any, string>,
+	updated_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>
+};
+	/** aggregate max on columns */
+["org_members_max_fields"]: AliasType<{
+	created_at?:boolean | `@${string}`,
+	deleted_at?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+	updated_at?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by max() on columns of table "org_members" */
+["org_members_max_order_by"]: {
+	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	deleted_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	org_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	role?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	updated_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** aggregate min on columns */
+["org_members_min_fields"]: AliasType<{
+	created_at?:boolean | `@${string}`,
+	deleted_at?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+	updated_at?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by min() on columns of table "org_members" */
+["org_members_min_order_by"]: {
+	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	deleted_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	org_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	role?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	updated_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** response of any mutation on the table "org_members" */
+["org_members_mutation_response"]: AliasType<{
+	/** number of rows affected by the mutation */
+	affected_rows?:boolean | `@${string}`,
+	/** data from the rows affected by the mutation */
+	returning?:ValueTypes["org_members"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** on_conflict condition type for table "org_members" */
+["org_members_on_conflict"]: {
+	constraint: ValueTypes["org_members_constraint"] | Variable<any, string>,
+	update_columns: Array<ValueTypes["org_members_update_column"]> | Variable<any, string>,
+	where?: ValueTypes["org_members_bool_exp"] | undefined | null | Variable<any, string>
+};
+	/** Ordering options when selecting data from "org_members". */
+["org_members_order_by"]: {
+	created_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	deleted_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	org_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	organization?: ValueTypes["organizations_order_by"] | undefined | null | Variable<any, string>,
+	profile?: ValueTypes["profiles_order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	role?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	updated_at?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** primary key columns input for table: org_members */
+["org_members_pk_columns_input"]: {
+	id: ValueTypes["bigint"] | Variable<any, string>
+};
+	/** select columns of table "org_members" */
+["org_members_select_column"]:org_members_select_column;
+	/** input type for updating data in table "org_members" */
+["org_members_set_input"]: {
+	created_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
+	deleted_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	org_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	role?: number | undefined | null | Variable<any, string>,
+	updated_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>
+};
+	/** aggregate stddev on columns */
+["org_members_stddev_fields"]: AliasType<{
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by stddev() on columns of table "org_members" */
+["org_members_stddev_order_by"]: {
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	org_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	role?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** aggregate stddev_pop on columns */
+["org_members_stddev_pop_fields"]: AliasType<{
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by stddev_pop() on columns of table "org_members" */
+["org_members_stddev_pop_order_by"]: {
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	org_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	role?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** aggregate stddev_samp on columns */
+["org_members_stddev_samp_fields"]: AliasType<{
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by stddev_samp() on columns of table "org_members" */
+["org_members_stddev_samp_order_by"]: {
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	org_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	role?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** Streaming cursor of the table "org_members" */
+["org_members_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ValueTypes["org_members_stream_cursor_value_input"] | Variable<any, string>,
+	/** cursor ordering */
+	ordering?: ValueTypes["cursor_ordering"] | undefined | null | Variable<any, string>
+};
+	/** Initial value of the column from where the streaming should start */
+["org_members_stream_cursor_value_input"]: {
+	created_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
+	deleted_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>,
+	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	org_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	role?: number | undefined | null | Variable<any, string>,
+	updated_at?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>
+};
+	/** aggregate sum on columns */
+["org_members_sum_fields"]: AliasType<{
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by sum() on columns of table "org_members" */
+["org_members_sum_order_by"]: {
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	org_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	role?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** update columns of table "org_members" */
+["org_members_update_column"]:org_members_update_column;
+	["org_members_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ValueTypes["org_members_inc_input"] | undefined | null | Variable<any, string>,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ValueTypes["org_members_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
+	where: ValueTypes["org_members_bool_exp"] | Variable<any, string>
+};
+	/** aggregate var_pop on columns */
+["org_members_var_pop_fields"]: AliasType<{
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by var_pop() on columns of table "org_members" */
+["org_members_var_pop_order_by"]: {
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	org_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	role?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** aggregate var_samp on columns */
+["org_members_var_samp_fields"]: AliasType<{
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by var_samp() on columns of table "org_members" */
+["org_members_var_samp_order_by"]: {
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	org_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	role?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
+	/** aggregate variance on columns */
+["org_members_variance_fields"]: AliasType<{
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by variance() on columns of table "org_members" */
+["org_members_variance_order_by"]: {
+	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	org_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	role?: ValueTypes["order_by"] | undefined | null | Variable<any, string>
+};
 	/** columns and relationships of "organizations" */
 ["organizations"]: AliasType<{
 circles?: [{	/** distinct select on columns */
@@ -9221,6 +10144,18 @@ circles_aggregate?: [{	/** distinct select on columns */
 	id?:boolean | `@${string}`,
 	is_verified?:boolean | `@${string}`,
 	logo?:boolean | `@${string}`,
+members?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["org_members_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["org_members_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["org_members_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["org_members"]],
+members_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["org_members_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["org_members_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["org_members_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["org_members_aggregate"]],
 	name?:boolean | `@${string}`,
 	/** An object relationship */
 	profile?:ValueTypes["profiles"],
@@ -9275,17 +10210,21 @@ count?: [{	columns?: Array<ValueTypes["organizations_select_column"]> | undefine
 	_not?: ValueTypes["organizations_bool_exp"] | undefined | null | Variable<any, string>,
 	_or?: Array<ValueTypes["organizations_bool_exp"]> | undefined | null | Variable<any, string>,
 	circles?: ValueTypes["circles_bool_exp"] | undefined | null | Variable<any, string>,
+	circles_aggregate?: ValueTypes["circles_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	created_by?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
 	is_verified?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	logo?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
+	members?: ValueTypes["org_members_bool_exp"] | undefined | null | Variable<any, string>,
+	members_aggregate?: ValueTypes["org_members_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	name?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	profile?: ValueTypes["profiles_bool_exp"] | undefined | null | Variable<any, string>,
 	sample?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	telegram_id?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
-	vaults?: ValueTypes["vaults_bool_exp"] | undefined | null | Variable<any, string>
+	vaults?: ValueTypes["vaults_bool_exp"] | undefined | null | Variable<any, string>,
+	vaults_aggregate?: ValueTypes["vaults_aggregate_bool_exp"] | undefined | null | Variable<any, string>
 };
 	/** unique or primary key constraints on table "organizations" */
 ["organizations_constraint"]:organizations_constraint;
@@ -9302,6 +10241,7 @@ count?: [{	columns?: Array<ValueTypes["organizations_select_column"]> | undefine
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	is_verified?: boolean | undefined | null | Variable<any, string>,
 	logo?: string | undefined | null | Variable<any, string>,
+	members?: ValueTypes["org_members_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
 	name?: string | undefined | null | Variable<any, string>,
 	profile?: ValueTypes["profiles_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
 	/** Indicates a test/sample/sandbox org */
@@ -9360,6 +10300,7 @@ count?: [{	columns?: Array<ValueTypes["organizations_select_column"]> | undefine
 	id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	is_verified?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	logo?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
+	members_aggregate?: ValueTypes["org_members_aggregate_order_by"] | undefined | null | Variable<any, string>,
 	name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	profile?: ValueTypes["profiles_order_by"] | undefined | null | Variable<any, string>,
 	sample?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -9437,6 +10378,7 @@ count?: [{	columns?: Array<ValueTypes["organizations_select_column"]> | undefine
 	_inc?: ValueTypes["organizations_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["organizations_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["organizations_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -9617,6 +10559,7 @@ count?: [{	columns?: Array<ValueTypes["pending_gift_private_select_column"]> | u
 	_inc?: ValueTypes["pending_gift_private_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["pending_gift_private_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["pending_gift_private_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -9672,6 +10615,15 @@ count?: [{	columns?: Array<ValueTypes["pending_gift_private_select_column"]> | u
 	nodes?:ValueTypes["pending_token_gifts"],
 		__typename?: boolean | `@${string}`
 }>;
+	["pending_token_gifts_aggregate_bool_exp"]: {
+	count?: ValueTypes["pending_token_gifts_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["pending_token_gifts_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["pending_token_gifts_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["pending_token_gifts_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "pending_token_gifts" */
 ["pending_token_gifts_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["pending_token_gifts_avg_fields"],
@@ -10002,6 +10954,7 @@ count?: [{	columns?: Array<ValueTypes["pending_token_gifts_select_column"]> | un
 	_inc?: ValueTypes["pending_token_gifts_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["pending_token_gifts_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["pending_token_gifts_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -10283,6 +11236,7 @@ count?: [{	columns?: Array<ValueTypes["pending_vault_transactions_select_column"
 	_inc?: ValueTypes["pending_vault_transactions_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["pending_vault_transactions_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["pending_vault_transactions_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -10511,6 +11465,7 @@ count?: [{	columns?: Array<ValueTypes["personal_access_tokens_select_column"]> |
 	_inc?: ValueTypes["personal_access_tokens_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["personal_access_tokens_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["personal_access_tokens_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -10581,6 +11536,18 @@ nominees_aggregate?: [{	/** distinct select on columns */
 	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
 	order_by?: Array<ValueTypes["nominees_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
 	where?: ValueTypes["nominees_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["nominees_aggregate"]],
+org_members?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["org_members_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["org_members_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["org_members_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["org_members"]],
+org_members_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["org_members_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["org_members_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["org_members_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["org_members_aggregate"]],
 	skills?:boolean | `@${string}`,
 	telegram_username?:boolean | `@${string}`,
 	twitter_username?:boolean | `@${string}`,
@@ -10663,23 +11630,31 @@ count?: [{	columns?: Array<ValueTypes["profiles_select_column"]> | undefined | n
 	bio?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	chat_id?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	claims?: ValueTypes["claims_bool_exp"] | undefined | null | Variable<any, string>,
+	claims_aggregate?: ValueTypes["claims_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	connector?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	discord_username?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	distributions?: ValueTypes["distributions_bool_exp"] | undefined | null | Variable<any, string>,
+	distributions_aggregate?: ValueTypes["distributions_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	github_username?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
 	medium_username?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	name?: ValueTypes["citext_comparison_exp"] | undefined | null | Variable<any, string>,
 	nominees?: ValueTypes["nominees_bool_exp"] | undefined | null | Variable<any, string>,
+	nominees_aggregate?: ValueTypes["nominees_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
+	org_members?: ValueTypes["org_members_bool_exp"] | undefined | null | Variable<any, string>,
+	org_members_aggregate?: ValueTypes["org_members_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	skills?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	telegram_username?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	twitter_username?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	user?: ValueTypes["discord_users_bool_exp"] | undefined | null | Variable<any, string>,
 	users?: ValueTypes["users_bool_exp"] | undefined | null | Variable<any, string>,
+	users_aggregate?: ValueTypes["users_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	vault_transactions?: ValueTypes["vault_transactions_bool_exp"] | undefined | null | Variable<any, string>,
+	vault_transactions_aggregate?: ValueTypes["vault_transactions_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	vaults?: ValueTypes["vaults_bool_exp"] | undefined | null | Variable<any, string>,
+	vaults_aggregate?: ValueTypes["vaults_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	website?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>
 };
 	/** unique or primary key constraints on table "profiles" */
@@ -10705,6 +11680,7 @@ count?: [{	columns?: Array<ValueTypes["profiles_select_column"]> | undefined | n
 	medium_username?: string | undefined | null | Variable<any, string>,
 	name?: ValueTypes["citext"] | undefined | null | Variable<any, string>,
 	nominees?: ValueTypes["nominees_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
+	org_members?: ValueTypes["org_members_arr_rel_insert_input"] | undefined | null | Variable<any, string>,
 	skills?: string | undefined | null | Variable<any, string>,
 	telegram_username?: string | undefined | null | Variable<any, string>,
 	twitter_username?: string | undefined | null | Variable<any, string>,
@@ -10794,6 +11770,7 @@ count?: [{	columns?: Array<ValueTypes["profiles_select_column"]> | undefined | n
 	medium_username?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	nominees_aggregate?: ValueTypes["nominees_aggregate_order_by"] | undefined | null | Variable<any, string>,
+	org_members_aggregate?: ValueTypes["org_members_aggregate_order_by"] | undefined | null | Variable<any, string>,
 	skills?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	telegram_username?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
 	twitter_username?: ValueTypes["order_by"] | undefined | null | Variable<any, string>,
@@ -10884,6 +11861,7 @@ count?: [{	columns?: Array<ValueTypes["profiles_select_column"]> | undefined | n
 	_inc?: ValueTypes["profiles_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["profiles_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["profiles_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -10902,6 +11880,19 @@ count?: [{	columns?: Array<ValueTypes["profiles_select_column"]> | undefined | n
 		__typename?: boolean | `@${string}`
 }>;
 	["query_root"]: AliasType<{
+activities?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["activities_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["activities_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["activities_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["activities"]],
+activities_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["activities_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["activities_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["activities_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["activities_aggregate"]],
+activities_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["activities"]],
 burns?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["burns_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
 	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
@@ -11187,6 +12178,19 @@ nominees_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ValueTypes["nominees_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
 	where?: ValueTypes["nominees_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["nominees_aggregate"]],
 nominees_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["nominees"]],
+org_members?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["org_members_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["org_members_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["org_members_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["org_members"]],
+org_members_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["org_members_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["org_members_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["org_members_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["org_members_aggregate"]],
+org_members_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["org_members"]],
 organizations?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["organizations_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
 	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
@@ -11370,6 +12374,23 @@ vouches_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes[
 		__typename?: boolean | `@${string}`
 }>;
 	["subscription_root"]: AliasType<{
+activities?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["activities_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["activities_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["activities_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["activities"]],
+activities_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["activities_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["activities_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["activities_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["activities_aggregate"]],
+activities_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["activities"]],
+activities_stream?: [{	/** maximum number of rows returned in a single batch */
+	batch_size: number | Variable<any, string>,	/** cursor to stream the results returned by the query */
+	cursor: Array<ValueTypes["activities_stream_cursor_input"] | undefined | null> | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["activities_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["activities"]],
 burns?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["burns_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
 	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
@@ -11742,6 +12763,23 @@ nominees_stream?: [{	/** maximum number of rows returned in a single batch */
 	batch_size: number | Variable<any, string>,	/** cursor to stream the results returned by the query */
 	cursor: Array<ValueTypes["nominees_stream_cursor_input"] | undefined | null> | Variable<any, string>,	/** filter the rows returned */
 	where?: ValueTypes["nominees_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["nominees"]],
+org_members?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["org_members_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["org_members_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["org_members_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["org_members"]],
+org_members_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ValueTypes["org_members_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
+	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null | Variable<any, string>,	/** sort the rows by one or more columns */
+	order_by?: Array<ValueTypes["org_members_order_by"]> | undefined | null | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["org_members_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["org_members_aggregate"]],
+org_members_by_pk?: [{	id: ValueTypes["bigint"] | Variable<any, string>},ValueTypes["org_members"]],
+org_members_stream?: [{	/** maximum number of rows returned in a single batch */
+	batch_size: number | Variable<any, string>,	/** cursor to stream the results returned by the query */
+	cursor: Array<ValueTypes["org_members_stream_cursor_input"] | undefined | null> | Variable<any, string>,	/** filter the rows returned */
+	where?: ValueTypes["org_members_bool_exp"] | undefined | null | Variable<any, string>},ValueTypes["org_members"]],
 organizations?: [{	/** distinct select on columns */
 	distinct_on?: Array<ValueTypes["organizations_select_column"]> | undefined | null | Variable<any, string>,	/** limit the number of rows returned */
 	limit?: number | undefined | null | Variable<any, string>,	/** skip the first n rows. Use only with order_by */
@@ -11999,6 +13037,15 @@ vouches_stream?: [{	/** maximum number of rows returned in a single batch */
 	nodes?:ValueTypes["teammates"],
 		__typename?: boolean | `@${string}`
 }>;
+	["teammates_aggregate_bool_exp"]: {
+	count?: ValueTypes["teammates_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["teammates_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["teammates_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["teammates_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "teammates" */
 ["teammates_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["teammates_avg_fields"],
@@ -12224,6 +13271,7 @@ count?: [{	columns?: Array<ValueTypes["teammates_select_column"]> | undefined | 
 	_inc?: ValueTypes["teammates_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["teammates_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["teammates_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -12323,6 +13371,15 @@ count?: [{	columns?: Array<ValueTypes["teammates_select_column"]> | undefined | 
 	nodes?:ValueTypes["token_gifts"],
 		__typename?: boolean | `@${string}`
 }>;
+	["token_gifts_aggregate_bool_exp"]: {
+	count?: ValueTypes["token_gifts_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["token_gifts_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["token_gifts_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["token_gifts_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "token_gifts" */
 ["token_gifts_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["token_gifts_avg_fields"],
@@ -12653,6 +13710,7 @@ count?: [{	columns?: Array<ValueTypes["token_gifts_select_column"]> | undefined 
 	_inc?: ValueTypes["token_gifts_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["token_gifts_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["token_gifts_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -13009,6 +14067,29 @@ vouches_aggregate?: [{	/** distinct select on columns */
 	nodes?:ValueTypes["users"],
 		__typename?: boolean | `@${string}`
 }>;
+	["users_aggregate_bool_exp"]: {
+	bool_and?: ValueTypes["users_aggregate_bool_exp_bool_and"] | undefined | null | Variable<any, string>,
+	bool_or?: ValueTypes["users_aggregate_bool_exp_bool_or"] | undefined | null | Variable<any, string>,
+	count?: ValueTypes["users_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["users_aggregate_bool_exp_bool_and"]: {
+	arguments: ValueTypes["users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns"] | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["users_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Boolean_comparison_exp"] | Variable<any, string>
+};
+	["users_aggregate_bool_exp_bool_or"]: {
+	arguments: ValueTypes["users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns"] | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["users_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Boolean_comparison_exp"] | Variable<any, string>
+};
+	["users_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["users_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["users_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "users" */
 ["users_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["users_avg_fields"],
@@ -13073,10 +14154,13 @@ count?: [{	columns?: Array<ValueTypes["users_select_column"]> | undefined | null
 	address?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	bio?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	burns?: ValueTypes["burns_bool_exp"] | undefined | null | Variable<any, string>,
+	burns_aggregate?: ValueTypes["burns_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	circle?: ValueTypes["circles_bool_exp"] | undefined | null | Variable<any, string>,
 	circle_api_keys?: ValueTypes["circle_api_keys_bool_exp"] | undefined | null | Variable<any, string>,
+	circle_api_keys_aggregate?: ValueTypes["circle_api_keys_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	circle_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
 	contributions?: ValueTypes["contributions_bool_exp"] | undefined | null | Variable<any, string>,
+	contributions_aggregate?: ValueTypes["contributions_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	created_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	deleted_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	entrance?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
@@ -13090,16 +14174,22 @@ count?: [{	columns?: Array<ValueTypes["users_select_column"]> | undefined | null
 	non_giver?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	non_receiver?: ValueTypes["Boolean_comparison_exp"] | undefined | null | Variable<any, string>,
 	pending_received_gifts?: ValueTypes["pending_token_gifts_bool_exp"] | undefined | null | Variable<any, string>,
+	pending_received_gifts_aggregate?: ValueTypes["pending_token_gifts_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	pending_sent_gifts?: ValueTypes["pending_token_gifts_bool_exp"] | undefined | null | Variable<any, string>,
+	pending_sent_gifts_aggregate?: ValueTypes["pending_token_gifts_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	profile?: ValueTypes["profiles_bool_exp"] | undefined | null | Variable<any, string>,
 	received_gifts?: ValueTypes["token_gifts_bool_exp"] | undefined | null | Variable<any, string>,
+	received_gifts_aggregate?: ValueTypes["token_gifts_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	role?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	sent_gifts?: ValueTypes["token_gifts_bool_exp"] | undefined | null | Variable<any, string>,
+	sent_gifts_aggregate?: ValueTypes["token_gifts_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	starting_tokens?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	teammates?: ValueTypes["teammates_bool_exp"] | undefined | null | Variable<any, string>,
+	teammates_aggregate?: ValueTypes["teammates_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamp_comparison_exp"] | undefined | null | Variable<any, string>,
 	user_private?: ValueTypes["user_private_bool_exp"] | undefined | null | Variable<any, string>,
-	vouches?: ValueTypes["vouches_bool_exp"] | undefined | null | Variable<any, string>
+	vouches?: ValueTypes["vouches_bool_exp"] | undefined | null | Variable<any, string>,
+	vouches_aggregate?: ValueTypes["vouches_aggregate_bool_exp"] | undefined | null | Variable<any, string>
 };
 	/** unique or primary key constraints on table "users" */
 ["users_constraint"]:users_constraint;
@@ -13275,6 +14365,10 @@ count?: [{	columns?: Array<ValueTypes["users_select_column"]> | undefined | null
 };
 	/** select columns of table "users" */
 ["users_select_column"]:users_select_column;
+	/** select "users_aggregate_bool_exp_bool_and_arguments_columns" columns of table "users" */
+["users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns"]:users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns;
+	/** select "users_aggregate_bool_exp_bool_or_arguments_columns" columns of table "users" */
+["users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns"]:users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "users" */
 ["users_set_input"]: {
 	address?: string | undefined | null | Variable<any, string>,
@@ -13415,6 +14509,7 @@ count?: [{	columns?: Array<ValueTypes["users_select_column"]> | undefined | null
 	_inc?: ValueTypes["users_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["users_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["users_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -13522,6 +14617,15 @@ count?: [{	columns?: Array<ValueTypes["users_select_column"]> | undefined | null
 	nodes?:ValueTypes["vault_transactions"],
 		__typename?: boolean | `@${string}`
 }>;
+	["vault_transactions_aggregate_bool_exp"]: {
+	count?: ValueTypes["vault_transactions_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["vault_transactions_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["vault_transactions_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["vault_transactions_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "vault_transactions" */
 ["vault_transactions_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["vault_transactions_avg_fields"],
@@ -13810,6 +14914,7 @@ count?: [{	columns?: Array<ValueTypes["vault_transactions_select_column"]> | und
 	_inc?: ValueTypes["vault_transactions_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["vault_transactions_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["vault_transactions_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -13901,7 +15006,8 @@ count?: [{	columns?: Array<ValueTypes["vault_tx_types_select_column"]> | undefin
 	_or?: Array<ValueTypes["vault_tx_types_bool_exp"]> | undefined | null | Variable<any, string>,
 	comment?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	value?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
-	vault_transactions?: ValueTypes["vault_transactions_bool_exp"] | undefined | null | Variable<any, string>
+	vault_transactions?: ValueTypes["vault_transactions_bool_exp"] | undefined | null | Variable<any, string>,
+	vault_transactions_aggregate?: ValueTypes["vault_transactions_aggregate_bool_exp"] | undefined | null | Variable<any, string>
 };
 	/** unique or primary key constraints on table "vault_tx_types" */
 ["vault_tx_types_constraint"]:vault_tx_types_constraint;
@@ -13986,6 +15092,7 @@ count?: [{	columns?: Array<ValueTypes["vault_tx_types_select_column"]> | undefin
 	["vault_tx_types_updates"]: {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["vault_tx_types_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["vault_tx_types_bool_exp"] | Variable<any, string>
 };
 	/** columns and relationships of "vaults" */
@@ -14038,6 +15145,15 @@ vault_transactions_aggregate?: [{	/** distinct select on columns */
 	nodes?:ValueTypes["vaults"],
 		__typename?: boolean | `@${string}`
 }>;
+	["vaults_aggregate_bool_exp"]: {
+	count?: ValueTypes["vaults_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["vaults_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["vaults_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["vaults_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "vaults" */
 ["vaults_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["vaults_avg_fields"],
@@ -14103,6 +15219,7 @@ count?: [{	columns?: Array<ValueTypes["vaults_select_column"]> | undefined | nul
 	decimals?: ValueTypes["Int_comparison_exp"] | undefined | null | Variable<any, string>,
 	deployment_block?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
 	distributions?: ValueTypes["distributions_bool_exp"] | undefined | null | Variable<any, string>,
+	distributions_aggregate?: ValueTypes["distributions_aggregate_bool_exp"] | undefined | null | Variable<any, string>,
 	id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
 	org_id?: ValueTypes["bigint_comparison_exp"] | undefined | null | Variable<any, string>,
 	organization?: ValueTypes["organizations_bool_exp"] | undefined | null | Variable<any, string>,
@@ -14112,7 +15229,8 @@ count?: [{	columns?: Array<ValueTypes["vaults_select_column"]> | undefined | nul
 	token_address?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamptz_comparison_exp"] | undefined | null | Variable<any, string>,
 	vault_address?: ValueTypes["String_comparison_exp"] | undefined | null | Variable<any, string>,
-	vault_transactions?: ValueTypes["vault_transactions_bool_exp"] | undefined | null | Variable<any, string>
+	vault_transactions?: ValueTypes["vault_transactions_bool_exp"] | undefined | null | Variable<any, string>,
+	vault_transactions_aggregate?: ValueTypes["vault_transactions_aggregate_bool_exp"] | undefined | null | Variable<any, string>
 };
 	/** unique or primary key constraints on table "vaults" */
 ["vaults_constraint"]:vaults_constraint;
@@ -14371,6 +15489,7 @@ count?: [{	columns?: Array<ValueTypes["vaults_select_column"]> | undefined | nul
 	_inc?: ValueTypes["vaults_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["vaults_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["vaults_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -14449,6 +15568,15 @@ count?: [{	columns?: Array<ValueTypes["vaults_select_column"]> | undefined | nul
 	nodes?:ValueTypes["vouches"],
 		__typename?: boolean | `@${string}`
 }>;
+	["vouches_aggregate_bool_exp"]: {
+	count?: ValueTypes["vouches_aggregate_bool_exp_count"] | undefined | null | Variable<any, string>
+};
+	["vouches_aggregate_bool_exp_count"]: {
+	arguments?: Array<ValueTypes["vouches_select_column"]> | undefined | null | Variable<any, string>,
+	distinct?: boolean | undefined | null | Variable<any, string>,
+	filter?: ValueTypes["vouches_bool_exp"] | undefined | null | Variable<any, string>,
+	predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>
+};
 	/** aggregate fields of "vouches" */
 ["vouches_aggregate_fields"]: AliasType<{
 	avg?:ValueTypes["vouches_avg_fields"],
@@ -14674,6 +15802,7 @@ count?: [{	columns?: Array<ValueTypes["vouches_select_column"]> | undefined | nu
 	_inc?: ValueTypes["vouches_inc_input"] | undefined | null | Variable<any, string>,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ValueTypes["vouches_set_input"] | undefined | null | Variable<any, string>,
+	/** filter the rows which have to be updated */
 	where: ValueTypes["vouches_bool_exp"] | Variable<any, string>
 };
 	/** aggregate var_pop on columns */
@@ -14898,6 +16027,7 @@ users_aggregate?: [{	/** distinct select on columns */
 	circle_id: number,
 	create_contributions?: boolean | undefined | null,
 	create_vouches?: boolean | undefined | null,
+	manage_users?: boolean | undefined | null,
 	name: string,
 	read_circle?: boolean | undefined | null,
 	read_contributions?: boolean | undefined | null,
@@ -15161,6 +16291,326 @@ users_aggregate?: [{	/** distinct select on columns */
 	nominee?:ResolverInputTypes["nominees"],
 		__typename?: boolean | `@${string}`
 }>;
+	/** Table containing activity on our platform */
+["activities"]: AliasType<{
+	action?:boolean | `@${string}`,
+	/** An object relationship */
+	actor_profile?:ResolverInputTypes["profiles"],
+	actor_profile_id?:boolean | `@${string}`,
+	/** An object relationship */
+	circle?:ResolverInputTypes["circles"],
+	circle_id?:boolean | `@${string}`,
+	/** An object relationship */
+	contribution?:ResolverInputTypes["contributions"],
+	contribution_id?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	/** An object relationship */
+	epoch?:ResolverInputTypes["epochs"],
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	/** An object relationship */
+	organization?:ResolverInputTypes["organizations"],
+	organization_id?:boolean | `@${string}`,
+	/** An object relationship */
+	target_profile?:ResolverInputTypes["profiles"],
+	target_profile_id?:boolean | `@${string}`,
+	updated_at?:boolean | `@${string}`,
+	/** An object relationship */
+	user?:ResolverInputTypes["users"],
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregated selection of "activities" */
+["activities_aggregate"]: AliasType<{
+	aggregate?:ResolverInputTypes["activities_aggregate_fields"],
+	nodes?:ResolverInputTypes["activities"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate fields of "activities" */
+["activities_aggregate_fields"]: AliasType<{
+	avg?:ResolverInputTypes["activities_avg_fields"],
+count?: [{	columns?: Array<ResolverInputTypes["activities_select_column"]> | undefined | null,	distinct?: boolean | undefined | null},boolean | `@${string}`],
+	max?:ResolverInputTypes["activities_max_fields"],
+	min?:ResolverInputTypes["activities_min_fields"],
+	stddev?:ResolverInputTypes["activities_stddev_fields"],
+	stddev_pop?:ResolverInputTypes["activities_stddev_pop_fields"],
+	stddev_samp?:ResolverInputTypes["activities_stddev_samp_fields"],
+	sum?:ResolverInputTypes["activities_sum_fields"],
+	var_pop?:ResolverInputTypes["activities_var_pop_fields"],
+	var_samp?:ResolverInputTypes["activities_var_samp_fields"],
+	variance?:ResolverInputTypes["activities_variance_fields"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate avg on columns */
+["activities_avg_fields"]: AliasType<{
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Boolean expression to filter rows from the table "activities". All fields are combined with a logical 'AND'. */
+["activities_bool_exp"]: {
+	_and?: Array<ResolverInputTypes["activities_bool_exp"]> | undefined | null,
+	_not?: ResolverInputTypes["activities_bool_exp"] | undefined | null,
+	_or?: Array<ResolverInputTypes["activities_bool_exp"]> | undefined | null,
+	action?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
+	actor_profile?: ResolverInputTypes["profiles_bool_exp"] | undefined | null,
+	actor_profile_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	circle?: ResolverInputTypes["circles_bool_exp"] | undefined | null,
+	circle_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	contribution?: ResolverInputTypes["contributions_bool_exp"] | undefined | null,
+	contribution_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	created_at?: ResolverInputTypes["timestamptz_comparison_exp"] | undefined | null,
+	epoch?: ResolverInputTypes["epochs_bool_exp"] | undefined | null,
+	epoch_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	organization?: ResolverInputTypes["organizations_bool_exp"] | undefined | null,
+	organization_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	target_profile?: ResolverInputTypes["profiles_bool_exp"] | undefined | null,
+	target_profile_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	updated_at?: ResolverInputTypes["timestamptz_comparison_exp"] | undefined | null,
+	user?: ResolverInputTypes["users_bool_exp"] | undefined | null,
+	user_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null
+};
+	/** unique or primary key constraints on table "activities" */
+["activities_constraint"]:activities_constraint;
+	/** input type for incrementing numeric columns in table "activities" */
+["activities_inc_input"]: {
+	actor_profile_id?: ResolverInputTypes["bigint"] | undefined | null,
+	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
+	contribution_id?: ResolverInputTypes["bigint"] | undefined | null,
+	epoch_id?: ResolverInputTypes["bigint"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	organization_id?: ResolverInputTypes["bigint"] | undefined | null,
+	target_profile_id?: ResolverInputTypes["bigint"] | undefined | null,
+	user_id?: ResolverInputTypes["bigint"] | undefined | null
+};
+	/** input type for inserting data into table "activities" */
+["activities_insert_input"]: {
+	action?: string | undefined | null,
+	actor_profile?: ResolverInputTypes["profiles_obj_rel_insert_input"] | undefined | null,
+	actor_profile_id?: ResolverInputTypes["bigint"] | undefined | null,
+	circle?: ResolverInputTypes["circles_obj_rel_insert_input"] | undefined | null,
+	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
+	contribution?: ResolverInputTypes["contributions_obj_rel_insert_input"] | undefined | null,
+	contribution_id?: ResolverInputTypes["bigint"] | undefined | null,
+	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	epoch?: ResolverInputTypes["epochs_obj_rel_insert_input"] | undefined | null,
+	epoch_id?: ResolverInputTypes["bigint"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	organization?: ResolverInputTypes["organizations_obj_rel_insert_input"] | undefined | null,
+	organization_id?: ResolverInputTypes["bigint"] | undefined | null,
+	target_profile?: ResolverInputTypes["profiles_obj_rel_insert_input"] | undefined | null,
+	target_profile_id?: ResolverInputTypes["bigint"] | undefined | null,
+	updated_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	user?: ResolverInputTypes["users_obj_rel_insert_input"] | undefined | null,
+	user_id?: ResolverInputTypes["bigint"] | undefined | null
+};
+	/** aggregate max on columns */
+["activities_max_fields"]: AliasType<{
+	action?:boolean | `@${string}`,
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	updated_at?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate min on columns */
+["activities_min_fields"]: AliasType<{
+	action?:boolean | `@${string}`,
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	created_at?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	updated_at?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** response of any mutation on the table "activities" */
+["activities_mutation_response"]: AliasType<{
+	/** number of rows affected by the mutation */
+	affected_rows?:boolean | `@${string}`,
+	/** data from the rows affected by the mutation */
+	returning?:ResolverInputTypes["activities"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** on_conflict condition type for table "activities" */
+["activities_on_conflict"]: {
+	constraint: ResolverInputTypes["activities_constraint"],
+	update_columns: Array<ResolverInputTypes["activities_update_column"]>,
+	where?: ResolverInputTypes["activities_bool_exp"] | undefined | null
+};
+	/** Ordering options when selecting data from "activities". */
+["activities_order_by"]: {
+	action?: ResolverInputTypes["order_by"] | undefined | null,
+	actor_profile?: ResolverInputTypes["profiles_order_by"] | undefined | null,
+	actor_profile_id?: ResolverInputTypes["order_by"] | undefined | null,
+	circle?: ResolverInputTypes["circles_order_by"] | undefined | null,
+	circle_id?: ResolverInputTypes["order_by"] | undefined | null,
+	contribution?: ResolverInputTypes["contributions_order_by"] | undefined | null,
+	contribution_id?: ResolverInputTypes["order_by"] | undefined | null,
+	created_at?: ResolverInputTypes["order_by"] | undefined | null,
+	epoch?: ResolverInputTypes["epochs_order_by"] | undefined | null,
+	epoch_id?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	organization?: ResolverInputTypes["organizations_order_by"] | undefined | null,
+	organization_id?: ResolverInputTypes["order_by"] | undefined | null,
+	target_profile?: ResolverInputTypes["profiles_order_by"] | undefined | null,
+	target_profile_id?: ResolverInputTypes["order_by"] | undefined | null,
+	updated_at?: ResolverInputTypes["order_by"] | undefined | null,
+	user?: ResolverInputTypes["users_order_by"] | undefined | null,
+	user_id?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** primary key columns input for table: activities */
+["activities_pk_columns_input"]: {
+	id: ResolverInputTypes["bigint"]
+};
+	/** select columns of table "activities" */
+["activities_select_column"]:activities_select_column;
+	/** input type for updating data in table "activities" */
+["activities_set_input"]: {
+	action?: string | undefined | null,
+	actor_profile_id?: ResolverInputTypes["bigint"] | undefined | null,
+	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
+	contribution_id?: ResolverInputTypes["bigint"] | undefined | null,
+	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	epoch_id?: ResolverInputTypes["bigint"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	organization_id?: ResolverInputTypes["bigint"] | undefined | null,
+	target_profile_id?: ResolverInputTypes["bigint"] | undefined | null,
+	updated_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	user_id?: ResolverInputTypes["bigint"] | undefined | null
+};
+	/** aggregate stddev on columns */
+["activities_stddev_fields"]: AliasType<{
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_pop on columns */
+["activities_stddev_pop_fields"]: AliasType<{
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate stddev_samp on columns */
+["activities_stddev_samp_fields"]: AliasType<{
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** Streaming cursor of the table "activities" */
+["activities_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ResolverInputTypes["activities_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null
+};
+	/** Initial value of the column from where the streaming should start */
+["activities_stream_cursor_value_input"]: {
+	action?: string | undefined | null,
+	actor_profile_id?: ResolverInputTypes["bigint"] | undefined | null,
+	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
+	contribution_id?: ResolverInputTypes["bigint"] | undefined | null,
+	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	epoch_id?: ResolverInputTypes["bigint"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	organization_id?: ResolverInputTypes["bigint"] | undefined | null,
+	target_profile_id?: ResolverInputTypes["bigint"] | undefined | null,
+	updated_at?: ResolverInputTypes["timestamptz"] | undefined | null,
+	user_id?: ResolverInputTypes["bigint"] | undefined | null
+};
+	/** aggregate sum on columns */
+["activities_sum_fields"]: AliasType<{
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** update columns of table "activities" */
+["activities_update_column"]:activities_update_column;
+	["activities_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["activities_inc_input"] | undefined | null,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["activities_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
+	where: ResolverInputTypes["activities_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["activities_var_pop_fields"]: AliasType<{
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate var_samp on columns */
+["activities_var_samp_fields"]: AliasType<{
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregate variance on columns */
+["activities_variance_fields"]: AliasType<{
+	actor_profile_id?:boolean | `@${string}`,
+	circle_id?:boolean | `@${string}`,
+	contribution_id?:boolean | `@${string}`,
+	epoch_id?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	organization_id?:boolean | `@${string}`,
+	target_profile_id?:boolean | `@${string}`,
+	user_id?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["bigint"]:unknown;
 	/** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
 ["bigint_comparison_exp"]: {
@@ -15199,6 +16649,15 @@ users_aggregate?: [{	/** distinct select on columns */
 	nodes?:ResolverInputTypes["burns"],
 		__typename?: boolean | `@${string}`
 }>;
+	["burns_aggregate_bool_exp"]: {
+	count?: ResolverInputTypes["burns_aggregate_bool_exp_count"] | undefined | null
+};
+	["burns_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["burns_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["burns_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "burns" */
 ["burns_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["burns_avg_fields"],
@@ -15507,6 +16966,7 @@ count?: [{	columns?: Array<ResolverInputTypes["burns_select_column"]> | undefine
 	_inc?: ResolverInputTypes["burns_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["burns_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["burns_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -15584,6 +17044,7 @@ count?: [{	columns?: Array<ResolverInputTypes["burns_select_column"]> | undefine
 	created_at?:boolean | `@${string}`,
 	created_by?:boolean | `@${string}`,
 	hash?:boolean | `@${string}`,
+	manage_users?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
 	read_circle?:boolean | `@${string}`,
 	read_contributions?:boolean | `@${string}`,
@@ -15602,6 +17063,29 @@ count?: [{	columns?: Array<ResolverInputTypes["burns_select_column"]> | undefine
 	nodes?:ResolverInputTypes["circle_api_keys"],
 		__typename?: boolean | `@${string}`
 }>;
+	["circle_api_keys_aggregate_bool_exp"]: {
+	bool_and?: ResolverInputTypes["circle_api_keys_aggregate_bool_exp_bool_and"] | undefined | null,
+	bool_or?: ResolverInputTypes["circle_api_keys_aggregate_bool_exp_bool_or"] | undefined | null,
+	count?: ResolverInputTypes["circle_api_keys_aggregate_bool_exp_count"] | undefined | null
+};
+	["circle_api_keys_aggregate_bool_exp_bool_and"]: {
+	arguments: ResolverInputTypes["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns"],
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["circle_api_keys_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Boolean_comparison_exp"]
+};
+	["circle_api_keys_aggregate_bool_exp_bool_or"]: {
+	arguments: ResolverInputTypes["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns"],
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["circle_api_keys_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Boolean_comparison_exp"]
+};
+	["circle_api_keys_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["circle_api_keys_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["circle_api_keys_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "circle_api_keys" */
 ["circle_api_keys_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["circle_api_keys_avg_fields"],
@@ -15661,6 +17145,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circle_api_keys_select_column"]> 
 	created_at?: ResolverInputTypes["timestamptz_comparison_exp"] | undefined | null,
 	created_by?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
 	hash?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
+	manage_users?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	name?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	read_circle?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	read_contributions?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
@@ -15689,6 +17174,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circle_api_keys_select_column"]> 
 	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
 	created_by?: ResolverInputTypes["bigint"] | undefined | null,
 	hash?: string | undefined | null,
+	manage_users?: boolean | undefined | null,
 	name?: string | undefined | null,
 	read_circle?: boolean | undefined | null,
 	read_contributions?: boolean | undefined | null,
@@ -15764,6 +17250,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circle_api_keys_select_column"]> 
 	created_at?: ResolverInputTypes["order_by"] | undefined | null,
 	created_by?: ResolverInputTypes["order_by"] | undefined | null,
 	hash?: ResolverInputTypes["order_by"] | undefined | null,
+	manage_users?: ResolverInputTypes["order_by"] | undefined | null,
 	name?: ResolverInputTypes["order_by"] | undefined | null,
 	read_circle?: ResolverInputTypes["order_by"] | undefined | null,
 	read_contributions?: ResolverInputTypes["order_by"] | undefined | null,
@@ -15781,6 +17268,10 @@ count?: [{	columns?: Array<ResolverInputTypes["circle_api_keys_select_column"]> 
 };
 	/** select columns of table "circle_api_keys" */
 ["circle_api_keys_select_column"]:circle_api_keys_select_column;
+	/** select "circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns" columns of table "circle_api_keys" */
+["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns"]:circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns;
+	/** select "circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns" columns of table "circle_api_keys" */
+["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns"]:circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "circle_api_keys" */
 ["circle_api_keys_set_input"]: {
 	circle_id?: ResolverInputTypes["bigint"] | undefined | null,
@@ -15789,6 +17280,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circle_api_keys_select_column"]> 
 	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
 	created_by?: ResolverInputTypes["bigint"] | undefined | null,
 	hash?: string | undefined | null,
+	manage_users?: boolean | undefined | null,
 	name?: string | undefined | null,
 	read_circle?: boolean | undefined | null,
 	read_contributions?: boolean | undefined | null,
@@ -15848,6 +17340,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circle_api_keys_select_column"]> 
 	created_at?: ResolverInputTypes["timestamptz"] | undefined | null,
 	created_by?: ResolverInputTypes["bigint"] | undefined | null,
 	hash?: string | undefined | null,
+	manage_users?: boolean | undefined | null,
 	name?: string | undefined | null,
 	read_circle?: boolean | undefined | null,
 	read_contributions?: boolean | undefined | null,
@@ -15877,6 +17370,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circle_api_keys_select_column"]> 
 	_inc?: ResolverInputTypes["circle_api_keys_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["circle_api_keys_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["circle_api_keys_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -15932,6 +17426,15 @@ data?: [{	/** JSON select path */
 	nodes?:ResolverInputTypes["circle_integrations"],
 		__typename?: boolean | `@${string}`
 }>;
+	["circle_integrations_aggregate_bool_exp"]: {
+	count?: ResolverInputTypes["circle_integrations_aggregate_bool_exp_count"] | undefined | null
+};
+	["circle_integrations_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["circle_integrations_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["circle_integrations_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "circle_integrations" */
 ["circle_integrations_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["circle_integrations_avg_fields"],
@@ -16157,6 +17660,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circle_integrations_select_column
 	_inc?: ResolverInputTypes["circle_integrations_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["circle_integrations_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["circle_integrations_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -16210,6 +17714,15 @@ json?: [{	/** JSON select path */
 	nodes?:ResolverInputTypes["circle_metadata"],
 		__typename?: boolean | `@${string}`
 }>;
+	["circle_metadata_aggregate_bool_exp"]: {
+	count?: ResolverInputTypes["circle_metadata_aggregate_bool_exp_count"] | undefined | null
+};
+	["circle_metadata_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["circle_metadata_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["circle_metadata_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "circle_metadata" */
 ["circle_metadata_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["circle_metadata_avg_fields"],
@@ -16417,6 +17930,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circle_metadata_select_column"]> 
 	_inc?: ResolverInputTypes["circle_metadata_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["circle_metadata_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["circle_metadata_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -16579,6 +18093,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circle_private_select_column"]> |
 	_inc?: ResolverInputTypes["circle_private_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["circle_private_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["circle_private_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -16764,6 +18279,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circle_share_tokens_select_column
 	_inc?: ResolverInputTypes["circle_share_tokens_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["circle_share_tokens_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["circle_share_tokens_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -16971,6 +18487,29 @@ vault_transactions_aggregate?: [{	/** distinct select on columns */
 	nodes?:ResolverInputTypes["circles"],
 		__typename?: boolean | `@${string}`
 }>;
+	["circles_aggregate_bool_exp"]: {
+	bool_and?: ResolverInputTypes["circles_aggregate_bool_exp_bool_and"] | undefined | null,
+	bool_or?: ResolverInputTypes["circles_aggregate_bool_exp_bool_or"] | undefined | null,
+	count?: ResolverInputTypes["circles_aggregate_bool_exp_count"] | undefined | null
+};
+	["circles_aggregate_bool_exp_bool_and"]: {
+	arguments: ResolverInputTypes["circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns"],
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["circles_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Boolean_comparison_exp"]
+};
+	["circles_aggregate_bool_exp_bool_or"]: {
+	arguments: ResolverInputTypes["circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns"],
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["circles_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Boolean_comparison_exp"]
+};
+	["circles_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["circles_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["circles_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "circles" */
 ["circles_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["circles_avg_fields"],
@@ -17034,44 +18573,56 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	_or?: Array<ResolverInputTypes["circles_bool_exp"]> | undefined | null,
 	alloc_text?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	api_keys?: ResolverInputTypes["circle_api_keys_bool_exp"] | undefined | null,
+	api_keys_aggregate?: ResolverInputTypes["circle_api_keys_aggregate_bool_exp"] | undefined | null,
 	auto_opt_out?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	burns?: ResolverInputTypes["burns_bool_exp"] | undefined | null,
+	burns_aggregate?: ResolverInputTypes["burns_aggregate_bool_exp"] | undefined | null,
 	circle_metadata?: ResolverInputTypes["circle_metadata_bool_exp"] | undefined | null,
+	circle_metadata_aggregate?: ResolverInputTypes["circle_metadata_aggregate_bool_exp"] | undefined | null,
 	circle_private?: ResolverInputTypes["circle_private_bool_exp"] | undefined | null,
 	cont_help_text?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	contact?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	contributions?: ResolverInputTypes["contributions_bool_exp"] | undefined | null,
+	contributions_aggregate?: ResolverInputTypes["contributions_aggregate_bool_exp"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	default_opt_in?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	deleted_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	discord_access_tokens?: ResolverInputTypes["discord_circle_api_tokens_bool_exp"] | undefined | null,
+	discord_access_tokens_aggregate?: ResolverInputTypes["discord_circle_api_tokens_aggregate_bool_exp"] | undefined | null,
 	discord_circle?: ResolverInputTypes["discord_roles_circles_bool_exp"] | undefined | null,
 	discord_webhook?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	epochs?: ResolverInputTypes["epochs_bool_exp"] | undefined | null,
+	epochs_aggregate?: ResolverInputTypes["epochs_aggregate_bool_exp"] | undefined | null,
 	fixed_payment_token_type?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	fixed_payment_vault_id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	guild_id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	guild_role_id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
 	integrations?: ResolverInputTypes["circle_integrations_bool_exp"] | undefined | null,
+	integrations_aggregate?: ResolverInputTypes["circle_integrations_aggregate_bool_exp"] | undefined | null,
 	is_verified?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	logo?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	min_vouches?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	name?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	nomination_days_limit?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	nominees?: ResolverInputTypes["nominees_bool_exp"] | undefined | null,
+	nominees_aggregate?: ResolverInputTypes["nominees_aggregate_bool_exp"] | undefined | null,
 	only_giver_vouch?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	organization?: ResolverInputTypes["organizations_bool_exp"] | undefined | null,
 	organization_id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	pending_token_gifts?: ResolverInputTypes["pending_token_gifts_bool_exp"] | undefined | null,
+	pending_token_gifts_aggregate?: ResolverInputTypes["pending_token_gifts_aggregate_bool_exp"] | undefined | null,
 	show_pending_gives?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	team_selection?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	telegram_id?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	token_gifts?: ResolverInputTypes["token_gifts_bool_exp"] | undefined | null,
+	token_gifts_aggregate?: ResolverInputTypes["token_gifts_aggregate_bool_exp"] | undefined | null,
 	token_name?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	users?: ResolverInputTypes["users_bool_exp"] | undefined | null,
+	users_aggregate?: ResolverInputTypes["users_aggregate_bool_exp"] | undefined | null,
 	vault_transactions?: ResolverInputTypes["vault_transactions_bool_exp"] | undefined | null,
+	vault_transactions_aggregate?: ResolverInputTypes["vault_transactions_aggregate_bool_exp"] | undefined | null,
 	vouching?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	vouching_text?: ResolverInputTypes["String_comparison_exp"] | undefined | null
 };
@@ -17297,6 +18848,10 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 };
 	/** select columns of table "circles" */
 ["circles_select_column"]:circles_select_column;
+	/** select "circles_aggregate_bool_exp_bool_and_arguments_columns" columns of table "circles" */
+["circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns"]:circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns;
+	/** select "circles_aggregate_bool_exp_bool_or_arguments_columns" columns of table "circles" */
+["circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns"]:circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "circles" */
 ["circles_set_input"]: {
 	alloc_text?: string | undefined | null,
@@ -17455,6 +19010,7 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	_inc?: ResolverInputTypes["circles_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["circles_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["circles_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -17578,6 +19134,15 @@ count?: [{	columns?: Array<ResolverInputTypes["circles_select_column"]> | undefi
 	nodes?:ResolverInputTypes["claims"],
 		__typename?: boolean | `@${string}`
 }>;
+	["claims_aggregate_bool_exp"]: {
+	count?: ResolverInputTypes["claims_aggregate_bool_exp_count"] | undefined | null
+};
+	["claims_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["claims_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["claims_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "claims" */
 ["claims_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["claims_avg_fields"],
@@ -17890,6 +19455,7 @@ count?: [{	columns?: Array<ResolverInputTypes["claims_select_column"]> | undefin
 	_inc?: ResolverInputTypes["claims_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["claims_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["claims_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -17974,6 +19540,15 @@ count?: [{	columns?: Array<ResolverInputTypes["claims_select_column"]> | undefin
 	nodes?:ResolverInputTypes["contributions"],
 		__typename?: boolean | `@${string}`
 }>;
+	["contributions_aggregate_bool_exp"]: {
+	count?: ResolverInputTypes["contributions_aggregate_bool_exp_count"] | undefined | null
+};
+	["contributions_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["contributions_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["contributions_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "contributions" */
 ["contributions_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["contributions_avg_fields"],
@@ -18121,6 +19696,12 @@ count?: [{	columns?: Array<ResolverInputTypes["contributions_select_column"]> | 
 	returning?:ResolverInputTypes["contributions"],
 		__typename?: boolean | `@${string}`
 }>;
+	/** input type for inserting object relation for remote table "contributions" */
+["contributions_obj_rel_insert_input"]: {
+	data: ResolverInputTypes["contributions_insert_input"],
+	/** upsert condition */
+	on_conflict?: ResolverInputTypes["contributions_on_conflict"] | undefined | null
+};
 	/** on_conflict condition type for table "contributions" */
 ["contributions_on_conflict"]: {
 	constraint: ResolverInputTypes["contributions_constraint"],
@@ -18238,6 +19819,7 @@ count?: [{	columns?: Array<ResolverInputTypes["contributions_select_column"]> | 
 	_inc?: ResolverInputTypes["contributions_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["contributions_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["contributions_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -18309,6 +19891,15 @@ count?: [{	columns?: Array<ResolverInputTypes["contributions_select_column"]> | 
 	nodes?:ResolverInputTypes["discord_circle_api_tokens"],
 		__typename?: boolean | `@${string}`
 }>;
+	["discord_circle_api_tokens_aggregate_bool_exp"]: {
+	count?: ResolverInputTypes["discord_circle_api_tokens_aggregate_bool_exp_count"] | undefined | null
+};
+	["discord_circle_api_tokens_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["discord_circle_api_tokens_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["discord_circle_api_tokens_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "discord.circle_api_tokens" */
 ["discord_circle_api_tokens_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["discord_circle_api_tokens_avg_fields"],
@@ -18517,6 +20108,7 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_circle_api_tokens_select_
 	_inc?: ResolverInputTypes["discord_circle_api_tokens_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["discord_circle_api_tokens_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["discord_circle_api_tokens_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -18770,6 +20362,7 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_roles_circles_select_colu
 	_prepend?: ResolverInputTypes["discord_roles_circles_prepend_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["discord_roles_circles_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["discord_roles_circles_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -18963,6 +20556,7 @@ count?: [{	columns?: Array<ResolverInputTypes["discord_users_select_column"]> | 
 	_inc?: ResolverInputTypes["discord_users_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["discord_users_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["discord_users_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -19038,6 +20632,15 @@ vault_transactions_aggregate?: [{	/** distinct select on columns */
 	nodes?:ResolverInputTypes["distributions"],
 		__typename?: boolean | `@${string}`
 }>;
+	["distributions_aggregate_bool_exp"]: {
+	count?: ResolverInputTypes["distributions_aggregate_bool_exp_count"] | undefined | null
+};
+	["distributions_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["distributions_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["distributions_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "distributions" */
 ["distributions_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["distributions_avg_fields"],
@@ -19106,6 +20709,7 @@ count?: [{	columns?: Array<ResolverInputTypes["distributions_select_column"]> | 
 	_not?: ResolverInputTypes["distributions_bool_exp"] | undefined | null,
 	_or?: Array<ResolverInputTypes["distributions_bool_exp"]> | undefined | null,
 	claims?: ResolverInputTypes["claims_bool_exp"] | undefined | null,
+	claims_aggregate?: ResolverInputTypes["claims_aggregate_bool_exp"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	created_by?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
 	distribution_epoch_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
@@ -19123,7 +20727,8 @@ count?: [{	columns?: Array<ResolverInputTypes["distributions_select_column"]> | 
 	updated_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	vault?: ResolverInputTypes["vaults_bool_exp"] | undefined | null,
 	vault_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
-	vault_transactions?: ResolverInputTypes["vault_transactions_bool_exp"] | undefined | null
+	vault_transactions?: ResolverInputTypes["vault_transactions_bool_exp"] | undefined | null,
+	vault_transactions_aggregate?: ResolverInputTypes["vault_transactions_aggregate_bool_exp"] | undefined | null
 };
 	/** unique or primary key constraints on table "distributions" */
 ["distributions_constraint"]:distributions_constraint;
@@ -19440,6 +21045,7 @@ count?: [{	columns?: Array<ResolverInputTypes["distributions_select_column"]> | 
 	_prepend?: ResolverInputTypes["distributions_prepend_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["distributions_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["distributions_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -19738,6 +21344,7 @@ count?: [{	columns?: Array<ResolverInputTypes["epoch_pgive_data_select_column"]>
 	_inc?: ResolverInputTypes["epoch_pgive_data_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["epoch_pgive_data_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["epoch_pgive_data_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -19854,6 +21461,29 @@ token_gifts_aggregate?: [{	/** distinct select on columns */
 	nodes?:ResolverInputTypes["epochs"],
 		__typename?: boolean | `@${string}`
 }>;
+	["epochs_aggregate_bool_exp"]: {
+	bool_and?: ResolverInputTypes["epochs_aggregate_bool_exp_bool_and"] | undefined | null,
+	bool_or?: ResolverInputTypes["epochs_aggregate_bool_exp_bool_or"] | undefined | null,
+	count?: ResolverInputTypes["epochs_aggregate_bool_exp_count"] | undefined | null
+};
+	["epochs_aggregate_bool_exp_bool_and"]: {
+	arguments: ResolverInputTypes["epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns"],
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["epochs_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Boolean_comparison_exp"]
+};
+	["epochs_aggregate_bool_exp_bool_or"]: {
+	arguments: ResolverInputTypes["epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns"],
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["epochs_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Boolean_comparison_exp"]
+};
+	["epochs_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["epochs_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["epochs_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "epoches" */
 ["epochs_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["epochs_avg_fields"],
@@ -19922,15 +21552,18 @@ count?: [{	columns?: Array<ResolverInputTypes["epochs_select_column"]> | undefin
 	_not?: ResolverInputTypes["epochs_bool_exp"] | undefined | null,
 	_or?: Array<ResolverInputTypes["epochs_bool_exp"]> | undefined | null,
 	burns?: ResolverInputTypes["burns_bool_exp"] | undefined | null,
+	burns_aggregate?: ResolverInputTypes["burns_aggregate_bool_exp"] | undefined | null,
 	circle?: ResolverInputTypes["circles_bool_exp"] | undefined | null,
 	circle_id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	days?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	description?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	distributions?: ResolverInputTypes["distributions_bool_exp"] | undefined | null,
+	distributions_aggregate?: ResolverInputTypes["distributions_aggregate_bool_exp"] | undefined | null,
 	end_date?: ResolverInputTypes["timestamptz_comparison_exp"] | undefined | null,
 	ended?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	epoch_pending_token_gifts?: ResolverInputTypes["pending_token_gifts_bool_exp"] | undefined | null,
+	epoch_pending_token_gifts_aggregate?: ResolverInputTypes["pending_token_gifts_aggregate_bool_exp"] | undefined | null,
 	grant?: ResolverInputTypes["numeric_comparison_exp"] | undefined | null,
 	id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
 	notified_before_end?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
@@ -19944,6 +21577,7 @@ count?: [{	columns?: Array<ResolverInputTypes["epochs_select_column"]> | undefin
 	repeat_day_of_month?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	start_date?: ResolverInputTypes["timestamptz_comparison_exp"] | undefined | null,
 	token_gifts?: ResolverInputTypes["token_gifts_bool_exp"] | undefined | null,
+	token_gifts_aggregate?: ResolverInputTypes["token_gifts_aggregate_bool_exp"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null
 };
 	/** unique or primary key constraints on table "epoches" */
@@ -20133,6 +21767,10 @@ count?: [{	columns?: Array<ResolverInputTypes["epochs_select_column"]> | undefin
 };
 	/** select columns of table "epoches" */
 ["epochs_select_column"]:epochs_select_column;
+	/** select "epochs_aggregate_bool_exp_bool_and_arguments_columns" columns of table "epoches" */
+["epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns"]:epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns;
+	/** select "epochs_aggregate_bool_exp_bool_or_arguments_columns" columns of table "epoches" */
+["epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns"]:epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "epoches" */
 ["epochs_set_input"]: {
 	circle_id?: number | undefined | null,
@@ -20291,6 +21929,7 @@ count?: [{	columns?: Array<ResolverInputTypes["epochs_select_column"]> | undefin
 	_prepend?: ResolverInputTypes["epochs_prepend_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["epochs_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["epochs_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -20522,6 +22161,7 @@ count?: [{	columns?: Array<ResolverInputTypes["gift_private_select_column"]> | u
 	_inc?: ResolverInputTypes["gift_private_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["gift_private_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["gift_private_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -20750,6 +22390,7 @@ count?: [{	columns?: Array<ResolverInputTypes["histories_select_column"]> | unde
 	_inc?: ResolverInputTypes["histories_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["histories_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["histories_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -21026,6 +22667,7 @@ count?: [{	columns?: Array<ResolverInputTypes["interaction_events_select_column"
 	_prepend?: ResolverInputTypes["interaction_events_prepend_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["interaction_events_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["interaction_events_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -21110,6 +22752,15 @@ count?: [{	columns?: Array<ResolverInputTypes["interaction_events_select_column"
 	nodes?:ResolverInputTypes["locked_token_distribution_gifts"],
 		__typename?: boolean | `@${string}`
 }>;
+	["locked_token_distribution_gifts_aggregate_bool_exp"]: {
+	count?: ResolverInputTypes["locked_token_distribution_gifts_aggregate_bool_exp_count"] | undefined | null
+};
+	["locked_token_distribution_gifts_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["locked_token_distribution_gifts_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "locked_token_distribution_gifts" */
 ["locked_token_distribution_gifts_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["locked_token_distribution_gifts_avg_fields"],
@@ -21337,6 +22988,7 @@ count?: [{	columns?: Array<ResolverInputTypes["locked_token_distribution_gifts_s
 	_inc?: ResolverInputTypes["locked_token_distribution_gifts_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["locked_token_distribution_gifts_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["locked_token_distribution_gifts_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -21456,6 +23108,7 @@ count?: [{	columns?: Array<ResolverInputTypes["locked_token_distributions_select
 	gift_amount?: ResolverInputTypes["numeric_comparison_exp"] | undefined | null,
 	id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
 	locked_token_distribution_gifts?: ResolverInputTypes["locked_token_distribution_gifts_bool_exp"] | undefined | null,
+	locked_token_distribution_gifts_aggregate?: ResolverInputTypes["locked_token_distribution_gifts_aggregate_bool_exp"] | undefined | null,
 	profile?: ResolverInputTypes["profiles_bool_exp"] | undefined | null,
 	token_contract_address?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	token_decimals?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
@@ -21633,6 +23286,7 @@ count?: [{	columns?: Array<ResolverInputTypes["locked_token_distributions_select
 	_inc?: ResolverInputTypes["locked_token_distributions_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["locked_token_distributions_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["locked_token_distributions_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -21891,6 +23545,7 @@ count?: [{	columns?: Array<ResolverInputTypes["member_epoch_pgives_select_column
 	_inc?: ResolverInputTypes["member_epoch_pgives_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["member_epoch_pgives_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["member_epoch_pgives_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -21945,6 +23600,9 @@ deleteDiscordUser?: [{	payload: ResolverInputTypes["DeleteDiscordUserInput"]},Re
 deleteEpoch?: [{	payload: ResolverInputTypes["DeleteEpochInput"]},ResolverInputTypes["DeleteEpochResponse"]],
 deleteUser?: [{	payload: ResolverInputTypes["DeleteUserInput"]},ResolverInputTypes["ConfirmationResponse"]],
 deleteUsers?: [{	payload: ResolverInputTypes["DeleteUsersInput"]},ResolverInputTypes["DeleteUsersResponse"]],
+delete_activities?: [{	/** filter the rows which have to be deleted */
+	where: ResolverInputTypes["activities_bool_exp"]},ResolverInputTypes["activities_mutation_response"]],
+delete_activities_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["activities"]],
 delete_burns?: [{	/** filter the rows which have to be deleted */
 	where: ResolverInputTypes["burns_bool_exp"]},ResolverInputTypes["burns_mutation_response"]],
 delete_burns_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["burns"]],
@@ -22009,6 +23667,9 @@ delete_member_epoch_pgives_by_pk?: [{	id: number},ResolverInputTypes["member_epo
 delete_nominees?: [{	/** filter the rows which have to be deleted */
 	where: ResolverInputTypes["nominees_bool_exp"]},ResolverInputTypes["nominees_mutation_response"]],
 delete_nominees_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["nominees"]],
+delete_org_members?: [{	/** filter the rows which have to be deleted */
+	where: ResolverInputTypes["org_members_bool_exp"]},ResolverInputTypes["org_members_mutation_response"]],
+delete_org_members_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["org_members"]],
 delete_organizations?: [{	/** filter the rows which have to be deleted */
 	where: ResolverInputTypes["organizations_bool_exp"]},ResolverInputTypes["organizations_mutation_response"]],
 delete_organizations_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["organizations"]],
@@ -22049,6 +23710,12 @@ delete_vouches?: [{	/** filter the rows which have to be deleted */
 delete_vouches_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["vouches"]],
 endEpoch?: [{	payload: ResolverInputTypes["EndEpochInput"]},ResolverInputTypes["EpochResponse"]],
 generateApiKey?: [{	payload: ResolverInputTypes["GenerateApiKeyInput"]},ResolverInputTypes["GenerateApiKeyResponse"]],
+insert_activities?: [{	/** the rows to be inserted */
+	objects: Array<ResolverInputTypes["activities_insert_input"]>,	/** upsert condition */
+	on_conflict?: ResolverInputTypes["activities_on_conflict"] | undefined | null},ResolverInputTypes["activities_mutation_response"]],
+insert_activities_one?: [{	/** the row to be inserted */
+	object: ResolverInputTypes["activities_insert_input"],	/** upsert condition */
+	on_conflict?: ResolverInputTypes["activities_on_conflict"] | undefined | null},ResolverInputTypes["activities"]],
 insert_burns?: [{	/** the rows to be inserted */
 	objects: Array<ResolverInputTypes["burns_insert_input"]>,	/** upsert condition */
 	on_conflict?: ResolverInputTypes["burns_on_conflict"] | undefined | null},ResolverInputTypes["burns_mutation_response"]],
@@ -22177,6 +23844,12 @@ insert_nominees?: [{	/** the rows to be inserted */
 insert_nominees_one?: [{	/** the row to be inserted */
 	object: ResolverInputTypes["nominees_insert_input"],	/** upsert condition */
 	on_conflict?: ResolverInputTypes["nominees_on_conflict"] | undefined | null},ResolverInputTypes["nominees"]],
+insert_org_members?: [{	/** the rows to be inserted */
+	objects: Array<ResolverInputTypes["org_members_insert_input"]>,	/** upsert condition */
+	on_conflict?: ResolverInputTypes["org_members_on_conflict"] | undefined | null},ResolverInputTypes["org_members_mutation_response"]],
+insert_org_members_one?: [{	/** the row to be inserted */
+	object: ResolverInputTypes["org_members_insert_input"],	/** upsert condition */
+	on_conflict?: ResolverInputTypes["org_members_on_conflict"] | undefined | null},ResolverInputTypes["org_members"]],
 insert_organizations?: [{	/** the rows to be inserted */
 	objects: Array<ResolverInputTypes["organizations_insert_input"]>,	/** upsert condition */
 	on_conflict?: ResolverInputTypes["organizations_on_conflict"] | undefined | null},ResolverInputTypes["organizations_mutation_response"]],
@@ -22266,6 +23939,15 @@ updateEpochOld?: [{	payload: ResolverInputTypes["UpdateEpochOldInput"]},Resolver
 updateProfile?: [{	payload: ResolverInputTypes["UpdateProfileInput"]},ResolverInputTypes["UpdateProfileResponse"]],
 updateTeammates?: [{	payload: ResolverInputTypes["UpdateTeammatesInput"]},ResolverInputTypes["UpdateTeammatesResponse"]],
 updateUser?: [{	payload: ResolverInputTypes["UpdateUserInput"]},ResolverInputTypes["UserResponse"]],
+update_activities?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["activities_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["activities_set_input"] | undefined | null,	/** filter the rows which have to be updated */
+	where: ResolverInputTypes["activities_bool_exp"]},ResolverInputTypes["activities_mutation_response"]],
+update_activities_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["activities_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["activities_set_input"] | undefined | null,	pk_columns: ResolverInputTypes["activities_pk_columns_input"]},ResolverInputTypes["activities"]],
+update_activities_many?: [{	/** updates to execute, in order */
+	updates: Array<ResolverInputTypes["activities_updates"]>},ResolverInputTypes["activities_mutation_response"]],
 update_burns?: [{	/** increments the numeric columns with given value of the filtered values */
 	_inc?: ResolverInputTypes["burns_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["burns_set_input"] | undefined | null,	/** filter the rows which have to be updated */
@@ -22498,6 +24180,15 @@ update_nominees_by_pk?: [{	/** increments the numeric columns with given value o
 	_set?: ResolverInputTypes["nominees_set_input"] | undefined | null,	pk_columns: ResolverInputTypes["nominees_pk_columns_input"]},ResolverInputTypes["nominees"]],
 update_nominees_many?: [{	/** updates to execute, in order */
 	updates: Array<ResolverInputTypes["nominees_updates"]>},ResolverInputTypes["nominees_mutation_response"]],
+update_org_members?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["org_members_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["org_members_set_input"] | undefined | null,	/** filter the rows which have to be updated */
+	where: ResolverInputTypes["org_members_bool_exp"]},ResolverInputTypes["org_members_mutation_response"]],
+update_org_members_by_pk?: [{	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["org_members_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["org_members_set_input"] | undefined | null,	pk_columns: ResolverInputTypes["org_members_pk_columns_input"]},ResolverInputTypes["org_members"]],
+update_org_members_many?: [{	/** updates to execute, in order */
+	updates: Array<ResolverInputTypes["org_members_updates"]>},ResolverInputTypes["org_members_mutation_response"]],
 update_organizations?: [{	/** increments the numeric columns with given value of the filtered values */
 	_inc?: ResolverInputTypes["organizations_inc_input"] | undefined | null,	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["organizations_set_input"] | undefined | null,	/** filter the rows which have to be updated */
@@ -22659,6 +24350,29 @@ nominations_aggregate?: [{	/** distinct select on columns */
 	nodes?:ResolverInputTypes["nominees"],
 		__typename?: boolean | `@${string}`
 }>;
+	["nominees_aggregate_bool_exp"]: {
+	bool_and?: ResolverInputTypes["nominees_aggregate_bool_exp_bool_and"] | undefined | null,
+	bool_or?: ResolverInputTypes["nominees_aggregate_bool_exp_bool_or"] | undefined | null,
+	count?: ResolverInputTypes["nominees_aggregate_bool_exp_count"] | undefined | null
+};
+	["nominees_aggregate_bool_exp_bool_and"]: {
+	arguments: ResolverInputTypes["nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns"],
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["nominees_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Boolean_comparison_exp"]
+};
+	["nominees_aggregate_bool_exp_bool_or"]: {
+	arguments: ResolverInputTypes["nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns"],
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["nominees_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Boolean_comparison_exp"]
+};
+	["nominees_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["nominees_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["nominees_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "nominees" */
 ["nominees_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["nominees_avg_fields"],
@@ -22727,6 +24441,7 @@ count?: [{	columns?: Array<ResolverInputTypes["nominees_select_column"]> | undef
 	nominated_by_user_id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	nominated_date?: ResolverInputTypes["date_comparison_exp"] | undefined | null,
 	nominations?: ResolverInputTypes["vouches_bool_exp"] | undefined | null,
+	nominations_aggregate?: ResolverInputTypes["vouches_aggregate_bool_exp"] | undefined | null,
 	nominator?: ResolverInputTypes["users_bool_exp"] | undefined | null,
 	profile?: ResolverInputTypes["profiles_bool_exp"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
@@ -22868,6 +24583,10 @@ count?: [{	columns?: Array<ResolverInputTypes["nominees_select_column"]> | undef
 };
 	/** select columns of table "nominees" */
 ["nominees_select_column"]:nominees_select_column;
+	/** select "nominees_aggregate_bool_exp_bool_and_arguments_columns" columns of table "nominees" */
+["nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns"]:nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns;
+	/** select "nominees_aggregate_bool_exp_bool_or_arguments_columns" columns of table "nominees" */
+["nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns"]:nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "nominees" */
 ["nominees_set_input"]: {
 	address?: string | undefined | null,
@@ -22980,6 +24699,7 @@ count?: [{	columns?: Array<ResolverInputTypes["nominees_select_column"]> | undef
 	_inc?: ResolverInputTypes["nominees_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["nominees_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["nominees_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -23048,6 +24768,338 @@ count?: [{	columns?: Array<ResolverInputTypes["nominees_select_column"]> | undef
 };
 	/** column ordering options */
 ["order_by"]:order_by;
+	/** columns and relationships of "org_members" */
+["org_members"]: AliasType<{
+	created_at?:boolean | `@${string}`,
+	deleted_at?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	/** An object relationship */
+	organization?:ResolverInputTypes["organizations"],
+	/** An object relationship */
+	profile?:ResolverInputTypes["profiles"],
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+	updated_at?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** aggregated selection of "org_members" */
+["org_members_aggregate"]: AliasType<{
+	aggregate?:ResolverInputTypes["org_members_aggregate_fields"],
+	nodes?:ResolverInputTypes["org_members"],
+		__typename?: boolean | `@${string}`
+}>;
+	["org_members_aggregate_bool_exp"]: {
+	count?: ResolverInputTypes["org_members_aggregate_bool_exp_count"] | undefined | null
+};
+	["org_members_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["org_members_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["org_members_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
+	/** aggregate fields of "org_members" */
+["org_members_aggregate_fields"]: AliasType<{
+	avg?:ResolverInputTypes["org_members_avg_fields"],
+count?: [{	columns?: Array<ResolverInputTypes["org_members_select_column"]> | undefined | null,	distinct?: boolean | undefined | null},boolean | `@${string}`],
+	max?:ResolverInputTypes["org_members_max_fields"],
+	min?:ResolverInputTypes["org_members_min_fields"],
+	stddev?:ResolverInputTypes["org_members_stddev_fields"],
+	stddev_pop?:ResolverInputTypes["org_members_stddev_pop_fields"],
+	stddev_samp?:ResolverInputTypes["org_members_stddev_samp_fields"],
+	sum?:ResolverInputTypes["org_members_sum_fields"],
+	var_pop?:ResolverInputTypes["org_members_var_pop_fields"],
+	var_samp?:ResolverInputTypes["org_members_var_samp_fields"],
+	variance?:ResolverInputTypes["org_members_variance_fields"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by aggregate values of table "org_members" */
+["org_members_aggregate_order_by"]: {
+	avg?: ResolverInputTypes["org_members_avg_order_by"] | undefined | null,
+	count?: ResolverInputTypes["order_by"] | undefined | null,
+	max?: ResolverInputTypes["org_members_max_order_by"] | undefined | null,
+	min?: ResolverInputTypes["org_members_min_order_by"] | undefined | null,
+	stddev?: ResolverInputTypes["org_members_stddev_order_by"] | undefined | null,
+	stddev_pop?: ResolverInputTypes["org_members_stddev_pop_order_by"] | undefined | null,
+	stddev_samp?: ResolverInputTypes["org_members_stddev_samp_order_by"] | undefined | null,
+	sum?: ResolverInputTypes["org_members_sum_order_by"] | undefined | null,
+	var_pop?: ResolverInputTypes["org_members_var_pop_order_by"] | undefined | null,
+	var_samp?: ResolverInputTypes["org_members_var_samp_order_by"] | undefined | null,
+	variance?: ResolverInputTypes["org_members_variance_order_by"] | undefined | null
+};
+	/** input type for inserting array relation for remote table "org_members" */
+["org_members_arr_rel_insert_input"]: {
+	data: Array<ResolverInputTypes["org_members_insert_input"]>,
+	/** upsert condition */
+	on_conflict?: ResolverInputTypes["org_members_on_conflict"] | undefined | null
+};
+	/** aggregate avg on columns */
+["org_members_avg_fields"]: AliasType<{
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by avg() on columns of table "org_members" */
+["org_members_avg_order_by"]: {
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	org_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null,
+	role?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** Boolean expression to filter rows from the table "org_members". All fields are combined with a logical 'AND'. */
+["org_members_bool_exp"]: {
+	_and?: Array<ResolverInputTypes["org_members_bool_exp"]> | undefined | null,
+	_not?: ResolverInputTypes["org_members_bool_exp"] | undefined | null,
+	_or?: Array<ResolverInputTypes["org_members_bool_exp"]> | undefined | null,
+	created_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
+	deleted_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
+	id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	org_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	organization?: ResolverInputTypes["organizations_bool_exp"] | undefined | null,
+	profile?: ResolverInputTypes["profiles_bool_exp"] | undefined | null,
+	profile_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
+	role?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
+	updated_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null
+};
+	/** unique or primary key constraints on table "org_members" */
+["org_members_constraint"]:org_members_constraint;
+	/** input type for incrementing numeric columns in table "org_members" */
+["org_members_inc_input"]: {
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	org_id?: ResolverInputTypes["bigint"] | undefined | null,
+	profile_id?: ResolverInputTypes["bigint"] | undefined | null,
+	role?: number | undefined | null
+};
+	/** input type for inserting data into table "org_members" */
+["org_members_insert_input"]: {
+	created_at?: ResolverInputTypes["timestamp"] | undefined | null,
+	deleted_at?: ResolverInputTypes["timestamp"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	org_id?: ResolverInputTypes["bigint"] | undefined | null,
+	organization?: ResolverInputTypes["organizations_obj_rel_insert_input"] | undefined | null,
+	profile?: ResolverInputTypes["profiles_obj_rel_insert_input"] | undefined | null,
+	profile_id?: ResolverInputTypes["bigint"] | undefined | null,
+	role?: number | undefined | null,
+	updated_at?: ResolverInputTypes["timestamp"] | undefined | null
+};
+	/** aggregate max on columns */
+["org_members_max_fields"]: AliasType<{
+	created_at?:boolean | `@${string}`,
+	deleted_at?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+	updated_at?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by max() on columns of table "org_members" */
+["org_members_max_order_by"]: {
+	created_at?: ResolverInputTypes["order_by"] | undefined | null,
+	deleted_at?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	org_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null,
+	role?: ResolverInputTypes["order_by"] | undefined | null,
+	updated_at?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** aggregate min on columns */
+["org_members_min_fields"]: AliasType<{
+	created_at?:boolean | `@${string}`,
+	deleted_at?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+	updated_at?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by min() on columns of table "org_members" */
+["org_members_min_order_by"]: {
+	created_at?: ResolverInputTypes["order_by"] | undefined | null,
+	deleted_at?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	org_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null,
+	role?: ResolverInputTypes["order_by"] | undefined | null,
+	updated_at?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** response of any mutation on the table "org_members" */
+["org_members_mutation_response"]: AliasType<{
+	/** number of rows affected by the mutation */
+	affected_rows?:boolean | `@${string}`,
+	/** data from the rows affected by the mutation */
+	returning?:ResolverInputTypes["org_members"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** on_conflict condition type for table "org_members" */
+["org_members_on_conflict"]: {
+	constraint: ResolverInputTypes["org_members_constraint"],
+	update_columns: Array<ResolverInputTypes["org_members_update_column"]>,
+	where?: ResolverInputTypes["org_members_bool_exp"] | undefined | null
+};
+	/** Ordering options when selecting data from "org_members". */
+["org_members_order_by"]: {
+	created_at?: ResolverInputTypes["order_by"] | undefined | null,
+	deleted_at?: ResolverInputTypes["order_by"] | undefined | null,
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	org_id?: ResolverInputTypes["order_by"] | undefined | null,
+	organization?: ResolverInputTypes["organizations_order_by"] | undefined | null,
+	profile?: ResolverInputTypes["profiles_order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null,
+	role?: ResolverInputTypes["order_by"] | undefined | null,
+	updated_at?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** primary key columns input for table: org_members */
+["org_members_pk_columns_input"]: {
+	id: ResolverInputTypes["bigint"]
+};
+	/** select columns of table "org_members" */
+["org_members_select_column"]:org_members_select_column;
+	/** input type for updating data in table "org_members" */
+["org_members_set_input"]: {
+	created_at?: ResolverInputTypes["timestamp"] | undefined | null,
+	deleted_at?: ResolverInputTypes["timestamp"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	org_id?: ResolverInputTypes["bigint"] | undefined | null,
+	profile_id?: ResolverInputTypes["bigint"] | undefined | null,
+	role?: number | undefined | null,
+	updated_at?: ResolverInputTypes["timestamp"] | undefined | null
+};
+	/** aggregate stddev on columns */
+["org_members_stddev_fields"]: AliasType<{
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by stddev() on columns of table "org_members" */
+["org_members_stddev_order_by"]: {
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	org_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null,
+	role?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** aggregate stddev_pop on columns */
+["org_members_stddev_pop_fields"]: AliasType<{
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by stddev_pop() on columns of table "org_members" */
+["org_members_stddev_pop_order_by"]: {
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	org_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null,
+	role?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** aggregate stddev_samp on columns */
+["org_members_stddev_samp_fields"]: AliasType<{
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by stddev_samp() on columns of table "org_members" */
+["org_members_stddev_samp_order_by"]: {
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	org_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null,
+	role?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** Streaming cursor of the table "org_members" */
+["org_members_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ResolverInputTypes["org_members_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null
+};
+	/** Initial value of the column from where the streaming should start */
+["org_members_stream_cursor_value_input"]: {
+	created_at?: ResolverInputTypes["timestamp"] | undefined | null,
+	deleted_at?: ResolverInputTypes["timestamp"] | undefined | null,
+	id?: ResolverInputTypes["bigint"] | undefined | null,
+	org_id?: ResolverInputTypes["bigint"] | undefined | null,
+	profile_id?: ResolverInputTypes["bigint"] | undefined | null,
+	role?: number | undefined | null,
+	updated_at?: ResolverInputTypes["timestamp"] | undefined | null
+};
+	/** aggregate sum on columns */
+["org_members_sum_fields"]: AliasType<{
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by sum() on columns of table "org_members" */
+["org_members_sum_order_by"]: {
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	org_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null,
+	role?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** update columns of table "org_members" */
+["org_members_update_column"]:org_members_update_column;
+	["org_members_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ResolverInputTypes["org_members_inc_input"] | undefined | null,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ResolverInputTypes["org_members_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
+	where: ResolverInputTypes["org_members_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["org_members_var_pop_fields"]: AliasType<{
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by var_pop() on columns of table "org_members" */
+["org_members_var_pop_order_by"]: {
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	org_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null,
+	role?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** aggregate var_samp on columns */
+["org_members_var_samp_fields"]: AliasType<{
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by var_samp() on columns of table "org_members" */
+["org_members_var_samp_order_by"]: {
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	org_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null,
+	role?: ResolverInputTypes["order_by"] | undefined | null
+};
+	/** aggregate variance on columns */
+["org_members_variance_fields"]: AliasType<{
+	id?:boolean | `@${string}`,
+	org_id?:boolean | `@${string}`,
+	profile_id?:boolean | `@${string}`,
+	role?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	/** order by variance() on columns of table "org_members" */
+["org_members_variance_order_by"]: {
+	id?: ResolverInputTypes["order_by"] | undefined | null,
+	org_id?: ResolverInputTypes["order_by"] | undefined | null,
+	profile_id?: ResolverInputTypes["order_by"] | undefined | null,
+	role?: ResolverInputTypes["order_by"] | undefined | null
+};
 	/** columns and relationships of "organizations" */
 ["organizations"]: AliasType<{
 circles?: [{	/** distinct select on columns */
@@ -23067,6 +25119,18 @@ circles_aggregate?: [{	/** distinct select on columns */
 	id?:boolean | `@${string}`,
 	is_verified?:boolean | `@${string}`,
 	logo?:boolean | `@${string}`,
+members?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["org_members_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["org_members_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["org_members_bool_exp"] | undefined | null},ResolverInputTypes["org_members"]],
+members_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["org_members_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["org_members_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["org_members_bool_exp"] | undefined | null},ResolverInputTypes["org_members_aggregate"]],
 	name?:boolean | `@${string}`,
 	/** An object relationship */
 	profile?:ResolverInputTypes["profiles"],
@@ -23121,17 +25185,21 @@ count?: [{	columns?: Array<ResolverInputTypes["organizations_select_column"]> | 
 	_not?: ResolverInputTypes["organizations_bool_exp"] | undefined | null,
 	_or?: Array<ResolverInputTypes["organizations_bool_exp"]> | undefined | null,
 	circles?: ResolverInputTypes["circles_bool_exp"] | undefined | null,
+	circles_aggregate?: ResolverInputTypes["circles_aggregate_bool_exp"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	created_by?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
 	is_verified?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	logo?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
+	members?: ResolverInputTypes["org_members_bool_exp"] | undefined | null,
+	members_aggregate?: ResolverInputTypes["org_members_aggregate_bool_exp"] | undefined | null,
 	name?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	profile?: ResolverInputTypes["profiles_bool_exp"] | undefined | null,
 	sample?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	telegram_id?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
-	vaults?: ResolverInputTypes["vaults_bool_exp"] | undefined | null
+	vaults?: ResolverInputTypes["vaults_bool_exp"] | undefined | null,
+	vaults_aggregate?: ResolverInputTypes["vaults_aggregate_bool_exp"] | undefined | null
 };
 	/** unique or primary key constraints on table "organizations" */
 ["organizations_constraint"]:organizations_constraint;
@@ -23148,6 +25216,7 @@ count?: [{	columns?: Array<ResolverInputTypes["organizations_select_column"]> | 
 	id?: ResolverInputTypes["bigint"] | undefined | null,
 	is_verified?: boolean | undefined | null,
 	logo?: string | undefined | null,
+	members?: ResolverInputTypes["org_members_arr_rel_insert_input"] | undefined | null,
 	name?: string | undefined | null,
 	profile?: ResolverInputTypes["profiles_obj_rel_insert_input"] | undefined | null,
 	/** Indicates a test/sample/sandbox org */
@@ -23206,6 +25275,7 @@ count?: [{	columns?: Array<ResolverInputTypes["organizations_select_column"]> | 
 	id?: ResolverInputTypes["order_by"] | undefined | null,
 	is_verified?: ResolverInputTypes["order_by"] | undefined | null,
 	logo?: ResolverInputTypes["order_by"] | undefined | null,
+	members_aggregate?: ResolverInputTypes["org_members_aggregate_order_by"] | undefined | null,
 	name?: ResolverInputTypes["order_by"] | undefined | null,
 	profile?: ResolverInputTypes["profiles_order_by"] | undefined | null,
 	sample?: ResolverInputTypes["order_by"] | undefined | null,
@@ -23283,6 +25353,7 @@ count?: [{	columns?: Array<ResolverInputTypes["organizations_select_column"]> | 
 	_inc?: ResolverInputTypes["organizations_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["organizations_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["organizations_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -23463,6 +25534,7 @@ count?: [{	columns?: Array<ResolverInputTypes["pending_gift_private_select_colum
 	_inc?: ResolverInputTypes["pending_gift_private_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["pending_gift_private_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["pending_gift_private_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -23518,6 +25590,15 @@ count?: [{	columns?: Array<ResolverInputTypes["pending_gift_private_select_colum
 	nodes?:ResolverInputTypes["pending_token_gifts"],
 		__typename?: boolean | `@${string}`
 }>;
+	["pending_token_gifts_aggregate_bool_exp"]: {
+	count?: ResolverInputTypes["pending_token_gifts_aggregate_bool_exp_count"] | undefined | null
+};
+	["pending_token_gifts_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["pending_token_gifts_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["pending_token_gifts_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "pending_token_gifts" */
 ["pending_token_gifts_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["pending_token_gifts_avg_fields"],
@@ -23848,6 +25929,7 @@ count?: [{	columns?: Array<ResolverInputTypes["pending_token_gifts_select_column
 	_inc?: ResolverInputTypes["pending_token_gifts_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["pending_token_gifts_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["pending_token_gifts_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -24129,6 +26211,7 @@ count?: [{	columns?: Array<ResolverInputTypes["pending_vault_transactions_select
 	_inc?: ResolverInputTypes["pending_vault_transactions_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["pending_vault_transactions_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["pending_vault_transactions_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -24357,6 +26440,7 @@ count?: [{	columns?: Array<ResolverInputTypes["personal_access_tokens_select_col
 	_inc?: ResolverInputTypes["personal_access_tokens_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["personal_access_tokens_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["personal_access_tokens_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -24427,6 +26511,18 @@ nominees_aggregate?: [{	/** distinct select on columns */
 	offset?: number | undefined | null,	/** sort the rows by one or more columns */
 	order_by?: Array<ResolverInputTypes["nominees_order_by"]> | undefined | null,	/** filter the rows returned */
 	where?: ResolverInputTypes["nominees_bool_exp"] | undefined | null},ResolverInputTypes["nominees_aggregate"]],
+org_members?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["org_members_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["org_members_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["org_members_bool_exp"] | undefined | null},ResolverInputTypes["org_members"]],
+org_members_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["org_members_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["org_members_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["org_members_bool_exp"] | undefined | null},ResolverInputTypes["org_members_aggregate"]],
 	skills?:boolean | `@${string}`,
 	telegram_username?:boolean | `@${string}`,
 	twitter_username?:boolean | `@${string}`,
@@ -24509,23 +26605,31 @@ count?: [{	columns?: Array<ResolverInputTypes["profiles_select_column"]> | undef
 	bio?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	chat_id?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	claims?: ResolverInputTypes["claims_bool_exp"] | undefined | null,
+	claims_aggregate?: ResolverInputTypes["claims_aggregate_bool_exp"] | undefined | null,
 	connector?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	discord_username?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	distributions?: ResolverInputTypes["distributions_bool_exp"] | undefined | null,
+	distributions_aggregate?: ResolverInputTypes["distributions_aggregate_bool_exp"] | undefined | null,
 	github_username?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
 	medium_username?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	name?: ResolverInputTypes["citext_comparison_exp"] | undefined | null,
 	nominees?: ResolverInputTypes["nominees_bool_exp"] | undefined | null,
+	nominees_aggregate?: ResolverInputTypes["nominees_aggregate_bool_exp"] | undefined | null,
+	org_members?: ResolverInputTypes["org_members_bool_exp"] | undefined | null,
+	org_members_aggregate?: ResolverInputTypes["org_members_aggregate_bool_exp"] | undefined | null,
 	skills?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	telegram_username?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	twitter_username?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	user?: ResolverInputTypes["discord_users_bool_exp"] | undefined | null,
 	users?: ResolverInputTypes["users_bool_exp"] | undefined | null,
+	users_aggregate?: ResolverInputTypes["users_aggregate_bool_exp"] | undefined | null,
 	vault_transactions?: ResolverInputTypes["vault_transactions_bool_exp"] | undefined | null,
+	vault_transactions_aggregate?: ResolverInputTypes["vault_transactions_aggregate_bool_exp"] | undefined | null,
 	vaults?: ResolverInputTypes["vaults_bool_exp"] | undefined | null,
+	vaults_aggregate?: ResolverInputTypes["vaults_aggregate_bool_exp"] | undefined | null,
 	website?: ResolverInputTypes["String_comparison_exp"] | undefined | null
 };
 	/** unique or primary key constraints on table "profiles" */
@@ -24551,6 +26655,7 @@ count?: [{	columns?: Array<ResolverInputTypes["profiles_select_column"]> | undef
 	medium_username?: string | undefined | null,
 	name?: ResolverInputTypes["citext"] | undefined | null,
 	nominees?: ResolverInputTypes["nominees_arr_rel_insert_input"] | undefined | null,
+	org_members?: ResolverInputTypes["org_members_arr_rel_insert_input"] | undefined | null,
 	skills?: string | undefined | null,
 	telegram_username?: string | undefined | null,
 	twitter_username?: string | undefined | null,
@@ -24640,6 +26745,7 @@ count?: [{	columns?: Array<ResolverInputTypes["profiles_select_column"]> | undef
 	medium_username?: ResolverInputTypes["order_by"] | undefined | null,
 	name?: ResolverInputTypes["order_by"] | undefined | null,
 	nominees_aggregate?: ResolverInputTypes["nominees_aggregate_order_by"] | undefined | null,
+	org_members_aggregate?: ResolverInputTypes["org_members_aggregate_order_by"] | undefined | null,
 	skills?: ResolverInputTypes["order_by"] | undefined | null,
 	telegram_username?: ResolverInputTypes["order_by"] | undefined | null,
 	twitter_username?: ResolverInputTypes["order_by"] | undefined | null,
@@ -24730,6 +26836,7 @@ count?: [{	columns?: Array<ResolverInputTypes["profiles_select_column"]> | undef
 	_inc?: ResolverInputTypes["profiles_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["profiles_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["profiles_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -24748,6 +26855,19 @@ count?: [{	columns?: Array<ResolverInputTypes["profiles_select_column"]> | undef
 		__typename?: boolean | `@${string}`
 }>;
 	["query_root"]: AliasType<{
+activities?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["activities_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["activities_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["activities_bool_exp"] | undefined | null},ResolverInputTypes["activities"]],
+activities_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["activities_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["activities_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["activities_bool_exp"] | undefined | null},ResolverInputTypes["activities_aggregate"]],
+activities_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["activities"]],
 burns?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["burns_select_column"]> | undefined | null,	/** limit the number of rows returned */
 	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
@@ -25033,6 +27153,19 @@ nominees_aggregate?: [{	/** distinct select on columns */
 	order_by?: Array<ResolverInputTypes["nominees_order_by"]> | undefined | null,	/** filter the rows returned */
 	where?: ResolverInputTypes["nominees_bool_exp"] | undefined | null},ResolverInputTypes["nominees_aggregate"]],
 nominees_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["nominees"]],
+org_members?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["org_members_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["org_members_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["org_members_bool_exp"] | undefined | null},ResolverInputTypes["org_members"]],
+org_members_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["org_members_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["org_members_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["org_members_bool_exp"] | undefined | null},ResolverInputTypes["org_members_aggregate"]],
+org_members_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["org_members"]],
 organizations?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["organizations_select_column"]> | undefined | null,	/** limit the number of rows returned */
 	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
@@ -25216,6 +27349,23 @@ vouches_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["vouches
 		__typename?: boolean | `@${string}`
 }>;
 	["subscription_root"]: AliasType<{
+activities?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["activities_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["activities_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["activities_bool_exp"] | undefined | null},ResolverInputTypes["activities"]],
+activities_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["activities_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["activities_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["activities_bool_exp"] | undefined | null},ResolverInputTypes["activities_aggregate"]],
+activities_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["activities"]],
+activities_stream?: [{	/** maximum number of rows returned in a single batch */
+	batch_size: number,	/** cursor to stream the results returned by the query */
+	cursor: Array<ResolverInputTypes["activities_stream_cursor_input"] | undefined | null>,	/** filter the rows returned */
+	where?: ResolverInputTypes["activities_bool_exp"] | undefined | null},ResolverInputTypes["activities"]],
 burns?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["burns_select_column"]> | undefined | null,	/** limit the number of rows returned */
 	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
@@ -25588,6 +27738,23 @@ nominees_stream?: [{	/** maximum number of rows returned in a single batch */
 	batch_size: number,	/** cursor to stream the results returned by the query */
 	cursor: Array<ResolverInputTypes["nominees_stream_cursor_input"] | undefined | null>,	/** filter the rows returned */
 	where?: ResolverInputTypes["nominees_bool_exp"] | undefined | null},ResolverInputTypes["nominees"]],
+org_members?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["org_members_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["org_members_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["org_members_bool_exp"] | undefined | null},ResolverInputTypes["org_members"]],
+org_members_aggregate?: [{	/** distinct select on columns */
+	distinct_on?: Array<ResolverInputTypes["org_members_select_column"]> | undefined | null,	/** limit the number of rows returned */
+	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
+	offset?: number | undefined | null,	/** sort the rows by one or more columns */
+	order_by?: Array<ResolverInputTypes["org_members_order_by"]> | undefined | null,	/** filter the rows returned */
+	where?: ResolverInputTypes["org_members_bool_exp"] | undefined | null},ResolverInputTypes["org_members_aggregate"]],
+org_members_by_pk?: [{	id: ResolverInputTypes["bigint"]},ResolverInputTypes["org_members"]],
+org_members_stream?: [{	/** maximum number of rows returned in a single batch */
+	batch_size: number,	/** cursor to stream the results returned by the query */
+	cursor: Array<ResolverInputTypes["org_members_stream_cursor_input"] | undefined | null>,	/** filter the rows returned */
+	where?: ResolverInputTypes["org_members_bool_exp"] | undefined | null},ResolverInputTypes["org_members"]],
 organizations?: [{	/** distinct select on columns */
 	distinct_on?: Array<ResolverInputTypes["organizations_select_column"]> | undefined | null,	/** limit the number of rows returned */
 	limit?: number | undefined | null,	/** skip the first n rows. Use only with order_by */
@@ -25845,6 +28012,15 @@ vouches_stream?: [{	/** maximum number of rows returned in a single batch */
 	nodes?:ResolverInputTypes["teammates"],
 		__typename?: boolean | `@${string}`
 }>;
+	["teammates_aggregate_bool_exp"]: {
+	count?: ResolverInputTypes["teammates_aggregate_bool_exp_count"] | undefined | null
+};
+	["teammates_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["teammates_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["teammates_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "teammates" */
 ["teammates_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["teammates_avg_fields"],
@@ -26070,6 +28246,7 @@ count?: [{	columns?: Array<ResolverInputTypes["teammates_select_column"]> | unde
 	_inc?: ResolverInputTypes["teammates_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["teammates_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["teammates_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -26169,6 +28346,15 @@ count?: [{	columns?: Array<ResolverInputTypes["teammates_select_column"]> | unde
 	nodes?:ResolverInputTypes["token_gifts"],
 		__typename?: boolean | `@${string}`
 }>;
+	["token_gifts_aggregate_bool_exp"]: {
+	count?: ResolverInputTypes["token_gifts_aggregate_bool_exp_count"] | undefined | null
+};
+	["token_gifts_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["token_gifts_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["token_gifts_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "token_gifts" */
 ["token_gifts_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["token_gifts_avg_fields"],
@@ -26499,6 +28685,7 @@ count?: [{	columns?: Array<ResolverInputTypes["token_gifts_select_column"]> | un
 	_inc?: ResolverInputTypes["token_gifts_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["token_gifts_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["token_gifts_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -26855,6 +29042,29 @@ vouches_aggregate?: [{	/** distinct select on columns */
 	nodes?:ResolverInputTypes["users"],
 		__typename?: boolean | `@${string}`
 }>;
+	["users_aggregate_bool_exp"]: {
+	bool_and?: ResolverInputTypes["users_aggregate_bool_exp_bool_and"] | undefined | null,
+	bool_or?: ResolverInputTypes["users_aggregate_bool_exp_bool_or"] | undefined | null,
+	count?: ResolverInputTypes["users_aggregate_bool_exp_count"] | undefined | null
+};
+	["users_aggregate_bool_exp_bool_and"]: {
+	arguments: ResolverInputTypes["users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns"],
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["users_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Boolean_comparison_exp"]
+};
+	["users_aggregate_bool_exp_bool_or"]: {
+	arguments: ResolverInputTypes["users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns"],
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["users_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Boolean_comparison_exp"]
+};
+	["users_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["users_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["users_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "users" */
 ["users_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["users_avg_fields"],
@@ -26919,10 +29129,13 @@ count?: [{	columns?: Array<ResolverInputTypes["users_select_column"]> | undefine
 	address?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	bio?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	burns?: ResolverInputTypes["burns_bool_exp"] | undefined | null,
+	burns_aggregate?: ResolverInputTypes["burns_aggregate_bool_exp"] | undefined | null,
 	circle?: ResolverInputTypes["circles_bool_exp"] | undefined | null,
 	circle_api_keys?: ResolverInputTypes["circle_api_keys_bool_exp"] | undefined | null,
+	circle_api_keys_aggregate?: ResolverInputTypes["circle_api_keys_aggregate_bool_exp"] | undefined | null,
 	circle_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
 	contributions?: ResolverInputTypes["contributions_bool_exp"] | undefined | null,
+	contributions_aggregate?: ResolverInputTypes["contributions_aggregate_bool_exp"] | undefined | null,
 	created_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	deleted_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	entrance?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
@@ -26936,16 +29149,22 @@ count?: [{	columns?: Array<ResolverInputTypes["users_select_column"]> | undefine
 	non_giver?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	non_receiver?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null,
 	pending_received_gifts?: ResolverInputTypes["pending_token_gifts_bool_exp"] | undefined | null,
+	pending_received_gifts_aggregate?: ResolverInputTypes["pending_token_gifts_aggregate_bool_exp"] | undefined | null,
 	pending_sent_gifts?: ResolverInputTypes["pending_token_gifts_bool_exp"] | undefined | null,
+	pending_sent_gifts_aggregate?: ResolverInputTypes["pending_token_gifts_aggregate_bool_exp"] | undefined | null,
 	profile?: ResolverInputTypes["profiles_bool_exp"] | undefined | null,
 	received_gifts?: ResolverInputTypes["token_gifts_bool_exp"] | undefined | null,
+	received_gifts_aggregate?: ResolverInputTypes["token_gifts_aggregate_bool_exp"] | undefined | null,
 	role?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	sent_gifts?: ResolverInputTypes["token_gifts_bool_exp"] | undefined | null,
+	sent_gifts_aggregate?: ResolverInputTypes["token_gifts_aggregate_bool_exp"] | undefined | null,
 	starting_tokens?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	teammates?: ResolverInputTypes["teammates_bool_exp"] | undefined | null,
+	teammates_aggregate?: ResolverInputTypes["teammates_aggregate_bool_exp"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamp_comparison_exp"] | undefined | null,
 	user_private?: ResolverInputTypes["user_private_bool_exp"] | undefined | null,
-	vouches?: ResolverInputTypes["vouches_bool_exp"] | undefined | null
+	vouches?: ResolverInputTypes["vouches_bool_exp"] | undefined | null,
+	vouches_aggregate?: ResolverInputTypes["vouches_aggregate_bool_exp"] | undefined | null
 };
 	/** unique or primary key constraints on table "users" */
 ["users_constraint"]:users_constraint;
@@ -27121,6 +29340,10 @@ count?: [{	columns?: Array<ResolverInputTypes["users_select_column"]> | undefine
 };
 	/** select columns of table "users" */
 ["users_select_column"]:users_select_column;
+	/** select "users_aggregate_bool_exp_bool_and_arguments_columns" columns of table "users" */
+["users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns"]:users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns;
+	/** select "users_aggregate_bool_exp_bool_or_arguments_columns" columns of table "users" */
+["users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns"]:users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "users" */
 ["users_set_input"]: {
 	address?: string | undefined | null,
@@ -27261,6 +29484,7 @@ count?: [{	columns?: Array<ResolverInputTypes["users_select_column"]> | undefine
 	_inc?: ResolverInputTypes["users_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["users_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["users_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -27368,6 +29592,15 @@ count?: [{	columns?: Array<ResolverInputTypes["users_select_column"]> | undefine
 	nodes?:ResolverInputTypes["vault_transactions"],
 		__typename?: boolean | `@${string}`
 }>;
+	["vault_transactions_aggregate_bool_exp"]: {
+	count?: ResolverInputTypes["vault_transactions_aggregate_bool_exp_count"] | undefined | null
+};
+	["vault_transactions_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["vault_transactions_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["vault_transactions_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "vault_transactions" */
 ["vault_transactions_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["vault_transactions_avg_fields"],
@@ -27656,6 +29889,7 @@ count?: [{	columns?: Array<ResolverInputTypes["vault_transactions_select_column"
 	_inc?: ResolverInputTypes["vault_transactions_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["vault_transactions_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["vault_transactions_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -27747,7 +29981,8 @@ count?: [{	columns?: Array<ResolverInputTypes["vault_tx_types_select_column"]> |
 	_or?: Array<ResolverInputTypes["vault_tx_types_bool_exp"]> | undefined | null,
 	comment?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	value?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
-	vault_transactions?: ResolverInputTypes["vault_transactions_bool_exp"] | undefined | null
+	vault_transactions?: ResolverInputTypes["vault_transactions_bool_exp"] | undefined | null,
+	vault_transactions_aggregate?: ResolverInputTypes["vault_transactions_aggregate_bool_exp"] | undefined | null
 };
 	/** unique or primary key constraints on table "vault_tx_types" */
 ["vault_tx_types_constraint"]:vault_tx_types_constraint;
@@ -27832,6 +30067,7 @@ count?: [{	columns?: Array<ResolverInputTypes["vault_tx_types_select_column"]> |
 	["vault_tx_types_updates"]: {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["vault_tx_types_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["vault_tx_types_bool_exp"]
 };
 	/** columns and relationships of "vaults" */
@@ -27884,6 +30120,15 @@ vault_transactions_aggregate?: [{	/** distinct select on columns */
 	nodes?:ResolverInputTypes["vaults"],
 		__typename?: boolean | `@${string}`
 }>;
+	["vaults_aggregate_bool_exp"]: {
+	count?: ResolverInputTypes["vaults_aggregate_bool_exp_count"] | undefined | null
+};
+	["vaults_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["vaults_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["vaults_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "vaults" */
 ["vaults_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["vaults_avg_fields"],
@@ -27949,6 +30194,7 @@ count?: [{	columns?: Array<ResolverInputTypes["vaults_select_column"]> | undefin
 	decimals?: ResolverInputTypes["Int_comparison_exp"] | undefined | null,
 	deployment_block?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
 	distributions?: ResolverInputTypes["distributions_bool_exp"] | undefined | null,
+	distributions_aggregate?: ResolverInputTypes["distributions_aggregate_bool_exp"] | undefined | null,
 	id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
 	org_id?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null,
 	organization?: ResolverInputTypes["organizations_bool_exp"] | undefined | null,
@@ -27958,7 +30204,8 @@ count?: [{	columns?: Array<ResolverInputTypes["vaults_select_column"]> | undefin
 	token_address?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamptz_comparison_exp"] | undefined | null,
 	vault_address?: ResolverInputTypes["String_comparison_exp"] | undefined | null,
-	vault_transactions?: ResolverInputTypes["vault_transactions_bool_exp"] | undefined | null
+	vault_transactions?: ResolverInputTypes["vault_transactions_bool_exp"] | undefined | null,
+	vault_transactions_aggregate?: ResolverInputTypes["vault_transactions_aggregate_bool_exp"] | undefined | null
 };
 	/** unique or primary key constraints on table "vaults" */
 ["vaults_constraint"]:vaults_constraint;
@@ -28217,6 +30464,7 @@ count?: [{	columns?: Array<ResolverInputTypes["vaults_select_column"]> | undefin
 	_inc?: ResolverInputTypes["vaults_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["vaults_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["vaults_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -28295,6 +30543,15 @@ count?: [{	columns?: Array<ResolverInputTypes["vaults_select_column"]> | undefin
 	nodes?:ResolverInputTypes["vouches"],
 		__typename?: boolean | `@${string}`
 }>;
+	["vouches_aggregate_bool_exp"]: {
+	count?: ResolverInputTypes["vouches_aggregate_bool_exp_count"] | undefined | null
+};
+	["vouches_aggregate_bool_exp_count"]: {
+	arguments?: Array<ResolverInputTypes["vouches_select_column"]> | undefined | null,
+	distinct?: boolean | undefined | null,
+	filter?: ResolverInputTypes["vouches_bool_exp"] | undefined | null,
+	predicate: ResolverInputTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "vouches" */
 ["vouches_aggregate_fields"]: AliasType<{
 	avg?:ResolverInputTypes["vouches_avg_fields"],
@@ -28520,6 +30777,7 @@ count?: [{	columns?: Array<ResolverInputTypes["vouches_select_column"]> | undefi
 	_inc?: ResolverInputTypes["vouches_inc_input"] | undefined | null,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ResolverInputTypes["vouches_set_input"] | undefined | null,
+	/** filter the rows which have to be updated */
 	where: ResolverInputTypes["vouches_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -28727,6 +30985,7 @@ export type ModelTypes = {
 	circle_id: number,
 	create_contributions?: boolean | undefined,
 	create_vouches?: boolean | undefined,
+	manage_users?: boolean | undefined,
 	name: string,
 	read_circle?: boolean | undefined,
 	read_contributions?: boolean | undefined,
@@ -28972,6 +31231,309 @@ export type ModelTypes = {
 		id: number,
 	nominee?: ModelTypes["nominees"] | undefined
 };
+	/** Table containing activity on our platform */
+["activities"]: {
+		action: string,
+	/** An object relationship */
+	actor_profile?: ModelTypes["profiles"] | undefined,
+	actor_profile_id?: ModelTypes["bigint"] | undefined,
+	/** An object relationship */
+	circle?: ModelTypes["circles"] | undefined,
+	circle_id?: ModelTypes["bigint"] | undefined,
+	/** An object relationship */
+	contribution?: ModelTypes["contributions"] | undefined,
+	contribution_id?: ModelTypes["bigint"] | undefined,
+	created_at: ModelTypes["timestamptz"],
+	/** An object relationship */
+	epoch?: ModelTypes["epochs"] | undefined,
+	epoch_id?: ModelTypes["bigint"] | undefined,
+	id: ModelTypes["bigint"],
+	/** An object relationship */
+	organization: ModelTypes["organizations"],
+	organization_id: ModelTypes["bigint"],
+	/** An object relationship */
+	target_profile?: ModelTypes["profiles"] | undefined,
+	target_profile_id?: ModelTypes["bigint"] | undefined,
+	updated_at: ModelTypes["timestamptz"],
+	/** An object relationship */
+	user?: ModelTypes["users"] | undefined,
+	user_id?: ModelTypes["bigint"] | undefined
+};
+	/** aggregated selection of "activities" */
+["activities_aggregate"]: {
+		aggregate?: ModelTypes["activities_aggregate_fields"] | undefined,
+	nodes: Array<ModelTypes["activities"]>
+};
+	/** aggregate fields of "activities" */
+["activities_aggregate_fields"]: {
+		avg?: ModelTypes["activities_avg_fields"] | undefined,
+	count: number,
+	max?: ModelTypes["activities_max_fields"] | undefined,
+	min?: ModelTypes["activities_min_fields"] | undefined,
+	stddev?: ModelTypes["activities_stddev_fields"] | undefined,
+	stddev_pop?: ModelTypes["activities_stddev_pop_fields"] | undefined,
+	stddev_samp?: ModelTypes["activities_stddev_samp_fields"] | undefined,
+	sum?: ModelTypes["activities_sum_fields"] | undefined,
+	var_pop?: ModelTypes["activities_var_pop_fields"] | undefined,
+	var_samp?: ModelTypes["activities_var_samp_fields"] | undefined,
+	variance?: ModelTypes["activities_variance_fields"] | undefined
+};
+	/** aggregate avg on columns */
+["activities_avg_fields"]: {
+		actor_profile_id?: number | undefined,
+	circle_id?: number | undefined,
+	contribution_id?: number | undefined,
+	epoch_id?: number | undefined,
+	id?: number | undefined,
+	organization_id?: number | undefined,
+	target_profile_id?: number | undefined,
+	user_id?: number | undefined
+};
+	/** Boolean expression to filter rows from the table "activities". All fields are combined with a logical 'AND'. */
+["activities_bool_exp"]: {
+	_and?: Array<ModelTypes["activities_bool_exp"]> | undefined,
+	_not?: ModelTypes["activities_bool_exp"] | undefined,
+	_or?: Array<ModelTypes["activities_bool_exp"]> | undefined,
+	action?: ModelTypes["String_comparison_exp"] | undefined,
+	actor_profile?: ModelTypes["profiles_bool_exp"] | undefined,
+	actor_profile_id?: ModelTypes["bigint_comparison_exp"] | undefined,
+	circle?: ModelTypes["circles_bool_exp"] | undefined,
+	circle_id?: ModelTypes["bigint_comparison_exp"] | undefined,
+	contribution?: ModelTypes["contributions_bool_exp"] | undefined,
+	contribution_id?: ModelTypes["bigint_comparison_exp"] | undefined,
+	created_at?: ModelTypes["timestamptz_comparison_exp"] | undefined,
+	epoch?: ModelTypes["epochs_bool_exp"] | undefined,
+	epoch_id?: ModelTypes["bigint_comparison_exp"] | undefined,
+	id?: ModelTypes["bigint_comparison_exp"] | undefined,
+	organization?: ModelTypes["organizations_bool_exp"] | undefined,
+	organization_id?: ModelTypes["bigint_comparison_exp"] | undefined,
+	target_profile?: ModelTypes["profiles_bool_exp"] | undefined,
+	target_profile_id?: ModelTypes["bigint_comparison_exp"] | undefined,
+	updated_at?: ModelTypes["timestamptz_comparison_exp"] | undefined,
+	user?: ModelTypes["users_bool_exp"] | undefined,
+	user_id?: ModelTypes["bigint_comparison_exp"] | undefined
+};
+	["activities_constraint"]:activities_constraint;
+	/** input type for incrementing numeric columns in table "activities" */
+["activities_inc_input"]: {
+	actor_profile_id?: ModelTypes["bigint"] | undefined,
+	circle_id?: ModelTypes["bigint"] | undefined,
+	contribution_id?: ModelTypes["bigint"] | undefined,
+	epoch_id?: ModelTypes["bigint"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	organization_id?: ModelTypes["bigint"] | undefined,
+	target_profile_id?: ModelTypes["bigint"] | undefined,
+	user_id?: ModelTypes["bigint"] | undefined
+};
+	/** input type for inserting data into table "activities" */
+["activities_insert_input"]: {
+	action?: string | undefined,
+	actor_profile?: ModelTypes["profiles_obj_rel_insert_input"] | undefined,
+	actor_profile_id?: ModelTypes["bigint"] | undefined,
+	circle?: ModelTypes["circles_obj_rel_insert_input"] | undefined,
+	circle_id?: ModelTypes["bigint"] | undefined,
+	contribution?: ModelTypes["contributions_obj_rel_insert_input"] | undefined,
+	contribution_id?: ModelTypes["bigint"] | undefined,
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	epoch?: ModelTypes["epochs_obj_rel_insert_input"] | undefined,
+	epoch_id?: ModelTypes["bigint"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	organization?: ModelTypes["organizations_obj_rel_insert_input"] | undefined,
+	organization_id?: ModelTypes["bigint"] | undefined,
+	target_profile?: ModelTypes["profiles_obj_rel_insert_input"] | undefined,
+	target_profile_id?: ModelTypes["bigint"] | undefined,
+	updated_at?: ModelTypes["timestamptz"] | undefined,
+	user?: ModelTypes["users_obj_rel_insert_input"] | undefined,
+	user_id?: ModelTypes["bigint"] | undefined
+};
+	/** aggregate max on columns */
+["activities_max_fields"]: {
+		action?: string | undefined,
+	actor_profile_id?: ModelTypes["bigint"] | undefined,
+	circle_id?: ModelTypes["bigint"] | undefined,
+	contribution_id?: ModelTypes["bigint"] | undefined,
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	epoch_id?: ModelTypes["bigint"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	organization_id?: ModelTypes["bigint"] | undefined,
+	target_profile_id?: ModelTypes["bigint"] | undefined,
+	updated_at?: ModelTypes["timestamptz"] | undefined,
+	user_id?: ModelTypes["bigint"] | undefined
+};
+	/** aggregate min on columns */
+["activities_min_fields"]: {
+		action?: string | undefined,
+	actor_profile_id?: ModelTypes["bigint"] | undefined,
+	circle_id?: ModelTypes["bigint"] | undefined,
+	contribution_id?: ModelTypes["bigint"] | undefined,
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	epoch_id?: ModelTypes["bigint"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	organization_id?: ModelTypes["bigint"] | undefined,
+	target_profile_id?: ModelTypes["bigint"] | undefined,
+	updated_at?: ModelTypes["timestamptz"] | undefined,
+	user_id?: ModelTypes["bigint"] | undefined
+};
+	/** response of any mutation on the table "activities" */
+["activities_mutation_response"]: {
+		/** number of rows affected by the mutation */
+	affected_rows: number,
+	/** data from the rows affected by the mutation */
+	returning: Array<ModelTypes["activities"]>
+};
+	/** on_conflict condition type for table "activities" */
+["activities_on_conflict"]: {
+	constraint: ModelTypes["activities_constraint"],
+	update_columns: Array<ModelTypes["activities_update_column"]>,
+	where?: ModelTypes["activities_bool_exp"] | undefined
+};
+	/** Ordering options when selecting data from "activities". */
+["activities_order_by"]: {
+	action?: ModelTypes["order_by"] | undefined,
+	actor_profile?: ModelTypes["profiles_order_by"] | undefined,
+	actor_profile_id?: ModelTypes["order_by"] | undefined,
+	circle?: ModelTypes["circles_order_by"] | undefined,
+	circle_id?: ModelTypes["order_by"] | undefined,
+	contribution?: ModelTypes["contributions_order_by"] | undefined,
+	contribution_id?: ModelTypes["order_by"] | undefined,
+	created_at?: ModelTypes["order_by"] | undefined,
+	epoch?: ModelTypes["epochs_order_by"] | undefined,
+	epoch_id?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	organization?: ModelTypes["organizations_order_by"] | undefined,
+	organization_id?: ModelTypes["order_by"] | undefined,
+	target_profile?: ModelTypes["profiles_order_by"] | undefined,
+	target_profile_id?: ModelTypes["order_by"] | undefined,
+	updated_at?: ModelTypes["order_by"] | undefined,
+	user?: ModelTypes["users_order_by"] | undefined,
+	user_id?: ModelTypes["order_by"] | undefined
+};
+	/** primary key columns input for table: activities */
+["activities_pk_columns_input"]: {
+	id: ModelTypes["bigint"]
+};
+	["activities_select_column"]:activities_select_column;
+	/** input type for updating data in table "activities" */
+["activities_set_input"]: {
+	action?: string | undefined,
+	actor_profile_id?: ModelTypes["bigint"] | undefined,
+	circle_id?: ModelTypes["bigint"] | undefined,
+	contribution_id?: ModelTypes["bigint"] | undefined,
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	epoch_id?: ModelTypes["bigint"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	organization_id?: ModelTypes["bigint"] | undefined,
+	target_profile_id?: ModelTypes["bigint"] | undefined,
+	updated_at?: ModelTypes["timestamptz"] | undefined,
+	user_id?: ModelTypes["bigint"] | undefined
+};
+	/** aggregate stddev on columns */
+["activities_stddev_fields"]: {
+		actor_profile_id?: number | undefined,
+	circle_id?: number | undefined,
+	contribution_id?: number | undefined,
+	epoch_id?: number | undefined,
+	id?: number | undefined,
+	organization_id?: number | undefined,
+	target_profile_id?: number | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate stddev_pop on columns */
+["activities_stddev_pop_fields"]: {
+		actor_profile_id?: number | undefined,
+	circle_id?: number | undefined,
+	contribution_id?: number | undefined,
+	epoch_id?: number | undefined,
+	id?: number | undefined,
+	organization_id?: number | undefined,
+	target_profile_id?: number | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate stddev_samp on columns */
+["activities_stddev_samp_fields"]: {
+		actor_profile_id?: number | undefined,
+	circle_id?: number | undefined,
+	contribution_id?: number | undefined,
+	epoch_id?: number | undefined,
+	id?: number | undefined,
+	organization_id?: number | undefined,
+	target_profile_id?: number | undefined,
+	user_id?: number | undefined
+};
+	/** Streaming cursor of the table "activities" */
+["activities_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ModelTypes["activities_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: ModelTypes["cursor_ordering"] | undefined
+};
+	/** Initial value of the column from where the streaming should start */
+["activities_stream_cursor_value_input"]: {
+	action?: string | undefined,
+	actor_profile_id?: ModelTypes["bigint"] | undefined,
+	circle_id?: ModelTypes["bigint"] | undefined,
+	contribution_id?: ModelTypes["bigint"] | undefined,
+	created_at?: ModelTypes["timestamptz"] | undefined,
+	epoch_id?: ModelTypes["bigint"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	organization_id?: ModelTypes["bigint"] | undefined,
+	target_profile_id?: ModelTypes["bigint"] | undefined,
+	updated_at?: ModelTypes["timestamptz"] | undefined,
+	user_id?: ModelTypes["bigint"] | undefined
+};
+	/** aggregate sum on columns */
+["activities_sum_fields"]: {
+		actor_profile_id?: ModelTypes["bigint"] | undefined,
+	circle_id?: ModelTypes["bigint"] | undefined,
+	contribution_id?: ModelTypes["bigint"] | undefined,
+	epoch_id?: ModelTypes["bigint"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	organization_id?: ModelTypes["bigint"] | undefined,
+	target_profile_id?: ModelTypes["bigint"] | undefined,
+	user_id?: ModelTypes["bigint"] | undefined
+};
+	["activities_update_column"]:activities_update_column;
+	["activities_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ModelTypes["activities_inc_input"] | undefined,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ModelTypes["activities_set_input"] | undefined,
+	/** filter the rows which have to be updated */
+	where: ModelTypes["activities_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["activities_var_pop_fields"]: {
+		actor_profile_id?: number | undefined,
+	circle_id?: number | undefined,
+	contribution_id?: number | undefined,
+	epoch_id?: number | undefined,
+	id?: number | undefined,
+	organization_id?: number | undefined,
+	target_profile_id?: number | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate var_samp on columns */
+["activities_var_samp_fields"]: {
+		actor_profile_id?: number | undefined,
+	circle_id?: number | undefined,
+	contribution_id?: number | undefined,
+	epoch_id?: number | undefined,
+	id?: number | undefined,
+	organization_id?: number | undefined,
+	target_profile_id?: number | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate variance on columns */
+["activities_variance_fields"]: {
+		actor_profile_id?: number | undefined,
+	circle_id?: number | undefined,
+	contribution_id?: number | undefined,
+	epoch_id?: number | undefined,
+	id?: number | undefined,
+	organization_id?: number | undefined,
+	target_profile_id?: number | undefined,
+	user_id?: number | undefined
+};
 	["bigint"]:any;
 	/** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
 ["bigint_comparison_exp"]: {
@@ -29007,6 +31569,15 @@ export type ModelTypes = {
 ["burns_aggregate"]: {
 		aggregate?: ModelTypes["burns_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["burns"]>
+};
+	["burns_aggregate_bool_exp"]: {
+	count?: ModelTypes["burns_aggregate_bool_exp_count"] | undefined
+};
+	["burns_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["burns_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["burns_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "burns" */
 ["burns_aggregate_fields"]: {
@@ -29304,6 +31875,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["burns_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["burns_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["burns_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -29378,6 +31950,7 @@ export type ModelTypes = {
 	created_at: ModelTypes["timestamptz"],
 	created_by: ModelTypes["bigint"],
 	hash: string,
+	manage_users: boolean,
 	name: string,
 	read_circle: boolean,
 	read_contributions: boolean,
@@ -29393,6 +31966,29 @@ export type ModelTypes = {
 ["circle_api_keys_aggregate"]: {
 		aggregate?: ModelTypes["circle_api_keys_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["circle_api_keys"]>
+};
+	["circle_api_keys_aggregate_bool_exp"]: {
+	bool_and?: ModelTypes["circle_api_keys_aggregate_bool_exp_bool_and"] | undefined,
+	bool_or?: ModelTypes["circle_api_keys_aggregate_bool_exp_bool_or"] | undefined,
+	count?: ModelTypes["circle_api_keys_aggregate_bool_exp_count"] | undefined
+};
+	["circle_api_keys_aggregate_bool_exp_bool_and"]: {
+	arguments: ModelTypes["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["circle_api_keys_bool_exp"] | undefined,
+	predicate: ModelTypes["Boolean_comparison_exp"]
+};
+	["circle_api_keys_aggregate_bool_exp_bool_or"]: {
+	arguments: ModelTypes["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["circle_api_keys_bool_exp"] | undefined,
+	predicate: ModelTypes["Boolean_comparison_exp"]
+};
+	["circle_api_keys_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["circle_api_keys_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["circle_api_keys_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "circle_api_keys" */
 ["circle_api_keys_aggregate_fields"]: {
@@ -29451,6 +32047,7 @@ export type ModelTypes = {
 	created_at?: ModelTypes["timestamptz_comparison_exp"] | undefined,
 	created_by?: ModelTypes["bigint_comparison_exp"] | undefined,
 	hash?: ModelTypes["String_comparison_exp"] | undefined,
+	manage_users?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	name?: ModelTypes["String_comparison_exp"] | undefined,
 	read_circle?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	read_contributions?: ModelTypes["Boolean_comparison_exp"] | undefined,
@@ -29478,6 +32075,7 @@ export type ModelTypes = {
 	created_at?: ModelTypes["timestamptz"] | undefined,
 	created_by?: ModelTypes["bigint"] | undefined,
 	hash?: string | undefined,
+	manage_users?: boolean | undefined,
 	name?: string | undefined,
 	read_circle?: boolean | undefined,
 	read_contributions?: boolean | undefined,
@@ -29550,6 +32148,7 @@ export type ModelTypes = {
 	created_at?: ModelTypes["order_by"] | undefined,
 	created_by?: ModelTypes["order_by"] | undefined,
 	hash?: ModelTypes["order_by"] | undefined,
+	manage_users?: ModelTypes["order_by"] | undefined,
 	name?: ModelTypes["order_by"] | undefined,
 	read_circle?: ModelTypes["order_by"] | undefined,
 	read_contributions?: ModelTypes["order_by"] | undefined,
@@ -29566,6 +32165,8 @@ export type ModelTypes = {
 	hash: string
 };
 	["circle_api_keys_select_column"]:circle_api_keys_select_column;
+	["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns"]:circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns;
+	["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns"]:circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "circle_api_keys" */
 ["circle_api_keys_set_input"]: {
 	circle_id?: ModelTypes["bigint"] | undefined,
@@ -29574,6 +32175,7 @@ export type ModelTypes = {
 	created_at?: ModelTypes["timestamptz"] | undefined,
 	created_by?: ModelTypes["bigint"] | undefined,
 	hash?: string | undefined,
+	manage_users?: boolean | undefined,
 	name?: string | undefined,
 	read_circle?: boolean | undefined,
 	read_contributions?: boolean | undefined,
@@ -29630,6 +32232,7 @@ export type ModelTypes = {
 	created_at?: ModelTypes["timestamptz"] | undefined,
 	created_by?: ModelTypes["bigint"] | undefined,
 	hash?: string | undefined,
+	manage_users?: boolean | undefined,
 	name?: string | undefined,
 	read_circle?: boolean | undefined,
 	read_contributions?: boolean | undefined,
@@ -29657,6 +32260,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["circle_api_keys_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["circle_api_keys_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["circle_api_keys_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -29705,6 +32309,15 @@ export type ModelTypes = {
 ["circle_integrations_aggregate"]: {
 		aggregate?: ModelTypes["circle_integrations_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["circle_integrations"]>
+};
+	["circle_integrations_aggregate_bool_exp"]: {
+	count?: ModelTypes["circle_integrations_aggregate_bool_exp_count"] | undefined
+};
+	["circle_integrations_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["circle_integrations_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["circle_integrations_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "circle_integrations" */
 ["circle_integrations_aggregate_fields"]: {
@@ -29919,6 +32532,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["circle_integrations_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["circle_integrations_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["circle_integrations_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -29965,6 +32579,15 @@ export type ModelTypes = {
 ["circle_metadata_aggregate"]: {
 		aggregate?: ModelTypes["circle_metadata_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["circle_metadata"]>
+};
+	["circle_metadata_aggregate_bool_exp"]: {
+	count?: ModelTypes["circle_metadata_aggregate_bool_exp_count"] | undefined
+};
+	["circle_metadata_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["circle_metadata_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["circle_metadata_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "circle_metadata" */
 ["circle_metadata_aggregate_fields"]: {
@@ -30161,6 +32784,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["circle_metadata_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["circle_metadata_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["circle_metadata_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -30308,6 +32932,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["circle_private_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["circle_private_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["circle_private_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -30476,6 +33101,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["circle_share_tokens_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["circle_share_tokens_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["circle_share_tokens_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -30582,6 +33208,29 @@ export type ModelTypes = {
 		aggregate?: ModelTypes["circles_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["circles"]>
 };
+	["circles_aggregate_bool_exp"]: {
+	bool_and?: ModelTypes["circles_aggregate_bool_exp_bool_and"] | undefined,
+	bool_or?: ModelTypes["circles_aggregate_bool_exp_bool_or"] | undefined,
+	count?: ModelTypes["circles_aggregate_bool_exp_count"] | undefined
+};
+	["circles_aggregate_bool_exp_bool_and"]: {
+	arguments: ModelTypes["circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["circles_bool_exp"] | undefined,
+	predicate: ModelTypes["Boolean_comparison_exp"]
+};
+	["circles_aggregate_bool_exp_bool_or"]: {
+	arguments: ModelTypes["circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["circles_bool_exp"] | undefined,
+	predicate: ModelTypes["Boolean_comparison_exp"]
+};
+	["circles_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["circles_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["circles_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "circles" */
 ["circles_aggregate_fields"]: {
 		avg?: ModelTypes["circles_avg_fields"] | undefined,
@@ -30643,44 +33292,56 @@ export type ModelTypes = {
 	_or?: Array<ModelTypes["circles_bool_exp"]> | undefined,
 	alloc_text?: ModelTypes["String_comparison_exp"] | undefined,
 	api_keys?: ModelTypes["circle_api_keys_bool_exp"] | undefined,
+	api_keys_aggregate?: ModelTypes["circle_api_keys_aggregate_bool_exp"] | undefined,
 	auto_opt_out?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	burns?: ModelTypes["burns_bool_exp"] | undefined,
+	burns_aggregate?: ModelTypes["burns_aggregate_bool_exp"] | undefined,
 	circle_metadata?: ModelTypes["circle_metadata_bool_exp"] | undefined,
+	circle_metadata_aggregate?: ModelTypes["circle_metadata_aggregate_bool_exp"] | undefined,
 	circle_private?: ModelTypes["circle_private_bool_exp"] | undefined,
 	cont_help_text?: ModelTypes["String_comparison_exp"] | undefined,
 	contact?: ModelTypes["String_comparison_exp"] | undefined,
 	contributions?: ModelTypes["contributions_bool_exp"] | undefined,
+	contributions_aggregate?: ModelTypes["contributions_aggregate_bool_exp"] | undefined,
 	created_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	default_opt_in?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	deleted_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	discord_access_tokens?: ModelTypes["discord_circle_api_tokens_bool_exp"] | undefined,
+	discord_access_tokens_aggregate?: ModelTypes["discord_circle_api_tokens_aggregate_bool_exp"] | undefined,
 	discord_circle?: ModelTypes["discord_roles_circles_bool_exp"] | undefined,
 	discord_webhook?: ModelTypes["String_comparison_exp"] | undefined,
 	epochs?: ModelTypes["epochs_bool_exp"] | undefined,
+	epochs_aggregate?: ModelTypes["epochs_aggregate_bool_exp"] | undefined,
 	fixed_payment_token_type?: ModelTypes["String_comparison_exp"] | undefined,
 	fixed_payment_vault_id?: ModelTypes["Int_comparison_exp"] | undefined,
 	guild_id?: ModelTypes["Int_comparison_exp"] | undefined,
 	guild_role_id?: ModelTypes["Int_comparison_exp"] | undefined,
 	id?: ModelTypes["bigint_comparison_exp"] | undefined,
 	integrations?: ModelTypes["circle_integrations_bool_exp"] | undefined,
+	integrations_aggregate?: ModelTypes["circle_integrations_aggregate_bool_exp"] | undefined,
 	is_verified?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	logo?: ModelTypes["String_comparison_exp"] | undefined,
 	min_vouches?: ModelTypes["Int_comparison_exp"] | undefined,
 	name?: ModelTypes["String_comparison_exp"] | undefined,
 	nomination_days_limit?: ModelTypes["Int_comparison_exp"] | undefined,
 	nominees?: ModelTypes["nominees_bool_exp"] | undefined,
+	nominees_aggregate?: ModelTypes["nominees_aggregate_bool_exp"] | undefined,
 	only_giver_vouch?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	organization?: ModelTypes["organizations_bool_exp"] | undefined,
 	organization_id?: ModelTypes["Int_comparison_exp"] | undefined,
 	pending_token_gifts?: ModelTypes["pending_token_gifts_bool_exp"] | undefined,
+	pending_token_gifts_aggregate?: ModelTypes["pending_token_gifts_aggregate_bool_exp"] | undefined,
 	show_pending_gives?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	team_selection?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	telegram_id?: ModelTypes["String_comparison_exp"] | undefined,
 	token_gifts?: ModelTypes["token_gifts_bool_exp"] | undefined,
+	token_gifts_aggregate?: ModelTypes["token_gifts_aggregate_bool_exp"] | undefined,
 	token_name?: ModelTypes["String_comparison_exp"] | undefined,
 	updated_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	users?: ModelTypes["users_bool_exp"] | undefined,
+	users_aggregate?: ModelTypes["users_aggregate_bool_exp"] | undefined,
 	vault_transactions?: ModelTypes["vault_transactions_bool_exp"] | undefined,
+	vault_transactions_aggregate?: ModelTypes["vault_transactions_aggregate_bool_exp"] | undefined,
 	vouching?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	vouching_text?: ModelTypes["String_comparison_exp"] | undefined
 };
@@ -30901,6 +33562,8 @@ export type ModelTypes = {
 	id: ModelTypes["bigint"]
 };
 	["circles_select_column"]:circles_select_column;
+	["circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns"]:circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns;
+	["circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns"]:circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "circles" */
 ["circles_set_input"]: {
 	alloc_text?: string | undefined,
@@ -31054,6 +33717,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["circles_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["circles_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["circles_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -31171,6 +33835,15 @@ export type ModelTypes = {
 ["claims_aggregate"]: {
 		aggregate?: ModelTypes["claims_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["claims"]>
+};
+	["claims_aggregate_bool_exp"]: {
+	count?: ModelTypes["claims_aggregate_bool_exp_count"] | undefined
+};
+	["claims_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["claims_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["claims_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "claims" */
 ["claims_aggregate_fields"]: {
@@ -31472,6 +34145,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["claims_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["claims_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["claims_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -31550,6 +34224,15 @@ export type ModelTypes = {
 ["contributions_aggregate"]: {
 		aggregate?: ModelTypes["contributions_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["contributions"]>
+};
+	["contributions_aggregate_bool_exp"]: {
+	count?: ModelTypes["contributions_aggregate_bool_exp_count"] | undefined
+};
+	["contributions_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["contributions_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["contributions_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "contributions" */
 ["contributions_aggregate_fields"]: {
@@ -31692,6 +34375,12 @@ export type ModelTypes = {
 	/** data from the rows affected by the mutation */
 	returning: Array<ModelTypes["contributions"]>
 };
+	/** input type for inserting object relation for remote table "contributions" */
+["contributions_obj_rel_insert_input"]: {
+	data: ModelTypes["contributions_insert_input"],
+	/** upsert condition */
+	on_conflict?: ModelTypes["contributions_on_conflict"] | undefined
+};
 	/** on_conflict condition type for table "contributions" */
 ["contributions_on_conflict"]: {
 	constraint: ModelTypes["contributions_constraint"],
@@ -31803,6 +34492,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["contributions_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["contributions_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["contributions_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -31867,6 +34557,15 @@ export type ModelTypes = {
 ["discord_circle_api_tokens_aggregate"]: {
 		aggregate?: ModelTypes["discord_circle_api_tokens_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["discord_circle_api_tokens"]>
+};
+	["discord_circle_api_tokens_aggregate_bool_exp"]: {
+	count?: ModelTypes["discord_circle_api_tokens_aggregate_bool_exp_count"] | undefined
+};
+	["discord_circle_api_tokens_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["discord_circle_api_tokens_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["discord_circle_api_tokens_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "discord.circle_api_tokens" */
 ["discord_circle_api_tokens_aggregate_fields"]: {
@@ -32064,6 +34763,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["discord_circle_api_tokens_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["discord_circle_api_tokens_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["discord_circle_api_tokens_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -32299,6 +34999,7 @@ export type ModelTypes = {
 	_prepend?: ModelTypes["discord_roles_circles_prepend_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["discord_roles_circles_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["discord_roles_circles_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -32475,6 +35176,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["discord_users_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["discord_users_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["discord_users_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -32527,6 +35229,15 @@ export type ModelTypes = {
 ["distributions_aggregate"]: {
 		aggregate?: ModelTypes["distributions_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["distributions"]>
+};
+	["distributions_aggregate_bool_exp"]: {
+	count?: ModelTypes["distributions_aggregate_bool_exp_count"] | undefined
+};
+	["distributions_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["distributions_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["distributions_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "distributions" */
 ["distributions_aggregate_fields"]: {
@@ -32594,6 +35305,7 @@ export type ModelTypes = {
 	_not?: ModelTypes["distributions_bool_exp"] | undefined,
 	_or?: Array<ModelTypes["distributions_bool_exp"]> | undefined,
 	claims?: ModelTypes["claims_bool_exp"] | undefined,
+	claims_aggregate?: ModelTypes["claims_aggregate_bool_exp"] | undefined,
 	created_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	created_by?: ModelTypes["bigint_comparison_exp"] | undefined,
 	distribution_epoch_id?: ModelTypes["bigint_comparison_exp"] | undefined,
@@ -32611,7 +35323,8 @@ export type ModelTypes = {
 	updated_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	vault?: ModelTypes["vaults_bool_exp"] | undefined,
 	vault_id?: ModelTypes["bigint_comparison_exp"] | undefined,
-	vault_transactions?: ModelTypes["vault_transactions_bool_exp"] | undefined
+	vault_transactions?: ModelTypes["vault_transactions_bool_exp"] | undefined,
+	vault_transactions_aggregate?: ModelTypes["vault_transactions_aggregate_bool_exp"] | undefined
 };
 	["distributions_constraint"]:distributions_constraint;
 	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
@@ -32918,6 +35631,7 @@ export type ModelTypes = {
 	_prepend?: ModelTypes["distributions_prepend_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["distributions_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["distributions_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -33199,6 +35913,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["epoch_pgive_data_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["epoch_pgive_data_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["epoch_pgive_data_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -33277,6 +35992,29 @@ export type ModelTypes = {
 		aggregate?: ModelTypes["epochs_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["epochs"]>
 };
+	["epochs_aggregate_bool_exp"]: {
+	bool_and?: ModelTypes["epochs_aggregate_bool_exp_bool_and"] | undefined,
+	bool_or?: ModelTypes["epochs_aggregate_bool_exp_bool_or"] | undefined,
+	count?: ModelTypes["epochs_aggregate_bool_exp_count"] | undefined
+};
+	["epochs_aggregate_bool_exp_bool_and"]: {
+	arguments: ModelTypes["epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["epochs_bool_exp"] | undefined,
+	predicate: ModelTypes["Boolean_comparison_exp"]
+};
+	["epochs_aggregate_bool_exp_bool_or"]: {
+	arguments: ModelTypes["epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["epochs_bool_exp"] | undefined,
+	predicate: ModelTypes["Boolean_comparison_exp"]
+};
+	["epochs_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["epochs_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["epochs_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "epoches" */
 ["epochs_aggregate_fields"]: {
 		avg?: ModelTypes["epochs_avg_fields"] | undefined,
@@ -33343,15 +36081,18 @@ export type ModelTypes = {
 	_not?: ModelTypes["epochs_bool_exp"] | undefined,
 	_or?: Array<ModelTypes["epochs_bool_exp"]> | undefined,
 	burns?: ModelTypes["burns_bool_exp"] | undefined,
+	burns_aggregate?: ModelTypes["burns_aggregate_bool_exp"] | undefined,
 	circle?: ModelTypes["circles_bool_exp"] | undefined,
 	circle_id?: ModelTypes["Int_comparison_exp"] | undefined,
 	created_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	days?: ModelTypes["Int_comparison_exp"] | undefined,
 	description?: ModelTypes["String_comparison_exp"] | undefined,
 	distributions?: ModelTypes["distributions_bool_exp"] | undefined,
+	distributions_aggregate?: ModelTypes["distributions_aggregate_bool_exp"] | undefined,
 	end_date?: ModelTypes["timestamptz_comparison_exp"] | undefined,
 	ended?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	epoch_pending_token_gifts?: ModelTypes["pending_token_gifts_bool_exp"] | undefined,
+	epoch_pending_token_gifts_aggregate?: ModelTypes["pending_token_gifts_aggregate_bool_exp"] | undefined,
 	grant?: ModelTypes["numeric_comparison_exp"] | undefined,
 	id?: ModelTypes["bigint_comparison_exp"] | undefined,
 	notified_before_end?: ModelTypes["timestamp_comparison_exp"] | undefined,
@@ -33365,6 +36106,7 @@ export type ModelTypes = {
 	repeat_day_of_month?: ModelTypes["Int_comparison_exp"] | undefined,
 	start_date?: ModelTypes["timestamptz_comparison_exp"] | undefined,
 	token_gifts?: ModelTypes["token_gifts_bool_exp"] | undefined,
+	token_gifts_aggregate?: ModelTypes["token_gifts_aggregate_bool_exp"] | undefined,
 	updated_at?: ModelTypes["timestamp_comparison_exp"] | undefined
 };
 	["epochs_constraint"]:epochs_constraint;
@@ -33549,6 +36291,8 @@ export type ModelTypes = {
 	repeat_data?: ModelTypes["jsonb"] | undefined
 };
 	["epochs_select_column"]:epochs_select_column;
+	["epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns"]:epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns;
+	["epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns"]:epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "epoches" */
 ["epochs_set_input"]: {
 	circle_id?: number | undefined,
@@ -33702,6 +36446,7 @@ export type ModelTypes = {
 	_prepend?: ModelTypes["epochs_prepend_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["epochs_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["epochs_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -33918,6 +36663,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["gift_private_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["gift_private_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["gift_private_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -34129,6 +36875,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["histories_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["histories_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["histories_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -34387,6 +37134,7 @@ export type ModelTypes = {
 	_prepend?: ModelTypes["interaction_events_prepend_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["interaction_events_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["interaction_events_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -34465,6 +37213,15 @@ export type ModelTypes = {
 ["locked_token_distribution_gifts_aggregate"]: {
 		aggregate?: ModelTypes["locked_token_distribution_gifts_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["locked_token_distribution_gifts"]>
+};
+	["locked_token_distribution_gifts_aggregate_bool_exp"]: {
+	count?: ModelTypes["locked_token_distribution_gifts_aggregate_bool_exp_count"] | undefined
+};
+	["locked_token_distribution_gifts_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["locked_token_distribution_gifts_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["locked_token_distribution_gifts_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "locked_token_distribution_gifts" */
 ["locked_token_distribution_gifts_aggregate_fields"]: {
@@ -34681,6 +37438,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["locked_token_distribution_gifts_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["locked_token_distribution_gifts_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["locked_token_distribution_gifts_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -34785,6 +37543,7 @@ export type ModelTypes = {
 	gift_amount?: ModelTypes["numeric_comparison_exp"] | undefined,
 	id?: ModelTypes["bigint_comparison_exp"] | undefined,
 	locked_token_distribution_gifts?: ModelTypes["locked_token_distribution_gifts_bool_exp"] | undefined,
+	locked_token_distribution_gifts_aggregate?: ModelTypes["locked_token_distribution_gifts_aggregate_bool_exp"] | undefined,
 	profile?: ModelTypes["profiles_bool_exp"] | undefined,
 	token_contract_address?: ModelTypes["String_comparison_exp"] | undefined,
 	token_decimals?: ModelTypes["Int_comparison_exp"] | undefined,
@@ -34952,6 +37711,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["locked_token_distributions_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["locked_token_distributions_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["locked_token_distributions_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -35193,6 +37953,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["member_epoch_pgives_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["member_epoch_pgives_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["member_epoch_pgives_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -35246,6 +38007,10 @@ export type ModelTypes = {
 	deleteEpoch?: ModelTypes["DeleteEpochResponse"] | undefined,
 	deleteUser?: ModelTypes["ConfirmationResponse"] | undefined,
 	deleteUsers?: ModelTypes["DeleteUsersResponse"] | undefined,
+	/** delete data from the table: "activities" */
+	delete_activities?: ModelTypes["activities_mutation_response"] | undefined,
+	/** delete single row from the table: "activities" */
+	delete_activities_by_pk?: ModelTypes["activities"] | undefined,
 	/** delete data from the table: "burns" */
 	delete_burns?: ModelTypes["burns_mutation_response"] | undefined,
 	/** delete single row from the table: "burns" */
@@ -35330,6 +38095,10 @@ export type ModelTypes = {
 	delete_nominees?: ModelTypes["nominees_mutation_response"] | undefined,
 	/** delete single row from the table: "nominees" */
 	delete_nominees_by_pk?: ModelTypes["nominees"] | undefined,
+	/** delete data from the table: "org_members" */
+	delete_org_members?: ModelTypes["org_members_mutation_response"] | undefined,
+	/** delete single row from the table: "org_members" */
+	delete_org_members_by_pk?: ModelTypes["org_members"] | undefined,
 	/** delete data from the table: "organizations" */
 	delete_organizations?: ModelTypes["organizations_mutation_response"] | undefined,
 	/** delete single row from the table: "organizations" */
@@ -35383,6 +38152,10 @@ export type ModelTypes = {
 	endEpoch?: ModelTypes["EpochResponse"] | undefined,
 	/** Generates an API key for a circle */
 	generateApiKey?: ModelTypes["GenerateApiKeyResponse"] | undefined,
+	/** insert data into the table: "activities" */
+	insert_activities?: ModelTypes["activities_mutation_response"] | undefined,
+	/** insert a single row into the table: "activities" */
+	insert_activities_one?: ModelTypes["activities"] | undefined,
 	/** insert data into the table: "burns" */
 	insert_burns?: ModelTypes["burns_mutation_response"] | undefined,
 	/** insert a single row into the table: "burns" */
@@ -35471,6 +38244,10 @@ export type ModelTypes = {
 	insert_nominees?: ModelTypes["nominees_mutation_response"] | undefined,
 	/** insert a single row into the table: "nominees" */
 	insert_nominees_one?: ModelTypes["nominees"] | undefined,
+	/** insert data into the table: "org_members" */
+	insert_org_members?: ModelTypes["org_members_mutation_response"] | undefined,
+	/** insert a single row into the table: "org_members" */
+	insert_org_members_one?: ModelTypes["org_members"] | undefined,
 	/** insert data into the table: "organizations" */
 	insert_organizations?: ModelTypes["organizations_mutation_response"] | undefined,
 	/** insert a single row into the table: "organizations" */
@@ -35540,6 +38317,12 @@ export type ModelTypes = {
 	updateTeammates?: ModelTypes["UpdateTeammatesResponse"] | undefined,
 	/** Update own user */
 	updateUser?: ModelTypes["UserResponse"] | undefined,
+	/** update data of the table: "activities" */
+	update_activities?: ModelTypes["activities_mutation_response"] | undefined,
+	/** update single row of the table: "activities" */
+	update_activities_by_pk?: ModelTypes["activities"] | undefined,
+	/** update multiples rows of table: "activities" */
+	update_activities_many?: Array<ModelTypes["activities_mutation_response"] | undefined> | undefined,
 	/** update data of the table: "burns" */
 	update_burns?: ModelTypes["burns_mutation_response"] | undefined,
 	/** update single row of the table: "burns" */
@@ -35668,6 +38451,12 @@ export type ModelTypes = {
 	update_nominees_by_pk?: ModelTypes["nominees"] | undefined,
 	/** update multiples rows of table: "nominees" */
 	update_nominees_many?: Array<ModelTypes["nominees_mutation_response"] | undefined> | undefined,
+	/** update data of the table: "org_members" */
+	update_org_members?: ModelTypes["org_members_mutation_response"] | undefined,
+	/** update single row of the table: "org_members" */
+	update_org_members_by_pk?: ModelTypes["org_members"] | undefined,
+	/** update multiples rows of table: "org_members" */
+	update_org_members_many?: Array<ModelTypes["org_members_mutation_response"] | undefined> | undefined,
 	/** update data of the table: "organizations" */
 	update_organizations?: ModelTypes["organizations_mutation_response"] | undefined,
 	/** update single row of the table: "organizations" */
@@ -35782,6 +38571,29 @@ export type ModelTypes = {
 		aggregate?: ModelTypes["nominees_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["nominees"]>
 };
+	["nominees_aggregate_bool_exp"]: {
+	bool_and?: ModelTypes["nominees_aggregate_bool_exp_bool_and"] | undefined,
+	bool_or?: ModelTypes["nominees_aggregate_bool_exp_bool_or"] | undefined,
+	count?: ModelTypes["nominees_aggregate_bool_exp_count"] | undefined
+};
+	["nominees_aggregate_bool_exp_bool_and"]: {
+	arguments: ModelTypes["nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["nominees_bool_exp"] | undefined,
+	predicate: ModelTypes["Boolean_comparison_exp"]
+};
+	["nominees_aggregate_bool_exp_bool_or"]: {
+	arguments: ModelTypes["nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["nominees_bool_exp"] | undefined,
+	predicate: ModelTypes["Boolean_comparison_exp"]
+};
+	["nominees_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["nominees_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["nominees_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "nominees" */
 ["nominees_aggregate_fields"]: {
 		avg?: ModelTypes["nominees_avg_fields"] | undefined,
@@ -35848,6 +38660,7 @@ export type ModelTypes = {
 	nominated_by_user_id?: ModelTypes["Int_comparison_exp"] | undefined,
 	nominated_date?: ModelTypes["date_comparison_exp"] | undefined,
 	nominations?: ModelTypes["vouches_bool_exp"] | undefined,
+	nominations_aggregate?: ModelTypes["vouches_aggregate_bool_exp"] | undefined,
 	nominator?: ModelTypes["users_bool_exp"] | undefined,
 	profile?: ModelTypes["profiles_bool_exp"] | undefined,
 	updated_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
@@ -35984,6 +38797,8 @@ export type ModelTypes = {
 	id: ModelTypes["bigint"]
 };
 	["nominees_select_column"]:nominees_select_column;
+	["nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns"]:nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns;
+	["nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns"]:nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "nominees" */
 ["nominees_set_input"]: {
 	address?: string | undefined,
@@ -36091,6 +38906,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["nominees_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["nominees_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["nominees_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -36155,6 +38971,321 @@ export type ModelTypes = {
 	_nin?: Array<ModelTypes["numeric"]> | undefined
 };
 	["order_by"]:order_by;
+	/** columns and relationships of "org_members" */
+["org_members"]: {
+		created_at: ModelTypes["timestamp"],
+	deleted_at?: ModelTypes["timestamp"] | undefined,
+	id: ModelTypes["bigint"],
+	org_id: ModelTypes["bigint"],
+	/** An object relationship */
+	organization: ModelTypes["organizations"],
+	/** An object relationship */
+	profile: ModelTypes["profiles"],
+	profile_id: ModelTypes["bigint"],
+	role: number,
+	updated_at?: ModelTypes["timestamp"] | undefined
+};
+	/** aggregated selection of "org_members" */
+["org_members_aggregate"]: {
+		aggregate?: ModelTypes["org_members_aggregate_fields"] | undefined,
+	nodes: Array<ModelTypes["org_members"]>
+};
+	["org_members_aggregate_bool_exp"]: {
+	count?: ModelTypes["org_members_aggregate_bool_exp_count"] | undefined
+};
+	["org_members_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["org_members_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["org_members_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
+};
+	/** aggregate fields of "org_members" */
+["org_members_aggregate_fields"]: {
+		avg?: ModelTypes["org_members_avg_fields"] | undefined,
+	count: number,
+	max?: ModelTypes["org_members_max_fields"] | undefined,
+	min?: ModelTypes["org_members_min_fields"] | undefined,
+	stddev?: ModelTypes["org_members_stddev_fields"] | undefined,
+	stddev_pop?: ModelTypes["org_members_stddev_pop_fields"] | undefined,
+	stddev_samp?: ModelTypes["org_members_stddev_samp_fields"] | undefined,
+	sum?: ModelTypes["org_members_sum_fields"] | undefined,
+	var_pop?: ModelTypes["org_members_var_pop_fields"] | undefined,
+	var_samp?: ModelTypes["org_members_var_samp_fields"] | undefined,
+	variance?: ModelTypes["org_members_variance_fields"] | undefined
+};
+	/** order by aggregate values of table "org_members" */
+["org_members_aggregate_order_by"]: {
+	avg?: ModelTypes["org_members_avg_order_by"] | undefined,
+	count?: ModelTypes["order_by"] | undefined,
+	max?: ModelTypes["org_members_max_order_by"] | undefined,
+	min?: ModelTypes["org_members_min_order_by"] | undefined,
+	stddev?: ModelTypes["org_members_stddev_order_by"] | undefined,
+	stddev_pop?: ModelTypes["org_members_stddev_pop_order_by"] | undefined,
+	stddev_samp?: ModelTypes["org_members_stddev_samp_order_by"] | undefined,
+	sum?: ModelTypes["org_members_sum_order_by"] | undefined,
+	var_pop?: ModelTypes["org_members_var_pop_order_by"] | undefined,
+	var_samp?: ModelTypes["org_members_var_samp_order_by"] | undefined,
+	variance?: ModelTypes["org_members_variance_order_by"] | undefined
+};
+	/** input type for inserting array relation for remote table "org_members" */
+["org_members_arr_rel_insert_input"]: {
+	data: Array<ModelTypes["org_members_insert_input"]>,
+	/** upsert condition */
+	on_conflict?: ModelTypes["org_members_on_conflict"] | undefined
+};
+	/** aggregate avg on columns */
+["org_members_avg_fields"]: {
+		id?: number | undefined,
+	org_id?: number | undefined,
+	profile_id?: number | undefined,
+	role?: number | undefined
+};
+	/** order by avg() on columns of table "org_members" */
+["org_members_avg_order_by"]: {
+	id?: ModelTypes["order_by"] | undefined,
+	org_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined,
+	role?: ModelTypes["order_by"] | undefined
+};
+	/** Boolean expression to filter rows from the table "org_members". All fields are combined with a logical 'AND'. */
+["org_members_bool_exp"]: {
+	_and?: Array<ModelTypes["org_members_bool_exp"]> | undefined,
+	_not?: ModelTypes["org_members_bool_exp"] | undefined,
+	_or?: Array<ModelTypes["org_members_bool_exp"]> | undefined,
+	created_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
+	deleted_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
+	id?: ModelTypes["bigint_comparison_exp"] | undefined,
+	org_id?: ModelTypes["bigint_comparison_exp"] | undefined,
+	organization?: ModelTypes["organizations_bool_exp"] | undefined,
+	profile?: ModelTypes["profiles_bool_exp"] | undefined,
+	profile_id?: ModelTypes["bigint_comparison_exp"] | undefined,
+	role?: ModelTypes["Int_comparison_exp"] | undefined,
+	updated_at?: ModelTypes["timestamp_comparison_exp"] | undefined
+};
+	["org_members_constraint"]:org_members_constraint;
+	/** input type for incrementing numeric columns in table "org_members" */
+["org_members_inc_input"]: {
+	id?: ModelTypes["bigint"] | undefined,
+	org_id?: ModelTypes["bigint"] | undefined,
+	profile_id?: ModelTypes["bigint"] | undefined,
+	role?: number | undefined
+};
+	/** input type for inserting data into table "org_members" */
+["org_members_insert_input"]: {
+	created_at?: ModelTypes["timestamp"] | undefined,
+	deleted_at?: ModelTypes["timestamp"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	org_id?: ModelTypes["bigint"] | undefined,
+	organization?: ModelTypes["organizations_obj_rel_insert_input"] | undefined,
+	profile?: ModelTypes["profiles_obj_rel_insert_input"] | undefined,
+	profile_id?: ModelTypes["bigint"] | undefined,
+	role?: number | undefined,
+	updated_at?: ModelTypes["timestamp"] | undefined
+};
+	/** aggregate max on columns */
+["org_members_max_fields"]: {
+		created_at?: ModelTypes["timestamp"] | undefined,
+	deleted_at?: ModelTypes["timestamp"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	org_id?: ModelTypes["bigint"] | undefined,
+	profile_id?: ModelTypes["bigint"] | undefined,
+	role?: number | undefined,
+	updated_at?: ModelTypes["timestamp"] | undefined
+};
+	/** order by max() on columns of table "org_members" */
+["org_members_max_order_by"]: {
+	created_at?: ModelTypes["order_by"] | undefined,
+	deleted_at?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	org_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined,
+	role?: ModelTypes["order_by"] | undefined,
+	updated_at?: ModelTypes["order_by"] | undefined
+};
+	/** aggregate min on columns */
+["org_members_min_fields"]: {
+		created_at?: ModelTypes["timestamp"] | undefined,
+	deleted_at?: ModelTypes["timestamp"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	org_id?: ModelTypes["bigint"] | undefined,
+	profile_id?: ModelTypes["bigint"] | undefined,
+	role?: number | undefined,
+	updated_at?: ModelTypes["timestamp"] | undefined
+};
+	/** order by min() on columns of table "org_members" */
+["org_members_min_order_by"]: {
+	created_at?: ModelTypes["order_by"] | undefined,
+	deleted_at?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	org_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined,
+	role?: ModelTypes["order_by"] | undefined,
+	updated_at?: ModelTypes["order_by"] | undefined
+};
+	/** response of any mutation on the table "org_members" */
+["org_members_mutation_response"]: {
+		/** number of rows affected by the mutation */
+	affected_rows: number,
+	/** data from the rows affected by the mutation */
+	returning: Array<ModelTypes["org_members"]>
+};
+	/** on_conflict condition type for table "org_members" */
+["org_members_on_conflict"]: {
+	constraint: ModelTypes["org_members_constraint"],
+	update_columns: Array<ModelTypes["org_members_update_column"]>,
+	where?: ModelTypes["org_members_bool_exp"] | undefined
+};
+	/** Ordering options when selecting data from "org_members". */
+["org_members_order_by"]: {
+	created_at?: ModelTypes["order_by"] | undefined,
+	deleted_at?: ModelTypes["order_by"] | undefined,
+	id?: ModelTypes["order_by"] | undefined,
+	org_id?: ModelTypes["order_by"] | undefined,
+	organization?: ModelTypes["organizations_order_by"] | undefined,
+	profile?: ModelTypes["profiles_order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined,
+	role?: ModelTypes["order_by"] | undefined,
+	updated_at?: ModelTypes["order_by"] | undefined
+};
+	/** primary key columns input for table: org_members */
+["org_members_pk_columns_input"]: {
+	id: ModelTypes["bigint"]
+};
+	["org_members_select_column"]:org_members_select_column;
+	/** input type for updating data in table "org_members" */
+["org_members_set_input"]: {
+	created_at?: ModelTypes["timestamp"] | undefined,
+	deleted_at?: ModelTypes["timestamp"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	org_id?: ModelTypes["bigint"] | undefined,
+	profile_id?: ModelTypes["bigint"] | undefined,
+	role?: number | undefined,
+	updated_at?: ModelTypes["timestamp"] | undefined
+};
+	/** aggregate stddev on columns */
+["org_members_stddev_fields"]: {
+		id?: number | undefined,
+	org_id?: number | undefined,
+	profile_id?: number | undefined,
+	role?: number | undefined
+};
+	/** order by stddev() on columns of table "org_members" */
+["org_members_stddev_order_by"]: {
+	id?: ModelTypes["order_by"] | undefined,
+	org_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined,
+	role?: ModelTypes["order_by"] | undefined
+};
+	/** aggregate stddev_pop on columns */
+["org_members_stddev_pop_fields"]: {
+		id?: number | undefined,
+	org_id?: number | undefined,
+	profile_id?: number | undefined,
+	role?: number | undefined
+};
+	/** order by stddev_pop() on columns of table "org_members" */
+["org_members_stddev_pop_order_by"]: {
+	id?: ModelTypes["order_by"] | undefined,
+	org_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined,
+	role?: ModelTypes["order_by"] | undefined
+};
+	/** aggregate stddev_samp on columns */
+["org_members_stddev_samp_fields"]: {
+		id?: number | undefined,
+	org_id?: number | undefined,
+	profile_id?: number | undefined,
+	role?: number | undefined
+};
+	/** order by stddev_samp() on columns of table "org_members" */
+["org_members_stddev_samp_order_by"]: {
+	id?: ModelTypes["order_by"] | undefined,
+	org_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined,
+	role?: ModelTypes["order_by"] | undefined
+};
+	/** Streaming cursor of the table "org_members" */
+["org_members_stream_cursor_input"]: {
+	/** Stream column input with initial value */
+	initial_value: ModelTypes["org_members_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: ModelTypes["cursor_ordering"] | undefined
+};
+	/** Initial value of the column from where the streaming should start */
+["org_members_stream_cursor_value_input"]: {
+	created_at?: ModelTypes["timestamp"] | undefined,
+	deleted_at?: ModelTypes["timestamp"] | undefined,
+	id?: ModelTypes["bigint"] | undefined,
+	org_id?: ModelTypes["bigint"] | undefined,
+	profile_id?: ModelTypes["bigint"] | undefined,
+	role?: number | undefined,
+	updated_at?: ModelTypes["timestamp"] | undefined
+};
+	/** aggregate sum on columns */
+["org_members_sum_fields"]: {
+		id?: ModelTypes["bigint"] | undefined,
+	org_id?: ModelTypes["bigint"] | undefined,
+	profile_id?: ModelTypes["bigint"] | undefined,
+	role?: number | undefined
+};
+	/** order by sum() on columns of table "org_members" */
+["org_members_sum_order_by"]: {
+	id?: ModelTypes["order_by"] | undefined,
+	org_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined,
+	role?: ModelTypes["order_by"] | undefined
+};
+	["org_members_update_column"]:org_members_update_column;
+	["org_members_updates"]: {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: ModelTypes["org_members_inc_input"] | undefined,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: ModelTypes["org_members_set_input"] | undefined,
+	/** filter the rows which have to be updated */
+	where: ModelTypes["org_members_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["org_members_var_pop_fields"]: {
+		id?: number | undefined,
+	org_id?: number | undefined,
+	profile_id?: number | undefined,
+	role?: number | undefined
+};
+	/** order by var_pop() on columns of table "org_members" */
+["org_members_var_pop_order_by"]: {
+	id?: ModelTypes["order_by"] | undefined,
+	org_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined,
+	role?: ModelTypes["order_by"] | undefined
+};
+	/** aggregate var_samp on columns */
+["org_members_var_samp_fields"]: {
+		id?: number | undefined,
+	org_id?: number | undefined,
+	profile_id?: number | undefined,
+	role?: number | undefined
+};
+	/** order by var_samp() on columns of table "org_members" */
+["org_members_var_samp_order_by"]: {
+	id?: ModelTypes["order_by"] | undefined,
+	org_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined,
+	role?: ModelTypes["order_by"] | undefined
+};
+	/** aggregate variance on columns */
+["org_members_variance_fields"]: {
+		id?: number | undefined,
+	org_id?: number | undefined,
+	profile_id?: number | undefined,
+	role?: number | undefined
+};
+	/** order by variance() on columns of table "org_members" */
+["org_members_variance_order_by"]: {
+	id?: ModelTypes["order_by"] | undefined,
+	org_id?: ModelTypes["order_by"] | undefined,
+	profile_id?: ModelTypes["order_by"] | undefined,
+	role?: ModelTypes["order_by"] | undefined
+};
 	/** columns and relationships of "organizations" */
 ["organizations"]: {
 		/** An array relationship */
@@ -36166,6 +39297,10 @@ export type ModelTypes = {
 	id: ModelTypes["bigint"],
 	is_verified: boolean,
 	logo?: string | undefined,
+	/** An array relationship */
+	members: Array<ModelTypes["org_members"]>,
+	/** An aggregate relationship */
+	members_aggregate: ModelTypes["org_members_aggregate"],
 	name: string,
 	/** An object relationship */
 	profile?: ModelTypes["profiles"] | undefined,
@@ -36208,17 +39343,21 @@ export type ModelTypes = {
 	_not?: ModelTypes["organizations_bool_exp"] | undefined,
 	_or?: Array<ModelTypes["organizations_bool_exp"]> | undefined,
 	circles?: ModelTypes["circles_bool_exp"] | undefined,
+	circles_aggregate?: ModelTypes["circles_aggregate_bool_exp"] | undefined,
 	created_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	created_by?: ModelTypes["Int_comparison_exp"] | undefined,
 	id?: ModelTypes["bigint_comparison_exp"] | undefined,
 	is_verified?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	logo?: ModelTypes["String_comparison_exp"] | undefined,
+	members?: ModelTypes["org_members_bool_exp"] | undefined,
+	members_aggregate?: ModelTypes["org_members_aggregate_bool_exp"] | undefined,
 	name?: ModelTypes["String_comparison_exp"] | undefined,
 	profile?: ModelTypes["profiles_bool_exp"] | undefined,
 	sample?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	telegram_id?: ModelTypes["String_comparison_exp"] | undefined,
 	updated_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
-	vaults?: ModelTypes["vaults_bool_exp"] | undefined
+	vaults?: ModelTypes["vaults_bool_exp"] | undefined,
+	vaults_aggregate?: ModelTypes["vaults_aggregate_bool_exp"] | undefined
 };
 	["organizations_constraint"]:organizations_constraint;
 	/** input type for incrementing numeric columns in table "organizations" */
@@ -36234,6 +39373,7 @@ export type ModelTypes = {
 	id?: ModelTypes["bigint"] | undefined,
 	is_verified?: boolean | undefined,
 	logo?: string | undefined,
+	members?: ModelTypes["org_members_arr_rel_insert_input"] | undefined,
 	name?: string | undefined,
 	profile?: ModelTypes["profiles_obj_rel_insert_input"] | undefined,
 	/** Indicates a test/sample/sandbox org */
@@ -36289,6 +39429,7 @@ export type ModelTypes = {
 	id?: ModelTypes["order_by"] | undefined,
 	is_verified?: ModelTypes["order_by"] | undefined,
 	logo?: ModelTypes["order_by"] | undefined,
+	members_aggregate?: ModelTypes["org_members_aggregate_order_by"] | undefined,
 	name?: ModelTypes["order_by"] | undefined,
 	profile?: ModelTypes["profiles_order_by"] | undefined,
 	sample?: ModelTypes["order_by"] | undefined,
@@ -36360,6 +39501,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["organizations_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["organizations_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["organizations_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -36525,6 +39667,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["pending_gift_private_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["pending_gift_private_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["pending_gift_private_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -36574,6 +39717,15 @@ export type ModelTypes = {
 ["pending_token_gifts_aggregate"]: {
 		aggregate?: ModelTypes["pending_token_gifts_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["pending_token_gifts"]>
+};
+	["pending_token_gifts_aggregate_bool_exp"]: {
+	count?: ModelTypes["pending_token_gifts_aggregate_bool_exp_count"] | undefined
+};
+	["pending_token_gifts_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["pending_token_gifts_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["pending_token_gifts_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "pending_token_gifts" */
 ["pending_token_gifts_aggregate_fields"]: {
@@ -36893,6 +40045,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["pending_token_gifts_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["pending_token_gifts_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["pending_token_gifts_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -37157,6 +40310,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["pending_vault_transactions_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["pending_vault_transactions_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["pending_vault_transactions_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -37368,6 +40522,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["personal_access_tokens_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["personal_access_tokens_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["personal_access_tokens_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -37411,6 +40566,10 @@ export type ModelTypes = {
 	nominees: Array<ModelTypes["nominees"]>,
 	/** An aggregate relationship */
 	nominees_aggregate: ModelTypes["nominees_aggregate"],
+	/** An array relationship */
+	org_members: Array<ModelTypes["org_members"]>,
+	/** An aggregate relationship */
+	org_members_aggregate: ModelTypes["org_members_aggregate"],
 	skills?: string | undefined,
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
@@ -37465,23 +40624,31 @@ export type ModelTypes = {
 	bio?: ModelTypes["String_comparison_exp"] | undefined,
 	chat_id?: ModelTypes["String_comparison_exp"] | undefined,
 	claims?: ModelTypes["claims_bool_exp"] | undefined,
+	claims_aggregate?: ModelTypes["claims_aggregate_bool_exp"] | undefined,
 	connector?: ModelTypes["String_comparison_exp"] | undefined,
 	created_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	discord_username?: ModelTypes["String_comparison_exp"] | undefined,
 	distributions?: ModelTypes["distributions_bool_exp"] | undefined,
+	distributions_aggregate?: ModelTypes["distributions_aggregate_bool_exp"] | undefined,
 	github_username?: ModelTypes["String_comparison_exp"] | undefined,
 	id?: ModelTypes["bigint_comparison_exp"] | undefined,
 	medium_username?: ModelTypes["String_comparison_exp"] | undefined,
 	name?: ModelTypes["citext_comparison_exp"] | undefined,
 	nominees?: ModelTypes["nominees_bool_exp"] | undefined,
+	nominees_aggregate?: ModelTypes["nominees_aggregate_bool_exp"] | undefined,
+	org_members?: ModelTypes["org_members_bool_exp"] | undefined,
+	org_members_aggregate?: ModelTypes["org_members_aggregate_bool_exp"] | undefined,
 	skills?: ModelTypes["String_comparison_exp"] | undefined,
 	telegram_username?: ModelTypes["String_comparison_exp"] | undefined,
 	twitter_username?: ModelTypes["String_comparison_exp"] | undefined,
 	updated_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	user?: ModelTypes["discord_users_bool_exp"] | undefined,
 	users?: ModelTypes["users_bool_exp"] | undefined,
+	users_aggregate?: ModelTypes["users_aggregate_bool_exp"] | undefined,
 	vault_transactions?: ModelTypes["vault_transactions_bool_exp"] | undefined,
+	vault_transactions_aggregate?: ModelTypes["vault_transactions_aggregate_bool_exp"] | undefined,
 	vaults?: ModelTypes["vaults_bool_exp"] | undefined,
+	vaults_aggregate?: ModelTypes["vaults_aggregate_bool_exp"] | undefined,
 	website?: ModelTypes["String_comparison_exp"] | undefined
 };
 	["profiles_constraint"]:profiles_constraint;
@@ -37506,6 +40673,7 @@ export type ModelTypes = {
 	medium_username?: string | undefined,
 	name?: ModelTypes["citext"] | undefined,
 	nominees?: ModelTypes["nominees_arr_rel_insert_input"] | undefined,
+	org_members?: ModelTypes["org_members_arr_rel_insert_input"] | undefined,
 	skills?: string | undefined,
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
@@ -37592,6 +40760,7 @@ export type ModelTypes = {
 	medium_username?: ModelTypes["order_by"] | undefined,
 	name?: ModelTypes["order_by"] | undefined,
 	nominees_aggregate?: ModelTypes["nominees_aggregate_order_by"] | undefined,
+	org_members_aggregate?: ModelTypes["org_members_aggregate_order_by"] | undefined,
 	skills?: ModelTypes["order_by"] | undefined,
 	telegram_username?: ModelTypes["order_by"] | undefined,
 	twitter_username?: ModelTypes["order_by"] | undefined,
@@ -37676,6 +40845,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["profiles_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["profiles_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["profiles_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -37691,7 +40861,13 @@ export type ModelTypes = {
 		id?: number | undefined
 };
 	["query_root"]: {
-		/** An array relationship */
+		/** fetch data from the table: "activities" */
+	activities: Array<ModelTypes["activities"]>,
+	/** fetch aggregated fields from the table: "activities" */
+	activities_aggregate: ModelTypes["activities_aggregate"],
+	/** fetch data from the table: "activities" using primary key columns */
+	activities_by_pk?: ModelTypes["activities"] | undefined,
+	/** An array relationship */
 	burns: Array<ModelTypes["burns"]>,
 	/** An aggregate relationship */
 	burns_aggregate: ModelTypes["burns_aggregate"],
@@ -37820,6 +40996,12 @@ export type ModelTypes = {
 	nominees_aggregate: ModelTypes["nominees_aggregate"],
 	/** fetch data from the table: "nominees" using primary key columns */
 	nominees_by_pk?: ModelTypes["nominees"] | undefined,
+	/** An array relationship */
+	org_members: Array<ModelTypes["org_members"]>,
+	/** An aggregate relationship */
+	org_members_aggregate: ModelTypes["org_members_aggregate"],
+	/** fetch data from the table: "org_members" using primary key columns */
+	org_members_by_pk?: ModelTypes["org_members"] | undefined,
 	/** fetch data from the table: "organizations" */
 	organizations: Array<ModelTypes["organizations"]>,
 	/** fetch aggregated fields from the table: "organizations" */
@@ -37902,13 +41084,21 @@ export type ModelTypes = {
 	vouches_by_pk?: ModelTypes["vouches"] | undefined
 };
 	["subscription_root"]: {
-		/** An array relationship */
+		/** fetch data from the table: "activities" */
+	activities: Array<ModelTypes["activities"]>,
+	/** fetch aggregated fields from the table: "activities" */
+	activities_aggregate: ModelTypes["activities_aggregate"],
+	/** fetch data from the table: "activities" using primary key columns */
+	activities_by_pk?: ModelTypes["activities"] | undefined,
+	/** fetch data from the table in a streaming manner: "activities" */
+	activities_stream: Array<ModelTypes["activities"]>,
+	/** An array relationship */
 	burns: Array<ModelTypes["burns"]>,
 	/** An aggregate relationship */
 	burns_aggregate: ModelTypes["burns_aggregate"],
 	/** fetch data from the table: "burns" using primary key columns */
 	burns_by_pk?: ModelTypes["burns"] | undefined,
-	/** fetch data from the table in a streaming manner : "burns" */
+	/** fetch data from the table in a streaming manner: "burns" */
 	burns_stream: Array<ModelTypes["burns"]>,
 	/** An array relationship */
 	circle_api_keys: Array<ModelTypes["circle_api_keys"]>,
@@ -37916,7 +41106,7 @@ export type ModelTypes = {
 	circle_api_keys_aggregate: ModelTypes["circle_api_keys_aggregate"],
 	/** fetch data from the table: "circle_api_keys" using primary key columns */
 	circle_api_keys_by_pk?: ModelTypes["circle_api_keys"] | undefined,
-	/** fetch data from the table in a streaming manner : "circle_api_keys" */
+	/** fetch data from the table in a streaming manner: "circle_api_keys" */
 	circle_api_keys_stream: Array<ModelTypes["circle_api_keys"]>,
 	/** fetch data from the table: "circle_integrations" */
 	circle_integrations: Array<ModelTypes["circle_integrations"]>,
@@ -37924,7 +41114,7 @@ export type ModelTypes = {
 	circle_integrations_aggregate: ModelTypes["circle_integrations_aggregate"],
 	/** fetch data from the table: "circle_integrations" using primary key columns */
 	circle_integrations_by_pk?: ModelTypes["circle_integrations"] | undefined,
-	/** fetch data from the table in a streaming manner : "circle_integrations" */
+	/** fetch data from the table in a streaming manner: "circle_integrations" */
 	circle_integrations_stream: Array<ModelTypes["circle_integrations"]>,
 	/** An array relationship */
 	circle_metadata: Array<ModelTypes["circle_metadata"]>,
@@ -37932,13 +41122,13 @@ export type ModelTypes = {
 	circle_metadata_aggregate: ModelTypes["circle_metadata_aggregate"],
 	/** fetch data from the table: "circle_metadata" using primary key columns */
 	circle_metadata_by_pk?: ModelTypes["circle_metadata"] | undefined,
-	/** fetch data from the table in a streaming manner : "circle_metadata" */
+	/** fetch data from the table in a streaming manner: "circle_metadata" */
 	circle_metadata_stream: Array<ModelTypes["circle_metadata"]>,
 	/** fetch data from the table: "circle_private" */
 	circle_private: Array<ModelTypes["circle_private"]>,
 	/** fetch aggregated fields from the table: "circle_private" */
 	circle_private_aggregate: ModelTypes["circle_private_aggregate"],
-	/** fetch data from the table in a streaming manner : "circle_private" */
+	/** fetch data from the table in a streaming manner: "circle_private" */
 	circle_private_stream: Array<ModelTypes["circle_private"]>,
 	/** fetch data from the table: "circle_share_tokens" */
 	circle_share_tokens: Array<ModelTypes["circle_share_tokens"]>,
@@ -37946,7 +41136,7 @@ export type ModelTypes = {
 	circle_share_tokens_aggregate: ModelTypes["circle_share_tokens_aggregate"],
 	/** fetch data from the table: "circle_share_tokens" using primary key columns */
 	circle_share_tokens_by_pk?: ModelTypes["circle_share_tokens"] | undefined,
-	/** fetch data from the table in a streaming manner : "circle_share_tokens" */
+	/** fetch data from the table in a streaming manner: "circle_share_tokens" */
 	circle_share_tokens_stream: Array<ModelTypes["circle_share_tokens"]>,
 	/** An array relationship */
 	circles: Array<ModelTypes["circles"]>,
@@ -37954,7 +41144,7 @@ export type ModelTypes = {
 	circles_aggregate: ModelTypes["circles_aggregate"],
 	/** fetch data from the table: "circles" using primary key columns */
 	circles_by_pk?: ModelTypes["circles"] | undefined,
-	/** fetch data from the table in a streaming manner : "circles" */
+	/** fetch data from the table in a streaming manner: "circles" */
 	circles_stream: Array<ModelTypes["circles"]>,
 	/** An array relationship */
 	claims: Array<ModelTypes["claims"]>,
@@ -37962,7 +41152,7 @@ export type ModelTypes = {
 	claims_aggregate: ModelTypes["claims_aggregate"],
 	/** fetch data from the table: "claims" using primary key columns */
 	claims_by_pk?: ModelTypes["claims"] | undefined,
-	/** fetch data from the table in a streaming manner : "claims" */
+	/** fetch data from the table in a streaming manner: "claims" */
 	claims_stream: Array<ModelTypes["claims"]>,
 	/** An array relationship */
 	contributions: Array<ModelTypes["contributions"]>,
@@ -37970,7 +41160,7 @@ export type ModelTypes = {
 	contributions_aggregate: ModelTypes["contributions_aggregate"],
 	/** fetch data from the table: "contributions" using primary key columns */
 	contributions_by_pk?: ModelTypes["contributions"] | undefined,
-	/** fetch data from the table in a streaming manner : "contributions" */
+	/** fetch data from the table in a streaming manner: "contributions" */
 	contributions_stream: Array<ModelTypes["contributions"]>,
 	/** fetch data from the table: "discord.circle_api_tokens" */
 	discord_circle_api_tokens: Array<ModelTypes["discord_circle_api_tokens"]>,
@@ -37978,7 +41168,7 @@ export type ModelTypes = {
 	discord_circle_api_tokens_aggregate: ModelTypes["discord_circle_api_tokens_aggregate"],
 	/** fetch data from the table: "discord.circle_api_tokens" using primary key columns */
 	discord_circle_api_tokens_by_pk?: ModelTypes["discord_circle_api_tokens"] | undefined,
-	/** fetch data from the table in a streaming manner : "discord.circle_api_tokens" */
+	/** fetch data from the table in a streaming manner: "discord.circle_api_tokens" */
 	discord_circle_api_tokens_stream: Array<ModelTypes["discord_circle_api_tokens"]>,
 	/** fetch data from the table: "discord.roles_circles" */
 	discord_roles_circles: Array<ModelTypes["discord_roles_circles"]>,
@@ -37986,7 +41176,7 @@ export type ModelTypes = {
 	discord_roles_circles_aggregate: ModelTypes["discord_roles_circles_aggregate"],
 	/** fetch data from the table: "discord.roles_circles" using primary key columns */
 	discord_roles_circles_by_pk?: ModelTypes["discord_roles_circles"] | undefined,
-	/** fetch data from the table in a streaming manner : "discord.roles_circles" */
+	/** fetch data from the table in a streaming manner: "discord.roles_circles" */
 	discord_roles_circles_stream: Array<ModelTypes["discord_roles_circles"]>,
 	/** fetch data from the table: "discord.users" */
 	discord_users: Array<ModelTypes["discord_users"]>,
@@ -37994,7 +41184,7 @@ export type ModelTypes = {
 	discord_users_aggregate: ModelTypes["discord_users_aggregate"],
 	/** fetch data from the table: "discord.users" using primary key columns */
 	discord_users_by_pk?: ModelTypes["discord_users"] | undefined,
-	/** fetch data from the table in a streaming manner : "discord.users" */
+	/** fetch data from the table in a streaming manner: "discord.users" */
 	discord_users_stream: Array<ModelTypes["discord_users"]>,
 	/** An array relationship */
 	distributions: Array<ModelTypes["distributions"]>,
@@ -38002,7 +41192,7 @@ export type ModelTypes = {
 	distributions_aggregate: ModelTypes["distributions_aggregate"],
 	/** fetch data from the table: "distributions" using primary key columns */
 	distributions_by_pk?: ModelTypes["distributions"] | undefined,
-	/** fetch data from the table in a streaming manner : "distributions" */
+	/** fetch data from the table in a streaming manner: "distributions" */
 	distributions_stream: Array<ModelTypes["distributions"]>,
 	/** fetch data from the table: "epoch_pgive_data" */
 	epoch_pgive_data: Array<ModelTypes["epoch_pgive_data"]>,
@@ -38010,7 +41200,7 @@ export type ModelTypes = {
 	epoch_pgive_data_aggregate: ModelTypes["epoch_pgive_data_aggregate"],
 	/** fetch data from the table: "epoch_pgive_data" using primary key columns */
 	epoch_pgive_data_by_pk?: ModelTypes["epoch_pgive_data"] | undefined,
-	/** fetch data from the table in a streaming manner : "epoch_pgive_data" */
+	/** fetch data from the table in a streaming manner: "epoch_pgive_data" */
 	epoch_pgive_data_stream: Array<ModelTypes["epoch_pgive_data"]>,
 	/** An array relationship */
 	epochs: Array<ModelTypes["epochs"]>,
@@ -38018,13 +41208,13 @@ export type ModelTypes = {
 	epochs_aggregate: ModelTypes["epochs_aggregate"],
 	/** fetch data from the table: "epoches" using primary key columns */
 	epochs_by_pk?: ModelTypes["epochs"] | undefined,
-	/** fetch data from the table in a streaming manner : "epoches" */
+	/** fetch data from the table in a streaming manner: "epoches" */
 	epochs_stream: Array<ModelTypes["epochs"]>,
 	/** fetch data from the table: "gift_private" */
 	gift_private: Array<ModelTypes["gift_private"]>,
 	/** fetch aggregated fields from the table: "gift_private" */
 	gift_private_aggregate: ModelTypes["gift_private_aggregate"],
-	/** fetch data from the table in a streaming manner : "gift_private" */
+	/** fetch data from the table in a streaming manner: "gift_private" */
 	gift_private_stream: Array<ModelTypes["gift_private"]>,
 	/** fetch data from the table: "histories" */
 	histories: Array<ModelTypes["histories"]>,
@@ -38032,7 +41222,7 @@ export type ModelTypes = {
 	histories_aggregate: ModelTypes["histories_aggregate"],
 	/** fetch data from the table: "histories" using primary key columns */
 	histories_by_pk?: ModelTypes["histories"] | undefined,
-	/** fetch data from the table in a streaming manner : "histories" */
+	/** fetch data from the table in a streaming manner: "histories" */
 	histories_stream: Array<ModelTypes["histories"]>,
 	/** fetch data from the table: "interaction_events" */
 	interaction_events: Array<ModelTypes["interaction_events"]>,
@@ -38040,7 +41230,7 @@ export type ModelTypes = {
 	interaction_events_aggregate: ModelTypes["interaction_events_aggregate"],
 	/** fetch data from the table: "interaction_events" using primary key columns */
 	interaction_events_by_pk?: ModelTypes["interaction_events"] | undefined,
-	/** fetch data from the table in a streaming manner : "interaction_events" */
+	/** fetch data from the table in a streaming manner: "interaction_events" */
 	interaction_events_stream: Array<ModelTypes["interaction_events"]>,
 	/** An array relationship */
 	locked_token_distribution_gifts: Array<ModelTypes["locked_token_distribution_gifts"]>,
@@ -38048,7 +41238,7 @@ export type ModelTypes = {
 	locked_token_distribution_gifts_aggregate: ModelTypes["locked_token_distribution_gifts_aggregate"],
 	/** fetch data from the table: "locked_token_distribution_gifts" using primary key columns */
 	locked_token_distribution_gifts_by_pk?: ModelTypes["locked_token_distribution_gifts"] | undefined,
-	/** fetch data from the table in a streaming manner : "locked_token_distribution_gifts" */
+	/** fetch data from the table in a streaming manner: "locked_token_distribution_gifts" */
 	locked_token_distribution_gifts_stream: Array<ModelTypes["locked_token_distribution_gifts"]>,
 	/** fetch data from the table: "locked_token_distributions" */
 	locked_token_distributions: Array<ModelTypes["locked_token_distributions"]>,
@@ -38056,7 +41246,7 @@ export type ModelTypes = {
 	locked_token_distributions_aggregate: ModelTypes["locked_token_distributions_aggregate"],
 	/** fetch data from the table: "locked_token_distributions" using primary key columns */
 	locked_token_distributions_by_pk?: ModelTypes["locked_token_distributions"] | undefined,
-	/** fetch data from the table in a streaming manner : "locked_token_distributions" */
+	/** fetch data from the table in a streaming manner: "locked_token_distributions" */
 	locked_token_distributions_stream: Array<ModelTypes["locked_token_distributions"]>,
 	/** fetch data from the table: "member_epoch_pgives" */
 	member_epoch_pgives: Array<ModelTypes["member_epoch_pgives"]>,
@@ -38064,7 +41254,7 @@ export type ModelTypes = {
 	member_epoch_pgives_aggregate: ModelTypes["member_epoch_pgives_aggregate"],
 	/** fetch data from the table: "member_epoch_pgives" using primary key columns */
 	member_epoch_pgives_by_pk?: ModelTypes["member_epoch_pgives"] | undefined,
-	/** fetch data from the table in a streaming manner : "member_epoch_pgives" */
+	/** fetch data from the table in a streaming manner: "member_epoch_pgives" */
 	member_epoch_pgives_stream: Array<ModelTypes["member_epoch_pgives"]>,
 	/** An array relationship */
 	nominees: Array<ModelTypes["nominees"]>,
@@ -38072,21 +41262,29 @@ export type ModelTypes = {
 	nominees_aggregate: ModelTypes["nominees_aggregate"],
 	/** fetch data from the table: "nominees" using primary key columns */
 	nominees_by_pk?: ModelTypes["nominees"] | undefined,
-	/** fetch data from the table in a streaming manner : "nominees" */
+	/** fetch data from the table in a streaming manner: "nominees" */
 	nominees_stream: Array<ModelTypes["nominees"]>,
+	/** An array relationship */
+	org_members: Array<ModelTypes["org_members"]>,
+	/** An aggregate relationship */
+	org_members_aggregate: ModelTypes["org_members_aggregate"],
+	/** fetch data from the table: "org_members" using primary key columns */
+	org_members_by_pk?: ModelTypes["org_members"] | undefined,
+	/** fetch data from the table in a streaming manner: "org_members" */
+	org_members_stream: Array<ModelTypes["org_members"]>,
 	/** fetch data from the table: "organizations" */
 	organizations: Array<ModelTypes["organizations"]>,
 	/** fetch aggregated fields from the table: "organizations" */
 	organizations_aggregate: ModelTypes["organizations_aggregate"],
 	/** fetch data from the table: "organizations" using primary key columns */
 	organizations_by_pk?: ModelTypes["organizations"] | undefined,
-	/** fetch data from the table in a streaming manner : "organizations" */
+	/** fetch data from the table in a streaming manner: "organizations" */
 	organizations_stream: Array<ModelTypes["organizations"]>,
 	/** fetch data from the table: "pending_gift_private" */
 	pending_gift_private: Array<ModelTypes["pending_gift_private"]>,
 	/** fetch aggregated fields from the table: "pending_gift_private" */
 	pending_gift_private_aggregate: ModelTypes["pending_gift_private_aggregate"],
-	/** fetch data from the table in a streaming manner : "pending_gift_private" */
+	/** fetch data from the table in a streaming manner: "pending_gift_private" */
 	pending_gift_private_stream: Array<ModelTypes["pending_gift_private"]>,
 	/** An array relationship */
 	pending_token_gifts: Array<ModelTypes["pending_token_gifts"]>,
@@ -38094,7 +41292,7 @@ export type ModelTypes = {
 	pending_token_gifts_aggregate: ModelTypes["pending_token_gifts_aggregate"],
 	/** fetch data from the table: "pending_token_gifts" using primary key columns */
 	pending_token_gifts_by_pk?: ModelTypes["pending_token_gifts"] | undefined,
-	/** fetch data from the table in a streaming manner : "pending_token_gifts" */
+	/** fetch data from the table in a streaming manner: "pending_token_gifts" */
 	pending_token_gifts_stream: Array<ModelTypes["pending_token_gifts"]>,
 	/** fetch data from the table: "pending_vault_transactions" */
 	pending_vault_transactions: Array<ModelTypes["pending_vault_transactions"]>,
@@ -38102,7 +41300,7 @@ export type ModelTypes = {
 	pending_vault_transactions_aggregate: ModelTypes["pending_vault_transactions_aggregate"],
 	/** fetch data from the table: "pending_vault_transactions" using primary key columns */
 	pending_vault_transactions_by_pk?: ModelTypes["pending_vault_transactions"] | undefined,
-	/** fetch data from the table in a streaming manner : "pending_vault_transactions" */
+	/** fetch data from the table in a streaming manner: "pending_vault_transactions" */
 	pending_vault_transactions_stream: Array<ModelTypes["pending_vault_transactions"]>,
 	/** fetch data from the table: "personal_access_tokens" */
 	personal_access_tokens: Array<ModelTypes["personal_access_tokens"]>,
@@ -38110,7 +41308,7 @@ export type ModelTypes = {
 	personal_access_tokens_aggregate: ModelTypes["personal_access_tokens_aggregate"],
 	/** fetch data from the table: "personal_access_tokens" using primary key columns */
 	personal_access_tokens_by_pk?: ModelTypes["personal_access_tokens"] | undefined,
-	/** fetch data from the table in a streaming manner : "personal_access_tokens" */
+	/** fetch data from the table in a streaming manner: "personal_access_tokens" */
 	personal_access_tokens_stream: Array<ModelTypes["personal_access_tokens"]>,
 	/** fetch data from the table: "profiles" */
 	profiles: Array<ModelTypes["profiles"]>,
@@ -38118,7 +41316,7 @@ export type ModelTypes = {
 	profiles_aggregate: ModelTypes["profiles_aggregate"],
 	/** fetch data from the table: "profiles" using primary key columns */
 	profiles_by_pk?: ModelTypes["profiles"] | undefined,
-	/** fetch data from the table in a streaming manner : "profiles" */
+	/** fetch data from the table in a streaming manner: "profiles" */
 	profiles_stream: Array<ModelTypes["profiles"]>,
 	/** An array relationship */
 	teammates: Array<ModelTypes["teammates"]>,
@@ -38126,7 +41324,7 @@ export type ModelTypes = {
 	teammates_aggregate: ModelTypes["teammates_aggregate"],
 	/** fetch data from the table: "teammates" using primary key columns */
 	teammates_by_pk?: ModelTypes["teammates"] | undefined,
-	/** fetch data from the table in a streaming manner : "teammates" */
+	/** fetch data from the table in a streaming manner: "teammates" */
 	teammates_stream: Array<ModelTypes["teammates"]>,
 	/** An array relationship */
 	token_gifts: Array<ModelTypes["token_gifts"]>,
@@ -38134,13 +41332,13 @@ export type ModelTypes = {
 	token_gifts_aggregate: ModelTypes["token_gifts_aggregate"],
 	/** fetch data from the table: "token_gifts" using primary key columns */
 	token_gifts_by_pk?: ModelTypes["token_gifts"] | undefined,
-	/** fetch data from the table in a streaming manner : "token_gifts" */
+	/** fetch data from the table in a streaming manner: "token_gifts" */
 	token_gifts_stream: Array<ModelTypes["token_gifts"]>,
 	/** fetch data from the table: "user_private" */
 	user_private: Array<ModelTypes["user_private"]>,
 	/** fetch aggregated fields from the table: "user_private" */
 	user_private_aggregate: ModelTypes["user_private_aggregate"],
-	/** fetch data from the table in a streaming manner : "user_private" */
+	/** fetch data from the table in a streaming manner: "user_private" */
 	user_private_stream: Array<ModelTypes["user_private"]>,
 	/** An array relationship */
 	users: Array<ModelTypes["users"]>,
@@ -38148,7 +41346,7 @@ export type ModelTypes = {
 	users_aggregate: ModelTypes["users_aggregate"],
 	/** fetch data from the table: "users" using primary key columns */
 	users_by_pk?: ModelTypes["users"] | undefined,
-	/** fetch data from the table in a streaming manner : "users" */
+	/** fetch data from the table in a streaming manner: "users" */
 	users_stream: Array<ModelTypes["users"]>,
 	/** An array relationship */
 	vault_transactions: Array<ModelTypes["vault_transactions"]>,
@@ -38156,7 +41354,7 @@ export type ModelTypes = {
 	vault_transactions_aggregate: ModelTypes["vault_transactions_aggregate"],
 	/** fetch data from the table: "vault_transactions" using primary key columns */
 	vault_transactions_by_pk?: ModelTypes["vault_transactions"] | undefined,
-	/** fetch data from the table in a streaming manner : "vault_transactions" */
+	/** fetch data from the table in a streaming manner: "vault_transactions" */
 	vault_transactions_stream: Array<ModelTypes["vault_transactions"]>,
 	/** fetch data from the table: "vault_tx_types" */
 	vault_tx_types: Array<ModelTypes["vault_tx_types"]>,
@@ -38164,7 +41362,7 @@ export type ModelTypes = {
 	vault_tx_types_aggregate: ModelTypes["vault_tx_types_aggregate"],
 	/** fetch data from the table: "vault_tx_types" using primary key columns */
 	vault_tx_types_by_pk?: ModelTypes["vault_tx_types"] | undefined,
-	/** fetch data from the table in a streaming manner : "vault_tx_types" */
+	/** fetch data from the table in a streaming manner: "vault_tx_types" */
 	vault_tx_types_stream: Array<ModelTypes["vault_tx_types"]>,
 	/** An array relationship */
 	vaults: Array<ModelTypes["vaults"]>,
@@ -38172,7 +41370,7 @@ export type ModelTypes = {
 	vaults_aggregate: ModelTypes["vaults_aggregate"],
 	/** fetch data from the table: "vaults" using primary key columns */
 	vaults_by_pk?: ModelTypes["vaults"] | undefined,
-	/** fetch data from the table in a streaming manner : "vaults" */
+	/** fetch data from the table in a streaming manner: "vaults" */
 	vaults_stream: Array<ModelTypes["vaults"]>,
 	/** An array relationship */
 	vouches: Array<ModelTypes["vouches"]>,
@@ -38180,7 +41378,7 @@ export type ModelTypes = {
 	vouches_aggregate: ModelTypes["vouches_aggregate"],
 	/** fetch data from the table: "vouches" using primary key columns */
 	vouches_by_pk?: ModelTypes["vouches"] | undefined,
-	/** fetch data from the table in a streaming manner : "vouches" */
+	/** fetch data from the table in a streaming manner: "vouches" */
 	vouches_stream: Array<ModelTypes["vouches"]>
 };
 	/** columns and relationships of "teammates" */
@@ -38199,6 +41397,15 @@ export type ModelTypes = {
 ["teammates_aggregate"]: {
 		aggregate?: ModelTypes["teammates_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["teammates"]>
+};
+	["teammates_aggregate_bool_exp"]: {
+	count?: ModelTypes["teammates_aggregate_bool_exp_count"] | undefined
+};
+	["teammates_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["teammates_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["teammates_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "teammates" */
 ["teammates_aggregate_fields"]: {
@@ -38413,6 +41620,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["teammates_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["teammates_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["teammates_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -38506,6 +41714,15 @@ export type ModelTypes = {
 ["token_gifts_aggregate"]: {
 		aggregate?: ModelTypes["token_gifts_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["token_gifts"]>
+};
+	["token_gifts_aggregate_bool_exp"]: {
+	count?: ModelTypes["token_gifts_aggregate_bool_exp_count"] | undefined
+};
+	["token_gifts_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["token_gifts_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["token_gifts_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "token_gifts" */
 ["token_gifts_aggregate_fields"]: {
@@ -38825,6 +42042,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["token_gifts_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["token_gifts_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["token_gifts_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -39090,6 +42308,29 @@ export type ModelTypes = {
 		aggregate?: ModelTypes["users_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["users"]>
 };
+	["users_aggregate_bool_exp"]: {
+	bool_and?: ModelTypes["users_aggregate_bool_exp_bool_and"] | undefined,
+	bool_or?: ModelTypes["users_aggregate_bool_exp_bool_or"] | undefined,
+	count?: ModelTypes["users_aggregate_bool_exp_count"] | undefined
+};
+	["users_aggregate_bool_exp_bool_and"]: {
+	arguments: ModelTypes["users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["users_bool_exp"] | undefined,
+	predicate: ModelTypes["Boolean_comparison_exp"]
+};
+	["users_aggregate_bool_exp_bool_or"]: {
+	arguments: ModelTypes["users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["users_bool_exp"] | undefined,
+	predicate: ModelTypes["Boolean_comparison_exp"]
+};
+	["users_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["users_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["users_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "users" */
 ["users_aggregate_fields"]: {
 		avg?: ModelTypes["users_avg_fields"] | undefined,
@@ -39152,10 +42393,13 @@ export type ModelTypes = {
 	address?: ModelTypes["String_comparison_exp"] | undefined,
 	bio?: ModelTypes["String_comparison_exp"] | undefined,
 	burns?: ModelTypes["burns_bool_exp"] | undefined,
+	burns_aggregate?: ModelTypes["burns_aggregate_bool_exp"] | undefined,
 	circle?: ModelTypes["circles_bool_exp"] | undefined,
 	circle_api_keys?: ModelTypes["circle_api_keys_bool_exp"] | undefined,
+	circle_api_keys_aggregate?: ModelTypes["circle_api_keys_aggregate_bool_exp"] | undefined,
 	circle_id?: ModelTypes["bigint_comparison_exp"] | undefined,
 	contributions?: ModelTypes["contributions_bool_exp"] | undefined,
+	contributions_aggregate?: ModelTypes["contributions_aggregate_bool_exp"] | undefined,
 	created_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	deleted_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	entrance?: ModelTypes["String_comparison_exp"] | undefined,
@@ -39169,16 +42413,22 @@ export type ModelTypes = {
 	non_giver?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	non_receiver?: ModelTypes["Boolean_comparison_exp"] | undefined,
 	pending_received_gifts?: ModelTypes["pending_token_gifts_bool_exp"] | undefined,
+	pending_received_gifts_aggregate?: ModelTypes["pending_token_gifts_aggregate_bool_exp"] | undefined,
 	pending_sent_gifts?: ModelTypes["pending_token_gifts_bool_exp"] | undefined,
+	pending_sent_gifts_aggregate?: ModelTypes["pending_token_gifts_aggregate_bool_exp"] | undefined,
 	profile?: ModelTypes["profiles_bool_exp"] | undefined,
 	received_gifts?: ModelTypes["token_gifts_bool_exp"] | undefined,
+	received_gifts_aggregate?: ModelTypes["token_gifts_aggregate_bool_exp"] | undefined,
 	role?: ModelTypes["Int_comparison_exp"] | undefined,
 	sent_gifts?: ModelTypes["token_gifts_bool_exp"] | undefined,
+	sent_gifts_aggregate?: ModelTypes["token_gifts_aggregate_bool_exp"] | undefined,
 	starting_tokens?: ModelTypes["Int_comparison_exp"] | undefined,
 	teammates?: ModelTypes["teammates_bool_exp"] | undefined,
+	teammates_aggregate?: ModelTypes["teammates_aggregate_bool_exp"] | undefined,
 	updated_at?: ModelTypes["timestamp_comparison_exp"] | undefined,
 	user_private?: ModelTypes["user_private_bool_exp"] | undefined,
-	vouches?: ModelTypes["vouches_bool_exp"] | undefined
+	vouches?: ModelTypes["vouches_bool_exp"] | undefined,
+	vouches_aggregate?: ModelTypes["vouches_aggregate_bool_exp"] | undefined
 };
 	["users_constraint"]:users_constraint;
 	/** input type for incrementing numeric columns in table "users" */
@@ -39349,6 +42599,8 @@ export type ModelTypes = {
 	id: ModelTypes["bigint"]
 };
 	["users_select_column"]:users_select_column;
+	["users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns"]:users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns;
+	["users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns"]:users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "users" */
 ["users_set_input"]: {
 	address?: string | undefined,
@@ -39484,6 +42736,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["users_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["users_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["users_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -39585,6 +42838,15 @@ export type ModelTypes = {
 ["vault_transactions_aggregate"]: {
 		aggregate?: ModelTypes["vault_transactions_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["vault_transactions"]>
+};
+	["vault_transactions_aggregate_bool_exp"]: {
+	count?: ModelTypes["vault_transactions_aggregate_bool_exp_count"] | undefined
+};
+	["vault_transactions_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["vault_transactions_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["vault_transactions_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "vault_transactions" */
 ["vault_transactions_aggregate_fields"]: {
@@ -39862,6 +43124,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["vault_transactions_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["vault_transactions_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["vault_transactions_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -39939,7 +43202,8 @@ export type ModelTypes = {
 	_or?: Array<ModelTypes["vault_tx_types_bool_exp"]> | undefined,
 	comment?: ModelTypes["String_comparison_exp"] | undefined,
 	value?: ModelTypes["String_comparison_exp"] | undefined,
-	vault_transactions?: ModelTypes["vault_transactions_bool_exp"] | undefined
+	vault_transactions?: ModelTypes["vault_transactions_bool_exp"] | undefined,
+	vault_transactions_aggregate?: ModelTypes["vault_transactions_aggregate_bool_exp"] | undefined
 };
 	["vault_tx_types_constraint"]:vault_tx_types_constraint;
 	["vault_tx_types_enum"]:vault_tx_types_enum;
@@ -40018,6 +43282,7 @@ export type ModelTypes = {
 	["vault_tx_types_updates"]: {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["vault_tx_types_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["vault_tx_types_bool_exp"]
 };
 	/** columns and relationships of "vaults" */
@@ -40051,6 +43316,15 @@ export type ModelTypes = {
 ["vaults_aggregate"]: {
 		aggregate?: ModelTypes["vaults_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["vaults"]>
+};
+	["vaults_aggregate_bool_exp"]: {
+	count?: ModelTypes["vaults_aggregate_bool_exp_count"] | undefined
+};
+	["vaults_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["vaults_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["vaults_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "vaults" */
 ["vaults_aggregate_fields"]: {
@@ -40115,6 +43389,7 @@ export type ModelTypes = {
 	decimals?: ModelTypes["Int_comparison_exp"] | undefined,
 	deployment_block?: ModelTypes["bigint_comparison_exp"] | undefined,
 	distributions?: ModelTypes["distributions_bool_exp"] | undefined,
+	distributions_aggregate?: ModelTypes["distributions_aggregate_bool_exp"] | undefined,
 	id?: ModelTypes["bigint_comparison_exp"] | undefined,
 	org_id?: ModelTypes["bigint_comparison_exp"] | undefined,
 	organization?: ModelTypes["organizations_bool_exp"] | undefined,
@@ -40124,7 +43399,8 @@ export type ModelTypes = {
 	token_address?: ModelTypes["String_comparison_exp"] | undefined,
 	updated_at?: ModelTypes["timestamptz_comparison_exp"] | undefined,
 	vault_address?: ModelTypes["String_comparison_exp"] | undefined,
-	vault_transactions?: ModelTypes["vault_transactions_bool_exp"] | undefined
+	vault_transactions?: ModelTypes["vault_transactions_bool_exp"] | undefined,
+	vault_transactions_aggregate?: ModelTypes["vault_transactions_aggregate_bool_exp"] | undefined
 };
 	["vaults_constraint"]:vaults_constraint;
 	/** input type for incrementing numeric columns in table "vaults" */
@@ -40373,6 +43649,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["vaults_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["vaults_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["vaults_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -40445,6 +43722,15 @@ export type ModelTypes = {
 ["vouches_aggregate"]: {
 		aggregate?: ModelTypes["vouches_aggregate_fields"] | undefined,
 	nodes: Array<ModelTypes["vouches"]>
+};
+	["vouches_aggregate_bool_exp"]: {
+	count?: ModelTypes["vouches_aggregate_bool_exp_count"] | undefined
+};
+	["vouches_aggregate_bool_exp_count"]: {
+	arguments?: Array<ModelTypes["vouches_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: ModelTypes["vouches_bool_exp"] | undefined,
+	predicate: ModelTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "vouches" */
 ["vouches_aggregate_fields"]: {
@@ -40659,6 +43945,7 @@ export type ModelTypes = {
 	_inc?: ModelTypes["vouches_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: ModelTypes["vouches_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: ModelTypes["vouches_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -40872,6 +44159,7 @@ export type GraphQLTypes = {
 		circle_id: number,
 	create_contributions?: boolean | undefined,
 	create_vouches?: boolean | undefined,
+	manage_users?: boolean | undefined,
 	name: string,
 	read_circle?: boolean | undefined,
 	read_contributions?: boolean | undefined,
@@ -41135,6 +44423,326 @@ export type GraphQLTypes = {
 	id: number,
 	nominee?: GraphQLTypes["nominees"] | undefined
 };
+	/** Table containing activity on our platform */
+["activities"]: {
+	__typename: "activities",
+	action: string,
+	/** An object relationship */
+	actor_profile?: GraphQLTypes["profiles"] | undefined,
+	actor_profile_id?: GraphQLTypes["bigint"] | undefined,
+	/** An object relationship */
+	circle?: GraphQLTypes["circles"] | undefined,
+	circle_id?: GraphQLTypes["bigint"] | undefined,
+	/** An object relationship */
+	contribution?: GraphQLTypes["contributions"] | undefined,
+	contribution_id?: GraphQLTypes["bigint"] | undefined,
+	created_at: GraphQLTypes["timestamptz"],
+	/** An object relationship */
+	epoch?: GraphQLTypes["epochs"] | undefined,
+	epoch_id?: GraphQLTypes["bigint"] | undefined,
+	id: GraphQLTypes["bigint"],
+	/** An object relationship */
+	organization: GraphQLTypes["organizations"],
+	organization_id: GraphQLTypes["bigint"],
+	/** An object relationship */
+	target_profile?: GraphQLTypes["profiles"] | undefined,
+	target_profile_id?: GraphQLTypes["bigint"] | undefined,
+	updated_at: GraphQLTypes["timestamptz"],
+	/** An object relationship */
+	user?: GraphQLTypes["users"] | undefined,
+	user_id?: GraphQLTypes["bigint"] | undefined
+};
+	/** aggregated selection of "activities" */
+["activities_aggregate"]: {
+	__typename: "activities_aggregate",
+	aggregate?: GraphQLTypes["activities_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["activities"]>
+};
+	/** aggregate fields of "activities" */
+["activities_aggregate_fields"]: {
+	__typename: "activities_aggregate_fields",
+	avg?: GraphQLTypes["activities_avg_fields"] | undefined,
+	count: number,
+	max?: GraphQLTypes["activities_max_fields"] | undefined,
+	min?: GraphQLTypes["activities_min_fields"] | undefined,
+	stddev?: GraphQLTypes["activities_stddev_fields"] | undefined,
+	stddev_pop?: GraphQLTypes["activities_stddev_pop_fields"] | undefined,
+	stddev_samp?: GraphQLTypes["activities_stddev_samp_fields"] | undefined,
+	sum?: GraphQLTypes["activities_sum_fields"] | undefined,
+	var_pop?: GraphQLTypes["activities_var_pop_fields"] | undefined,
+	var_samp?: GraphQLTypes["activities_var_samp_fields"] | undefined,
+	variance?: GraphQLTypes["activities_variance_fields"] | undefined
+};
+	/** aggregate avg on columns */
+["activities_avg_fields"]: {
+	__typename: "activities_avg_fields",
+	actor_profile_id?: number | undefined,
+	circle_id?: number | undefined,
+	contribution_id?: number | undefined,
+	epoch_id?: number | undefined,
+	id?: number | undefined,
+	organization_id?: number | undefined,
+	target_profile_id?: number | undefined,
+	user_id?: number | undefined
+};
+	/** Boolean expression to filter rows from the table "activities". All fields are combined with a logical 'AND'. */
+["activities_bool_exp"]: {
+		_and?: Array<GraphQLTypes["activities_bool_exp"]> | undefined,
+	_not?: GraphQLTypes["activities_bool_exp"] | undefined,
+	_or?: Array<GraphQLTypes["activities_bool_exp"]> | undefined,
+	action?: GraphQLTypes["String_comparison_exp"] | undefined,
+	actor_profile?: GraphQLTypes["profiles_bool_exp"] | undefined,
+	actor_profile_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	circle?: GraphQLTypes["circles_bool_exp"] | undefined,
+	circle_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	contribution?: GraphQLTypes["contributions_bool_exp"] | undefined,
+	contribution_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	created_at?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
+	epoch?: GraphQLTypes["epochs_bool_exp"] | undefined,
+	epoch_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	organization?: GraphQLTypes["organizations_bool_exp"] | undefined,
+	organization_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	target_profile?: GraphQLTypes["profiles_bool_exp"] | undefined,
+	target_profile_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	updated_at?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
+	user?: GraphQLTypes["users_bool_exp"] | undefined,
+	user_id?: GraphQLTypes["bigint_comparison_exp"] | undefined
+};
+	/** unique or primary key constraints on table "activities" */
+["activities_constraint"]: activities_constraint;
+	/** input type for incrementing numeric columns in table "activities" */
+["activities_inc_input"]: {
+		actor_profile_id?: GraphQLTypes["bigint"] | undefined,
+	circle_id?: GraphQLTypes["bigint"] | undefined,
+	contribution_id?: GraphQLTypes["bigint"] | undefined,
+	epoch_id?: GraphQLTypes["bigint"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	organization_id?: GraphQLTypes["bigint"] | undefined,
+	target_profile_id?: GraphQLTypes["bigint"] | undefined,
+	user_id?: GraphQLTypes["bigint"] | undefined
+};
+	/** input type for inserting data into table "activities" */
+["activities_insert_input"]: {
+		action?: string | undefined,
+	actor_profile?: GraphQLTypes["profiles_obj_rel_insert_input"] | undefined,
+	actor_profile_id?: GraphQLTypes["bigint"] | undefined,
+	circle?: GraphQLTypes["circles_obj_rel_insert_input"] | undefined,
+	circle_id?: GraphQLTypes["bigint"] | undefined,
+	contribution?: GraphQLTypes["contributions_obj_rel_insert_input"] | undefined,
+	contribution_id?: GraphQLTypes["bigint"] | undefined,
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	epoch?: GraphQLTypes["epochs_obj_rel_insert_input"] | undefined,
+	epoch_id?: GraphQLTypes["bigint"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	organization?: GraphQLTypes["organizations_obj_rel_insert_input"] | undefined,
+	organization_id?: GraphQLTypes["bigint"] | undefined,
+	target_profile?: GraphQLTypes["profiles_obj_rel_insert_input"] | undefined,
+	target_profile_id?: GraphQLTypes["bigint"] | undefined,
+	updated_at?: GraphQLTypes["timestamptz"] | undefined,
+	user?: GraphQLTypes["users_obj_rel_insert_input"] | undefined,
+	user_id?: GraphQLTypes["bigint"] | undefined
+};
+	/** aggregate max on columns */
+["activities_max_fields"]: {
+	__typename: "activities_max_fields",
+	action?: string | undefined,
+	actor_profile_id?: GraphQLTypes["bigint"] | undefined,
+	circle_id?: GraphQLTypes["bigint"] | undefined,
+	contribution_id?: GraphQLTypes["bigint"] | undefined,
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	epoch_id?: GraphQLTypes["bigint"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	organization_id?: GraphQLTypes["bigint"] | undefined,
+	target_profile_id?: GraphQLTypes["bigint"] | undefined,
+	updated_at?: GraphQLTypes["timestamptz"] | undefined,
+	user_id?: GraphQLTypes["bigint"] | undefined
+};
+	/** aggregate min on columns */
+["activities_min_fields"]: {
+	__typename: "activities_min_fields",
+	action?: string | undefined,
+	actor_profile_id?: GraphQLTypes["bigint"] | undefined,
+	circle_id?: GraphQLTypes["bigint"] | undefined,
+	contribution_id?: GraphQLTypes["bigint"] | undefined,
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	epoch_id?: GraphQLTypes["bigint"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	organization_id?: GraphQLTypes["bigint"] | undefined,
+	target_profile_id?: GraphQLTypes["bigint"] | undefined,
+	updated_at?: GraphQLTypes["timestamptz"] | undefined,
+	user_id?: GraphQLTypes["bigint"] | undefined
+};
+	/** response of any mutation on the table "activities" */
+["activities_mutation_response"]: {
+	__typename: "activities_mutation_response",
+	/** number of rows affected by the mutation */
+	affected_rows: number,
+	/** data from the rows affected by the mutation */
+	returning: Array<GraphQLTypes["activities"]>
+};
+	/** on_conflict condition type for table "activities" */
+["activities_on_conflict"]: {
+		constraint: GraphQLTypes["activities_constraint"],
+	update_columns: Array<GraphQLTypes["activities_update_column"]>,
+	where?: GraphQLTypes["activities_bool_exp"] | undefined
+};
+	/** Ordering options when selecting data from "activities". */
+["activities_order_by"]: {
+		action?: GraphQLTypes["order_by"] | undefined,
+	actor_profile?: GraphQLTypes["profiles_order_by"] | undefined,
+	actor_profile_id?: GraphQLTypes["order_by"] | undefined,
+	circle?: GraphQLTypes["circles_order_by"] | undefined,
+	circle_id?: GraphQLTypes["order_by"] | undefined,
+	contribution?: GraphQLTypes["contributions_order_by"] | undefined,
+	contribution_id?: GraphQLTypes["order_by"] | undefined,
+	created_at?: GraphQLTypes["order_by"] | undefined,
+	epoch?: GraphQLTypes["epochs_order_by"] | undefined,
+	epoch_id?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	organization?: GraphQLTypes["organizations_order_by"] | undefined,
+	organization_id?: GraphQLTypes["order_by"] | undefined,
+	target_profile?: GraphQLTypes["profiles_order_by"] | undefined,
+	target_profile_id?: GraphQLTypes["order_by"] | undefined,
+	updated_at?: GraphQLTypes["order_by"] | undefined,
+	user?: GraphQLTypes["users_order_by"] | undefined,
+	user_id?: GraphQLTypes["order_by"] | undefined
+};
+	/** primary key columns input for table: activities */
+["activities_pk_columns_input"]: {
+		id: GraphQLTypes["bigint"]
+};
+	/** select columns of table "activities" */
+["activities_select_column"]: activities_select_column;
+	/** input type for updating data in table "activities" */
+["activities_set_input"]: {
+		action?: string | undefined,
+	actor_profile_id?: GraphQLTypes["bigint"] | undefined,
+	circle_id?: GraphQLTypes["bigint"] | undefined,
+	contribution_id?: GraphQLTypes["bigint"] | undefined,
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	epoch_id?: GraphQLTypes["bigint"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	organization_id?: GraphQLTypes["bigint"] | undefined,
+	target_profile_id?: GraphQLTypes["bigint"] | undefined,
+	updated_at?: GraphQLTypes["timestamptz"] | undefined,
+	user_id?: GraphQLTypes["bigint"] | undefined
+};
+	/** aggregate stddev on columns */
+["activities_stddev_fields"]: {
+	__typename: "activities_stddev_fields",
+	actor_profile_id?: number | undefined,
+	circle_id?: number | undefined,
+	contribution_id?: number | undefined,
+	epoch_id?: number | undefined,
+	id?: number | undefined,
+	organization_id?: number | undefined,
+	target_profile_id?: number | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate stddev_pop on columns */
+["activities_stddev_pop_fields"]: {
+	__typename: "activities_stddev_pop_fields",
+	actor_profile_id?: number | undefined,
+	circle_id?: number | undefined,
+	contribution_id?: number | undefined,
+	epoch_id?: number | undefined,
+	id?: number | undefined,
+	organization_id?: number | undefined,
+	target_profile_id?: number | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate stddev_samp on columns */
+["activities_stddev_samp_fields"]: {
+	__typename: "activities_stddev_samp_fields",
+	actor_profile_id?: number | undefined,
+	circle_id?: number | undefined,
+	contribution_id?: number | undefined,
+	epoch_id?: number | undefined,
+	id?: number | undefined,
+	organization_id?: number | undefined,
+	target_profile_id?: number | undefined,
+	user_id?: number | undefined
+};
+	/** Streaming cursor of the table "activities" */
+["activities_stream_cursor_input"]: {
+		/** Stream column input with initial value */
+	initial_value: GraphQLTypes["activities_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: GraphQLTypes["cursor_ordering"] | undefined
+};
+	/** Initial value of the column from where the streaming should start */
+["activities_stream_cursor_value_input"]: {
+		action?: string | undefined,
+	actor_profile_id?: GraphQLTypes["bigint"] | undefined,
+	circle_id?: GraphQLTypes["bigint"] | undefined,
+	contribution_id?: GraphQLTypes["bigint"] | undefined,
+	created_at?: GraphQLTypes["timestamptz"] | undefined,
+	epoch_id?: GraphQLTypes["bigint"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	organization_id?: GraphQLTypes["bigint"] | undefined,
+	target_profile_id?: GraphQLTypes["bigint"] | undefined,
+	updated_at?: GraphQLTypes["timestamptz"] | undefined,
+	user_id?: GraphQLTypes["bigint"] | undefined
+};
+	/** aggregate sum on columns */
+["activities_sum_fields"]: {
+	__typename: "activities_sum_fields",
+	actor_profile_id?: GraphQLTypes["bigint"] | undefined,
+	circle_id?: GraphQLTypes["bigint"] | undefined,
+	contribution_id?: GraphQLTypes["bigint"] | undefined,
+	epoch_id?: GraphQLTypes["bigint"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	organization_id?: GraphQLTypes["bigint"] | undefined,
+	target_profile_id?: GraphQLTypes["bigint"] | undefined,
+	user_id?: GraphQLTypes["bigint"] | undefined
+};
+	/** update columns of table "activities" */
+["activities_update_column"]: activities_update_column;
+	["activities_updates"]: {
+		/** increments the numeric columns with given value of the filtered values */
+	_inc?: GraphQLTypes["activities_inc_input"] | undefined,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: GraphQLTypes["activities_set_input"] | undefined,
+	/** filter the rows which have to be updated */
+	where: GraphQLTypes["activities_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["activities_var_pop_fields"]: {
+	__typename: "activities_var_pop_fields",
+	actor_profile_id?: number | undefined,
+	circle_id?: number | undefined,
+	contribution_id?: number | undefined,
+	epoch_id?: number | undefined,
+	id?: number | undefined,
+	organization_id?: number | undefined,
+	target_profile_id?: number | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate var_samp on columns */
+["activities_var_samp_fields"]: {
+	__typename: "activities_var_samp_fields",
+	actor_profile_id?: number | undefined,
+	circle_id?: number | undefined,
+	contribution_id?: number | undefined,
+	epoch_id?: number | undefined,
+	id?: number | undefined,
+	organization_id?: number | undefined,
+	target_profile_id?: number | undefined,
+	user_id?: number | undefined
+};
+	/** aggregate variance on columns */
+["activities_variance_fields"]: {
+	__typename: "activities_variance_fields",
+	actor_profile_id?: number | undefined,
+	circle_id?: number | undefined,
+	contribution_id?: number | undefined,
+	epoch_id?: number | undefined,
+	id?: number | undefined,
+	organization_id?: number | undefined,
+	target_profile_id?: number | undefined,
+	user_id?: number | undefined
+};
 	["bigint"]: "scalar" & { name: "bigint" };
 	/** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
 ["bigint_comparison_exp"]: {
@@ -41172,6 +44780,15 @@ export type GraphQLTypes = {
 	__typename: "burns_aggregate",
 	aggregate?: GraphQLTypes["burns_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["burns"]>
+};
+	["burns_aggregate_bool_exp"]: {
+		count?: GraphQLTypes["burns_aggregate_bool_exp_count"] | undefined
+};
+	["burns_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["burns_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["burns_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "burns" */
 ["burns_aggregate_fields"]: {
@@ -41481,6 +45098,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["burns_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["burns_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["burns_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -41559,6 +45177,7 @@ export type GraphQLTypes = {
 	created_at: GraphQLTypes["timestamptz"],
 	created_by: GraphQLTypes["bigint"],
 	hash: string,
+	manage_users: boolean,
 	name: string,
 	read_circle: boolean,
 	read_contributions: boolean,
@@ -41575,6 +45194,29 @@ export type GraphQLTypes = {
 	__typename: "circle_api_keys_aggregate",
 	aggregate?: GraphQLTypes["circle_api_keys_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["circle_api_keys"]>
+};
+	["circle_api_keys_aggregate_bool_exp"]: {
+		bool_and?: GraphQLTypes["circle_api_keys_aggregate_bool_exp_bool_and"] | undefined,
+	bool_or?: GraphQLTypes["circle_api_keys_aggregate_bool_exp_bool_or"] | undefined,
+	count?: GraphQLTypes["circle_api_keys_aggregate_bool_exp_count"] | undefined
+};
+	["circle_api_keys_aggregate_bool_exp_bool_and"]: {
+		arguments: GraphQLTypes["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["circle_api_keys_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Boolean_comparison_exp"]
+};
+	["circle_api_keys_aggregate_bool_exp_bool_or"]: {
+		arguments: GraphQLTypes["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["circle_api_keys_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Boolean_comparison_exp"]
+};
+	["circle_api_keys_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["circle_api_keys_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["circle_api_keys_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "circle_api_keys" */
 ["circle_api_keys_aggregate_fields"]: {
@@ -41635,6 +45277,7 @@ export type GraphQLTypes = {
 	created_at?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
 	created_by?: GraphQLTypes["bigint_comparison_exp"] | undefined,
 	hash?: GraphQLTypes["String_comparison_exp"] | undefined,
+	manage_users?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	name?: GraphQLTypes["String_comparison_exp"] | undefined,
 	read_circle?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	read_contributions?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
@@ -41663,6 +45306,7 @@ export type GraphQLTypes = {
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
 	created_by?: GraphQLTypes["bigint"] | undefined,
 	hash?: string | undefined,
+	manage_users?: boolean | undefined,
 	name?: string | undefined,
 	read_circle?: boolean | undefined,
 	read_contributions?: boolean | undefined,
@@ -41738,6 +45382,7 @@ export type GraphQLTypes = {
 	created_at?: GraphQLTypes["order_by"] | undefined,
 	created_by?: GraphQLTypes["order_by"] | undefined,
 	hash?: GraphQLTypes["order_by"] | undefined,
+	manage_users?: GraphQLTypes["order_by"] | undefined,
 	name?: GraphQLTypes["order_by"] | undefined,
 	read_circle?: GraphQLTypes["order_by"] | undefined,
 	read_contributions?: GraphQLTypes["order_by"] | undefined,
@@ -41755,6 +45400,10 @@ export type GraphQLTypes = {
 };
 	/** select columns of table "circle_api_keys" */
 ["circle_api_keys_select_column"]: circle_api_keys_select_column;
+	/** select "circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns" columns of table "circle_api_keys" */
+["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns"]: circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns;
+	/** select "circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns" columns of table "circle_api_keys" */
+["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns"]: circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "circle_api_keys" */
 ["circle_api_keys_set_input"]: {
 		circle_id?: GraphQLTypes["bigint"] | undefined,
@@ -41763,6 +45412,7 @@ export type GraphQLTypes = {
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
 	created_by?: GraphQLTypes["bigint"] | undefined,
 	hash?: string | undefined,
+	manage_users?: boolean | undefined,
 	name?: string | undefined,
 	read_circle?: boolean | undefined,
 	read_contributions?: boolean | undefined,
@@ -41822,6 +45472,7 @@ export type GraphQLTypes = {
 	created_at?: GraphQLTypes["timestamptz"] | undefined,
 	created_by?: GraphQLTypes["bigint"] | undefined,
 	hash?: string | undefined,
+	manage_users?: boolean | undefined,
 	name?: string | undefined,
 	read_circle?: boolean | undefined,
 	read_contributions?: boolean | undefined,
@@ -41851,6 +45502,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["circle_api_keys_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["circle_api_keys_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["circle_api_keys_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -41904,6 +45556,15 @@ export type GraphQLTypes = {
 	__typename: "circle_integrations_aggregate",
 	aggregate?: GraphQLTypes["circle_integrations_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["circle_integrations"]>
+};
+	["circle_integrations_aggregate_bool_exp"]: {
+		count?: GraphQLTypes["circle_integrations_aggregate_bool_exp_count"] | undefined
+};
+	["circle_integrations_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["circle_integrations_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["circle_integrations_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "circle_integrations" */
 ["circle_integrations_aggregate_fields"]: {
@@ -42130,6 +45791,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["circle_integrations_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["circle_integrations_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["circle_integrations_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -42181,6 +45843,15 @@ export type GraphQLTypes = {
 	__typename: "circle_metadata_aggregate",
 	aggregate?: GraphQLTypes["circle_metadata_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["circle_metadata"]>
+};
+	["circle_metadata_aggregate_bool_exp"]: {
+		count?: GraphQLTypes["circle_metadata_aggregate_bool_exp_count"] | undefined
+};
+	["circle_metadata_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["circle_metadata_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["circle_metadata_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "circle_metadata" */
 ["circle_metadata_aggregate_fields"]: {
@@ -42389,6 +46060,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["circle_metadata_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["circle_metadata_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["circle_metadata_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -42551,6 +46223,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["circle_private_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["circle_private_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["circle_private_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -42736,6 +46409,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["circle_share_tokens_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["circle_share_tokens_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["circle_share_tokens_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -42847,6 +46521,29 @@ export type GraphQLTypes = {
 	aggregate?: GraphQLTypes["circles_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["circles"]>
 };
+	["circles_aggregate_bool_exp"]: {
+		bool_and?: GraphQLTypes["circles_aggregate_bool_exp_bool_and"] | undefined,
+	bool_or?: GraphQLTypes["circles_aggregate_bool_exp_bool_or"] | undefined,
+	count?: GraphQLTypes["circles_aggregate_bool_exp_count"] | undefined
+};
+	["circles_aggregate_bool_exp_bool_and"]: {
+		arguments: GraphQLTypes["circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["circles_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Boolean_comparison_exp"]
+};
+	["circles_aggregate_bool_exp_bool_or"]: {
+		arguments: GraphQLTypes["circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["circles_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Boolean_comparison_exp"]
+};
+	["circles_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["circles_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["circles_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "circles" */
 ["circles_aggregate_fields"]: {
 	__typename: "circles_aggregate_fields",
@@ -42910,44 +46607,56 @@ export type GraphQLTypes = {
 	_or?: Array<GraphQLTypes["circles_bool_exp"]> | undefined,
 	alloc_text?: GraphQLTypes["String_comparison_exp"] | undefined,
 	api_keys?: GraphQLTypes["circle_api_keys_bool_exp"] | undefined,
+	api_keys_aggregate?: GraphQLTypes["circle_api_keys_aggregate_bool_exp"] | undefined,
 	auto_opt_out?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	burns?: GraphQLTypes["burns_bool_exp"] | undefined,
+	burns_aggregate?: GraphQLTypes["burns_aggregate_bool_exp"] | undefined,
 	circle_metadata?: GraphQLTypes["circle_metadata_bool_exp"] | undefined,
+	circle_metadata_aggregate?: GraphQLTypes["circle_metadata_aggregate_bool_exp"] | undefined,
 	circle_private?: GraphQLTypes["circle_private_bool_exp"] | undefined,
 	cont_help_text?: GraphQLTypes["String_comparison_exp"] | undefined,
 	contact?: GraphQLTypes["String_comparison_exp"] | undefined,
 	contributions?: GraphQLTypes["contributions_bool_exp"] | undefined,
+	contributions_aggregate?: GraphQLTypes["contributions_aggregate_bool_exp"] | undefined,
 	created_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	default_opt_in?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	deleted_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	discord_access_tokens?: GraphQLTypes["discord_circle_api_tokens_bool_exp"] | undefined,
+	discord_access_tokens_aggregate?: GraphQLTypes["discord_circle_api_tokens_aggregate_bool_exp"] | undefined,
 	discord_circle?: GraphQLTypes["discord_roles_circles_bool_exp"] | undefined,
 	discord_webhook?: GraphQLTypes["String_comparison_exp"] | undefined,
 	epochs?: GraphQLTypes["epochs_bool_exp"] | undefined,
+	epochs_aggregate?: GraphQLTypes["epochs_aggregate_bool_exp"] | undefined,
 	fixed_payment_token_type?: GraphQLTypes["String_comparison_exp"] | undefined,
 	fixed_payment_vault_id?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	guild_id?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	guild_role_id?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
 	integrations?: GraphQLTypes["circle_integrations_bool_exp"] | undefined,
+	integrations_aggregate?: GraphQLTypes["circle_integrations_aggregate_bool_exp"] | undefined,
 	is_verified?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	logo?: GraphQLTypes["String_comparison_exp"] | undefined,
 	min_vouches?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	name?: GraphQLTypes["String_comparison_exp"] | undefined,
 	nomination_days_limit?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	nominees?: GraphQLTypes["nominees_bool_exp"] | undefined,
+	nominees_aggregate?: GraphQLTypes["nominees_aggregate_bool_exp"] | undefined,
 	only_giver_vouch?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	organization?: GraphQLTypes["organizations_bool_exp"] | undefined,
 	organization_id?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	pending_token_gifts?: GraphQLTypes["pending_token_gifts_bool_exp"] | undefined,
+	pending_token_gifts_aggregate?: GraphQLTypes["pending_token_gifts_aggregate_bool_exp"] | undefined,
 	show_pending_gives?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	team_selection?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	telegram_id?: GraphQLTypes["String_comparison_exp"] | undefined,
 	token_gifts?: GraphQLTypes["token_gifts_bool_exp"] | undefined,
+	token_gifts_aggregate?: GraphQLTypes["token_gifts_aggregate_bool_exp"] | undefined,
 	token_name?: GraphQLTypes["String_comparison_exp"] | undefined,
 	updated_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	users?: GraphQLTypes["users_bool_exp"] | undefined,
+	users_aggregate?: GraphQLTypes["users_aggregate_bool_exp"] | undefined,
 	vault_transactions?: GraphQLTypes["vault_transactions_bool_exp"] | undefined,
+	vault_transactions_aggregate?: GraphQLTypes["vault_transactions_aggregate_bool_exp"] | undefined,
 	vouching?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	vouching_text?: GraphQLTypes["String_comparison_exp"] | undefined
 };
@@ -43173,6 +46882,10 @@ export type GraphQLTypes = {
 };
 	/** select columns of table "circles" */
 ["circles_select_column"]: circles_select_column;
+	/** select "circles_aggregate_bool_exp_bool_and_arguments_columns" columns of table "circles" */
+["circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns"]: circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns;
+	/** select "circles_aggregate_bool_exp_bool_or_arguments_columns" columns of table "circles" */
+["circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns"]: circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "circles" */
 ["circles_set_input"]: {
 		alloc_text?: string | undefined,
@@ -43331,6 +47044,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["circles_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["circles_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["circles_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -43453,6 +47167,15 @@ export type GraphQLTypes = {
 	__typename: "claims_aggregate",
 	aggregate?: GraphQLTypes["claims_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["claims"]>
+};
+	["claims_aggregate_bool_exp"]: {
+		count?: GraphQLTypes["claims_aggregate_bool_exp_count"] | undefined
+};
+	["claims_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["claims_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["claims_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "claims" */
 ["claims_aggregate_fields"]: {
@@ -43766,6 +47489,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["claims_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["claims_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["claims_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -43849,6 +47573,15 @@ export type GraphQLTypes = {
 	__typename: "contributions_aggregate",
 	aggregate?: GraphQLTypes["contributions_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["contributions"]>
+};
+	["contributions_aggregate_bool_exp"]: {
+		count?: GraphQLTypes["contributions_aggregate_bool_exp_count"] | undefined
+};
+	["contributions_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["contributions_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["contributions_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "contributions" */
 ["contributions_aggregate_fields"]: {
@@ -43997,6 +47730,12 @@ export type GraphQLTypes = {
 	/** data from the rows affected by the mutation */
 	returning: Array<GraphQLTypes["contributions"]>
 };
+	/** input type for inserting object relation for remote table "contributions" */
+["contributions_obj_rel_insert_input"]: {
+		data: GraphQLTypes["contributions_insert_input"],
+	/** upsert condition */
+	on_conflict?: GraphQLTypes["contributions_on_conflict"] | undefined
+};
 	/** on_conflict condition type for table "contributions" */
 ["contributions_on_conflict"]: {
 		constraint: GraphQLTypes["contributions_constraint"],
@@ -44114,6 +47853,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["contributions_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["contributions_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["contributions_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -44184,6 +47924,15 @@ export type GraphQLTypes = {
 	__typename: "discord_circle_api_tokens_aggregate",
 	aggregate?: GraphQLTypes["discord_circle_api_tokens_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["discord_circle_api_tokens"]>
+};
+	["discord_circle_api_tokens_aggregate_bool_exp"]: {
+		count?: GraphQLTypes["discord_circle_api_tokens_aggregate_bool_exp_count"] | undefined
+};
+	["discord_circle_api_tokens_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["discord_circle_api_tokens_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["discord_circle_api_tokens_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "discord.circle_api_tokens" */
 ["discord_circle_api_tokens_aggregate_fields"]: {
@@ -44393,6 +48142,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["discord_circle_api_tokens_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["discord_circle_api_tokens_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["discord_circle_api_tokens_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -44645,6 +48395,7 @@ export type GraphQLTypes = {
 	_prepend?: GraphQLTypes["discord_roles_circles_prepend_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["discord_roles_circles_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["discord_roles_circles_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -44838,6 +48589,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["discord_users_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["discord_users_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["discord_users_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -44895,6 +48647,15 @@ export type GraphQLTypes = {
 	__typename: "distributions_aggregate",
 	aggregate?: GraphQLTypes["distributions_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["distributions"]>
+};
+	["distributions_aggregate_bool_exp"]: {
+		count?: GraphQLTypes["distributions_aggregate_bool_exp_count"] | undefined
+};
+	["distributions_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["distributions_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["distributions_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "distributions" */
 ["distributions_aggregate_fields"]: {
@@ -44964,6 +48725,7 @@ export type GraphQLTypes = {
 	_not?: GraphQLTypes["distributions_bool_exp"] | undefined,
 	_or?: Array<GraphQLTypes["distributions_bool_exp"]> | undefined,
 	claims?: GraphQLTypes["claims_bool_exp"] | undefined,
+	claims_aggregate?: GraphQLTypes["claims_aggregate_bool_exp"] | undefined,
 	created_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	created_by?: GraphQLTypes["bigint_comparison_exp"] | undefined,
 	distribution_epoch_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
@@ -44981,7 +48743,8 @@ export type GraphQLTypes = {
 	updated_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	vault?: GraphQLTypes["vaults_bool_exp"] | undefined,
 	vault_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
-	vault_transactions?: GraphQLTypes["vault_transactions_bool_exp"] | undefined
+	vault_transactions?: GraphQLTypes["vault_transactions_bool_exp"] | undefined,
+	vault_transactions_aggregate?: GraphQLTypes["vault_transactions_aggregate_bool_exp"] | undefined
 };
 	/** unique or primary key constraints on table "distributions" */
 ["distributions_constraint"]: distributions_constraint;
@@ -45298,6 +49061,7 @@ export type GraphQLTypes = {
 	_prepend?: GraphQLTypes["distributions_prepend_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["distributions_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["distributions_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -45596,6 +49360,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["epoch_pgive_data_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["epoch_pgive_data_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["epoch_pgive_data_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -45679,6 +49444,29 @@ export type GraphQLTypes = {
 	aggregate?: GraphQLTypes["epochs_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["epochs"]>
 };
+	["epochs_aggregate_bool_exp"]: {
+		bool_and?: GraphQLTypes["epochs_aggregate_bool_exp_bool_and"] | undefined,
+	bool_or?: GraphQLTypes["epochs_aggregate_bool_exp_bool_or"] | undefined,
+	count?: GraphQLTypes["epochs_aggregate_bool_exp_count"] | undefined
+};
+	["epochs_aggregate_bool_exp_bool_and"]: {
+		arguments: GraphQLTypes["epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["epochs_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Boolean_comparison_exp"]
+};
+	["epochs_aggregate_bool_exp_bool_or"]: {
+		arguments: GraphQLTypes["epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["epochs_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Boolean_comparison_exp"]
+};
+	["epochs_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["epochs_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["epochs_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "epoches" */
 ["epochs_aggregate_fields"]: {
 	__typename: "epochs_aggregate_fields",
@@ -45747,15 +49535,18 @@ export type GraphQLTypes = {
 	_not?: GraphQLTypes["epochs_bool_exp"] | undefined,
 	_or?: Array<GraphQLTypes["epochs_bool_exp"]> | undefined,
 	burns?: GraphQLTypes["burns_bool_exp"] | undefined,
+	burns_aggregate?: GraphQLTypes["burns_aggregate_bool_exp"] | undefined,
 	circle?: GraphQLTypes["circles_bool_exp"] | undefined,
 	circle_id?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	created_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	days?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	description?: GraphQLTypes["String_comparison_exp"] | undefined,
 	distributions?: GraphQLTypes["distributions_bool_exp"] | undefined,
+	distributions_aggregate?: GraphQLTypes["distributions_aggregate_bool_exp"] | undefined,
 	end_date?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
 	ended?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	epoch_pending_token_gifts?: GraphQLTypes["pending_token_gifts_bool_exp"] | undefined,
+	epoch_pending_token_gifts_aggregate?: GraphQLTypes["pending_token_gifts_aggregate_bool_exp"] | undefined,
 	grant?: GraphQLTypes["numeric_comparison_exp"] | undefined,
 	id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
 	notified_before_end?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
@@ -45769,6 +49560,7 @@ export type GraphQLTypes = {
 	repeat_day_of_month?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	start_date?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
 	token_gifts?: GraphQLTypes["token_gifts_bool_exp"] | undefined,
+	token_gifts_aggregate?: GraphQLTypes["token_gifts_aggregate_bool_exp"] | undefined,
 	updated_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "epoches" */
@@ -45958,6 +49750,10 @@ export type GraphQLTypes = {
 };
 	/** select columns of table "epoches" */
 ["epochs_select_column"]: epochs_select_column;
+	/** select "epochs_aggregate_bool_exp_bool_and_arguments_columns" columns of table "epoches" */
+["epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns"]: epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns;
+	/** select "epochs_aggregate_bool_exp_bool_or_arguments_columns" columns of table "epoches" */
+["epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns"]: epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "epoches" */
 ["epochs_set_input"]: {
 		circle_id?: number | undefined,
@@ -46116,6 +49912,7 @@ export type GraphQLTypes = {
 	_prepend?: GraphQLTypes["epochs_prepend_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["epochs_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["epochs_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -46347,6 +50144,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["gift_private_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["gift_private_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["gift_private_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -46575,6 +50373,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["histories_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["histories_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["histories_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -46850,6 +50649,7 @@ export type GraphQLTypes = {
 	_prepend?: GraphQLTypes["interaction_events_prepend_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["interaction_events_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["interaction_events_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -46933,6 +50733,15 @@ export type GraphQLTypes = {
 	__typename: "locked_token_distribution_gifts_aggregate",
 	aggregate?: GraphQLTypes["locked_token_distribution_gifts_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["locked_token_distribution_gifts"]>
+};
+	["locked_token_distribution_gifts_aggregate_bool_exp"]: {
+		count?: GraphQLTypes["locked_token_distribution_gifts_aggregate_bool_exp_count"] | undefined
+};
+	["locked_token_distribution_gifts_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["locked_token_distribution_gifts_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["locked_token_distribution_gifts_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "locked_token_distribution_gifts" */
 ["locked_token_distribution_gifts_aggregate_fields"]: {
@@ -47161,6 +50970,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["locked_token_distribution_gifts_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["locked_token_distribution_gifts_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["locked_token_distribution_gifts_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -47272,6 +51082,7 @@ export type GraphQLTypes = {
 	gift_amount?: GraphQLTypes["numeric_comparison_exp"] | undefined,
 	id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
 	locked_token_distribution_gifts?: GraphQLTypes["locked_token_distribution_gifts_bool_exp"] | undefined,
+	locked_token_distribution_gifts_aggregate?: GraphQLTypes["locked_token_distribution_gifts_aggregate_bool_exp"] | undefined,
 	profile?: GraphQLTypes["profiles_bool_exp"] | undefined,
 	token_contract_address?: GraphQLTypes["String_comparison_exp"] | undefined,
 	token_decimals?: GraphQLTypes["Int_comparison_exp"] | undefined,
@@ -47449,6 +51260,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["locked_token_distributions_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["locked_token_distributions_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["locked_token_distributions_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -47707,6 +51519,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["member_epoch_pgives_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["member_epoch_pgives_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["member_epoch_pgives_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -47764,6 +51577,10 @@ export type GraphQLTypes = {
 	deleteEpoch?: GraphQLTypes["DeleteEpochResponse"] | undefined,
 	deleteUser?: GraphQLTypes["ConfirmationResponse"] | undefined,
 	deleteUsers?: GraphQLTypes["DeleteUsersResponse"] | undefined,
+	/** delete data from the table: "activities" */
+	delete_activities?: GraphQLTypes["activities_mutation_response"] | undefined,
+	/** delete single row from the table: "activities" */
+	delete_activities_by_pk?: GraphQLTypes["activities"] | undefined,
 	/** delete data from the table: "burns" */
 	delete_burns?: GraphQLTypes["burns_mutation_response"] | undefined,
 	/** delete single row from the table: "burns" */
@@ -47848,6 +51665,10 @@ export type GraphQLTypes = {
 	delete_nominees?: GraphQLTypes["nominees_mutation_response"] | undefined,
 	/** delete single row from the table: "nominees" */
 	delete_nominees_by_pk?: GraphQLTypes["nominees"] | undefined,
+	/** delete data from the table: "org_members" */
+	delete_org_members?: GraphQLTypes["org_members_mutation_response"] | undefined,
+	/** delete single row from the table: "org_members" */
+	delete_org_members_by_pk?: GraphQLTypes["org_members"] | undefined,
 	/** delete data from the table: "organizations" */
 	delete_organizations?: GraphQLTypes["organizations_mutation_response"] | undefined,
 	/** delete single row from the table: "organizations" */
@@ -47901,6 +51722,10 @@ export type GraphQLTypes = {
 	endEpoch?: GraphQLTypes["EpochResponse"] | undefined,
 	/** Generates an API key for a circle */
 	generateApiKey?: GraphQLTypes["GenerateApiKeyResponse"] | undefined,
+	/** insert data into the table: "activities" */
+	insert_activities?: GraphQLTypes["activities_mutation_response"] | undefined,
+	/** insert a single row into the table: "activities" */
+	insert_activities_one?: GraphQLTypes["activities"] | undefined,
 	/** insert data into the table: "burns" */
 	insert_burns?: GraphQLTypes["burns_mutation_response"] | undefined,
 	/** insert a single row into the table: "burns" */
@@ -47989,6 +51814,10 @@ export type GraphQLTypes = {
 	insert_nominees?: GraphQLTypes["nominees_mutation_response"] | undefined,
 	/** insert a single row into the table: "nominees" */
 	insert_nominees_one?: GraphQLTypes["nominees"] | undefined,
+	/** insert data into the table: "org_members" */
+	insert_org_members?: GraphQLTypes["org_members_mutation_response"] | undefined,
+	/** insert a single row into the table: "org_members" */
+	insert_org_members_one?: GraphQLTypes["org_members"] | undefined,
 	/** insert data into the table: "organizations" */
 	insert_organizations?: GraphQLTypes["organizations_mutation_response"] | undefined,
 	/** insert a single row into the table: "organizations" */
@@ -48058,6 +51887,12 @@ export type GraphQLTypes = {
 	updateTeammates?: GraphQLTypes["UpdateTeammatesResponse"] | undefined,
 	/** Update own user */
 	updateUser?: GraphQLTypes["UserResponse"] | undefined,
+	/** update data of the table: "activities" */
+	update_activities?: GraphQLTypes["activities_mutation_response"] | undefined,
+	/** update single row of the table: "activities" */
+	update_activities_by_pk?: GraphQLTypes["activities"] | undefined,
+	/** update multiples rows of table: "activities" */
+	update_activities_many?: Array<GraphQLTypes["activities_mutation_response"] | undefined> | undefined,
 	/** update data of the table: "burns" */
 	update_burns?: GraphQLTypes["burns_mutation_response"] | undefined,
 	/** update single row of the table: "burns" */
@@ -48186,6 +52021,12 @@ export type GraphQLTypes = {
 	update_nominees_by_pk?: GraphQLTypes["nominees"] | undefined,
 	/** update multiples rows of table: "nominees" */
 	update_nominees_many?: Array<GraphQLTypes["nominees_mutation_response"] | undefined> | undefined,
+	/** update data of the table: "org_members" */
+	update_org_members?: GraphQLTypes["org_members_mutation_response"] | undefined,
+	/** update single row of the table: "org_members" */
+	update_org_members_by_pk?: GraphQLTypes["org_members"] | undefined,
+	/** update multiples rows of table: "org_members" */
+	update_org_members_many?: Array<GraphQLTypes["org_members_mutation_response"] | undefined> | undefined,
 	/** update data of the table: "organizations" */
 	update_organizations?: GraphQLTypes["organizations_mutation_response"] | undefined,
 	/** update single row of the table: "organizations" */
@@ -48302,6 +52143,29 @@ export type GraphQLTypes = {
 	aggregate?: GraphQLTypes["nominees_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["nominees"]>
 };
+	["nominees_aggregate_bool_exp"]: {
+		bool_and?: GraphQLTypes["nominees_aggregate_bool_exp_bool_and"] | undefined,
+	bool_or?: GraphQLTypes["nominees_aggregate_bool_exp_bool_or"] | undefined,
+	count?: GraphQLTypes["nominees_aggregate_bool_exp_count"] | undefined
+};
+	["nominees_aggregate_bool_exp_bool_and"]: {
+		arguments: GraphQLTypes["nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["nominees_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Boolean_comparison_exp"]
+};
+	["nominees_aggregate_bool_exp_bool_or"]: {
+		arguments: GraphQLTypes["nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["nominees_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Boolean_comparison_exp"]
+};
+	["nominees_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["nominees_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["nominees_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "nominees" */
 ["nominees_aggregate_fields"]: {
 	__typename: "nominees_aggregate_fields",
@@ -48370,6 +52234,7 @@ export type GraphQLTypes = {
 	nominated_by_user_id?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	nominated_date?: GraphQLTypes["date_comparison_exp"] | undefined,
 	nominations?: GraphQLTypes["vouches_bool_exp"] | undefined,
+	nominations_aggregate?: GraphQLTypes["vouches_aggregate_bool_exp"] | undefined,
 	nominator?: GraphQLTypes["users_bool_exp"] | undefined,
 	profile?: GraphQLTypes["profiles_bool_exp"] | undefined,
 	updated_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
@@ -48511,6 +52376,10 @@ export type GraphQLTypes = {
 };
 	/** select columns of table "nominees" */
 ["nominees_select_column"]: nominees_select_column;
+	/** select "nominees_aggregate_bool_exp_bool_and_arguments_columns" columns of table "nominees" */
+["nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns"]: nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns;
+	/** select "nominees_aggregate_bool_exp_bool_or_arguments_columns" columns of table "nominees" */
+["nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns"]: nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "nominees" */
 ["nominees_set_input"]: {
 		address?: string | undefined,
@@ -48623,6 +52492,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["nominees_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["nominees_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["nominees_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -48691,6 +52561,338 @@ export type GraphQLTypes = {
 };
 	/** column ordering options */
 ["order_by"]: order_by;
+	/** columns and relationships of "org_members" */
+["org_members"]: {
+	__typename: "org_members",
+	created_at: GraphQLTypes["timestamp"],
+	deleted_at?: GraphQLTypes["timestamp"] | undefined,
+	id: GraphQLTypes["bigint"],
+	org_id: GraphQLTypes["bigint"],
+	/** An object relationship */
+	organization: GraphQLTypes["organizations"],
+	/** An object relationship */
+	profile: GraphQLTypes["profiles"],
+	profile_id: GraphQLTypes["bigint"],
+	role: number,
+	updated_at?: GraphQLTypes["timestamp"] | undefined
+};
+	/** aggregated selection of "org_members" */
+["org_members_aggregate"]: {
+	__typename: "org_members_aggregate",
+	aggregate?: GraphQLTypes["org_members_aggregate_fields"] | undefined,
+	nodes: Array<GraphQLTypes["org_members"]>
+};
+	["org_members_aggregate_bool_exp"]: {
+		count?: GraphQLTypes["org_members_aggregate_bool_exp_count"] | undefined
+};
+	["org_members_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["org_members_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["org_members_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
+};
+	/** aggregate fields of "org_members" */
+["org_members_aggregate_fields"]: {
+	__typename: "org_members_aggregate_fields",
+	avg?: GraphQLTypes["org_members_avg_fields"] | undefined,
+	count: number,
+	max?: GraphQLTypes["org_members_max_fields"] | undefined,
+	min?: GraphQLTypes["org_members_min_fields"] | undefined,
+	stddev?: GraphQLTypes["org_members_stddev_fields"] | undefined,
+	stddev_pop?: GraphQLTypes["org_members_stddev_pop_fields"] | undefined,
+	stddev_samp?: GraphQLTypes["org_members_stddev_samp_fields"] | undefined,
+	sum?: GraphQLTypes["org_members_sum_fields"] | undefined,
+	var_pop?: GraphQLTypes["org_members_var_pop_fields"] | undefined,
+	var_samp?: GraphQLTypes["org_members_var_samp_fields"] | undefined,
+	variance?: GraphQLTypes["org_members_variance_fields"] | undefined
+};
+	/** order by aggregate values of table "org_members" */
+["org_members_aggregate_order_by"]: {
+		avg?: GraphQLTypes["org_members_avg_order_by"] | undefined,
+	count?: GraphQLTypes["order_by"] | undefined,
+	max?: GraphQLTypes["org_members_max_order_by"] | undefined,
+	min?: GraphQLTypes["org_members_min_order_by"] | undefined,
+	stddev?: GraphQLTypes["org_members_stddev_order_by"] | undefined,
+	stddev_pop?: GraphQLTypes["org_members_stddev_pop_order_by"] | undefined,
+	stddev_samp?: GraphQLTypes["org_members_stddev_samp_order_by"] | undefined,
+	sum?: GraphQLTypes["org_members_sum_order_by"] | undefined,
+	var_pop?: GraphQLTypes["org_members_var_pop_order_by"] | undefined,
+	var_samp?: GraphQLTypes["org_members_var_samp_order_by"] | undefined,
+	variance?: GraphQLTypes["org_members_variance_order_by"] | undefined
+};
+	/** input type for inserting array relation for remote table "org_members" */
+["org_members_arr_rel_insert_input"]: {
+		data: Array<GraphQLTypes["org_members_insert_input"]>,
+	/** upsert condition */
+	on_conflict?: GraphQLTypes["org_members_on_conflict"] | undefined
+};
+	/** aggregate avg on columns */
+["org_members_avg_fields"]: {
+	__typename: "org_members_avg_fields",
+	id?: number | undefined,
+	org_id?: number | undefined,
+	profile_id?: number | undefined,
+	role?: number | undefined
+};
+	/** order by avg() on columns of table "org_members" */
+["org_members_avg_order_by"]: {
+		id?: GraphQLTypes["order_by"] | undefined,
+	org_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined,
+	role?: GraphQLTypes["order_by"] | undefined
+};
+	/** Boolean expression to filter rows from the table "org_members". All fields are combined with a logical 'AND'. */
+["org_members_bool_exp"]: {
+		_and?: Array<GraphQLTypes["org_members_bool_exp"]> | undefined,
+	_not?: GraphQLTypes["org_members_bool_exp"] | undefined,
+	_or?: Array<GraphQLTypes["org_members_bool_exp"]> | undefined,
+	created_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
+	deleted_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
+	id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	org_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	organization?: GraphQLTypes["organizations_bool_exp"] | undefined,
+	profile?: GraphQLTypes["profiles_bool_exp"] | undefined,
+	profile_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
+	role?: GraphQLTypes["Int_comparison_exp"] | undefined,
+	updated_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined
+};
+	/** unique or primary key constraints on table "org_members" */
+["org_members_constraint"]: org_members_constraint;
+	/** input type for incrementing numeric columns in table "org_members" */
+["org_members_inc_input"]: {
+		id?: GraphQLTypes["bigint"] | undefined,
+	org_id?: GraphQLTypes["bigint"] | undefined,
+	profile_id?: GraphQLTypes["bigint"] | undefined,
+	role?: number | undefined
+};
+	/** input type for inserting data into table "org_members" */
+["org_members_insert_input"]: {
+		created_at?: GraphQLTypes["timestamp"] | undefined,
+	deleted_at?: GraphQLTypes["timestamp"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	org_id?: GraphQLTypes["bigint"] | undefined,
+	organization?: GraphQLTypes["organizations_obj_rel_insert_input"] | undefined,
+	profile?: GraphQLTypes["profiles_obj_rel_insert_input"] | undefined,
+	profile_id?: GraphQLTypes["bigint"] | undefined,
+	role?: number | undefined,
+	updated_at?: GraphQLTypes["timestamp"] | undefined
+};
+	/** aggregate max on columns */
+["org_members_max_fields"]: {
+	__typename: "org_members_max_fields",
+	created_at?: GraphQLTypes["timestamp"] | undefined,
+	deleted_at?: GraphQLTypes["timestamp"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	org_id?: GraphQLTypes["bigint"] | undefined,
+	profile_id?: GraphQLTypes["bigint"] | undefined,
+	role?: number | undefined,
+	updated_at?: GraphQLTypes["timestamp"] | undefined
+};
+	/** order by max() on columns of table "org_members" */
+["org_members_max_order_by"]: {
+		created_at?: GraphQLTypes["order_by"] | undefined,
+	deleted_at?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	org_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined,
+	role?: GraphQLTypes["order_by"] | undefined,
+	updated_at?: GraphQLTypes["order_by"] | undefined
+};
+	/** aggregate min on columns */
+["org_members_min_fields"]: {
+	__typename: "org_members_min_fields",
+	created_at?: GraphQLTypes["timestamp"] | undefined,
+	deleted_at?: GraphQLTypes["timestamp"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	org_id?: GraphQLTypes["bigint"] | undefined,
+	profile_id?: GraphQLTypes["bigint"] | undefined,
+	role?: number | undefined,
+	updated_at?: GraphQLTypes["timestamp"] | undefined
+};
+	/** order by min() on columns of table "org_members" */
+["org_members_min_order_by"]: {
+		created_at?: GraphQLTypes["order_by"] | undefined,
+	deleted_at?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	org_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined,
+	role?: GraphQLTypes["order_by"] | undefined,
+	updated_at?: GraphQLTypes["order_by"] | undefined
+};
+	/** response of any mutation on the table "org_members" */
+["org_members_mutation_response"]: {
+	__typename: "org_members_mutation_response",
+	/** number of rows affected by the mutation */
+	affected_rows: number,
+	/** data from the rows affected by the mutation */
+	returning: Array<GraphQLTypes["org_members"]>
+};
+	/** on_conflict condition type for table "org_members" */
+["org_members_on_conflict"]: {
+		constraint: GraphQLTypes["org_members_constraint"],
+	update_columns: Array<GraphQLTypes["org_members_update_column"]>,
+	where?: GraphQLTypes["org_members_bool_exp"] | undefined
+};
+	/** Ordering options when selecting data from "org_members". */
+["org_members_order_by"]: {
+		created_at?: GraphQLTypes["order_by"] | undefined,
+	deleted_at?: GraphQLTypes["order_by"] | undefined,
+	id?: GraphQLTypes["order_by"] | undefined,
+	org_id?: GraphQLTypes["order_by"] | undefined,
+	organization?: GraphQLTypes["organizations_order_by"] | undefined,
+	profile?: GraphQLTypes["profiles_order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined,
+	role?: GraphQLTypes["order_by"] | undefined,
+	updated_at?: GraphQLTypes["order_by"] | undefined
+};
+	/** primary key columns input for table: org_members */
+["org_members_pk_columns_input"]: {
+		id: GraphQLTypes["bigint"]
+};
+	/** select columns of table "org_members" */
+["org_members_select_column"]: org_members_select_column;
+	/** input type for updating data in table "org_members" */
+["org_members_set_input"]: {
+		created_at?: GraphQLTypes["timestamp"] | undefined,
+	deleted_at?: GraphQLTypes["timestamp"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	org_id?: GraphQLTypes["bigint"] | undefined,
+	profile_id?: GraphQLTypes["bigint"] | undefined,
+	role?: number | undefined,
+	updated_at?: GraphQLTypes["timestamp"] | undefined
+};
+	/** aggregate stddev on columns */
+["org_members_stddev_fields"]: {
+	__typename: "org_members_stddev_fields",
+	id?: number | undefined,
+	org_id?: number | undefined,
+	profile_id?: number | undefined,
+	role?: number | undefined
+};
+	/** order by stddev() on columns of table "org_members" */
+["org_members_stddev_order_by"]: {
+		id?: GraphQLTypes["order_by"] | undefined,
+	org_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined,
+	role?: GraphQLTypes["order_by"] | undefined
+};
+	/** aggregate stddev_pop on columns */
+["org_members_stddev_pop_fields"]: {
+	__typename: "org_members_stddev_pop_fields",
+	id?: number | undefined,
+	org_id?: number | undefined,
+	profile_id?: number | undefined,
+	role?: number | undefined
+};
+	/** order by stddev_pop() on columns of table "org_members" */
+["org_members_stddev_pop_order_by"]: {
+		id?: GraphQLTypes["order_by"] | undefined,
+	org_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined,
+	role?: GraphQLTypes["order_by"] | undefined
+};
+	/** aggregate stddev_samp on columns */
+["org_members_stddev_samp_fields"]: {
+	__typename: "org_members_stddev_samp_fields",
+	id?: number | undefined,
+	org_id?: number | undefined,
+	profile_id?: number | undefined,
+	role?: number | undefined
+};
+	/** order by stddev_samp() on columns of table "org_members" */
+["org_members_stddev_samp_order_by"]: {
+		id?: GraphQLTypes["order_by"] | undefined,
+	org_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined,
+	role?: GraphQLTypes["order_by"] | undefined
+};
+	/** Streaming cursor of the table "org_members" */
+["org_members_stream_cursor_input"]: {
+		/** Stream column input with initial value */
+	initial_value: GraphQLTypes["org_members_stream_cursor_value_input"],
+	/** cursor ordering */
+	ordering?: GraphQLTypes["cursor_ordering"] | undefined
+};
+	/** Initial value of the column from where the streaming should start */
+["org_members_stream_cursor_value_input"]: {
+		created_at?: GraphQLTypes["timestamp"] | undefined,
+	deleted_at?: GraphQLTypes["timestamp"] | undefined,
+	id?: GraphQLTypes["bigint"] | undefined,
+	org_id?: GraphQLTypes["bigint"] | undefined,
+	profile_id?: GraphQLTypes["bigint"] | undefined,
+	role?: number | undefined,
+	updated_at?: GraphQLTypes["timestamp"] | undefined
+};
+	/** aggregate sum on columns */
+["org_members_sum_fields"]: {
+	__typename: "org_members_sum_fields",
+	id?: GraphQLTypes["bigint"] | undefined,
+	org_id?: GraphQLTypes["bigint"] | undefined,
+	profile_id?: GraphQLTypes["bigint"] | undefined,
+	role?: number | undefined
+};
+	/** order by sum() on columns of table "org_members" */
+["org_members_sum_order_by"]: {
+		id?: GraphQLTypes["order_by"] | undefined,
+	org_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined,
+	role?: GraphQLTypes["order_by"] | undefined
+};
+	/** update columns of table "org_members" */
+["org_members_update_column"]: org_members_update_column;
+	["org_members_updates"]: {
+		/** increments the numeric columns with given value of the filtered values */
+	_inc?: GraphQLTypes["org_members_inc_input"] | undefined,
+	/** sets the columns of the filtered rows to the given values */
+	_set?: GraphQLTypes["org_members_set_input"] | undefined,
+	/** filter the rows which have to be updated */
+	where: GraphQLTypes["org_members_bool_exp"]
+};
+	/** aggregate var_pop on columns */
+["org_members_var_pop_fields"]: {
+	__typename: "org_members_var_pop_fields",
+	id?: number | undefined,
+	org_id?: number | undefined,
+	profile_id?: number | undefined,
+	role?: number | undefined
+};
+	/** order by var_pop() on columns of table "org_members" */
+["org_members_var_pop_order_by"]: {
+		id?: GraphQLTypes["order_by"] | undefined,
+	org_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined,
+	role?: GraphQLTypes["order_by"] | undefined
+};
+	/** aggregate var_samp on columns */
+["org_members_var_samp_fields"]: {
+	__typename: "org_members_var_samp_fields",
+	id?: number | undefined,
+	org_id?: number | undefined,
+	profile_id?: number | undefined,
+	role?: number | undefined
+};
+	/** order by var_samp() on columns of table "org_members" */
+["org_members_var_samp_order_by"]: {
+		id?: GraphQLTypes["order_by"] | undefined,
+	org_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined,
+	role?: GraphQLTypes["order_by"] | undefined
+};
+	/** aggregate variance on columns */
+["org_members_variance_fields"]: {
+	__typename: "org_members_variance_fields",
+	id?: number | undefined,
+	org_id?: number | undefined,
+	profile_id?: number | undefined,
+	role?: number | undefined
+};
+	/** order by variance() on columns of table "org_members" */
+["org_members_variance_order_by"]: {
+		id?: GraphQLTypes["order_by"] | undefined,
+	org_id?: GraphQLTypes["order_by"] | undefined,
+	profile_id?: GraphQLTypes["order_by"] | undefined,
+	role?: GraphQLTypes["order_by"] | undefined
+};
 	/** columns and relationships of "organizations" */
 ["organizations"]: {
 	__typename: "organizations",
@@ -48703,6 +52905,10 @@ export type GraphQLTypes = {
 	id: GraphQLTypes["bigint"],
 	is_verified: boolean,
 	logo?: string | undefined,
+	/** An array relationship */
+	members: Array<GraphQLTypes["org_members"]>,
+	/** An aggregate relationship */
+	members_aggregate: GraphQLTypes["org_members_aggregate"],
 	name: string,
 	/** An object relationship */
 	profile?: GraphQLTypes["profiles"] | undefined,
@@ -48748,17 +52954,21 @@ export type GraphQLTypes = {
 	_not?: GraphQLTypes["organizations_bool_exp"] | undefined,
 	_or?: Array<GraphQLTypes["organizations_bool_exp"]> | undefined,
 	circles?: GraphQLTypes["circles_bool_exp"] | undefined,
+	circles_aggregate?: GraphQLTypes["circles_aggregate_bool_exp"] | undefined,
 	created_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	created_by?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
 	is_verified?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	logo?: GraphQLTypes["String_comparison_exp"] | undefined,
+	members?: GraphQLTypes["org_members_bool_exp"] | undefined,
+	members_aggregate?: GraphQLTypes["org_members_aggregate_bool_exp"] | undefined,
 	name?: GraphQLTypes["String_comparison_exp"] | undefined,
 	profile?: GraphQLTypes["profiles_bool_exp"] | undefined,
 	sample?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	telegram_id?: GraphQLTypes["String_comparison_exp"] | undefined,
 	updated_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
-	vaults?: GraphQLTypes["vaults_bool_exp"] | undefined
+	vaults?: GraphQLTypes["vaults_bool_exp"] | undefined,
+	vaults_aggregate?: GraphQLTypes["vaults_aggregate_bool_exp"] | undefined
 };
 	/** unique or primary key constraints on table "organizations" */
 ["organizations_constraint"]: organizations_constraint;
@@ -48775,6 +52985,7 @@ export type GraphQLTypes = {
 	id?: GraphQLTypes["bigint"] | undefined,
 	is_verified?: boolean | undefined,
 	logo?: string | undefined,
+	members?: GraphQLTypes["org_members_arr_rel_insert_input"] | undefined,
 	name?: string | undefined,
 	profile?: GraphQLTypes["profiles_obj_rel_insert_input"] | undefined,
 	/** Indicates a test/sample/sandbox org */
@@ -48833,6 +53044,7 @@ export type GraphQLTypes = {
 	id?: GraphQLTypes["order_by"] | undefined,
 	is_verified?: GraphQLTypes["order_by"] | undefined,
 	logo?: GraphQLTypes["order_by"] | undefined,
+	members_aggregate?: GraphQLTypes["org_members_aggregate_order_by"] | undefined,
 	name?: GraphQLTypes["order_by"] | undefined,
 	profile?: GraphQLTypes["profiles_order_by"] | undefined,
 	sample?: GraphQLTypes["order_by"] | undefined,
@@ -48910,6 +53122,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["organizations_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["organizations_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["organizations_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -49090,6 +53303,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["pending_gift_private_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["pending_gift_private_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["pending_gift_private_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -49144,6 +53358,15 @@ export type GraphQLTypes = {
 	__typename: "pending_token_gifts_aggregate",
 	aggregate?: GraphQLTypes["pending_token_gifts_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["pending_token_gifts"]>
+};
+	["pending_token_gifts_aggregate_bool_exp"]: {
+		count?: GraphQLTypes["pending_token_gifts_aggregate_bool_exp_count"] | undefined
+};
+	["pending_token_gifts_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["pending_token_gifts_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["pending_token_gifts_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "pending_token_gifts" */
 ["pending_token_gifts_aggregate_fields"]: {
@@ -49475,6 +53698,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["pending_token_gifts_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["pending_token_gifts_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["pending_token_gifts_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -49756,6 +53980,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["pending_vault_transactions_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["pending_vault_transactions_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["pending_vault_transactions_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -49984,6 +54209,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["personal_access_tokens_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["personal_access_tokens_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["personal_access_tokens_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -50031,6 +54257,10 @@ export type GraphQLTypes = {
 	nominees: Array<GraphQLTypes["nominees"]>,
 	/** An aggregate relationship */
 	nominees_aggregate: GraphQLTypes["nominees_aggregate"],
+	/** An array relationship */
+	org_members: Array<GraphQLTypes["org_members"]>,
+	/** An aggregate relationship */
+	org_members_aggregate: GraphQLTypes["org_members_aggregate"],
 	skills?: string | undefined,
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
@@ -50088,23 +54318,31 @@ export type GraphQLTypes = {
 	bio?: GraphQLTypes["String_comparison_exp"] | undefined,
 	chat_id?: GraphQLTypes["String_comparison_exp"] | undefined,
 	claims?: GraphQLTypes["claims_bool_exp"] | undefined,
+	claims_aggregate?: GraphQLTypes["claims_aggregate_bool_exp"] | undefined,
 	connector?: GraphQLTypes["String_comparison_exp"] | undefined,
 	created_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	discord_username?: GraphQLTypes["String_comparison_exp"] | undefined,
 	distributions?: GraphQLTypes["distributions_bool_exp"] | undefined,
+	distributions_aggregate?: GraphQLTypes["distributions_aggregate_bool_exp"] | undefined,
 	github_username?: GraphQLTypes["String_comparison_exp"] | undefined,
 	id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
 	medium_username?: GraphQLTypes["String_comparison_exp"] | undefined,
 	name?: GraphQLTypes["citext_comparison_exp"] | undefined,
 	nominees?: GraphQLTypes["nominees_bool_exp"] | undefined,
+	nominees_aggregate?: GraphQLTypes["nominees_aggregate_bool_exp"] | undefined,
+	org_members?: GraphQLTypes["org_members_bool_exp"] | undefined,
+	org_members_aggregate?: GraphQLTypes["org_members_aggregate_bool_exp"] | undefined,
 	skills?: GraphQLTypes["String_comparison_exp"] | undefined,
 	telegram_username?: GraphQLTypes["String_comparison_exp"] | undefined,
 	twitter_username?: GraphQLTypes["String_comparison_exp"] | undefined,
 	updated_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	user?: GraphQLTypes["discord_users_bool_exp"] | undefined,
 	users?: GraphQLTypes["users_bool_exp"] | undefined,
+	users_aggregate?: GraphQLTypes["users_aggregate_bool_exp"] | undefined,
 	vault_transactions?: GraphQLTypes["vault_transactions_bool_exp"] | undefined,
+	vault_transactions_aggregate?: GraphQLTypes["vault_transactions_aggregate_bool_exp"] | undefined,
 	vaults?: GraphQLTypes["vaults_bool_exp"] | undefined,
+	vaults_aggregate?: GraphQLTypes["vaults_aggregate_bool_exp"] | undefined,
 	website?: GraphQLTypes["String_comparison_exp"] | undefined
 };
 	/** unique or primary key constraints on table "profiles" */
@@ -50130,6 +54368,7 @@ export type GraphQLTypes = {
 	medium_username?: string | undefined,
 	name?: GraphQLTypes["citext"] | undefined,
 	nominees?: GraphQLTypes["nominees_arr_rel_insert_input"] | undefined,
+	org_members?: GraphQLTypes["org_members_arr_rel_insert_input"] | undefined,
 	skills?: string | undefined,
 	telegram_username?: string | undefined,
 	twitter_username?: string | undefined,
@@ -50219,6 +54458,7 @@ export type GraphQLTypes = {
 	medium_username?: GraphQLTypes["order_by"] | undefined,
 	name?: GraphQLTypes["order_by"] | undefined,
 	nominees_aggregate?: GraphQLTypes["nominees_aggregate_order_by"] | undefined,
+	org_members_aggregate?: GraphQLTypes["org_members_aggregate_order_by"] | undefined,
 	skills?: GraphQLTypes["order_by"] | undefined,
 	telegram_username?: GraphQLTypes["order_by"] | undefined,
 	twitter_username?: GraphQLTypes["order_by"] | undefined,
@@ -50309,6 +54549,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["profiles_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["profiles_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["profiles_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -50328,6 +54569,12 @@ export type GraphQLTypes = {
 };
 	["query_root"]: {
 	__typename: "query_root",
+	/** fetch data from the table: "activities" */
+	activities: Array<GraphQLTypes["activities"]>,
+	/** fetch aggregated fields from the table: "activities" */
+	activities_aggregate: GraphQLTypes["activities_aggregate"],
+	/** fetch data from the table: "activities" using primary key columns */
+	activities_by_pk?: GraphQLTypes["activities"] | undefined,
 	/** An array relationship */
 	burns: Array<GraphQLTypes["burns"]>,
 	/** An aggregate relationship */
@@ -50457,6 +54704,12 @@ export type GraphQLTypes = {
 	nominees_aggregate: GraphQLTypes["nominees_aggregate"],
 	/** fetch data from the table: "nominees" using primary key columns */
 	nominees_by_pk?: GraphQLTypes["nominees"] | undefined,
+	/** An array relationship */
+	org_members: Array<GraphQLTypes["org_members"]>,
+	/** An aggregate relationship */
+	org_members_aggregate: GraphQLTypes["org_members_aggregate"],
+	/** fetch data from the table: "org_members" using primary key columns */
+	org_members_by_pk?: GraphQLTypes["org_members"] | undefined,
 	/** fetch data from the table: "organizations" */
 	organizations: Array<GraphQLTypes["organizations"]>,
 	/** fetch aggregated fields from the table: "organizations" */
@@ -50540,13 +54793,21 @@ export type GraphQLTypes = {
 };
 	["subscription_root"]: {
 	__typename: "subscription_root",
+	/** fetch data from the table: "activities" */
+	activities: Array<GraphQLTypes["activities"]>,
+	/** fetch aggregated fields from the table: "activities" */
+	activities_aggregate: GraphQLTypes["activities_aggregate"],
+	/** fetch data from the table: "activities" using primary key columns */
+	activities_by_pk?: GraphQLTypes["activities"] | undefined,
+	/** fetch data from the table in a streaming manner: "activities" */
+	activities_stream: Array<GraphQLTypes["activities"]>,
 	/** An array relationship */
 	burns: Array<GraphQLTypes["burns"]>,
 	/** An aggregate relationship */
 	burns_aggregate: GraphQLTypes["burns_aggregate"],
 	/** fetch data from the table: "burns" using primary key columns */
 	burns_by_pk?: GraphQLTypes["burns"] | undefined,
-	/** fetch data from the table in a streaming manner : "burns" */
+	/** fetch data from the table in a streaming manner: "burns" */
 	burns_stream: Array<GraphQLTypes["burns"]>,
 	/** An array relationship */
 	circle_api_keys: Array<GraphQLTypes["circle_api_keys"]>,
@@ -50554,7 +54815,7 @@ export type GraphQLTypes = {
 	circle_api_keys_aggregate: GraphQLTypes["circle_api_keys_aggregate"],
 	/** fetch data from the table: "circle_api_keys" using primary key columns */
 	circle_api_keys_by_pk?: GraphQLTypes["circle_api_keys"] | undefined,
-	/** fetch data from the table in a streaming manner : "circle_api_keys" */
+	/** fetch data from the table in a streaming manner: "circle_api_keys" */
 	circle_api_keys_stream: Array<GraphQLTypes["circle_api_keys"]>,
 	/** fetch data from the table: "circle_integrations" */
 	circle_integrations: Array<GraphQLTypes["circle_integrations"]>,
@@ -50562,7 +54823,7 @@ export type GraphQLTypes = {
 	circle_integrations_aggregate: GraphQLTypes["circle_integrations_aggregate"],
 	/** fetch data from the table: "circle_integrations" using primary key columns */
 	circle_integrations_by_pk?: GraphQLTypes["circle_integrations"] | undefined,
-	/** fetch data from the table in a streaming manner : "circle_integrations" */
+	/** fetch data from the table in a streaming manner: "circle_integrations" */
 	circle_integrations_stream: Array<GraphQLTypes["circle_integrations"]>,
 	/** An array relationship */
 	circle_metadata: Array<GraphQLTypes["circle_metadata"]>,
@@ -50570,13 +54831,13 @@ export type GraphQLTypes = {
 	circle_metadata_aggregate: GraphQLTypes["circle_metadata_aggregate"],
 	/** fetch data from the table: "circle_metadata" using primary key columns */
 	circle_metadata_by_pk?: GraphQLTypes["circle_metadata"] | undefined,
-	/** fetch data from the table in a streaming manner : "circle_metadata" */
+	/** fetch data from the table in a streaming manner: "circle_metadata" */
 	circle_metadata_stream: Array<GraphQLTypes["circle_metadata"]>,
 	/** fetch data from the table: "circle_private" */
 	circle_private: Array<GraphQLTypes["circle_private"]>,
 	/** fetch aggregated fields from the table: "circle_private" */
 	circle_private_aggregate: GraphQLTypes["circle_private_aggregate"],
-	/** fetch data from the table in a streaming manner : "circle_private" */
+	/** fetch data from the table in a streaming manner: "circle_private" */
 	circle_private_stream: Array<GraphQLTypes["circle_private"]>,
 	/** fetch data from the table: "circle_share_tokens" */
 	circle_share_tokens: Array<GraphQLTypes["circle_share_tokens"]>,
@@ -50584,7 +54845,7 @@ export type GraphQLTypes = {
 	circle_share_tokens_aggregate: GraphQLTypes["circle_share_tokens_aggregate"],
 	/** fetch data from the table: "circle_share_tokens" using primary key columns */
 	circle_share_tokens_by_pk?: GraphQLTypes["circle_share_tokens"] | undefined,
-	/** fetch data from the table in a streaming manner : "circle_share_tokens" */
+	/** fetch data from the table in a streaming manner: "circle_share_tokens" */
 	circle_share_tokens_stream: Array<GraphQLTypes["circle_share_tokens"]>,
 	/** An array relationship */
 	circles: Array<GraphQLTypes["circles"]>,
@@ -50592,7 +54853,7 @@ export type GraphQLTypes = {
 	circles_aggregate: GraphQLTypes["circles_aggregate"],
 	/** fetch data from the table: "circles" using primary key columns */
 	circles_by_pk?: GraphQLTypes["circles"] | undefined,
-	/** fetch data from the table in a streaming manner : "circles" */
+	/** fetch data from the table in a streaming manner: "circles" */
 	circles_stream: Array<GraphQLTypes["circles"]>,
 	/** An array relationship */
 	claims: Array<GraphQLTypes["claims"]>,
@@ -50600,7 +54861,7 @@ export type GraphQLTypes = {
 	claims_aggregate: GraphQLTypes["claims_aggregate"],
 	/** fetch data from the table: "claims" using primary key columns */
 	claims_by_pk?: GraphQLTypes["claims"] | undefined,
-	/** fetch data from the table in a streaming manner : "claims" */
+	/** fetch data from the table in a streaming manner: "claims" */
 	claims_stream: Array<GraphQLTypes["claims"]>,
 	/** An array relationship */
 	contributions: Array<GraphQLTypes["contributions"]>,
@@ -50608,7 +54869,7 @@ export type GraphQLTypes = {
 	contributions_aggregate: GraphQLTypes["contributions_aggregate"],
 	/** fetch data from the table: "contributions" using primary key columns */
 	contributions_by_pk?: GraphQLTypes["contributions"] | undefined,
-	/** fetch data from the table in a streaming manner : "contributions" */
+	/** fetch data from the table in a streaming manner: "contributions" */
 	contributions_stream: Array<GraphQLTypes["contributions"]>,
 	/** fetch data from the table: "discord.circle_api_tokens" */
 	discord_circle_api_tokens: Array<GraphQLTypes["discord_circle_api_tokens"]>,
@@ -50616,7 +54877,7 @@ export type GraphQLTypes = {
 	discord_circle_api_tokens_aggregate: GraphQLTypes["discord_circle_api_tokens_aggregate"],
 	/** fetch data from the table: "discord.circle_api_tokens" using primary key columns */
 	discord_circle_api_tokens_by_pk?: GraphQLTypes["discord_circle_api_tokens"] | undefined,
-	/** fetch data from the table in a streaming manner : "discord.circle_api_tokens" */
+	/** fetch data from the table in a streaming manner: "discord.circle_api_tokens" */
 	discord_circle_api_tokens_stream: Array<GraphQLTypes["discord_circle_api_tokens"]>,
 	/** fetch data from the table: "discord.roles_circles" */
 	discord_roles_circles: Array<GraphQLTypes["discord_roles_circles"]>,
@@ -50624,7 +54885,7 @@ export type GraphQLTypes = {
 	discord_roles_circles_aggregate: GraphQLTypes["discord_roles_circles_aggregate"],
 	/** fetch data from the table: "discord.roles_circles" using primary key columns */
 	discord_roles_circles_by_pk?: GraphQLTypes["discord_roles_circles"] | undefined,
-	/** fetch data from the table in a streaming manner : "discord.roles_circles" */
+	/** fetch data from the table in a streaming manner: "discord.roles_circles" */
 	discord_roles_circles_stream: Array<GraphQLTypes["discord_roles_circles"]>,
 	/** fetch data from the table: "discord.users" */
 	discord_users: Array<GraphQLTypes["discord_users"]>,
@@ -50632,7 +54893,7 @@ export type GraphQLTypes = {
 	discord_users_aggregate: GraphQLTypes["discord_users_aggregate"],
 	/** fetch data from the table: "discord.users" using primary key columns */
 	discord_users_by_pk?: GraphQLTypes["discord_users"] | undefined,
-	/** fetch data from the table in a streaming manner : "discord.users" */
+	/** fetch data from the table in a streaming manner: "discord.users" */
 	discord_users_stream: Array<GraphQLTypes["discord_users"]>,
 	/** An array relationship */
 	distributions: Array<GraphQLTypes["distributions"]>,
@@ -50640,7 +54901,7 @@ export type GraphQLTypes = {
 	distributions_aggregate: GraphQLTypes["distributions_aggregate"],
 	/** fetch data from the table: "distributions" using primary key columns */
 	distributions_by_pk?: GraphQLTypes["distributions"] | undefined,
-	/** fetch data from the table in a streaming manner : "distributions" */
+	/** fetch data from the table in a streaming manner: "distributions" */
 	distributions_stream: Array<GraphQLTypes["distributions"]>,
 	/** fetch data from the table: "epoch_pgive_data" */
 	epoch_pgive_data: Array<GraphQLTypes["epoch_pgive_data"]>,
@@ -50648,7 +54909,7 @@ export type GraphQLTypes = {
 	epoch_pgive_data_aggregate: GraphQLTypes["epoch_pgive_data_aggregate"],
 	/** fetch data from the table: "epoch_pgive_data" using primary key columns */
 	epoch_pgive_data_by_pk?: GraphQLTypes["epoch_pgive_data"] | undefined,
-	/** fetch data from the table in a streaming manner : "epoch_pgive_data" */
+	/** fetch data from the table in a streaming manner: "epoch_pgive_data" */
 	epoch_pgive_data_stream: Array<GraphQLTypes["epoch_pgive_data"]>,
 	/** An array relationship */
 	epochs: Array<GraphQLTypes["epochs"]>,
@@ -50656,13 +54917,13 @@ export type GraphQLTypes = {
 	epochs_aggregate: GraphQLTypes["epochs_aggregate"],
 	/** fetch data from the table: "epoches" using primary key columns */
 	epochs_by_pk?: GraphQLTypes["epochs"] | undefined,
-	/** fetch data from the table in a streaming manner : "epoches" */
+	/** fetch data from the table in a streaming manner: "epoches" */
 	epochs_stream: Array<GraphQLTypes["epochs"]>,
 	/** fetch data from the table: "gift_private" */
 	gift_private: Array<GraphQLTypes["gift_private"]>,
 	/** fetch aggregated fields from the table: "gift_private" */
 	gift_private_aggregate: GraphQLTypes["gift_private_aggregate"],
-	/** fetch data from the table in a streaming manner : "gift_private" */
+	/** fetch data from the table in a streaming manner: "gift_private" */
 	gift_private_stream: Array<GraphQLTypes["gift_private"]>,
 	/** fetch data from the table: "histories" */
 	histories: Array<GraphQLTypes["histories"]>,
@@ -50670,7 +54931,7 @@ export type GraphQLTypes = {
 	histories_aggregate: GraphQLTypes["histories_aggregate"],
 	/** fetch data from the table: "histories" using primary key columns */
 	histories_by_pk?: GraphQLTypes["histories"] | undefined,
-	/** fetch data from the table in a streaming manner : "histories" */
+	/** fetch data from the table in a streaming manner: "histories" */
 	histories_stream: Array<GraphQLTypes["histories"]>,
 	/** fetch data from the table: "interaction_events" */
 	interaction_events: Array<GraphQLTypes["interaction_events"]>,
@@ -50678,7 +54939,7 @@ export type GraphQLTypes = {
 	interaction_events_aggregate: GraphQLTypes["interaction_events_aggregate"],
 	/** fetch data from the table: "interaction_events" using primary key columns */
 	interaction_events_by_pk?: GraphQLTypes["interaction_events"] | undefined,
-	/** fetch data from the table in a streaming manner : "interaction_events" */
+	/** fetch data from the table in a streaming manner: "interaction_events" */
 	interaction_events_stream: Array<GraphQLTypes["interaction_events"]>,
 	/** An array relationship */
 	locked_token_distribution_gifts: Array<GraphQLTypes["locked_token_distribution_gifts"]>,
@@ -50686,7 +54947,7 @@ export type GraphQLTypes = {
 	locked_token_distribution_gifts_aggregate: GraphQLTypes["locked_token_distribution_gifts_aggregate"],
 	/** fetch data from the table: "locked_token_distribution_gifts" using primary key columns */
 	locked_token_distribution_gifts_by_pk?: GraphQLTypes["locked_token_distribution_gifts"] | undefined,
-	/** fetch data from the table in a streaming manner : "locked_token_distribution_gifts" */
+	/** fetch data from the table in a streaming manner: "locked_token_distribution_gifts" */
 	locked_token_distribution_gifts_stream: Array<GraphQLTypes["locked_token_distribution_gifts"]>,
 	/** fetch data from the table: "locked_token_distributions" */
 	locked_token_distributions: Array<GraphQLTypes["locked_token_distributions"]>,
@@ -50694,7 +54955,7 @@ export type GraphQLTypes = {
 	locked_token_distributions_aggregate: GraphQLTypes["locked_token_distributions_aggregate"],
 	/** fetch data from the table: "locked_token_distributions" using primary key columns */
 	locked_token_distributions_by_pk?: GraphQLTypes["locked_token_distributions"] | undefined,
-	/** fetch data from the table in a streaming manner : "locked_token_distributions" */
+	/** fetch data from the table in a streaming manner: "locked_token_distributions" */
 	locked_token_distributions_stream: Array<GraphQLTypes["locked_token_distributions"]>,
 	/** fetch data from the table: "member_epoch_pgives" */
 	member_epoch_pgives: Array<GraphQLTypes["member_epoch_pgives"]>,
@@ -50702,7 +54963,7 @@ export type GraphQLTypes = {
 	member_epoch_pgives_aggregate: GraphQLTypes["member_epoch_pgives_aggregate"],
 	/** fetch data from the table: "member_epoch_pgives" using primary key columns */
 	member_epoch_pgives_by_pk?: GraphQLTypes["member_epoch_pgives"] | undefined,
-	/** fetch data from the table in a streaming manner : "member_epoch_pgives" */
+	/** fetch data from the table in a streaming manner: "member_epoch_pgives" */
 	member_epoch_pgives_stream: Array<GraphQLTypes["member_epoch_pgives"]>,
 	/** An array relationship */
 	nominees: Array<GraphQLTypes["nominees"]>,
@@ -50710,21 +54971,29 @@ export type GraphQLTypes = {
 	nominees_aggregate: GraphQLTypes["nominees_aggregate"],
 	/** fetch data from the table: "nominees" using primary key columns */
 	nominees_by_pk?: GraphQLTypes["nominees"] | undefined,
-	/** fetch data from the table in a streaming manner : "nominees" */
+	/** fetch data from the table in a streaming manner: "nominees" */
 	nominees_stream: Array<GraphQLTypes["nominees"]>,
+	/** An array relationship */
+	org_members: Array<GraphQLTypes["org_members"]>,
+	/** An aggregate relationship */
+	org_members_aggregate: GraphQLTypes["org_members_aggregate"],
+	/** fetch data from the table: "org_members" using primary key columns */
+	org_members_by_pk?: GraphQLTypes["org_members"] | undefined,
+	/** fetch data from the table in a streaming manner: "org_members" */
+	org_members_stream: Array<GraphQLTypes["org_members"]>,
 	/** fetch data from the table: "organizations" */
 	organizations: Array<GraphQLTypes["organizations"]>,
 	/** fetch aggregated fields from the table: "organizations" */
 	organizations_aggregate: GraphQLTypes["organizations_aggregate"],
 	/** fetch data from the table: "organizations" using primary key columns */
 	organizations_by_pk?: GraphQLTypes["organizations"] | undefined,
-	/** fetch data from the table in a streaming manner : "organizations" */
+	/** fetch data from the table in a streaming manner: "organizations" */
 	organizations_stream: Array<GraphQLTypes["organizations"]>,
 	/** fetch data from the table: "pending_gift_private" */
 	pending_gift_private: Array<GraphQLTypes["pending_gift_private"]>,
 	/** fetch aggregated fields from the table: "pending_gift_private" */
 	pending_gift_private_aggregate: GraphQLTypes["pending_gift_private_aggregate"],
-	/** fetch data from the table in a streaming manner : "pending_gift_private" */
+	/** fetch data from the table in a streaming manner: "pending_gift_private" */
 	pending_gift_private_stream: Array<GraphQLTypes["pending_gift_private"]>,
 	/** An array relationship */
 	pending_token_gifts: Array<GraphQLTypes["pending_token_gifts"]>,
@@ -50732,7 +55001,7 @@ export type GraphQLTypes = {
 	pending_token_gifts_aggregate: GraphQLTypes["pending_token_gifts_aggregate"],
 	/** fetch data from the table: "pending_token_gifts" using primary key columns */
 	pending_token_gifts_by_pk?: GraphQLTypes["pending_token_gifts"] | undefined,
-	/** fetch data from the table in a streaming manner : "pending_token_gifts" */
+	/** fetch data from the table in a streaming manner: "pending_token_gifts" */
 	pending_token_gifts_stream: Array<GraphQLTypes["pending_token_gifts"]>,
 	/** fetch data from the table: "pending_vault_transactions" */
 	pending_vault_transactions: Array<GraphQLTypes["pending_vault_transactions"]>,
@@ -50740,7 +55009,7 @@ export type GraphQLTypes = {
 	pending_vault_transactions_aggregate: GraphQLTypes["pending_vault_transactions_aggregate"],
 	/** fetch data from the table: "pending_vault_transactions" using primary key columns */
 	pending_vault_transactions_by_pk?: GraphQLTypes["pending_vault_transactions"] | undefined,
-	/** fetch data from the table in a streaming manner : "pending_vault_transactions" */
+	/** fetch data from the table in a streaming manner: "pending_vault_transactions" */
 	pending_vault_transactions_stream: Array<GraphQLTypes["pending_vault_transactions"]>,
 	/** fetch data from the table: "personal_access_tokens" */
 	personal_access_tokens: Array<GraphQLTypes["personal_access_tokens"]>,
@@ -50748,7 +55017,7 @@ export type GraphQLTypes = {
 	personal_access_tokens_aggregate: GraphQLTypes["personal_access_tokens_aggregate"],
 	/** fetch data from the table: "personal_access_tokens" using primary key columns */
 	personal_access_tokens_by_pk?: GraphQLTypes["personal_access_tokens"] | undefined,
-	/** fetch data from the table in a streaming manner : "personal_access_tokens" */
+	/** fetch data from the table in a streaming manner: "personal_access_tokens" */
 	personal_access_tokens_stream: Array<GraphQLTypes["personal_access_tokens"]>,
 	/** fetch data from the table: "profiles" */
 	profiles: Array<GraphQLTypes["profiles"]>,
@@ -50756,7 +55025,7 @@ export type GraphQLTypes = {
 	profiles_aggregate: GraphQLTypes["profiles_aggregate"],
 	/** fetch data from the table: "profiles" using primary key columns */
 	profiles_by_pk?: GraphQLTypes["profiles"] | undefined,
-	/** fetch data from the table in a streaming manner : "profiles" */
+	/** fetch data from the table in a streaming manner: "profiles" */
 	profiles_stream: Array<GraphQLTypes["profiles"]>,
 	/** An array relationship */
 	teammates: Array<GraphQLTypes["teammates"]>,
@@ -50764,7 +55033,7 @@ export type GraphQLTypes = {
 	teammates_aggregate: GraphQLTypes["teammates_aggregate"],
 	/** fetch data from the table: "teammates" using primary key columns */
 	teammates_by_pk?: GraphQLTypes["teammates"] | undefined,
-	/** fetch data from the table in a streaming manner : "teammates" */
+	/** fetch data from the table in a streaming manner: "teammates" */
 	teammates_stream: Array<GraphQLTypes["teammates"]>,
 	/** An array relationship */
 	token_gifts: Array<GraphQLTypes["token_gifts"]>,
@@ -50772,13 +55041,13 @@ export type GraphQLTypes = {
 	token_gifts_aggregate: GraphQLTypes["token_gifts_aggregate"],
 	/** fetch data from the table: "token_gifts" using primary key columns */
 	token_gifts_by_pk?: GraphQLTypes["token_gifts"] | undefined,
-	/** fetch data from the table in a streaming manner : "token_gifts" */
+	/** fetch data from the table in a streaming manner: "token_gifts" */
 	token_gifts_stream: Array<GraphQLTypes["token_gifts"]>,
 	/** fetch data from the table: "user_private" */
 	user_private: Array<GraphQLTypes["user_private"]>,
 	/** fetch aggregated fields from the table: "user_private" */
 	user_private_aggregate: GraphQLTypes["user_private_aggregate"],
-	/** fetch data from the table in a streaming manner : "user_private" */
+	/** fetch data from the table in a streaming manner: "user_private" */
 	user_private_stream: Array<GraphQLTypes["user_private"]>,
 	/** An array relationship */
 	users: Array<GraphQLTypes["users"]>,
@@ -50786,7 +55055,7 @@ export type GraphQLTypes = {
 	users_aggregate: GraphQLTypes["users_aggregate"],
 	/** fetch data from the table: "users" using primary key columns */
 	users_by_pk?: GraphQLTypes["users"] | undefined,
-	/** fetch data from the table in a streaming manner : "users" */
+	/** fetch data from the table in a streaming manner: "users" */
 	users_stream: Array<GraphQLTypes["users"]>,
 	/** An array relationship */
 	vault_transactions: Array<GraphQLTypes["vault_transactions"]>,
@@ -50794,7 +55063,7 @@ export type GraphQLTypes = {
 	vault_transactions_aggregate: GraphQLTypes["vault_transactions_aggregate"],
 	/** fetch data from the table: "vault_transactions" using primary key columns */
 	vault_transactions_by_pk?: GraphQLTypes["vault_transactions"] | undefined,
-	/** fetch data from the table in a streaming manner : "vault_transactions" */
+	/** fetch data from the table in a streaming manner: "vault_transactions" */
 	vault_transactions_stream: Array<GraphQLTypes["vault_transactions"]>,
 	/** fetch data from the table: "vault_tx_types" */
 	vault_tx_types: Array<GraphQLTypes["vault_tx_types"]>,
@@ -50802,7 +55071,7 @@ export type GraphQLTypes = {
 	vault_tx_types_aggregate: GraphQLTypes["vault_tx_types_aggregate"],
 	/** fetch data from the table: "vault_tx_types" using primary key columns */
 	vault_tx_types_by_pk?: GraphQLTypes["vault_tx_types"] | undefined,
-	/** fetch data from the table in a streaming manner : "vault_tx_types" */
+	/** fetch data from the table in a streaming manner: "vault_tx_types" */
 	vault_tx_types_stream: Array<GraphQLTypes["vault_tx_types"]>,
 	/** An array relationship */
 	vaults: Array<GraphQLTypes["vaults"]>,
@@ -50810,7 +55079,7 @@ export type GraphQLTypes = {
 	vaults_aggregate: GraphQLTypes["vaults_aggregate"],
 	/** fetch data from the table: "vaults" using primary key columns */
 	vaults_by_pk?: GraphQLTypes["vaults"] | undefined,
-	/** fetch data from the table in a streaming manner : "vaults" */
+	/** fetch data from the table in a streaming manner: "vaults" */
 	vaults_stream: Array<GraphQLTypes["vaults"]>,
 	/** An array relationship */
 	vouches: Array<GraphQLTypes["vouches"]>,
@@ -50818,7 +55087,7 @@ export type GraphQLTypes = {
 	vouches_aggregate: GraphQLTypes["vouches_aggregate"],
 	/** fetch data from the table: "vouches" using primary key columns */
 	vouches_by_pk?: GraphQLTypes["vouches"] | undefined,
-	/** fetch data from the table in a streaming manner : "vouches" */
+	/** fetch data from the table in a streaming manner: "vouches" */
 	vouches_stream: Array<GraphQLTypes["vouches"]>
 };
 	/** columns and relationships of "teammates" */
@@ -50839,6 +55108,15 @@ export type GraphQLTypes = {
 	__typename: "teammates_aggregate",
 	aggregate?: GraphQLTypes["teammates_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["teammates"]>
+};
+	["teammates_aggregate_bool_exp"]: {
+		count?: GraphQLTypes["teammates_aggregate_bool_exp_count"] | undefined
+};
+	["teammates_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["teammates_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["teammates_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "teammates" */
 ["teammates_aggregate_fields"]: {
@@ -51065,6 +55343,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["teammates_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["teammates_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["teammates_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -51163,6 +55442,15 @@ export type GraphQLTypes = {
 	__typename: "token_gifts_aggregate",
 	aggregate?: GraphQLTypes["token_gifts_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["token_gifts"]>
+};
+	["token_gifts_aggregate_bool_exp"]: {
+		count?: GraphQLTypes["token_gifts_aggregate_bool_exp_count"] | undefined
+};
+	["token_gifts_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["token_gifts_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["token_gifts_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "token_gifts" */
 ["token_gifts_aggregate_fields"]: {
@@ -51494,6 +55782,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["token_gifts_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["token_gifts_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["token_gifts_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -51778,6 +56067,29 @@ export type GraphQLTypes = {
 	aggregate?: GraphQLTypes["users_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["users"]>
 };
+	["users_aggregate_bool_exp"]: {
+		bool_and?: GraphQLTypes["users_aggregate_bool_exp_bool_and"] | undefined,
+	bool_or?: GraphQLTypes["users_aggregate_bool_exp_bool_or"] | undefined,
+	count?: GraphQLTypes["users_aggregate_bool_exp_count"] | undefined
+};
+	["users_aggregate_bool_exp_bool_and"]: {
+		arguments: GraphQLTypes["users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["users_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Boolean_comparison_exp"]
+};
+	["users_aggregate_bool_exp_bool_or"]: {
+		arguments: GraphQLTypes["users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns"],
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["users_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Boolean_comparison_exp"]
+};
+	["users_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["users_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["users_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
+};
 	/** aggregate fields of "users" */
 ["users_aggregate_fields"]: {
 	__typename: "users_aggregate_fields",
@@ -51842,10 +56154,13 @@ export type GraphQLTypes = {
 	address?: GraphQLTypes["String_comparison_exp"] | undefined,
 	bio?: GraphQLTypes["String_comparison_exp"] | undefined,
 	burns?: GraphQLTypes["burns_bool_exp"] | undefined,
+	burns_aggregate?: GraphQLTypes["burns_aggregate_bool_exp"] | undefined,
 	circle?: GraphQLTypes["circles_bool_exp"] | undefined,
 	circle_api_keys?: GraphQLTypes["circle_api_keys_bool_exp"] | undefined,
+	circle_api_keys_aggregate?: GraphQLTypes["circle_api_keys_aggregate_bool_exp"] | undefined,
 	circle_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
 	contributions?: GraphQLTypes["contributions_bool_exp"] | undefined,
+	contributions_aggregate?: GraphQLTypes["contributions_aggregate_bool_exp"] | undefined,
 	created_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	deleted_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	entrance?: GraphQLTypes["String_comparison_exp"] | undefined,
@@ -51859,16 +56174,22 @@ export type GraphQLTypes = {
 	non_giver?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	non_receiver?: GraphQLTypes["Boolean_comparison_exp"] | undefined,
 	pending_received_gifts?: GraphQLTypes["pending_token_gifts_bool_exp"] | undefined,
+	pending_received_gifts_aggregate?: GraphQLTypes["pending_token_gifts_aggregate_bool_exp"] | undefined,
 	pending_sent_gifts?: GraphQLTypes["pending_token_gifts_bool_exp"] | undefined,
+	pending_sent_gifts_aggregate?: GraphQLTypes["pending_token_gifts_aggregate_bool_exp"] | undefined,
 	profile?: GraphQLTypes["profiles_bool_exp"] | undefined,
 	received_gifts?: GraphQLTypes["token_gifts_bool_exp"] | undefined,
+	received_gifts_aggregate?: GraphQLTypes["token_gifts_aggregate_bool_exp"] | undefined,
 	role?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	sent_gifts?: GraphQLTypes["token_gifts_bool_exp"] | undefined,
+	sent_gifts_aggregate?: GraphQLTypes["token_gifts_aggregate_bool_exp"] | undefined,
 	starting_tokens?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	teammates?: GraphQLTypes["teammates_bool_exp"] | undefined,
+	teammates_aggregate?: GraphQLTypes["teammates_aggregate_bool_exp"] | undefined,
 	updated_at?: GraphQLTypes["timestamp_comparison_exp"] | undefined,
 	user_private?: GraphQLTypes["user_private_bool_exp"] | undefined,
-	vouches?: GraphQLTypes["vouches_bool_exp"] | undefined
+	vouches?: GraphQLTypes["vouches_bool_exp"] | undefined,
+	vouches_aggregate?: GraphQLTypes["vouches_aggregate_bool_exp"] | undefined
 };
 	/** unique or primary key constraints on table "users" */
 ["users_constraint"]: users_constraint;
@@ -52044,6 +56365,10 @@ export type GraphQLTypes = {
 };
 	/** select columns of table "users" */
 ["users_select_column"]: users_select_column;
+	/** select "users_aggregate_bool_exp_bool_and_arguments_columns" columns of table "users" */
+["users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns"]: users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns;
+	/** select "users_aggregate_bool_exp_bool_or_arguments_columns" columns of table "users" */
+["users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns"]: users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns;
 	/** input type for updating data in table "users" */
 ["users_set_input"]: {
 		address?: string | undefined,
@@ -52184,6 +56509,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["users_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["users_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["users_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -52290,6 +56616,15 @@ export type GraphQLTypes = {
 	__typename: "vault_transactions_aggregate",
 	aggregate?: GraphQLTypes["vault_transactions_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["vault_transactions"]>
+};
+	["vault_transactions_aggregate_bool_exp"]: {
+		count?: GraphQLTypes["vault_transactions_aggregate_bool_exp_count"] | undefined
+};
+	["vault_transactions_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["vault_transactions_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["vault_transactions_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "vault_transactions" */
 ["vault_transactions_aggregate_fields"]: {
@@ -52579,6 +56914,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["vault_transactions_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["vault_transactions_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["vault_transactions_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -52662,7 +56998,8 @@ export type GraphQLTypes = {
 	_or?: Array<GraphQLTypes["vault_tx_types_bool_exp"]> | undefined,
 	comment?: GraphQLTypes["String_comparison_exp"] | undefined,
 	value?: GraphQLTypes["String_comparison_exp"] | undefined,
-	vault_transactions?: GraphQLTypes["vault_transactions_bool_exp"] | undefined
+	vault_transactions?: GraphQLTypes["vault_transactions_bool_exp"] | undefined,
+	vault_transactions_aggregate?: GraphQLTypes["vault_transactions_aggregate_bool_exp"] | undefined
 };
 	/** unique or primary key constraints on table "vault_tx_types" */
 ["vault_tx_types_constraint"]: vault_tx_types_constraint;
@@ -52747,6 +57084,7 @@ export type GraphQLTypes = {
 	["vault_tx_types_updates"]: {
 		/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["vault_tx_types_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["vault_tx_types_bool_exp"]
 };
 	/** columns and relationships of "vaults" */
@@ -52782,6 +57120,15 @@ export type GraphQLTypes = {
 	__typename: "vaults_aggregate",
 	aggregate?: GraphQLTypes["vaults_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["vaults"]>
+};
+	["vaults_aggregate_bool_exp"]: {
+		count?: GraphQLTypes["vaults_aggregate_bool_exp_count"] | undefined
+};
+	["vaults_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["vaults_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["vaults_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "vaults" */
 ["vaults_aggregate_fields"]: {
@@ -52848,6 +57195,7 @@ export type GraphQLTypes = {
 	decimals?: GraphQLTypes["Int_comparison_exp"] | undefined,
 	deployment_block?: GraphQLTypes["bigint_comparison_exp"] | undefined,
 	distributions?: GraphQLTypes["distributions_bool_exp"] | undefined,
+	distributions_aggregate?: GraphQLTypes["distributions_aggregate_bool_exp"] | undefined,
 	id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
 	org_id?: GraphQLTypes["bigint_comparison_exp"] | undefined,
 	organization?: GraphQLTypes["organizations_bool_exp"] | undefined,
@@ -52857,7 +57205,8 @@ export type GraphQLTypes = {
 	token_address?: GraphQLTypes["String_comparison_exp"] | undefined,
 	updated_at?: GraphQLTypes["timestamptz_comparison_exp"] | undefined,
 	vault_address?: GraphQLTypes["String_comparison_exp"] | undefined,
-	vault_transactions?: GraphQLTypes["vault_transactions_bool_exp"] | undefined
+	vault_transactions?: GraphQLTypes["vault_transactions_bool_exp"] | undefined,
+	vault_transactions_aggregate?: GraphQLTypes["vault_transactions_aggregate_bool_exp"] | undefined
 };
 	/** unique or primary key constraints on table "vaults" */
 ["vaults_constraint"]: vaults_constraint;
@@ -53116,6 +57465,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["vaults_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["vaults_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["vaults_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -53193,6 +57543,15 @@ export type GraphQLTypes = {
 	__typename: "vouches_aggregate",
 	aggregate?: GraphQLTypes["vouches_aggregate_fields"] | undefined,
 	nodes: Array<GraphQLTypes["vouches"]>
+};
+	["vouches_aggregate_bool_exp"]: {
+		count?: GraphQLTypes["vouches_aggregate_bool_exp_count"] | undefined
+};
+	["vouches_aggregate_bool_exp_count"]: {
+		arguments?: Array<GraphQLTypes["vouches_select_column"]> | undefined,
+	distinct?: boolean | undefined,
+	filter?: GraphQLTypes["vouches_bool_exp"] | undefined,
+	predicate: GraphQLTypes["Int_comparison_exp"]
 };
 	/** aggregate fields of "vouches" */
 ["vouches_aggregate_fields"]: {
@@ -53419,6 +57778,7 @@ export type GraphQLTypes = {
 	_inc?: GraphQLTypes["vouches_inc_input"] | undefined,
 	/** sets the columns of the filtered rows to the given values */
 	_set?: GraphQLTypes["vouches_set_input"] | undefined,
+	/** filter the rows which have to be updated */
 	where: GraphQLTypes["vouches_bool_exp"]
 };
 	/** aggregate var_pop on columns */
@@ -53461,6 +57821,38 @@ export type GraphQLTypes = {
 	voucher_id?: GraphQLTypes["order_by"] | undefined
 }
     }
+/** unique or primary key constraints on table "activities" */
+export const enum activities_constraint {
+	activities_pkey = "activities_pkey"
+}
+/** select columns of table "activities" */
+export const enum activities_select_column {
+	action = "action",
+	actor_profile_id = "actor_profile_id",
+	circle_id = "circle_id",
+	contribution_id = "contribution_id",
+	created_at = "created_at",
+	epoch_id = "epoch_id",
+	id = "id",
+	organization_id = "organization_id",
+	target_profile_id = "target_profile_id",
+	updated_at = "updated_at",
+	user_id = "user_id"
+}
+/** update columns of table "activities" */
+export const enum activities_update_column {
+	action = "action",
+	actor_profile_id = "actor_profile_id",
+	circle_id = "circle_id",
+	contribution_id = "contribution_id",
+	created_at = "created_at",
+	epoch_id = "epoch_id",
+	id = "id",
+	organization_id = "organization_id",
+	target_profile_id = "target_profile_id",
+	updated_at = "updated_at",
+	user_id = "user_id"
+}
 /** unique or primary key constraints on table "burns" */
 export const enum burns_constraint {
 	burns_pkey = "burns_pkey"
@@ -53501,7 +57893,38 @@ export const enum circle_api_keys_select_column {
 	created_at = "created_at",
 	created_by = "created_by",
 	hash = "hash",
+	manage_users = "manage_users",
 	name = "name",
+	read_circle = "read_circle",
+	read_contributions = "read_contributions",
+	read_discord = "read_discord",
+	read_epochs = "read_epochs",
+	read_member_profiles = "read_member_profiles",
+	read_nominees = "read_nominees",
+	read_pending_token_gifts = "read_pending_token_gifts",
+	update_circle = "update_circle",
+	update_pending_token_gifts = "update_pending_token_gifts"
+}
+/** select "circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns" columns of table "circle_api_keys" */
+export const enum circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns {
+	create_contributions = "create_contributions",
+	create_vouches = "create_vouches",
+	manage_users = "manage_users",
+	read_circle = "read_circle",
+	read_contributions = "read_contributions",
+	read_discord = "read_discord",
+	read_epochs = "read_epochs",
+	read_member_profiles = "read_member_profiles",
+	read_nominees = "read_nominees",
+	read_pending_token_gifts = "read_pending_token_gifts",
+	update_circle = "update_circle",
+	update_pending_token_gifts = "update_pending_token_gifts"
+}
+/** select "circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns" columns of table "circle_api_keys" */
+export const enum circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns {
+	create_contributions = "create_contributions",
+	create_vouches = "create_vouches",
+	manage_users = "manage_users",
 	read_circle = "read_circle",
 	read_contributions = "read_contributions",
 	read_discord = "read_discord",
@@ -53520,6 +57943,7 @@ export const enum circle_api_keys_update_column {
 	created_at = "created_at",
 	created_by = "created_by",
 	hash = "hash",
+	manage_users = "manage_users",
 	name = "name",
 	read_circle = "read_circle",
 	read_contributions = "read_contributions",
@@ -53634,6 +58058,26 @@ export const enum circles_select_column {
 	updated_at = "updated_at",
 	vouching = "vouching",
 	vouching_text = "vouching_text"
+}
+/** select "circles_aggregate_bool_exp_bool_and_arguments_columns" columns of table "circles" */
+export const enum circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns {
+	auto_opt_out = "auto_opt_out",
+	default_opt_in = "default_opt_in",
+	is_verified = "is_verified",
+	only_giver_vouch = "only_giver_vouch",
+	show_pending_gives = "show_pending_gives",
+	team_selection = "team_selection",
+	vouching = "vouching"
+}
+/** select "circles_aggregate_bool_exp_bool_or_arguments_columns" columns of table "circles" */
+export const enum circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns {
+	auto_opt_out = "auto_opt_out",
+	default_opt_in = "default_opt_in",
+	is_verified = "is_verified",
+	only_giver_vouch = "only_giver_vouch",
+	show_pending_gives = "show_pending_gives",
+	team_selection = "team_selection",
+	vouching = "vouching"
 }
 /** update columns of table "circles" */
 export const enum circles_update_column {
@@ -53889,6 +58333,14 @@ export const enum epochs_select_column {
 	start_date = "start_date",
 	updated_at = "updated_at"
 }
+/** select "epochs_aggregate_bool_exp_bool_and_arguments_columns" columns of table "epoches" */
+export const enum epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns {
+	ended = "ended"
+}
+/** select "epochs_aggregate_bool_exp_bool_or_arguments_columns" columns of table "epoches" */
+export const enum epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns {
+	ended = "ended"
+}
 /** update columns of table "epoches" */
 export const enum epochs_update_column {
 	circle_id = "circle_id",
@@ -54061,6 +58513,14 @@ export const enum nominees_select_column {
 	user_id = "user_id",
 	vouches_required = "vouches_required"
 }
+/** select "nominees_aggregate_bool_exp_bool_and_arguments_columns" columns of table "nominees" */
+export const enum nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns {
+	ended = "ended"
+}
+/** select "nominees_aggregate_bool_exp_bool_or_arguments_columns" columns of table "nominees" */
+export const enum nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns {
+	ended = "ended"
+}
 /** update columns of table "nominees" */
 export const enum nominees_update_column {
 	address = "address",
@@ -54084,6 +58544,31 @@ export const enum order_by {
 	desc = "desc",
 	desc_nulls_first = "desc_nulls_first",
 	desc_nulls_last = "desc_nulls_last"
+}
+/** unique or primary key constraints on table "org_members" */
+export const enum org_members_constraint {
+	org_members_pkey = "org_members_pkey",
+	org_members_profile_id_org_id_key = "org_members_profile_id_org_id_key"
+}
+/** select columns of table "org_members" */
+export const enum org_members_select_column {
+	created_at = "created_at",
+	deleted_at = "deleted_at",
+	id = "id",
+	org_id = "org_id",
+	profile_id = "profile_id",
+	role = "role",
+	updated_at = "updated_at"
+}
+/** update columns of table "org_members" */
+export const enum org_members_update_column {
+	created_at = "created_at",
+	deleted_at = "deleted_at",
+	id = "id",
+	org_id = "org_id",
+	profile_id = "profile_id",
+	role = "role",
+	updated_at = "updated_at"
 }
 /** unique or primary key constraints on table "organizations" */
 export const enum organizations_constraint {
@@ -54344,6 +58829,20 @@ export const enum users_select_column {
 	starting_tokens = "starting_tokens",
 	updated_at = "updated_at"
 }
+/** select "users_aggregate_bool_exp_bool_and_arguments_columns" columns of table "users" */
+export const enum users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns {
+	epoch_first_visit = "epoch_first_visit",
+	fixed_non_receiver = "fixed_non_receiver",
+	non_giver = "non_giver",
+	non_receiver = "non_receiver"
+}
+/** select "users_aggregate_bool_exp_bool_or_arguments_columns" columns of table "users" */
+export const enum users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns {
+	epoch_first_visit = "epoch_first_visit",
+	fixed_non_receiver = "fixed_non_receiver",
+	non_giver = "non_giver",
+	non_receiver = "non_receiver"
+}
 /** update columns of table "users" */
 export const enum users_update_column {
 	address = "address",
@@ -54512,8 +59011,23 @@ type ZEUS_VARIABLES = {
 	["UploadOrgImageInput"]: ValueTypes["UploadOrgImageInput"];
 	["UserObj"]: ValueTypes["UserObj"];
 	["VouchInput"]: ValueTypes["VouchInput"];
+	["activities_bool_exp"]: ValueTypes["activities_bool_exp"];
+	["activities_constraint"]: ValueTypes["activities_constraint"];
+	["activities_inc_input"]: ValueTypes["activities_inc_input"];
+	["activities_insert_input"]: ValueTypes["activities_insert_input"];
+	["activities_on_conflict"]: ValueTypes["activities_on_conflict"];
+	["activities_order_by"]: ValueTypes["activities_order_by"];
+	["activities_pk_columns_input"]: ValueTypes["activities_pk_columns_input"];
+	["activities_select_column"]: ValueTypes["activities_select_column"];
+	["activities_set_input"]: ValueTypes["activities_set_input"];
+	["activities_stream_cursor_input"]: ValueTypes["activities_stream_cursor_input"];
+	["activities_stream_cursor_value_input"]: ValueTypes["activities_stream_cursor_value_input"];
+	["activities_update_column"]: ValueTypes["activities_update_column"];
+	["activities_updates"]: ValueTypes["activities_updates"];
 	["bigint"]: ValueTypes["bigint"];
 	["bigint_comparison_exp"]: ValueTypes["bigint_comparison_exp"];
+	["burns_aggregate_bool_exp"]: ValueTypes["burns_aggregate_bool_exp"];
+	["burns_aggregate_bool_exp_count"]: ValueTypes["burns_aggregate_bool_exp_count"];
 	["burns_aggregate_order_by"]: ValueTypes["burns_aggregate_order_by"];
 	["burns_arr_rel_insert_input"]: ValueTypes["burns_arr_rel_insert_input"];
 	["burns_avg_order_by"]: ValueTypes["burns_avg_order_by"];
@@ -54539,6 +59053,10 @@ type ZEUS_VARIABLES = {
 	["burns_var_pop_order_by"]: ValueTypes["burns_var_pop_order_by"];
 	["burns_var_samp_order_by"]: ValueTypes["burns_var_samp_order_by"];
 	["burns_variance_order_by"]: ValueTypes["burns_variance_order_by"];
+	["circle_api_keys_aggregate_bool_exp"]: ValueTypes["circle_api_keys_aggregate_bool_exp"];
+	["circle_api_keys_aggregate_bool_exp_bool_and"]: ValueTypes["circle_api_keys_aggregate_bool_exp_bool_and"];
+	["circle_api_keys_aggregate_bool_exp_bool_or"]: ValueTypes["circle_api_keys_aggregate_bool_exp_bool_or"];
+	["circle_api_keys_aggregate_bool_exp_count"]: ValueTypes["circle_api_keys_aggregate_bool_exp_count"];
 	["circle_api_keys_aggregate_order_by"]: ValueTypes["circle_api_keys_aggregate_order_by"];
 	["circle_api_keys_arr_rel_insert_input"]: ValueTypes["circle_api_keys_arr_rel_insert_input"];
 	["circle_api_keys_avg_order_by"]: ValueTypes["circle_api_keys_avg_order_by"];
@@ -54553,6 +59071,8 @@ type ZEUS_VARIABLES = {
 	["circle_api_keys_order_by"]: ValueTypes["circle_api_keys_order_by"];
 	["circle_api_keys_pk_columns_input"]: ValueTypes["circle_api_keys_pk_columns_input"];
 	["circle_api_keys_select_column"]: ValueTypes["circle_api_keys_select_column"];
+	["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns"]: ValueTypes["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_and_arguments_columns"];
+	["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns"]: ValueTypes["circle_api_keys_select_column_circle_api_keys_aggregate_bool_exp_bool_or_arguments_columns"];
 	["circle_api_keys_set_input"]: ValueTypes["circle_api_keys_set_input"];
 	["circle_api_keys_stddev_order_by"]: ValueTypes["circle_api_keys_stddev_order_by"];
 	["circle_api_keys_stddev_pop_order_by"]: ValueTypes["circle_api_keys_stddev_pop_order_by"];
@@ -54565,6 +59085,8 @@ type ZEUS_VARIABLES = {
 	["circle_api_keys_var_pop_order_by"]: ValueTypes["circle_api_keys_var_pop_order_by"];
 	["circle_api_keys_var_samp_order_by"]: ValueTypes["circle_api_keys_var_samp_order_by"];
 	["circle_api_keys_variance_order_by"]: ValueTypes["circle_api_keys_variance_order_by"];
+	["circle_integrations_aggregate_bool_exp"]: ValueTypes["circle_integrations_aggregate_bool_exp"];
+	["circle_integrations_aggregate_bool_exp_count"]: ValueTypes["circle_integrations_aggregate_bool_exp_count"];
 	["circle_integrations_aggregate_order_by"]: ValueTypes["circle_integrations_aggregate_order_by"];
 	["circle_integrations_arr_rel_insert_input"]: ValueTypes["circle_integrations_arr_rel_insert_input"];
 	["circle_integrations_avg_order_by"]: ValueTypes["circle_integrations_avg_order_by"];
@@ -54590,6 +59112,8 @@ type ZEUS_VARIABLES = {
 	["circle_integrations_var_pop_order_by"]: ValueTypes["circle_integrations_var_pop_order_by"];
 	["circle_integrations_var_samp_order_by"]: ValueTypes["circle_integrations_var_samp_order_by"];
 	["circle_integrations_variance_order_by"]: ValueTypes["circle_integrations_variance_order_by"];
+	["circle_metadata_aggregate_bool_exp"]: ValueTypes["circle_metadata_aggregate_bool_exp"];
+	["circle_metadata_aggregate_bool_exp_count"]: ValueTypes["circle_metadata_aggregate_bool_exp_count"];
 	["circle_metadata_aggregate_order_by"]: ValueTypes["circle_metadata_aggregate_order_by"];
 	["circle_metadata_arr_rel_insert_input"]: ValueTypes["circle_metadata_arr_rel_insert_input"];
 	["circle_metadata_avg_order_by"]: ValueTypes["circle_metadata_avg_order_by"];
@@ -54638,6 +59162,10 @@ type ZEUS_VARIABLES = {
 	["circle_share_tokens_stream_cursor_value_input"]: ValueTypes["circle_share_tokens_stream_cursor_value_input"];
 	["circle_share_tokens_update_column"]: ValueTypes["circle_share_tokens_update_column"];
 	["circle_share_tokens_updates"]: ValueTypes["circle_share_tokens_updates"];
+	["circles_aggregate_bool_exp"]: ValueTypes["circles_aggregate_bool_exp"];
+	["circles_aggregate_bool_exp_bool_and"]: ValueTypes["circles_aggregate_bool_exp_bool_and"];
+	["circles_aggregate_bool_exp_bool_or"]: ValueTypes["circles_aggregate_bool_exp_bool_or"];
+	["circles_aggregate_bool_exp_count"]: ValueTypes["circles_aggregate_bool_exp_count"];
 	["circles_aggregate_order_by"]: ValueTypes["circles_aggregate_order_by"];
 	["circles_arr_rel_insert_input"]: ValueTypes["circles_arr_rel_insert_input"];
 	["circles_avg_order_by"]: ValueTypes["circles_avg_order_by"];
@@ -54652,6 +59180,8 @@ type ZEUS_VARIABLES = {
 	["circles_order_by"]: ValueTypes["circles_order_by"];
 	["circles_pk_columns_input"]: ValueTypes["circles_pk_columns_input"];
 	["circles_select_column"]: ValueTypes["circles_select_column"];
+	["circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns"]: ValueTypes["circles_select_column_circles_aggregate_bool_exp_bool_and_arguments_columns"];
+	["circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns"]: ValueTypes["circles_select_column_circles_aggregate_bool_exp_bool_or_arguments_columns"];
 	["circles_set_input"]: ValueTypes["circles_set_input"];
 	["circles_stddev_order_by"]: ValueTypes["circles_stddev_order_by"];
 	["circles_stddev_pop_order_by"]: ValueTypes["circles_stddev_pop_order_by"];
@@ -54666,6 +59196,8 @@ type ZEUS_VARIABLES = {
 	["circles_variance_order_by"]: ValueTypes["circles_variance_order_by"];
 	["citext"]: ValueTypes["citext"];
 	["citext_comparison_exp"]: ValueTypes["citext_comparison_exp"];
+	["claims_aggregate_bool_exp"]: ValueTypes["claims_aggregate_bool_exp"];
+	["claims_aggregate_bool_exp_count"]: ValueTypes["claims_aggregate_bool_exp_count"];
 	["claims_aggregate_order_by"]: ValueTypes["claims_aggregate_order_by"];
 	["claims_arr_rel_insert_input"]: ValueTypes["claims_arr_rel_insert_input"];
 	["claims_avg_order_by"]: ValueTypes["claims_avg_order_by"];
@@ -54691,6 +59223,8 @@ type ZEUS_VARIABLES = {
 	["claims_var_pop_order_by"]: ValueTypes["claims_var_pop_order_by"];
 	["claims_var_samp_order_by"]: ValueTypes["claims_var_samp_order_by"];
 	["claims_variance_order_by"]: ValueTypes["claims_variance_order_by"];
+	["contributions_aggregate_bool_exp"]: ValueTypes["contributions_aggregate_bool_exp"];
+	["contributions_aggregate_bool_exp_count"]: ValueTypes["contributions_aggregate_bool_exp_count"];
 	["contributions_aggregate_order_by"]: ValueTypes["contributions_aggregate_order_by"];
 	["contributions_arr_rel_insert_input"]: ValueTypes["contributions_arr_rel_insert_input"];
 	["contributions_avg_order_by"]: ValueTypes["contributions_avg_order_by"];
@@ -54700,6 +59234,7 @@ type ZEUS_VARIABLES = {
 	["contributions_insert_input"]: ValueTypes["contributions_insert_input"];
 	["contributions_max_order_by"]: ValueTypes["contributions_max_order_by"];
 	["contributions_min_order_by"]: ValueTypes["contributions_min_order_by"];
+	["contributions_obj_rel_insert_input"]: ValueTypes["contributions_obj_rel_insert_input"];
 	["contributions_on_conflict"]: ValueTypes["contributions_on_conflict"];
 	["contributions_order_by"]: ValueTypes["contributions_order_by"];
 	["contributions_pk_columns_input"]: ValueTypes["contributions_pk_columns_input"];
@@ -54719,6 +59254,8 @@ type ZEUS_VARIABLES = {
 	["cursor_ordering"]: ValueTypes["cursor_ordering"];
 	["date"]: ValueTypes["date"];
 	["date_comparison_exp"]: ValueTypes["date_comparison_exp"];
+	["discord_circle_api_tokens_aggregate_bool_exp"]: ValueTypes["discord_circle_api_tokens_aggregate_bool_exp"];
+	["discord_circle_api_tokens_aggregate_bool_exp_count"]: ValueTypes["discord_circle_api_tokens_aggregate_bool_exp_count"];
 	["discord_circle_api_tokens_aggregate_order_by"]: ValueTypes["discord_circle_api_tokens_aggregate_order_by"];
 	["discord_circle_api_tokens_arr_rel_insert_input"]: ValueTypes["discord_circle_api_tokens_arr_rel_insert_input"];
 	["discord_circle_api_tokens_avg_order_by"]: ValueTypes["discord_circle_api_tokens_avg_order_by"];
@@ -54777,6 +59314,8 @@ type ZEUS_VARIABLES = {
 	["discord_users_stream_cursor_value_input"]: ValueTypes["discord_users_stream_cursor_value_input"];
 	["discord_users_update_column"]: ValueTypes["discord_users_update_column"];
 	["discord_users_updates"]: ValueTypes["discord_users_updates"];
+	["distributions_aggregate_bool_exp"]: ValueTypes["distributions_aggregate_bool_exp"];
+	["distributions_aggregate_bool_exp_count"]: ValueTypes["distributions_aggregate_bool_exp_count"];
 	["distributions_aggregate_order_by"]: ValueTypes["distributions_aggregate_order_by"];
 	["distributions_append_input"]: ValueTypes["distributions_append_input"];
 	["distributions_arr_rel_insert_input"]: ValueTypes["distributions_arr_rel_insert_input"];
@@ -54822,6 +59361,10 @@ type ZEUS_VARIABLES = {
 	["epoch_pgive_data_stream_cursor_value_input"]: ValueTypes["epoch_pgive_data_stream_cursor_value_input"];
 	["epoch_pgive_data_update_column"]: ValueTypes["epoch_pgive_data_update_column"];
 	["epoch_pgive_data_updates"]: ValueTypes["epoch_pgive_data_updates"];
+	["epochs_aggregate_bool_exp"]: ValueTypes["epochs_aggregate_bool_exp"];
+	["epochs_aggregate_bool_exp_bool_and"]: ValueTypes["epochs_aggregate_bool_exp_bool_and"];
+	["epochs_aggregate_bool_exp_bool_or"]: ValueTypes["epochs_aggregate_bool_exp_bool_or"];
+	["epochs_aggregate_bool_exp_count"]: ValueTypes["epochs_aggregate_bool_exp_count"];
 	["epochs_aggregate_order_by"]: ValueTypes["epochs_aggregate_order_by"];
 	["epochs_append_input"]: ValueTypes["epochs_append_input"];
 	["epochs_arr_rel_insert_input"]: ValueTypes["epochs_arr_rel_insert_input"];
@@ -54841,6 +59384,8 @@ type ZEUS_VARIABLES = {
 	["epochs_pk_columns_input"]: ValueTypes["epochs_pk_columns_input"];
 	["epochs_prepend_input"]: ValueTypes["epochs_prepend_input"];
 	["epochs_select_column"]: ValueTypes["epochs_select_column"];
+	["epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns"]: ValueTypes["epochs_select_column_epochs_aggregate_bool_exp_bool_and_arguments_columns"];
+	["epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns"]: ValueTypes["epochs_select_column_epochs_aggregate_bool_exp_bool_or_arguments_columns"];
 	["epochs_set_input"]: ValueTypes["epochs_set_input"];
 	["epochs_stddev_order_by"]: ValueTypes["epochs_stddev_order_by"];
 	["epochs_stddev_pop_order_by"]: ValueTypes["epochs_stddev_pop_order_by"];
@@ -54899,6 +59444,8 @@ type ZEUS_VARIABLES = {
 	["jsonb"]: ValueTypes["jsonb"];
 	["jsonb_cast_exp"]: ValueTypes["jsonb_cast_exp"];
 	["jsonb_comparison_exp"]: ValueTypes["jsonb_comparison_exp"];
+	["locked_token_distribution_gifts_aggregate_bool_exp"]: ValueTypes["locked_token_distribution_gifts_aggregate_bool_exp"];
+	["locked_token_distribution_gifts_aggregate_bool_exp_count"]: ValueTypes["locked_token_distribution_gifts_aggregate_bool_exp_count"];
 	["locked_token_distribution_gifts_aggregate_order_by"]: ValueTypes["locked_token_distribution_gifts_aggregate_order_by"];
 	["locked_token_distribution_gifts_arr_rel_insert_input"]: ValueTypes["locked_token_distribution_gifts_arr_rel_insert_input"];
 	["locked_token_distribution_gifts_avg_order_by"]: ValueTypes["locked_token_distribution_gifts_avg_order_by"];
@@ -54951,6 +59498,10 @@ type ZEUS_VARIABLES = {
 	["member_epoch_pgives_stream_cursor_value_input"]: ValueTypes["member_epoch_pgives_stream_cursor_value_input"];
 	["member_epoch_pgives_update_column"]: ValueTypes["member_epoch_pgives_update_column"];
 	["member_epoch_pgives_updates"]: ValueTypes["member_epoch_pgives_updates"];
+	["nominees_aggregate_bool_exp"]: ValueTypes["nominees_aggregate_bool_exp"];
+	["nominees_aggregate_bool_exp_bool_and"]: ValueTypes["nominees_aggregate_bool_exp_bool_and"];
+	["nominees_aggregate_bool_exp_bool_or"]: ValueTypes["nominees_aggregate_bool_exp_bool_or"];
+	["nominees_aggregate_bool_exp_count"]: ValueTypes["nominees_aggregate_bool_exp_count"];
 	["nominees_aggregate_order_by"]: ValueTypes["nominees_aggregate_order_by"];
 	["nominees_arr_rel_insert_input"]: ValueTypes["nominees_arr_rel_insert_input"];
 	["nominees_avg_order_by"]: ValueTypes["nominees_avg_order_by"];
@@ -54965,6 +59516,8 @@ type ZEUS_VARIABLES = {
 	["nominees_order_by"]: ValueTypes["nominees_order_by"];
 	["nominees_pk_columns_input"]: ValueTypes["nominees_pk_columns_input"];
 	["nominees_select_column"]: ValueTypes["nominees_select_column"];
+	["nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns"]: ValueTypes["nominees_select_column_nominees_aggregate_bool_exp_bool_and_arguments_columns"];
+	["nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns"]: ValueTypes["nominees_select_column_nominees_aggregate_bool_exp_bool_or_arguments_columns"];
 	["nominees_set_input"]: ValueTypes["nominees_set_input"];
 	["nominees_stddev_order_by"]: ValueTypes["nominees_stddev_order_by"];
 	["nominees_stddev_pop_order_by"]: ValueTypes["nominees_stddev_pop_order_by"];
@@ -54980,6 +59533,33 @@ type ZEUS_VARIABLES = {
 	["numeric"]: ValueTypes["numeric"];
 	["numeric_comparison_exp"]: ValueTypes["numeric_comparison_exp"];
 	["order_by"]: ValueTypes["order_by"];
+	["org_members_aggregate_bool_exp"]: ValueTypes["org_members_aggregate_bool_exp"];
+	["org_members_aggregate_bool_exp_count"]: ValueTypes["org_members_aggregate_bool_exp_count"];
+	["org_members_aggregate_order_by"]: ValueTypes["org_members_aggregate_order_by"];
+	["org_members_arr_rel_insert_input"]: ValueTypes["org_members_arr_rel_insert_input"];
+	["org_members_avg_order_by"]: ValueTypes["org_members_avg_order_by"];
+	["org_members_bool_exp"]: ValueTypes["org_members_bool_exp"];
+	["org_members_constraint"]: ValueTypes["org_members_constraint"];
+	["org_members_inc_input"]: ValueTypes["org_members_inc_input"];
+	["org_members_insert_input"]: ValueTypes["org_members_insert_input"];
+	["org_members_max_order_by"]: ValueTypes["org_members_max_order_by"];
+	["org_members_min_order_by"]: ValueTypes["org_members_min_order_by"];
+	["org_members_on_conflict"]: ValueTypes["org_members_on_conflict"];
+	["org_members_order_by"]: ValueTypes["org_members_order_by"];
+	["org_members_pk_columns_input"]: ValueTypes["org_members_pk_columns_input"];
+	["org_members_select_column"]: ValueTypes["org_members_select_column"];
+	["org_members_set_input"]: ValueTypes["org_members_set_input"];
+	["org_members_stddev_order_by"]: ValueTypes["org_members_stddev_order_by"];
+	["org_members_stddev_pop_order_by"]: ValueTypes["org_members_stddev_pop_order_by"];
+	["org_members_stddev_samp_order_by"]: ValueTypes["org_members_stddev_samp_order_by"];
+	["org_members_stream_cursor_input"]: ValueTypes["org_members_stream_cursor_input"];
+	["org_members_stream_cursor_value_input"]: ValueTypes["org_members_stream_cursor_value_input"];
+	["org_members_sum_order_by"]: ValueTypes["org_members_sum_order_by"];
+	["org_members_update_column"]: ValueTypes["org_members_update_column"];
+	["org_members_updates"]: ValueTypes["org_members_updates"];
+	["org_members_var_pop_order_by"]: ValueTypes["org_members_var_pop_order_by"];
+	["org_members_var_samp_order_by"]: ValueTypes["org_members_var_samp_order_by"];
+	["org_members_variance_order_by"]: ValueTypes["org_members_variance_order_by"];
 	["organizations_bool_exp"]: ValueTypes["organizations_bool_exp"];
 	["organizations_constraint"]: ValueTypes["organizations_constraint"];
 	["organizations_inc_input"]: ValueTypes["organizations_inc_input"];
@@ -55004,6 +59584,8 @@ type ZEUS_VARIABLES = {
 	["pending_gift_private_stream_cursor_input"]: ValueTypes["pending_gift_private_stream_cursor_input"];
 	["pending_gift_private_stream_cursor_value_input"]: ValueTypes["pending_gift_private_stream_cursor_value_input"];
 	["pending_gift_private_updates"]: ValueTypes["pending_gift_private_updates"];
+	["pending_token_gifts_aggregate_bool_exp"]: ValueTypes["pending_token_gifts_aggregate_bool_exp"];
+	["pending_token_gifts_aggregate_bool_exp_count"]: ValueTypes["pending_token_gifts_aggregate_bool_exp_count"];
 	["pending_token_gifts_aggregate_order_by"]: ValueTypes["pending_token_gifts_aggregate_order_by"];
 	["pending_token_gifts_arr_rel_insert_input"]: ValueTypes["pending_token_gifts_arr_rel_insert_input"];
 	["pending_token_gifts_avg_order_by"]: ValueTypes["pending_token_gifts_avg_order_by"];
@@ -55069,6 +59651,8 @@ type ZEUS_VARIABLES = {
 	["profiles_stream_cursor_value_input"]: ValueTypes["profiles_stream_cursor_value_input"];
 	["profiles_update_column"]: ValueTypes["profiles_update_column"];
 	["profiles_updates"]: ValueTypes["profiles_updates"];
+	["teammates_aggregate_bool_exp"]: ValueTypes["teammates_aggregate_bool_exp"];
+	["teammates_aggregate_bool_exp_count"]: ValueTypes["teammates_aggregate_bool_exp_count"];
 	["teammates_aggregate_order_by"]: ValueTypes["teammates_aggregate_order_by"];
 	["teammates_arr_rel_insert_input"]: ValueTypes["teammates_arr_rel_insert_input"];
 	["teammates_avg_order_by"]: ValueTypes["teammates_avg_order_by"];
@@ -55098,6 +59682,8 @@ type ZEUS_VARIABLES = {
 	["timestamp_comparison_exp"]: ValueTypes["timestamp_comparison_exp"];
 	["timestamptz"]: ValueTypes["timestamptz"];
 	["timestamptz_comparison_exp"]: ValueTypes["timestamptz_comparison_exp"];
+	["token_gifts_aggregate_bool_exp"]: ValueTypes["token_gifts_aggregate_bool_exp"];
+	["token_gifts_aggregate_bool_exp_count"]: ValueTypes["token_gifts_aggregate_bool_exp_count"];
 	["token_gifts_aggregate_order_by"]: ValueTypes["token_gifts_aggregate_order_by"];
 	["token_gifts_arr_rel_insert_input"]: ValueTypes["token_gifts_arr_rel_insert_input"];
 	["token_gifts_avg_order_by"]: ValueTypes["token_gifts_avg_order_by"];
@@ -55130,6 +59716,10 @@ type ZEUS_VARIABLES = {
 	["user_private_select_column"]: ValueTypes["user_private_select_column"];
 	["user_private_stream_cursor_input"]: ValueTypes["user_private_stream_cursor_input"];
 	["user_private_stream_cursor_value_input"]: ValueTypes["user_private_stream_cursor_value_input"];
+	["users_aggregate_bool_exp"]: ValueTypes["users_aggregate_bool_exp"];
+	["users_aggregate_bool_exp_bool_and"]: ValueTypes["users_aggregate_bool_exp_bool_and"];
+	["users_aggregate_bool_exp_bool_or"]: ValueTypes["users_aggregate_bool_exp_bool_or"];
+	["users_aggregate_bool_exp_count"]: ValueTypes["users_aggregate_bool_exp_count"];
 	["users_aggregate_order_by"]: ValueTypes["users_aggregate_order_by"];
 	["users_arr_rel_insert_input"]: ValueTypes["users_arr_rel_insert_input"];
 	["users_avg_order_by"]: ValueTypes["users_avg_order_by"];
@@ -55144,6 +59734,8 @@ type ZEUS_VARIABLES = {
 	["users_order_by"]: ValueTypes["users_order_by"];
 	["users_pk_columns_input"]: ValueTypes["users_pk_columns_input"];
 	["users_select_column"]: ValueTypes["users_select_column"];
+	["users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns"]: ValueTypes["users_select_column_users_aggregate_bool_exp_bool_and_arguments_columns"];
+	["users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns"]: ValueTypes["users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns"];
 	["users_set_input"]: ValueTypes["users_set_input"];
 	["users_stddev_order_by"]: ValueTypes["users_stddev_order_by"];
 	["users_stddev_pop_order_by"]: ValueTypes["users_stddev_pop_order_by"];
@@ -55158,6 +59750,8 @@ type ZEUS_VARIABLES = {
 	["users_variance_order_by"]: ValueTypes["users_variance_order_by"];
 	["uuid"]: ValueTypes["uuid"];
 	["uuid_comparison_exp"]: ValueTypes["uuid_comparison_exp"];
+	["vault_transactions_aggregate_bool_exp"]: ValueTypes["vault_transactions_aggregate_bool_exp"];
+	["vault_transactions_aggregate_bool_exp_count"]: ValueTypes["vault_transactions_aggregate_bool_exp_count"];
 	["vault_transactions_aggregate_order_by"]: ValueTypes["vault_transactions_aggregate_order_by"];
 	["vault_transactions_arr_rel_insert_input"]: ValueTypes["vault_transactions_arr_rel_insert_input"];
 	["vault_transactions_avg_order_by"]: ValueTypes["vault_transactions_avg_order_by"];
@@ -55198,6 +59792,8 @@ type ZEUS_VARIABLES = {
 	["vault_tx_types_stream_cursor_value_input"]: ValueTypes["vault_tx_types_stream_cursor_value_input"];
 	["vault_tx_types_update_column"]: ValueTypes["vault_tx_types_update_column"];
 	["vault_tx_types_updates"]: ValueTypes["vault_tx_types_updates"];
+	["vaults_aggregate_bool_exp"]: ValueTypes["vaults_aggregate_bool_exp"];
+	["vaults_aggregate_bool_exp_count"]: ValueTypes["vaults_aggregate_bool_exp_count"];
 	["vaults_aggregate_order_by"]: ValueTypes["vaults_aggregate_order_by"];
 	["vaults_arr_rel_insert_input"]: ValueTypes["vaults_arr_rel_insert_input"];
 	["vaults_avg_order_by"]: ValueTypes["vaults_avg_order_by"];
@@ -55224,6 +59820,8 @@ type ZEUS_VARIABLES = {
 	["vaults_var_pop_order_by"]: ValueTypes["vaults_var_pop_order_by"];
 	["vaults_var_samp_order_by"]: ValueTypes["vaults_var_samp_order_by"];
 	["vaults_variance_order_by"]: ValueTypes["vaults_variance_order_by"];
+	["vouches_aggregate_bool_exp"]: ValueTypes["vouches_aggregate_bool_exp"];
+	["vouches_aggregate_bool_exp_count"]: ValueTypes["vouches_aggregate_bool_exp_count"];
 	["vouches_aggregate_order_by"]: ValueTypes["vouches_aggregate_order_by"];
 	["vouches_arr_rel_insert_input"]: ValueTypes["vouches_arr_rel_insert_input"];
 	["vouches_avg_order_by"]: ValueTypes["vouches_avg_order_by"];
