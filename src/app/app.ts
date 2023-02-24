@@ -33,6 +33,7 @@ const handleableInteractions: {[key: string]: (ctx: ComponentContext) => Promise
 	[CustomId.AlertsSelectConfirmButton]: handlers.handleConfirmAlertsToSend,
 	[CustomId.AlertsSelect]: handlers.handleAlertsSelect,
 	[CustomId.AllowAlertsButton]: handlers.handleAlertsToSend,
+	[CustomId.AssignButton]: handlers.handleAssignButton,
 	[CustomId.AssignRoleUserSelect]: handlers.assignRoleHandler,
 	[CustomId.CircleSelectNextButton]: handlers.handleCreateNewEntities,
 	[CustomId.CircleSelect]: handlers.handleCircleSelect,
@@ -45,6 +46,7 @@ const handleableInteractions: {[key: string]: (ctx: ComponentContext) => Promise
 	[CustomId.Skip]: handlers.handleFinalMessage,
 	[CustomId.SkipLinkCircleButton]: handlers.handleSkipLinkCircleButton,
 	[CustomId.UnlinkButton]: handlers.handleUnlinkButton,
+	[CustomId.UnassignButton]: handlers.handleUnassignButton,
 	[CustomId.UnssignRoleUserSelect]: handlers.assignRoleHandler,
 	[CustomId.UpdateAlertsButton]: handlers.handleUpdateAlertsButton,
 };
