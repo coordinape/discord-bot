@@ -5,6 +5,7 @@ type Props = {
 	users: {
 		name: string;
 		address: string;
+		entrance: string;
 	}[];
 	apiKey: string;
 }
