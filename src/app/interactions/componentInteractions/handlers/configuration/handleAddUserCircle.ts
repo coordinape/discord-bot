@@ -46,7 +46,11 @@ export async function handleAddUserCircle(ctx: ComponentContext): Promise<void> 
 			throw new Error('Api key not found!');
 		}
 
-		const user = await createUsersMutation({ circleId: Number(circle_id), users: [profile], apiKey });
+		const user = await createUsersMutation({
+			circleId: Number(circle_id),
+			users: [{ ...profile, entrance: 'manual-address-entry' }],
+			apiKey,
+		});
 		if (user) {
 			await ctx.send({ content: `User ${profile.name} added to this circle` });
 		}
