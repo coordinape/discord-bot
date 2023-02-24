@@ -34,7 +34,8 @@ const handleableInteractions: {[key: string]: (ctx: ComponentContext) => Promise
 	[CustomId.AlertsSelect]: handlers.handleAlertsSelect,
 	[CustomId.AllowAlertsButton]: handlers.handleAlertsToSend,
 	[CustomId.AssignButton]: handlers.handleAssignButton,
-	[CustomId.AssignRoleUserSelect]: handlers.assignRoleHandler,
+	[CustomId.AssignRoleUserSelectConfirmButton]: handlers.handleAddUserCircle,
+	[CustomId.AssignRoleUserSelectCancelButton]: handlers.handleAddUserCircleCancel,
 	[CustomId.CircleSelectNextButton]: handlers.handleCreateNewEntities,
 	[CustomId.CircleSelect]: handlers.handleCircleSelect,
 	[CustomId.ConfigButton]: handlers.handleConfigButton,
@@ -47,7 +48,8 @@ const handleableInteractions: {[key: string]: (ctx: ComponentContext) => Promise
 	[CustomId.SkipLinkCircleButton]: handlers.handleSkipLinkCircleButton,
 	[CustomId.UnlinkButton]: handlers.handleUnlinkButton,
 	[CustomId.UnassignButton]: handlers.handleUnassignButton,
-	[CustomId.UnssignRoleUserSelect]: handlers.assignRoleHandler,
+	[CustomId.UnassignRoleUserSelectConfirmButton]: handlers.handleRemoveUserCircle,
+	[CustomId.UnassignRoleUserSelectCancelButton]: handlers.handleRemoveUserCircleCancel,
 	[CustomId.UpdateAlertsButton]: handlers.handleUpdateAlertsButton,
 };
 
@@ -66,10 +68,10 @@ creator.on('unknownInteraction', (message) => Log.warn(`unknownInteraction: ${ m
 creator.on('componentInteraction', async (ctx) => {
 	if (ctx.componentType === ComponentType.USER_SELECT) {
 		if (ctx.customID === CustomId.AssignRoleUserSelect) {
-			return handlers.handleAssignButton;
+			return handlers.handleAddUserCircleConfirmation(ctx);
 		}
-		if (ctx.customID === CustomId.UnssignRoleUserSelect) {
-			return handlers.handleUnassignButton;
+		if (ctx.customID === CustomId.UnassignRoleUserSelect) {
+			return handlers.handleRemoveUserCircleConfirmation(ctx);
 		}
 	}
 		
