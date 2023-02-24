@@ -1,4 +1,3 @@
-import { getOAuth2Url } from '@api/constants';
 import { findProfileId } from '@api/findProfileId';
 import { getDiscordRolesCircles } from '@api/getDiscordRolesCircles';
 import { ComponentContext } from 'slash-create';
@@ -15,7 +14,7 @@ export async function handleRemoveUserCircle(ctx: ComponentContext): Promise<voi
 		const profileId = await findProfileId({ userId });
 
 		if (!profileId) {
-			await ctx.send({ content: `<@${userId}> hasn't linked their Discord Account to Coordinape yet, please ask them to go [here](${getOAuth2Url()}) and link their accounts. Then you can try again\n\nYou can also add them directly in coordinape [here](https://app.coordinape.com/profile/me)` });
+			await ctx.send({ content: `<@${userId}> hasn't linked their Discord Account to Coordinape yet, please tell them to run \`/coordinape\` and click "Link" to link their account. Then you can try again\n\nYou can also add them directly in coordinape [here](https://app.coordinape.com/profile/me)` });
 			return;
 		}
 

@@ -1,2 +1,2 @@
-export * from './changeRole';
+export * from './common';
 export * from './configuration';
