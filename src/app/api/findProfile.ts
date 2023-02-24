@@ -19,5 +19,5 @@ export async function findProfile({ profileId }: { profileId: number }): Promise
 		throw new Error('Something is wrong, please contact coordinape');
 	}
 
-	return { address: profiles[0].address, name: String(profiles[0]) };
+	return { address: profiles[0].address, name: String(profiles[0].name) };
 }
