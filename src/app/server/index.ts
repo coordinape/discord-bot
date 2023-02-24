@@ -9,6 +9,7 @@ import vouchUnsuccessful from './handlers/vouchUnsuccessful';
 import userAdded from './handlers/userAdded';
 import userRemoved from './handlers/userRemoved';
 import userOptsOut from './handlers/userOptsOut';
+import { auth } from './handlers/middleware';
 
 dotenv.config();
 
@@ -18,15 +19,15 @@ const port = process.env.PORT || 4000;
 
 app.use(express.json());
 
-app.post('/api/epoch/start', start);
-app.post('/api/epoch/end', end);
-app.post('/api/epoch/nomination', nomination);
-app.post('/api/epoch/vouch', vouch);
-app.post('/api/epoch/vouch-successful', vouchSuccessful);
-app.post('/api/epoch/vouch-unsuccessful', vouchUnsuccessful);
-app.post('/api/epoch/user-added', userAdded);
-app.post('/api/epoch/user-removed', userRemoved);
-app.post('/api/epoch/user-opts-out', userOptsOut);
+app.post('/api/epoch/start', auth, start);
+app.post('/api/epoch/end', auth, end);
+app.post('/api/epoch/nomination', auth, nomination);
+app.post('/api/epoch/vouch', auth, vouch);
+app.post('/api/epoch/vouch-successful', auth, vouchSuccessful);
+app.post('/api/epoch/vouch-unsuccessful', auth, vouchUnsuccessful);
+app.post('/api/epoch/user-added', auth, userAdded);
+app.post('/api/epoch/user-removed', auth, userRemoved);
+app.post('/api/epoch/user-opts-out', auth, userOptsOut);
 
 app.listen(port, () => {
 	// eslint-disable-next-line no-console
