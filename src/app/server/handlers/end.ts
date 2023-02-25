@@ -4,6 +4,7 @@ import { COORDINAPE_BUTTON } from '../components';
 import { isTextChannel } from '../utils';
 import { Request, Response } from 'express';
 import { z } from 'zod';
+import Log from 'src/app/utils/Log';
 
 /**
  * curl --request POST \
@@ -25,7 +26,7 @@ const End = z.object({
 	channelId: z.string(),
 	roleId: z.string(),
 	epochName: z.string(),
-	circleId: z.string(),
+	circleId: z.number(),
 	circleName: z.string(),
 	endTime: z.string(),
 	giveCount: z.number(),
@@ -36,8 +37,15 @@ type TEnd = Omit<z.infer<typeof End>, 'channelId'>;
 
 export default async function handler(req: Request, res: Response) {
 	try {
-		const { channelId, ...data } = End.parse(req.body);
-		
+		const response = End.safeParse(req.body);
+
+		if (!response.success) {
+			Log.debug(`[epoch-start] Invalid request body: ${response.error}`);
+			throw new Error(`Invalid request body: ${response.error}`);
+		}
+
+		const { channelId, ...data } = response.data;
+
 		const channel = await client.channels.fetch(channelId);
 		if (!channel || !isTextChannel(channel)) {
 			throw new Error('Channel not found!');
