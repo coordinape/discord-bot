@@ -1,3 +1,6 @@
+import { deleteUsersMutation } from '@api/deleteUsersMutation';
+import { findApiKey } from '@api/findApiKey';
+import { findProfile } from '@api/findProfile';
 import { findProfileId } from '@api/findProfileId';
 import { getDiscordRolesCircles } from '@api/getDiscordRolesCircles';
 import { ComponentContext } from 'slash-create';
@@ -18,7 +21,13 @@ export async function handleRemoveUserCircle(ctx: ComponentContext): Promise<voi
 			return;
 		}
 
-		const { discord_role_id } = await getDiscordRolesCircles({ channelId: ctx.channelID });
+		const profile = await findProfile({ profileId });
+
+		if (!profile) {
+			throw new Error(`User with profile ID ${profileId} not found!`);
+		}
+
+		const { discord_role_id, circle_id } = await getDiscordRolesCircles({ channelId: ctx.channelID });
 
 		const guild = await ctx.creator.client.guilds.fetch(ctx.guildID);
 
@@ -32,8 +41,20 @@ export async function handleRemoveUserCircle(ctx: ComponentContext): Promise<voi
 		const member = await guildMember.roles.remove(role, 'remove from circle');
 		await ctx.send({ content: `Role ${role} unassigned from ${member}` });
 
-		// TODO Remove user from circle in coordinape
+		
+		const apiKey = await findApiKey({ channelId: ctx.channelID });
+		if (!apiKey) {
+			throw new Error('Api key not found!');
+		}
 
+		const user = await deleteUsersMutation({
+			circleId: Number(circle_id),
+			addresses: [profile.address],
+			apiKey,
+		});
+		if (user) {
+			await ctx.send({ content: `User ${profile.name} removed from this circle` });
+		}
 	} catch (error) {
 		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleRemoveUserCircle] ${error}`);
 		Log.error(error);
