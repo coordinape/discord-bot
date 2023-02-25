@@ -4,6 +4,7 @@ import { COORDINAPE_BUTTON } from '../components';
 import { isTextChannel } from '../utils';
 import { Request, Response } from 'express';
 import { z } from 'zod';
+import Log from 'src/app/utils/Log';
 
 /**
  * curl --request POST \
@@ -24,7 +25,7 @@ const Start = z.object({
 	channelId: z.string(),
 	roleId: z.string(),
 	epochName: z.string(),
-	circleId: z.string(),
+	circleId: z.number(),
 	circleName: z.string(),
 	startTime: z.string(),
 	endTime: z.string(),
@@ -34,7 +35,14 @@ type TStart = Omit<z.infer<typeof Start>, 'channelId'>;
 
 export default async function handler(req: Request, res: Response) {
 	try {
-		const { channelId, ...data } = Start.parse(req.body);
+		const response = Start.safeParse(req.body);
+
+		if (!response.success) {
+			Log.debug(`[epoch-start] Invalid request body: ${response.error}`);
+			throw new Error(`Invalid request body: ${response.error}`);
+		}
+
+		const { channelId, ...data } = response.data;
 
 		const channel = await client.channels.fetch(channelId);
 		if (!channel || !isTextChannel(channel)) {
@@ -93,5 +101,5 @@ async function getContent({
 }: { role: Role } & TStart) {
 	const startTimeEpoch = new Date(startTime).getTime() / 1000;
 	const endTimeEpoch = new Date(endTime).getTime() / 1000;
-	return `Heads up ${role}! ${epochName} for ${circleName} has just started!\n\nIt will run from <t:${startTimeEpoch}:f> to <t:${endTimeEpoch}:f> <t:${endTimeEpoch}:R>!\n\nDon't forget to opt in and let your Circlemates know what you did this this cycle in your epoch statement and contributions!\n\nIf you want to opt-in or update your statement you can do that by clicking the buttons below.\n\n**Get Giving**`;
+	return `Heads up ${role}! ${epochName} for ${circleName} has just started!\n\nIt will run from <t:${startTimeEpoch}:f> to <t:${endTimeEpoch}:f> (<t:${endTimeEpoch}:R>)!\n\nDon't forget to opt in and let your Circlemates know what you did this this cycle in your epoch statement and contributions!\n\nIf you want to opt-in or update your statement you can do that by clicking the buttons below.\n\n**Get Giving**`;
 }
