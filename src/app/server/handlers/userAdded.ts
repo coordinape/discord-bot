@@ -15,6 +15,7 @@ import { getUsername } from '../utils/getUsername';
 	"roleId": "1058334400540061747",
 	"discordId": "578033839910289408",
 	"address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+	"profileName": "John Doe",
 	"circleName": "Circumference"
 }'
  */
@@ -25,6 +26,7 @@ const UserAdded = z
 		roleId: z.string(),
 		discordId: z.string().optional(),
 		address: z.string().optional(),
+		profileName: z.string().optional(),
 		circleName: z.string(),
 	})
 	.partial({ discordId: true, address: true })
@@ -57,6 +59,6 @@ export default async function handler(req: Request, res: Response) {
 	}
 }
 
-async function getContent({ role, discordId, address, circleName }: { role: Role } & TUserAdded) {
-	return `${role}, ${getUsername({ discordId, address })} has been added to the ${circleName} circle.\n\nDon't forget to welcome them to the Circle with a note in the next Epoch!`;
+async function getContent({ role, discordId, address, circleName, profileName }: { role: Role } & TUserAdded) {
+	return `${role}, ${getUsername({ discordId, address, profileName })} has been added to the ${circleName} circle.\n\nDon't forget to welcome them to the Circle with a note in the next Epoch!`;
 }

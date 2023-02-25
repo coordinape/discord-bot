@@ -15,6 +15,7 @@ import { getUsername } from '../utils/getUsername';
 	"roleId": "1058334400540061747",
 	"discordId": "578033839910289408",
 	"address": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+	"profileName": "John Doe",
 	"tokenName": "EURO",
 	"circleName": "Circumference",
 	"refunds": [
@@ -31,6 +32,7 @@ const UserOptsOut = z
 		roleId: z.string(),
 		discordId: z.string().optional(),
 		address: z.string().optional(),
+		profileName: z.string().optional(),
 		tokenName: z.string(),
 		circleName: z.string(),
 		refunds: z.array(z.object({ username: z.string(), give: z.number() })),
@@ -65,9 +67,9 @@ export default async function handler(req: Request, res: Response) {
 	}
 }
 
-async function getContent({ role, discordId, address, tokenName, circleName, refunds }: { role: Role } & TUserOptsOut) {
+async function getContent({ role, discordId, address, tokenName, circleName, refunds, profileName }: { role: Role } & TUserOptsOut) {
 	return (`
-		${role}, ${getUsername({ discordId, address })} has opted out of the current Epoch for ${circleName} circle.
+		${role}, ${getUsername({ discordId, address, profileName })} has opted out of the current Epoch for ${circleName} circle.
 		\n${refunds.length ? refunds.map(({ username, give }) => `${give} ${tokenName} was refunded to ${username}`).join(', ') : `No ${tokenName} refunded`}.
 		`);
 }

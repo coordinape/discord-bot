@@ -1,7 +1,25 @@
-export function getUsername({ discordId, address }: { discordId?: string; address?: string }) {
+type Props = {
+	discordId?: string;
+	address?: string;
+	profileName?: string;
+}
+
+export function getUsername({ discordId, address, profileName }: Props) {
 	if (discordId) {
 		return `<@${discordId}>`;
 	}
 
-	return `Ox...${address?.slice(-4)}`;
+	if (profileName && address) {
+		return `Ox...${address?.slice(-4)} ${profileName}}`;
+	}
+
+	if (address) {
+		return `Ox...${address?.slice(-4)}`;
+	}
+
+	if (profileName) {
+		return profileName;
+	}
+
+	return 'Unknown user';
 }
