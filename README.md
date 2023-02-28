@@ -1,19 +1,25 @@
-# Welcome to Caesar, the Coorinape Discord Bot  
+# Welcome to Caesar, the Coorinape Discord Bot
 
 With Web3 communities proliferating and thriving on Discord, Coordinape is
 bringing Circle assignment and Epoch alert functionality to Discord! CO Kong
-is developed for the purpose of automating Circle assignment, so you can 
-spend less time signing up members and more time producing and building.  
+is developed for the purpose of automating Circle assignment, so you can
+spend less time signing up members and more time producing and building.
 
 ## Caesar Development
 
 ```
-yarn && yarn dev
+yarn && yarn serve:dev
 ```
 
 ## GraphQL
 
 ### Schema
+
+We're currenctly manually updating Zeus by pulling in commits from the
+coordinape repo as hacky submodules. Kpie is making custom modifications
+to the codegen.
+
+<-- TODO kpie documents needed codegen changes !-->
 
 833507b123dbd7102efb408766abe240d2a4df2b (branch `karelianpie:feat/trigger-discord-epoch-events`)
 
