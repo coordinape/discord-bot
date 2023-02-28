@@ -17,9 +17,31 @@ yarn && yarn serve:dev
 
 We're currenctly manually updating Zeus by pulling in commits from the
 coordinape repo as hacky submodules. Kpie is making custom modifications
-to the codegen.
+to the codegen so that GraphQL subscriptions work.
 
-<-- TODO kpie documents needed codegen changes !-->
+In the generated file `src/app/api/zeus/index.ts`, add the following class
+
+```typescript
+class HasuraWebSocket extends WebSocket {
+	constructor(address: string, protocols: string) {
+		super(address, protocols, {
+			headers: {
+				'authorization': process.env.DISCORD_BOT_AUTHORIZATION_HEADER || 'no_secret',
+				'x-hasura-role': 'discord-bot',
+			},
+		});
+	}
+}
+```
+
+and then use it as follows inside the `apiSubscription` function
+
+```typescript
+  const client = createClient({
+    url: String(options[0]),
+    webSocketImpl: HasuraWebSocket,
+  });
+```
 
 833507b123dbd7102efb408766abe240d2a4df2b (branch `karelianpie:feat/trigger-discord-epoch-events`)
 
