@@ -60,7 +60,7 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 				const channel = await discordService.findTextChannelById(channelId);
 				const role = await discordService.findRole(roleId);
 
-				await ctx.send(`You have already requested this circle to be linked. The channel ${channel} and role ${role} have already been created. Please go there to finish linking the circle. If you've deleted them by mistake please contact coordinape.`);
+				await ctx.send(`You have already requested circle \`${circle.label}\` (Circle ID: ${circle.value}) to be linked. The channel ${channel} and role ${role} have already been created. Please go there to finish linking the circle. If you've deleted them by mistake please contact coordinape.`);
 				continue;
 			}
 
@@ -107,10 +107,6 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 				content: `<@${ctx.user.id}> to manage \`${circle.label}\` (Circle ID: ${circle.value}) in Discord I'll need to get the API Key for the circle. This will enable me to watch this circle so I can send alerts, to manage circle membership (with the role ${role}), and to let circle members interact with Coordinape from within Discord. With your permission I'll go get that now.`,
 				components: [linkCircleRow],
 			});
-		}
-
-		if (newEntitites.length === 0) {
-			throw new Error('No channels or roles were created');
 		}
 		
 		if (newEntitites.length === 1) {
