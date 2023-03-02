@@ -1,4 +1,5 @@
 import { deleteDiscordRolesCircles } from '@api/deleteDiscordRolesCircles';
+import { findDiscordEntitiesByCircleId } from '@api/findDiscordEntitiesByCircleId';
 import { insertDiscordRolesCircles } from '@api/insertDiscordRolesCircles';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CategoryChannel, Role, TextChannel } from 'discord.js';
 import { ComponentActionRow, ComponentContext, ComponentSelectMenu, ComponentSelectOption } from 'slash-create';
@@ -53,8 +54,18 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 		const newEntitites: { channel: TextChannel; role: Role, circle: ComponentSelectOption }[] = [];
 
 		for (const circle of circles) {
+			const { channelId, roleId } = await findDiscordEntitiesByCircleId({ circleId: Number(circle.value) });
+			
+			if (channelId && roleId) {
+				const channel = await discordService.findTextChannelById(channelId);
+				const role = await discordService.findRole(roleId);
+
+				await ctx.send(`You have already requested this circle to be linked. The channel ${channel} and role ${role} have already been created. Please go there to finish linking the circle. If you've deleted them by mistake please contact coordinape.`);
+				continue;
+			}
+
 			const channel = await discordService.createChannel({ name: circle.label, parent: coordinapeCategory });
-			const role = await discordService.createRole({ name: `${circle.label} Member` });
+			const role = await discordService.createRole({ name: `CO-${circle.label} Member` });
 	
 			if (!channel && !role) {
 				await ctx.send('Failed to create both the channel and role. Please contact coordinape');

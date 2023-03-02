@@ -69,6 +69,16 @@ export class DiscordService {
 		}
 	}
 
+	async findRole(id: string): Promise<Role | null> {
+		try {
+			const guild = await this.findGuild();
+			return guild.roles.fetch(id);
+		} catch (e) {
+			Log.error(e);
+			return null;
+		}
+	}
+
 	private async getContextTextChannels(): Promise<Collection<string, TextChannel>> {
 		const guild = await this.findGuild();
 
