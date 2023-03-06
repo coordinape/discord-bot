@@ -2,6 +2,7 @@ import { ButtonStyle, ComponentButton, ComponentContext, ComponentType } from 's
 import { CustomId } from 'src/app/interactions/customId';
 import Log from 'src/app/utils/Log';
 import { disableAllParentComponents } from '../common';
+import { errorMessageOptions } from '../common/errorMessageOptions';
 
 export const UNASSIGN_ROLE_USER_SELECT_CONFIRM_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
@@ -33,9 +34,10 @@ export async function handleRemoveUserCircleConfirmation(ctx: ComponentContext):
 				type: ComponentType.ACTION_ROW,
 				components: [UNASSIGN_ROLE_USER_SELECT_CONFIRM_BUTTON, UNASSIGN_ROLE_USER_SELECT_CANCEL_BUTTON],
 			}],
+			ephemeral: true,
 		});
 	} catch (error) {
-		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleRemoveUserCircleConfirmation] ${error}`);
+		await ctx.send(errorMessageOptions({ handlerName: 'handleRemoveUserCircleConfirmation', error }));
 		Log.error(error);
 	}
 }

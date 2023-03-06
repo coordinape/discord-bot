@@ -3,8 +3,9 @@ import { ComponentActionRow, ComponentContext, ComponentSelectMenu } from 'slash
 import Log from 'src/app/utils/Log';
 import { sleep } from 'src/app/utils/sleep';
 import { disableAllParentComponents, getAlertsText } from '../common';
-import { getUniqueAlertKeys } from './3.2_handleAlertsToSend';
-import { handleFinalMessage } from './4_handleFinalMessage';
+import { errorMessageOptions } from '../common/errorMessageOptions';
+import { getUniqueAlertKeys } from './handleAlertsToSend';
+import { handleFinalMessage } from './handleFinalMessage';
 
 /**
  * Confirm alerts to send handler
@@ -18,7 +19,10 @@ export async function handleConfirmAlertsToSend(ctx: ComponentContext) {
 		const select = actionRow.components[0] as ComponentSelectMenu;
 		
 		if (!select.options) {
-			await ctx.send('No options selected');
+			await ctx.send({
+				content: 'No options selected',
+				ephemeral: true,
+			});
 			return;
 		}
 	
@@ -33,13 +37,15 @@ export async function handleConfirmAlertsToSend(ctx: ComponentContext) {
 		});
 	
 		if (!success || !data.alerts) {
-			await ctx.send('Failed to update alerts to send');
-			return;
+			throw new Error('Failed to update alerts to send');
 		}
 	
 		const uniqueAlertKeys = getUniqueAlertKeys(alerts);
 		
-		await ctx.send(getAlertsText(uniqueAlertKeys));
+		await ctx.send({
+			content: getAlertsText(uniqueAlertKeys),
+			ephemeral: true,
+		});
 	
 		// Just to improve message flow
 		await sleep(3000);
@@ -49,7 +55,7 @@ export async function handleConfirmAlertsToSend(ctx: ComponentContext) {
 	
 		await handleFinalMessage(ctx);
 	} catch (error) {
-		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleConfirmAlertsToSend] ${error}`);
+		await ctx.send(errorMessageOptions({ handlerName: 'handleConfirmAlertsToSend', error }));
 		Log.error(error);
 	}
 }

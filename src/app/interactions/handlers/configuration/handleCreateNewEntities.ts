@@ -7,7 +7,8 @@ import { CustomId } from 'src/app/interactions/customId';
 import { DiscordService } from 'src/app/service/DiscordService';
 import Log from 'src/app/utils/Log';
 import { disableAllParentComponents } from '../common';
-import { handleFinalMessage } from './4_handleFinalMessage';
+import { errorMessageOptions } from '../common/errorMessageOptions';
+import { handleFinalMessage } from './handleFinalMessage';
 
 type CleanUpProps = {
 	circleId: number;
@@ -60,7 +61,10 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 				const channel = await discordService.findTextChannelById(channelId);
 				const role = await discordService.findRole(roleId);
 
-				await ctx.send(`You have already requested circle \`${circle.label}\` (Circle ID: ${circle.value}) to be linked. The channel ${channel} and role ${role} have already been created. Please go there to finish linking the circle. If you've deleted them by mistake please contact coordinape.`);
+				await ctx.send({
+					content: `You have already requested circle \`${circle.label}\` (Circle ID: ${circle.value}) to be linked. The channel ${channel} and role ${role} have already been created. Please go there to finish linking the circle. If you've deleted them by mistake please contact coordinape.`,
+					ephemeral: true,
+				});
 				continue;
 			}
 
@@ -68,17 +72,26 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 			const role = await discordService.createRole({ name: `CO-${circle.label} Member` });
 	
 			if (!channel && !role) {
-				await ctx.send('Failed to create both the channel and role. Please contact coordinape');
+				await ctx.send({
+					content: 'Failed to create both the channel and role. Please contact coordinape',
+					ephemeral: true,
+				});
 				continue;
 			}
 	
 			if (!channel) {
-				await ctx.send('Failed to create a channel. Please contact coordinape');
+				await ctx.send({
+					content: 'Failed to create a channel. Please contact coordinape',
+					ephemeral: true,
+				});
 				await role?.delete('Failed to create a channel for this role');
 				continue;
 			}
 			if (!role) {
-				await ctx.send('Failed to create a role. Please contact coordinape');
+				await ctx.send({
+					content: 'Failed to create a role. Please contact coordinape',
+					ephemeral: true,
+				});
 				await channel.delete('Failed to create a role for this channel');
 				continue;
 			}
@@ -95,6 +108,7 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 				}
 			} catch (error) {
 				cleanUp({ circleId: Number(circle.value), role, channel });
+				await ctx.send(errorMessageOptions({ handlerName: 'handleCreateNewEntities/loop', error }));
 				Log.error(error);
 				continue;
 			}
@@ -106,20 +120,29 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 			await channel.send({
 				content: `<@${ctx.user.id}> to manage \`${circle.label}\` (Circle ID: ${circle.value}) in Discord I'll need to get the API Key for the circle. This will enable me to watch this circle so I can send alerts, to manage circle membership (with the role ${role}), and to let circle members interact with Coordinape from within Discord. With your permission I'll go get that now.`,
 				components: [linkCircleRow],
+				options: {
+					ephemeral: true,
+				},
 			});
 		}
 		
 		if (newEntitites.length === 1) {
-			await ctx.send(`Channel ${newEntitites[0].channel} and role ${newEntitites[0].role} created for circle \`${newEntitites[0].circle.label}\` under the ${coordinapeCategory} category, please go there to manage circle permissions`);
+			await ctx.send({
+				content: `Channel ${newEntitites[0].channel} and role ${newEntitites[0].role} created for circle \`${newEntitites[0].circle.label}\` under the ${coordinapeCategory} category, please go there to manage circle permissions`,
+				ephemeral: true,
+			});
 		}
 		
 		if (newEntitites.length > 1) {
-			await ctx.send(`I have created the following channels (under the ${coordinapeCategory} category) and roles, please go to each channel to manage circle permissions:\n${newEntitites.map(({ channel, role, circle }) => `> Channel ${channel} and role ${role} for circle \`${circle.label}\``).join('\n')}`);
+			await ctx.send({
+				content: `I have created the following channels (under the ${coordinapeCategory} category) and roles, please go to each channel to manage circle permissions:\n${newEntitites.map(({ channel, role, circle }) => `> Channel ${channel} and role ${role} for circle \`${circle.label}\``).join('\n')}`,
+				ephemeral: true,
+			});
 		}
 	
 		await handleFinalMessage(ctx);
 	} catch (error) {
-		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleCreateNewEntities] ${error}`);
+		await ctx.send(errorMessageOptions({ handlerName: 'handleCreateNewEntities', error }));
 		Log.error(error);
 	}
 }

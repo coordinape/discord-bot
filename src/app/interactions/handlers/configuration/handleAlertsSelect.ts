@@ -1,6 +1,7 @@
 import { ComponentActionRow, ComponentContext, ComponentSelectMenu, ComponentType } from 'slash-create';
 import Log from 'src/app/utils/Log';
-import { ALERTS_SELECT_CANCEL_BUTTON, ALERTS_SELECT_CONFIRM_BUTTON, buildAlertsSelect } from './3.2_handleAlertsToSend';
+import { errorMessageOptions } from '../common/errorMessageOptions';
+import { ALERTS_SELECT_CANCEL_BUTTON, ALERTS_SELECT_CONFIRM_BUTTON, buildAlertsSelect } from './handleAlertsToSend';
 
 /**
  * Handle alert select
@@ -27,7 +28,7 @@ export async function handleAlertsSelect(ctx: ComponentContext) {
 	
 		await ctx.editParent({ components: [selectActionRow, buttons] });
 	} catch (error) {
-		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleAlertsSelect] ${error}`);
+		await ctx.send(errorMessageOptions({ handlerName: 'handleAlertsSelect', error }));
 		Log.error(error);
 	}
 }

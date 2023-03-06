@@ -20,7 +20,7 @@ import Log, { LogUtils } from './utils/Log';
 import apiKeys from './service/constants/apiKeys';
 import constants from './service/constants/constants';
 import { RewriteFrames } from '@sentry/integrations';
-import * as handlers from './interactions/componentInteractions/handlers';
+import * as handlers from './interactions/handlers';
 import { CustomId } from './interactions/customId';
 
 initializeSentryIO();

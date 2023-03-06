@@ -3,7 +3,8 @@ import { ButtonStyle, ComponentButton, ComponentContext, ComponentType } from 's
 import { CustomId } from 'src/app/interactions/customId';
 import Log from 'src/app/utils/Log';
 import { disableAllParentComponents, getAlertsText } from '../common';
-import { getUniqueAlertKeys } from './3.2_handleAlertsToSend';
+import { errorMessageOptions } from '../common/errorMessageOptions';
+import { getUniqueAlertKeys } from './handleAlertsToSend';
 
 const LINKED_CHANNEL_ALERTS_UPDATE_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
@@ -29,6 +30,7 @@ export async function handleUpdateAlertsButton(ctx: ComponentContext): Promise<v
 			await ctx.send({
 				content: ('You are not receiving any alerts.'),
 				components: [{ type: ComponentType.ACTION_ROW, components: [LINKED_CHANNEL_ALERTS_UPDATE_BUTTON, LINKED_CHANNEL_ALERTS_CANCEL_BUTTON] }],
+				ephemeral: true,
 			});
 			return;
 		}
@@ -38,9 +40,10 @@ export async function handleUpdateAlertsButton(ctx: ComponentContext): Promise<v
 		await ctx.send({
 			content: getAlertsText(uniqueAlertKeys),
 			components: [{ type: ComponentType.ACTION_ROW, components: [LINKED_CHANNEL_ALERTS_UPDATE_BUTTON, LINKED_CHANNEL_ALERTS_CANCEL_BUTTON] }],
+			ephemeral: true,
 		});
 	} catch (error) {
-		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleUpdateAlertsButton] ${error}`);
+		await ctx.send(errorMessageOptions({ handlerName: 'handleUpdateAlertsButton', error }));
 		Log.error(error);
 	}
 }

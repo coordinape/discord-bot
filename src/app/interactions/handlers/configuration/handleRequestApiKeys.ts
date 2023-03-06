@@ -7,7 +7,8 @@ import { isMessage } from 'src/app/utils/isMessage';
 import Log from 'src/app/utils/Log';
 import { sleep } from 'src/app/utils/sleep';
 import { disableAllParentComponents } from '../common';
-import { handleSendAlerts } from './3_handleSendAlerts';
+import { errorMessageOptions } from '../common/errorMessageOptions';
+import { handleSendAlerts } from './handleSendAlerts';
 
 /**
  * Request API keys flow
@@ -44,6 +45,7 @@ export async function handleRequestApiKeys(ctx: ComponentContext) {
 			components: [
 				{ type: ComponentType.ACTION_ROW, components: [AUTHORIZE_LINK_CIRCLE_BUTTON] },
 			],
+			ephemeral: true,
 		});
 
 		const onDiscordCircleApiToken = wsChain('subscription')({
@@ -61,7 +63,10 @@ export async function handleRequestApiKeys(ctx: ComponentContext) {
 				if (isMessage(message)) {
 					message.edit({ components: [{ type: ComponentType.ACTION_ROW, components: [{ ...AUTHORIZE_LINK_CIRCLE_BUTTON, disabled: true }] }] });
 				}
-				await ctx.send({ content: `<@${ctx.user.id}>, you've linked the circle successfully!` });
+				await ctx.send({
+					content: `<@${ctx.user.id}>, you've linked the circle successfully!`,
+					ephemeral: true,
+				});
 	
 				// Just to improve message flow
 				await sleep(3000);
@@ -71,7 +76,7 @@ export async function handleRequestApiKeys(ctx: ComponentContext) {
 			}
 		});
 	} catch (error) {
-		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleRequestApiKeys] ${error}`);
+		await ctx.send(errorMessageOptions({ handlerName: 'handleRequestApiKeys', error }));
 		Log.error(error);
 	}
 	
