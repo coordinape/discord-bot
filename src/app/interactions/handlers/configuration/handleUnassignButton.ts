@@ -3,6 +3,7 @@ import { ComponentContext, ComponentSelectMenu, ComponentType } from 'slash-crea
 import { CustomId } from 'src/app/interactions/customId';
 import Log from 'src/app/utils/Log';
 import { disableAllParentComponents } from '../common';
+import { errorMessageOptions } from '../common/errorMessageOptions';
 
 const UNASSIGN_ROLE_USER_SELECT: ComponentSelectMenu = {
 	type: ComponentType.USER_SELECT,
@@ -19,9 +20,10 @@ export async function handleUnassignButton(ctx: ComponentContext): Promise<void>
 		await ctx.send({
 			content: `Which user would you like to remove from circle ${circle.name}?`,
 			components: [{ type: ComponentType.ACTION_ROW, components: [UNASSIGN_ROLE_USER_SELECT] }],
+			ephemeral: true,
 		});
 	} catch (error) {
-		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleUnassignButton] ${error}`);
+		await ctx.send(errorMessageOptions({ handlerName: 'handleUnassignButton', error }));
 		Log.error(error);
 	}
 }

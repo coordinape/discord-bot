@@ -2,6 +2,7 @@ import { ButtonStyle, ComponentButton, ComponentContext, ComponentSelectMenu, Co
 import { CustomId } from 'src/app/interactions/customId';
 import Log from 'src/app/utils/Log';
 import { disableAllParentComponents } from '../common';
+import { errorMessageOptions } from '../common/errorMessageOptions';
 
 export type Alert = keyof typeof ALERTS;
 
@@ -75,9 +76,10 @@ export async function handleAlertsToSend(ctx: ComponentContext) {
 				{ type: ComponentType.ACTION_ROW, components: [selectComponent] },
 				{ type: ComponentType.ACTION_ROW, components: [ALERTS_SELECT_CONFIRM_BUTTON, ALERTS_SELECT_CANCEL_BUTTON] },
 			],
+			ephemeral: true,
 		});
 	} catch (error) {
-		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleAlertsToSend] ${error}`);
+		await ctx.send(errorMessageOptions({ handlerName: 'handleAlertsToSend', error }));
 		Log.error(error);
 	}
 }

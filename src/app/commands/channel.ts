@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { CommandContext, SlashCommand, SlashCreator } from 'slash-create';
 import { LogUtils } from '../utils/Log';
 import { ServiceSupport } from '../service/ServiceSupport';

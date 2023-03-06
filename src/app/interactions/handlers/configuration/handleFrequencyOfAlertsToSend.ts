@@ -2,6 +2,7 @@ import { ButtonStyle, ComponentButton, ComponentContext, ComponentSelectMenu, Co
 import { CustomId } from 'src/app/interactions/customId';
 import Log from 'src/app/utils/Log';
 import { disableAllParentComponents } from '../common';
+import { errorMessageOptions } from '../common/errorMessageOptions';
 
 const OPTIONS: ComponentSelectOption[] = [
 	{ label: 'End of Epoch', value: 'end_of_epoch', default: true },
@@ -51,9 +52,10 @@ export async function handleFrequencyOfAlertsToSend(ctx: ComponentContext) {
 				{ type: ComponentType.ACTION_ROW, components: [ALERTS_FREQUENCY_STRING_SELECT] },
 				{ type: ComponentType.ACTION_ROW, components: [ALERTS_FREQUENCY_SELECT_CONFIRM_BUTTON, ALERTS_FREQUENCY_SELECT_CANCEL_BUTTON] },
 			],
+			ephemeral: true,
 		});
 	} catch (error) {
-		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleFrequencyOfAlertsToSend] ${error}`);
+		await ctx.send(errorMessageOptions({ handlerName: 'handleFrequencyOfAlertsToSend', error }));
 		Log.error(error);
 	}
 }

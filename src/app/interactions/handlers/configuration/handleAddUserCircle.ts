@@ -1,4 +1,4 @@
-import { deleteUsersMutation } from '@api/deleteUsersMutation';
+import { createUsersMutation } from '@api/createUsersMutation';
 import { findApiKey } from '@api/findApiKey';
 import { findProfile } from '@api/findProfile';
 import { findProfileId } from '@api/findProfileId';
@@ -7,8 +7,9 @@ import { ComponentContext } from 'slash-create';
 import { extractUserId } from 'src/app/utils/extractUserId';
 import Log from 'src/app/utils/Log';
 import { disableAllParentComponents } from '../common';
+import { errorMessageOptions } from '../common/errorMessageOptions';
 
-export async function handleRemoveUserCircle(ctx: ComponentContext): Promise<void> {
+export async function handleAddUserCircle(ctx: ComponentContext): Promise<void> {
 	try {
 		await disableAllParentComponents(ctx);
 
@@ -17,7 +18,10 @@ export async function handleRemoveUserCircle(ctx: ComponentContext): Promise<voi
 		const profileId = await findProfileId({ userId });
 
 		if (!profileId) {
-			await ctx.send({ content: `<@${userId}> hasn't linked their Discord Account to Coordinape yet, please tell them to run \`/coordinape\` and click "Link" to link their account. Then you can try again\n\nYou can also add them directly in coordinape [here](https://app.coordinape.com/profile/me)` });
+			await ctx.send({
+				content: `<@${userId}> hasn't linked their Discord Account to Coordinape yet, please tell them to run \`/coordinape\` and click "Link" to link their account. Then you can try again\n\nYou can also add them directly in coordinape [here](https://app.coordinape.com/profile/me)`,
+				ephemeral: true,
+			});
 			return;
 		}
 
@@ -38,25 +42,30 @@ export async function handleRemoveUserCircle(ctx: ComponentContext): Promise<voi
 			throw new Error(`Role ID ${discord_role_id} not found!`);
 		}
 
-		const member = await guildMember.roles.remove(role, 'remove from circle');
-		await ctx.send({ content: `Role ${role} unassigned from ${member}` });
-
+		const member = await guildMember.roles.add(role, 'add to circle');
+		await ctx.send({
+			content: `Role ${role} assigned to ${member}`,
+			ephemeral: true,
+		});
 		
 		const apiKey = await findApiKey({ channelId: ctx.channelID });
 		if (!apiKey) {
 			throw new Error('Api key not found!');
 		}
 
-		const user = await deleteUsersMutation({
+		const user = await createUsersMutation({
 			circleId: Number(circle_id),
-			addresses: [profile.address],
+			users: [{ ...profile, entrance: 'manual-address-entry' }],
 			apiKey,
 		});
 		if (user) {
-			await ctx.send({ content: `User ${profile.name} removed from this circle` });
+			await ctx.send({
+				content: `User ${profile.name} added to this circle`,
+				ephemeral: true,
+			});
 		}
 	} catch (error) {
-		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleRemoveUserCircle] ${error}`);
+		await ctx.send(errorMessageOptions({ handlerName: 'handleAddUserCircle', error }));
 		Log.error(error);
 	}
 }

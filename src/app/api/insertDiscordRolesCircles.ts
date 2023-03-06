@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { gqlBot } from './gqlClients';
 
 type Props = {

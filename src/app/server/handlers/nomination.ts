@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { ButtonBuilder, ActionRowBuilder, Role, ButtonStyle } from 'discord.js';
 import client from '../../app';
 import { COORDINAPE_BUTTON } from '../components';

@@ -1,5 +1,4 @@
 import { updateDiscordRolesCirclesAlerts } from '@api/updateDiscordRolesCirclesAlerts';
-/* eslint-disable no-console */
 import { createUsersMutation } from '@api/createUsersMutation';
 import { findProfile } from '@api/findProfile';
 import {
@@ -67,6 +66,11 @@ export default class Help extends SlashCommand {
 					name: 'add-to-circle',
 					type: CommandOptionType.SUB_COMMAND,
 					description: 'testing adding to circle',
+				},
+				{
+					name: 'ephemeral',
+					type: CommandOptionType.SUB_COMMAND,
+					description: 'testing ephemeral messages',
 				},
 			],
 		});
@@ -146,7 +150,7 @@ export default class Help extends SlashCommand {
 		};
 
 		try {
-			await ctx.defer();
+			// await ctx.defer();
 
 			switch (ctx.subcommands[0]) {
 			case 'user-select':
@@ -211,7 +215,6 @@ export default class Help extends SlashCommand {
 				const circle_id = 5;
 				try {
 					const profile = await findProfile({ profileId });
-					console.log({ name: profile?.name });
 					
 					await ctx.send(`Profile: ${profile?.address} - ${JSON.stringify(profile?.name)}`);
 					if (profile) {
@@ -238,6 +241,10 @@ export default class Help extends SlashCommand {
 						return acc;
 					}, {} as Record<string, boolean>),
 				});
+				break;
+			}
+			case 'ephemeral': {
+				await ctx.send('Ephemeral message', { ephemeral: true });
 				break;
 			}
 			}

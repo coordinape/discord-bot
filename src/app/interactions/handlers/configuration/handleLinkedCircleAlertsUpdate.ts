@@ -2,7 +2,8 @@ import { getDiscordRolesCirclesAlerts } from '@api/getDiscordRolesCirclesAlerts'
 import { ComponentContext, ComponentSelectOption, ComponentType } from 'slash-create';
 import Log from 'src/app/utils/Log';
 import { disableAllParentComponents } from '../common';
-import { ALERTS_SELECT_CANCEL_BUTTON, ALERTS_SELECT_CONFIRM_BUTTON, ALERTS, buildAlertsSelect, isValidAlert, ALERT_OPTIONS } from './3.2_handleAlertsToSend';
+import { errorMessageOptions } from '../common/errorMessageOptions';
+import { ALERTS_SELECT_CANCEL_BUTTON, ALERTS_SELECT_CONFIRM_BUTTON, ALERTS, buildAlertsSelect, isValidAlert, ALERT_OPTIONS } from './handleAlertsToSend';
 
 export async function handleLinkedCircleAlertsUpdate(ctx: ComponentContext): Promise<void> {
 	try {
@@ -38,9 +39,10 @@ export async function handleLinkedCircleAlertsUpdate(ctx: ComponentContext): Pro
 				{ type: ComponentType.ACTION_ROW, components: [selectComponent] },
 				{ type: ComponentType.ACTION_ROW, components: [ALERTS_SELECT_CONFIRM_BUTTON, ALERTS_SELECT_CANCEL_BUTTON] },
 			],
+			ephemeral: true,
 		});
 	} catch (error) {
-		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleLinkedCircleAlertsUpdate] ${error}`);
+		await ctx.send(errorMessageOptions({ handlerName: 'handleLinkedCircleAlertsUpdate', error }));
 		Log.error(error);
 	}
 }

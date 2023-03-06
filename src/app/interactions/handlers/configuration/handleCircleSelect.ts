@@ -2,7 +2,8 @@ import { ButtonStyle, ComponentActionRow, ComponentButton, ComponentContext, Com
 import { HELP_BUTTON } from 'src/app/common';
 import { CustomId } from 'src/app/interactions/customId';
 import Log from 'src/app/utils/Log';
-import { buildCircleSelect } from './2_handleLinkCircles';
+import { errorMessageOptions } from '../common/errorMessageOptions';
+import { buildCircleSelect } from './handleLinkCircles';
 
 export const CIRCLE_SELECT_NEXT_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
@@ -40,7 +41,7 @@ export async function handleCircleSelect(ctx: ComponentContext) {
 	
 		await ctx.editParent({ components: [selectActionRow, nextButton] });
 	} catch (error) {
-		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleCircleSelect] ${error}`);
+		await ctx.send(errorMessageOptions({ handlerName: 'handleCircleSelect', error }));
 		Log.error(error);
 	}
 }

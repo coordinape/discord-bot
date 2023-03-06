@@ -1,4 +1,4 @@
-import { ButtonStyle, CommandContext, ComponentButton, ComponentType, SlashCommand, SlashCreator } from 'slash-create';
+import { ButtonStyle, CommandContext, ComponentActionRow, ComponentButton, ComponentType, SlashCommand, SlashCreator } from 'slash-create';
 import { LogUtils } from '../utils/Log';
 import { ServiceSupport } from '../service/ServiceSupport';
 import { CustomId } from '../interactions/customId';
@@ -69,26 +69,37 @@ export default class Coordinape extends SlashCommand {
 		const service = new ServiceSupport(ctx);
 
 		try {
-			await ctx.defer();
-
 			const profileId = await findProfileId({ userId: ctx.user.id });
 
 			const isChannelLinked = await getChannelLinkingStatus({ channelId: ctx.channelID });
-		
-			if (isChannelLinked) {
-				await ctx.send('Coordinape Single Command', { components: [
-					{ type: ComponentType.ACTION_ROW, components: [getLinkButton({ isLinked: !!profileId })] },
-					{ type: ComponentType.ACTION_ROW, components: [ASSIGN_BUTTON, UNASSIGN_BUTTON] },
-					{ type: ComponentType.ACTION_ROW, components: [UPDATE_ALERTS_BUTTON] },
-				] });
 
+			if (!isChannelLinked) {
+				const components: ComponentActionRow[] = [{ type: ComponentType.ACTION_ROW, components: [getLinkButton({ isLinked: !!profileId })] }];
+
+				if (profileId) {
+					components.push({ type: ComponentType.ACTION_ROW, components: [CONFIGURE_BUTTON] });
+				}
+
+				await ctx.send({
+					content: profileId ? 'Coordinape Single Command' : 'Link your account to continue',
+					components,
+					ephemeral: true,
+				},
+				);
 				return;
 			}
 
-			await ctx.send('Coordinape Single Command', { components: [
-				{ type: ComponentType.ACTION_ROW, components: [getLinkButton({ isLinked: !!profileId })] },
-				{ type: ComponentType.ACTION_ROW, components: [CONFIGURE_BUTTON] },
-			] });
+			await ctx.send(
+				'Coordinape Single Command',
+				{
+					components: [
+						{ type: ComponentType.ACTION_ROW, components: [getLinkButton({ isLinked: !!profileId })] },
+						{ type: ComponentType.ACTION_ROW, components: [ASSIGN_BUTTON, UNASSIGN_BUTTON] },
+						{ type: ComponentType.ACTION_ROW, components: [UPDATE_ALERTS_BUTTON, CONFIGURE_BUTTON] },
+					],
+					ephemeral: true,
+				},
+			);
 		} catch (e) {
 			LogUtils.logError('Welp, something went wrong', e);
 			await service.ephemeralError({ msg: JSON.stringify(e) });

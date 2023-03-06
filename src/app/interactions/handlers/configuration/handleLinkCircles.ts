@@ -4,9 +4,10 @@ import { Circle, getCircles } from '@api/getCircles';
 import { getLinkedCircles } from '@api/getLinkedCircles';
 import { CustomId } from 'src/app/interactions/customId';
 import { disableAllParentComponents } from '../common';
-import { CIRCLE_SELECT_NEXT_BUTTON, CIRCLE_SELECT_SKIP_BUTTON } from './2.1_handleCircleSelect';
+import { CIRCLE_SELECT_NEXT_BUTTON, CIRCLE_SELECT_SKIP_BUTTON } from './handleCircleSelect';
 import { HELP_BUTTON } from 'src/app/common';
 import Log from 'src/app/utils/Log';
+import { errorMessageOptions } from '../common/errorMessageOptions';
 
 export const ALL_CIRCLES_LINKED_CONTINUE_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
@@ -54,6 +55,7 @@ export async function handleLinkCircles(ctx: ComponentContext): Promise<void> {
 		if (unlinkedCircles.length === 0) {
 			await ctx.send({
 				content: 'All your circles are already linked!',
+				ephemeral: true,
 			});
 			return;
 		}
@@ -64,9 +66,10 @@ export async function handleLinkCircles(ctx: ComponentContext): Promise<void> {
 				{ type: ComponentType.ACTION_ROW, components: [buildCircleSelect({ circles: unlinkedCircles })] },
 				{ type: ComponentType.ACTION_ROW, components: [ { ...CIRCLE_SELECT_NEXT_BUTTON, disabled: true }, CIRCLE_SELECT_SKIP_BUTTON, HELP_BUTTON ] },
 			],
+			ephemeral: true,
 		});
 	} catch (error) {
-		await ctx.send(`Something is wrong, please try again or contact coordinape: [handleLinkCircles] ${error}`);
+		await ctx.send(errorMessageOptions({ handlerName: 'handleLinkCircles', error }));
 		Log.error(error);
 	}
 }
