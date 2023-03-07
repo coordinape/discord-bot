@@ -37,7 +37,7 @@ export async function handleRequestApiKeys(ctx: ComponentContext) {
 			type: ComponentType.BUTTON,
 			label: 'Authorize',
 			style: ButtonStyle.LINK,
-			url: `https://coordinape-git-staging-coordinape.vercel.app/discord/link?id=${rowId}&circleId=${circleId}`,
+			url: `https://app.coordinape.com/discord/link?id=${rowId}&circleId=${circleId}`,
 		};
 	
 		const message = await ctx.send({

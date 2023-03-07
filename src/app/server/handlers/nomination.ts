@@ -52,9 +52,8 @@ export default async function handler(req: Request, res: Response) {
 			throw new Error(`Channel id ${channelId} not found!`);
 		}
 
-		// TODO Change for production
 		const VOUCH_BUTTON: ButtonBuilder = new ButtonBuilder()
-			.setURL(`https://coordinape-git-staging-coordinape.vercel.app/circles/${data.circleId}/members`)
+			.setURL(`https://app.coordinape.com/circles/${data.circleId}/members`)
 			.setLabel('Vouch')
 			.setStyle(ButtonStyle.Link);
 		
