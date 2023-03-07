@@ -35,8 +35,6 @@ export const buildCircleSelect = ({ circles, options }: {circles?: Circle[]; opt
 /**
  * Link circles
  * @param ctx the context
- * 
- * TODO Remove the CommandContext once the `circle` command is no longer needed
  */
 export async function handleLinkCircles(ctx: ComponentContext): Promise<void> {
 	try {
