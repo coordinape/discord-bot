@@ -1,7 +1,7 @@
 import { deleteDiscordRolesCircles } from '@api/deleteDiscordRolesCircles';
 import { findDiscordEntitiesByCircleId } from '@api/findDiscordEntitiesByCircleId';
 import { insertDiscordRolesCircles } from '@api/insertDiscordRolesCircles';
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CategoryChannel, Role, TextChannel } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CategoryChannel, PermissionFlagsBits, Role, TextChannel } from 'discord.js';
 import { ComponentActionRow, ComponentContext, ComponentSelectMenu, ComponentSelectOption } from 'slash-create';
 import { CustomId } from 'src/app/interactions/customId';
 import { DiscordService } from 'src/app/service/DiscordService';
@@ -54,6 +54,8 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 	
 		const newEntitites: { channel: TextChannel; role: Role, circle: ComponentSelectOption }[] = [];
 
+		const guild = await discordService.findGuild();
+
 		for (const circle of circles) {
 			const { channelId, roleId } = await findDiscordEntitiesByCircleId({ circleId: Number(circle.value) });
 			
@@ -68,7 +70,24 @@ export async function handleCreateNewEntities(ctx: ComponentContext) {
 				continue;
 			}
 
-			const channel = await discordService.createChannel({ name: circle.label, parent: coordinapeCategory });
+			const channel = await discordService.createChannel({
+				name: circle.label,
+				parent: coordinapeCategory,
+				permissionOverwrites: [
+					{
+						id: guild.roles.everyone,
+						deny: [PermissionFlagsBits.ViewChannel],
+					},
+					{
+						id: ctx.user.id,
+						allow: [PermissionFlagsBits.ViewChannel],
+					},
+					{
+						id: ctx.creator.client.user.id,
+						allow: [PermissionFlagsBits.ViewChannel],
+					},
+				],
+			});
 			const role = await discordService.createRole({ name: `CO-${circle.label} Member` });
 	
 			if (!channel && !role) {
