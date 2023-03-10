@@ -4,6 +4,7 @@ import { ServiceSupport } from '../service/ServiceSupport';
 import { CustomId } from '../interactions/customId';
 import { findProfileId } from '@api/findProfileId';
 import { getChannelLinkingStatus } from '@api/getChannelLinkingStatus';
+import { PermissionsBitField } from 'discord.js';
 
 const CONFIGURE_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
@@ -71,35 +72,30 @@ export default class Coordinape extends SlashCommand {
 		try {
 			const profileId = await findProfileId({ userId: ctx.user.id });
 
+			const isServerAdmin = ctx.member?.permissions.has(PermissionsBitField.Flags.Administrator);
+
 			const isChannelLinked = await getChannelLinkingStatus({ channelId: ctx.channelID });
 
-			if (!isChannelLinked) {
-				const components: ComponentActionRow[] = [{ type: ComponentType.ACTION_ROW, components: [getLinkButton({ isLinked: !!profileId })] }];
+			const components: ComponentActionRow[] = [
+				{ type: ComponentType.ACTION_ROW, components: [getLinkButton({ isLinked: !!profileId })] },
+			];
 
-				if (profileId) {
-					components.push({ type: ComponentType.ACTION_ROW, components: [CONFIGURE_BUTTON] });
+			if (isServerAdmin && profileId) {
+				if (isChannelLinked) {
+					components.push({ type: ComponentType.ACTION_ROW, components: [ASSIGN_BUTTON, UNASSIGN_BUTTON] });
+					components.push({ type: ComponentType.ACTION_ROW, components: [UPDATE_ALERTS_BUTTON, CONFIGURE_BUTTON] });
 				}
 
-				await ctx.send({
-					content: profileId ? 'Coordinape Single Command' : 'Link your account to continue',
-					components,
-					ephemeral: true,
-				},
-				);
-				return;
+				if (!isChannelLinked) {
+					components.push({ type: ComponentType.ACTION_ROW, components: [CONFIGURE_BUTTON] });
+				}
 			}
 
-			await ctx.send(
-				'Coordinape Single Command',
-				{
-					components: [
-						{ type: ComponentType.ACTION_ROW, components: [getLinkButton({ isLinked: !!profileId })] },
-						{ type: ComponentType.ACTION_ROW, components: [ASSIGN_BUTTON, UNASSIGN_BUTTON] },
-						{ type: ComponentType.ACTION_ROW, components: [UPDATE_ALERTS_BUTTON, CONFIGURE_BUTTON] },
-					],
-					ephemeral: true,
-				},
-			);
+			return ctx.send({
+				content: profileId ? 'Coordinape Single Command' : 'Link your account to continue',
+				components,
+				ephemeral: true,
+			});
 		} catch (e) {
 			LogUtils.logError('Welp, something went wrong', e);
 			await service.ephemeralError({ msg: JSON.stringify(e) });
