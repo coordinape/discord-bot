@@ -100,7 +100,7 @@ export default class Coordinape extends SlashCommand {
 					style: ButtonStyle.PRIMARY,
 				}));
 				await ctx.send({
-					content: '`[role]` You\'ve done it! `[epoch name]` for `[circle]` ended <t:1665417300:R>!\n\nI\'m sure you crushed it. Your Circle gave `[SUM give]` across `[count users]`.\n\nTo see your results for the epoch click the Personal Summary button below, or view it in the app. `[circle history link]`\n\nWe’d love to know how you felt about this epoch, if you react to this message we’ll use that data to make Coordinape better!\n\nIf you have 3 minutes you could also fill out the pulse survey below this data will help your team and Coordinape improve.\n\n**It\'s better to GIVE than receive**',
+					content: '`[role]` You\'ve done it! `[epoch name]` for `[circle]` ended <t:1665417300:R>!\n\nI\'m sure you crushed it. Your Circle gave `[SUM give]` across `[count users]`.\n\nTo see your results for the epoch click the Personal Summary button below, or view it in the app. `[circle history link]`\n\nWe’d love to know how you felt about this epoch, if you react to this message we’ll use that data to make Coordinape better!\n\n**It\'s better to GIVE than receive**',
 					components: [{ type: ComponentType.ACTION_ROW, components: [...actions, COORDINAPE_BUTTON] }],
 				});
 				break;
