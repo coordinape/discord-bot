@@ -1,10 +1,11 @@
-import { ButtonStyle, CommandContext, ComponentActionRow, ComponentButton, ComponentType, SlashCommand, SlashCreator } from 'slash-create';
+import { ButtonStyle, CommandContext, CommandOptionType, ComponentActionRow, ComponentButton, ComponentType, SlashCommand, SlashCreator } from 'slash-create';
 import { LogUtils } from '../utils/Log';
 import { ServiceSupport } from '../service/ServiceSupport';
 import { CustomId } from '../interactions/customId';
 import { findProfileId } from '@api/findProfileId';
 import { getChannelLinkingStatus } from '@api/getChannelLinkingStatus';
 import { PermissionsBitField } from 'discord.js';
+import { handleContribution } from '../interactions/handlers';
 
 const CONFIGURE_BUTTON: ComponentButton = {
 	type: ComponentType.BUTTON,
@@ -57,7 +58,24 @@ export default class Coordinape extends SlashCommand {
 		super(creator, {
 			name: 'coordinape',
 			description: 'Interact with Coordinape directly in Discord.',
-			defaultPermission: true,
+			options: [
+				{
+					name: 'config',
+					type: CommandOptionType.SUB_COMMAND,
+					description: 'Configure your discord coordinape settings',
+				},
+				{
+					name: 'contribution',
+					type: CommandOptionType.SUB_COMMAND,
+					description: 'add a contribution',
+					options: [{
+						type: CommandOptionType.STRING,
+						name: 'text',
+						description: 'What was your contribution?',
+						required: true,
+					}],
+				},
+			],
 		});
 	}
 
@@ -67,37 +85,44 @@ export default class Coordinape extends SlashCommand {
 
 		if (ctx.user.bot) return;
 
-		const service = new ServiceSupport(ctx);
-
 		try {
-			const profileId = await findProfileId({ userId: ctx.user.id });
+			switch (ctx.subcommands[0]) {
+			case 'contribution':
+				return handleContribution(ctx);
+			case 'config': {
+				const profileId = await findProfileId({ userId: ctx.user.id });
 
-			const isServerAdmin = ctx.member?.permissions.has(PermissionsBitField.Flags.Administrator);
-
-			const isChannelLinked = await getChannelLinkingStatus({ channelId: ctx.channelID });
-
-			const components: ComponentActionRow[] = [
-				{ type: ComponentType.ACTION_ROW, components: [getLinkButton({ isLinked: !!profileId })] },
-			];
-
-			if (isServerAdmin && profileId) {
-				if (isChannelLinked) {
-					components.push({ type: ComponentType.ACTION_ROW, components: [ASSIGN_BUTTON, UNASSIGN_BUTTON] });
-					components.push({ type: ComponentType.ACTION_ROW, components: [UPDATE_ALERTS_BUTTON, CONFIGURE_BUTTON] });
+				const isServerAdmin = ctx.member?.permissions.has(PermissionsBitField.Flags.Administrator);
+	
+				const isChannelLinked = await getChannelLinkingStatus({ channelId: ctx.channelID });
+	
+				const components: ComponentActionRow[] = [
+					{ type: ComponentType.ACTION_ROW, components: [getLinkButton({ isLinked: !!profileId })] },
+				];
+	
+				if (isServerAdmin && profileId) {
+					if (isChannelLinked) {
+						components.push({ type: ComponentType.ACTION_ROW, components: [ASSIGN_BUTTON, UNASSIGN_BUTTON] });
+						components.push({ type: ComponentType.ACTION_ROW, components: [UPDATE_ALERTS_BUTTON, CONFIGURE_BUTTON] });
+					}
+	
+					if (!isChannelLinked) {
+						components.push({ type: ComponentType.ACTION_ROW, components: [CONFIGURE_BUTTON] });
+					}
 				}
-
-				if (!isChannelLinked) {
-					components.push({ type: ComponentType.ACTION_ROW, components: [CONFIGURE_BUTTON] });
-				}
+	
+				return ctx.send({
+					content: profileId ? 'Coordinape Single Command' : 'Link your account to continue',
+					components,
+					ephemeral: true,
+				});
 			}
-
-			return ctx.send({
-				content: profileId ? 'Coordinape Single Command' : 'Link your account to continue',
-				components,
-				ephemeral: true,
-			});
+			default:
+				break;
+			}
 		} catch (e) {
 			LogUtils.logError('Welp, something went wrong', e);
+			const service = new ServiceSupport(ctx);
 			await service.ephemeralError({ msg: JSON.stringify(e) });
 		}
 	}

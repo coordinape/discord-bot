@@ -51,6 +51,8 @@ const handleableInteractions: {[key: string]: (ctx: ComponentContext) => Promise
 	[CustomId.UnassignRoleUserSelectConfirmButton]: handlers.handleRemoveUserCircle,
 	[CustomId.UnassignRoleUserSelectCancelButton]: handlers.handleRemoveUserCircleCancel,
 	[CustomId.UpdateAlertsButton]: handlers.handleUpdateAlertsButton,
+	[CustomId.SubmitContributionConfirmButton]: handlers.handleContributionConfirm,
+	[CustomId.SubmitContributionCancelButton]: handlers.handleContributionCancel,
 };
 
 const creator: SlashCreatorWithDiscordJS = new SlashCreator({
