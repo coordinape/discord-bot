@@ -88,15 +88,7 @@ creator.on('autocompleteInteraction', (message) => Log.warn(`autocompleteInterac
 creator.on('error', (error: Error) => Log.error(`error: ${ error }`));
 creator.on('synced', () => Log.debug('Commands synced!'));
 creator.on('commandRegister', (command: SlashCommand) => Log.debug(`Registered command ${command.commandName}`));
-creator.on('commandError', (command: SlashCommand, error: Error) => Log.error(`Command ${command.commandName}:`, {
-	indexMeta: true,
-	meta: {
-		name: error.name,
-		message: error.message,
-		stack: error.stack,
-		command,
-	},
-}));
+creator.on('commandError', (command: SlashCommand, error: Error) => Log.error(`Command ${command.commandName}: ${error}`));
 
 // Ran after the command has completed
 creator.on('commandRun', (command:SlashCommand, result: Promise<any>, ctx: CommandContext) => {
@@ -146,15 +138,7 @@ function initializeEvents(): void {
 				client.on(event.name, (...args) => event.execute(...args, client));
 			}
 		} catch (e: any) {
-			Log.error('Event failed to process', {
-				indexMeta: true,
-				meta: {
-					name: e.name,
-					message: e.message,
-					stack: e.stack,
-					event,
-				},
-			});
+			Log.error(`Event failed to process: ${e}`);
 		}
 	});
 }
