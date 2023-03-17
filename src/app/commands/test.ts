@@ -72,6 +72,47 @@ export default class Help extends SlashCommand {
 					type: CommandOptionType.SUB_COMMAND,
 					description: 'testing ephemeral messages',
 				},
+				{
+					name: 'sub',
+					type: CommandOptionType.SUB_COMMAND,
+					description: 'testing sub commands',
+					options: [
+						{
+							type: CommandOptionType.INTEGER,
+							choices: [
+								{
+									name: 'one',
+									value: 1,
+								},
+								{
+									name: 'two',
+									value: 2,
+								},
+								{
+									name: 'three',
+									value: 3,
+								},
+							],
+							name: 'number',
+							description: 'some number',
+						},
+						{
+							type: CommandOptionType.CHANNEL,
+							name: 'channel',
+							description: 'channel desc',
+						},
+						{
+							type: CommandOptionType.USER,
+							name: 'user',
+							description: 'user desc',
+						},
+						{
+							type: CommandOptionType.BOOLEAN,
+							name: 'boolean',
+							description: 'boolean desc',
+						},
+					],
+				},
 			],
 		});
 	}
@@ -245,6 +286,10 @@ export default class Help extends SlashCommand {
 			}
 			case 'ephemeral': {
 				await ctx.send('Ephemeral message', { ephemeral: true });
+				break;
+			}
+			case 'sub': {
+				await ctx.send('sub', { ephemeral: true });
 				break;
 			}
 			}

@@ -16,6 +16,8 @@ export enum CustomId {
     LinkedChannelAlertsUpdateButton = 'LINKED_CHANNEL_ALERTS_UPDATE_BUTTON',
     Skip = 'SKIP',
     SkipLinkCircleButton = 'SKIP_LINK_CIRCLE_BUTTON',
+    SubmitContributionConfirmButton = 'SUBMIT_CONTRIBUTION_CONFIRM_BUTTON',
+    SubmitContributionCancelButton = 'SUBMIT_CONTRIBUTION_CANCEL_BUTTON',
     UnlinkButton = 'UNLINK_BUTTON',
     UnassignButton = 'UNASSIGN_BUTTON',
     UnassignRoleUserSelect = 'UNASSIGN_ROLE_USER_SELECT',
