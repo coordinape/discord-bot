@@ -16,6 +16,7 @@ export const ALERTS = {
 	['user-added']: 'User Added to Circle',
 	['user-removed']: 'User Leaves Circle',
 	['user-opts-out']: 'User Opts Out',
+	['daily-update']: 'Daily Update',
 };
 
 export const ALERT_ENTRIES = Object.keys(ALERTS).map((key) => ([key, false]));
