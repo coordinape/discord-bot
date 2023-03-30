@@ -10,7 +10,7 @@ export function getUsername({ discordId, address, profileName }: Props) {
 	}
 
 	if (profileName && address) {
-		return `Ox...${address?.slice(-4)} ${profileName}}`;
+		return `Ox...${address?.slice(-4)} ${profileName}`;
 	}
 
 	if (address) {
