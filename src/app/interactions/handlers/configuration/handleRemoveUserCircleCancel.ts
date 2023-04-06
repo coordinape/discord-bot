@@ -8,7 +8,7 @@ export async function handleRemoveUserCircleCancel(ctx: ComponentContext): Promi
 		await disableAllParentComponents(ctx);
 
 		await ctx.send({
-			content: 'No worries, if you want to remove another user just run `/coordinape` again',
+			content: 'No worries, if you want to remove another user just run `/coordinape config` again',
 			ephemeral: true,
 		});
 	} catch (error) {

@@ -8,7 +8,7 @@ export async function handleAddUserCircleCancel(ctx: ComponentContext): Promise<
 		await disableAllParentComponents(ctx);
 
 		await ctx.send({
-			content: 'No worries, if you want to add another user just run `/coordinape` again',
+			content: 'No worries, if you want to add another user just run `/coordinape config` again',
 			ephemeral: true,
 		});
 	} catch (error) {
