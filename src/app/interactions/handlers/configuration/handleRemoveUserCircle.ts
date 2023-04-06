@@ -19,7 +19,7 @@ export async function handleRemoveUserCircle(ctx: ComponentContext): Promise<voi
 
 		if (!profileId) {
 			await ctx.send({
-				content: `<@${userId}> hasn't linked their Discord Account to Coordinape yet, please tell them to run \`/coordinape\` and click "Link" to link their account. Then you can try again\n\nYou can also add them directly in coordinape [here](https://app.coordinape.com/profile/me)`,
+				content: `<@${userId}> hasn't linked their Discord Account to Coordinape yet, please tell them to run \`/coordinape config\` and click "Link" to link their account. Then you can try again\n\nYou can also add them directly in coordinape [here](https://app.coordinape.com/profile/me)`,
 				ephemeral: true,
 			});
 			return;

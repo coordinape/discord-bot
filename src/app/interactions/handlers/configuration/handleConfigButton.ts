@@ -27,7 +27,7 @@ export async function handleConfigButton(ctx: ComponentContext): Promise<void> {
 		}
 		
 		await ctx.send({
-			content: 'Thanks for adding the Coordinape Bot to your server! My job is to make using Coordinape as simple as possible for your team.\n\nTo do that I\'ll need to ask you a few questions first.\n\nIf you have any questions just click the help button below. If anything goes wrong in this process, you can always start this prompt over again by using the `/Coordinape` Command and clicking the Configure button',
+			content: 'Thanks for adding the Coordinape Bot to your server! My job is to make using Coordinape as simple as possible for your team.\n\nTo do that I\'ll need to ask you a few questions first.\n\nIf you have any questions just click the help button below. If anything goes wrong in this process, you can always start this prompt over again by using the `/coordinape config` Command and clicking the Configure button',
 			components: [{ type: ComponentType.ACTION_ROW, components: [CONFIG_NEXT_BUTTON, HELP_BUTTON] }],
 			ephemeral: true,
 		});
