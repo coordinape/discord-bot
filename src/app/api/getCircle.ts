@@ -4,7 +4,7 @@ export async function getCircle({ channelId }: {channelId: string}) {
 	const { discord_roles_circles } = await gqlBot('query')({
 		discord_roles_circles: [
 			{ where: { discord_channel_id: { _eq: channelId } } },
-			{ circle: { name: true } },
+			{ circle: { id: true, name: true } },
 		],
 	});
 
