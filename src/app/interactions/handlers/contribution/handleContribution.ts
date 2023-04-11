@@ -96,8 +96,10 @@ export async function handleContributionConfirm(ctx: ComponentContext) {
 		if (!success) {
 			throw new Error('Error sending contribution!');
 		}
+
+		await ctx.send(`<@${ctx.user.id}> has posted a contribution:\n\n> ${description}`);
 	
-		return ctx.send(`<@${ctx.user.id}> has posted a contribution:\n\n> ${description}`);
+		return;
 	} catch (error) {
 		await ctx.send(errorMessageOptions({ handlerName: 'handleConfirmContribution', error }));
 		Log.error(error);

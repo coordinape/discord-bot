@@ -1,4 +1,4 @@
-import { CategoryChannel, ChannelType, Client, Collection, CreateRoleOptions, Guild, GuildChannelCreateOptions, NonThreadGuildBasedChannel, Role, TextBasedChannel, TextChannel } from 'discord.js';
+import { CategoryChannel, ChannelType, Client, Collection, Guild, GuildChannelCreateOptions, NonThreadGuildBasedChannel, Role, RoleCreateOptions, TextBasedChannel, TextChannel } from 'discord.js';
 import { CommandContext, ComponentContext } from 'slash-create';
 import Log from '../utils/Log';
 import { notNull } from '../utils/notNull';
@@ -54,7 +54,7 @@ export class DiscordService {
 		}
 	}
 
-	async createRole({ name, ...rest }: Omit<CreateRoleOptions, 'icon'>): Promise<Role | undefined> {
+	async createRole({ name, ...rest }: Omit<RoleCreateOptions, 'icon'>): Promise<Role | undefined> {
 		try {
 			const guild = await this.findGuild();
 			return guild.roles.create({
