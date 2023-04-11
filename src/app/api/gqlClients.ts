@@ -4,10 +4,11 @@ import { getHasuraUrl, getHasuraWsUrl } from '@api/constants';
 const hasuraUrl = getHasuraUrl();
 const hasuraWsUrl = getHasuraWsUrl();
 
-export const gqlApiKey = (apiKey: string) => Chain(hasuraUrl, {
+export const gqlApiKey = (apiKey: string, headers?: {[key: string]: string}) => Chain(hasuraUrl, {
 	headers: {
 		'Authorization': `Bearer ${apiKey}`,
 		'content-type': 'application/json',
+		...headers,
 	},
 });
 
