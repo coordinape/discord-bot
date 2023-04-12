@@ -13,24 +13,8 @@ export async function handleLinkedCircleAlertsUpdate(ctx: ComponentContext): Pro
 	
 		const currentAlerts = Object.entries(alerts || {});
 	
-		let options = [];
-	
-		if (currentAlerts.length === 0) {
-			options = ALERT_OPTIONS;
-		} else {
-			options = currentAlerts.reduce((acc, [key, value]) => {
-				if (!isValidAlert(key)) {
-					return acc;
-				}
-		
-				const option = { label: ALERTS[key], value: key, default: !!value };
-		
-				acc.push(option);
-		
-				return acc;
-			}, [] as ComponentSelectOption[]);
-		}
-	
+		const options = createOptions({ currentAlerts });
+
 		const selectComponent = buildAlertsSelect({ options });
 		
 		await ctx.send({
@@ -45,4 +29,26 @@ export async function handleLinkedCircleAlertsUpdate(ctx: ComponentContext): Pro
 		await ctx.send(errorMessageOptions({ handlerName: 'handleLinkedCircleAlertsUpdate', error }));
 		Log.error(error);
 	}
+}
+
+function createOptions({ currentAlerts }: {currentAlerts: [string, boolean][]}): ComponentSelectOption[] {
+	if (currentAlerts.length === 0) {
+		return ALERT_OPTIONS;
+	}
+
+	const options = currentAlerts.reduce((acc, [key, value]) => {
+		if (!isValidAlert(key)) {
+			return acc;
+		}
+	
+		const option = { label: ALERTS[key], value: key, default: !!value };
+	
+		acc.push(option);
+	
+		return acc;
+	}, [] as ComponentSelectOption[]);
+
+	return options.concat(ALERT_OPTIONS).filter((alert, index, self) => {
+		return index === self.findIndex(({ value }) => value === alert.value);
+	});
 }
