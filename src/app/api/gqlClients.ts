@@ -8,7 +8,6 @@ export const gqlApiKey = (apiKey: string, headers?: {[key: string]: string}) => 
 	headers: {
 		'Authorization': `Bearer ${apiKey}`,
 		'content-type': 'application/json',
-		'x-hasura-role': 'api-user',
 		...headers,
 	},
 });
