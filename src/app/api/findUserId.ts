@@ -1,12 +1,13 @@
-import { gqlBot } from './gqlClients';
+import { gqlApiKey } from './gqlClients';
 
 type Props = {
+	apiKey: string;
 	circleId: string;
 	profileId: string;
 }
 
-export async function findUserId({ circleId, profileId }: Props): Promise<string | null> {
-	const { users } = await gqlBot('query')({
+export async function findUserId({ apiKey, circleId, profileId }: Props): Promise<string | null> {
+	const { users } = await gqlApiKey(apiKey)('query')({
 		users: [
 			{ where: { circle_id: { _eq: circleId }, profile: { id: { _eq: profileId } } } },
 			{ id: true },

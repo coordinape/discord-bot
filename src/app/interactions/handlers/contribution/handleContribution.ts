@@ -76,16 +76,16 @@ export async function handleContributionConfirm(ctx: ComponentContext) {
 
 		const { circle } = await getCircle({ channelId: ctx.channelID });
 
-		const userId = await findUserId({ circleId: String(circle.id), profileId: String(profileId) });
-
-		if (!userId) {
-			throw new Error('User id not found!');
-		}
-
 		const apiKey = await findApiKey({ channelId: ctx.channelID });
 		
 		if (!apiKey) {
 			throw new Error('Api key not found!');
+		}
+
+		const userId = await findUserId({ apiKey, circleId: String(circle.id), profileId: String(profileId) });
+
+		if (!userId) {
+			throw new Error('User id not found!');
 		}
 
 		// Get the contribution from the message
