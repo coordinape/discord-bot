@@ -7,16 +7,16 @@ import { errorMessageOptions } from '../common/errorMessageOptions';
 export type Alert = keyof typeof ALERTS;
 
 export const ALERTS = {
+	['daily-update']: 'Daily Update',
 	['epoch-start']: 'Epoch Start',
 	['epoch-end']: 'Epoch End',
+	['user-opts-out']: 'User Opts Out',
+	['user-added']: 'User Added to Circle',
+	['user-removed']: 'User Leaves Circle',
 	['nomination']: 'Nomination',
 	['vouch']: 'Vouch',
 	['vouch-successful']: 'Vouch Successful',
 	['vouch-unsuccessful']: 'Vouch Unsuccessful',
-	['user-added']: 'User Added to Circle',
-	['user-removed']: 'User Leaves Circle',
-	['user-opts-out']: 'User Opts Out',
-	['daily-update']: 'Daily Update',
 };
 
 export const ALERT_ENTRIES = Object.keys(ALERTS).map((key) => ([key, false]));
