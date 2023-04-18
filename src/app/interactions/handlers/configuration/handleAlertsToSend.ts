@@ -72,7 +72,7 @@ export async function handleAlertsToSend(ctx: ComponentContext) {
 		const selectComponent = buildAlertsSelect({ options: ALERT_OPTIONS });
 		
 		await ctx.send({
-			content: 'What Alerts would you like me to send?',
+			content: 'Choose alerts!\n"Daily Update" is a daily snapshot of the ongoing epoch\'s data.\nOther alerts happen when the given event occurs.\nWe do not tag Discord users in our posts.',
 			components: [
 				{ type: ComponentType.ACTION_ROW, components: [selectComponent] },
 				{ type: ComponentType.ACTION_ROW, components: [ALERTS_SELECT_CONFIRM_BUTTON, ALERTS_SELECT_CANCEL_BUTTON] },
