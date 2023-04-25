@@ -4,11 +4,11 @@ This discord bot development is platform agnostic. It can be installed locally o
 
 These tools can make development quick and are recommended:
 
--   [git CLI](https://git-scm.com) - version control system
--   [nodejs v16.16.0](https://nodejs.org/en/) - js runtime built on chrome's v8 engine
--   [n](https://github.com/tj/n) - easily change node versions
--   [iterm2](https://iterm2.com/) - enhanced terminal for macOS
--   [discord](https://discord.com/) - popular chat application used for gaming and organized communities
+- [git CLI](https://git-scm.com) - version control system
+- [nodejs v16.16.0](https://nodejs.org/en/) - js runtime built on chrome's v8 engine
+- [n](https://github.com/tj/n) - easily change node versions
+- [iterm2](https://iterm2.com/) - enhanced terminal for macOS
+- [discord](https://discord.com/) - popular chat application used for gaming and organized communities
 
 ## Configuration Setup
 
@@ -23,9 +23,6 @@ Please create a `.env` with the keys below
 DISCORD_BOT_TOKEN=<taken from discord bot applciation page>
 DISCORD_BOT_PUBLIC_KEY=<taken from discord application PUBLIC KEY>
 DISCORD_BOT_APPLICATION_ID=<taken from discord application APPLICATION ID>
-LOGDNA_APP_NAME=<what did you name your bot>
-LOGDNA_DEFAULT_LEVEL=debug
-LOGDNA_TOKEN=<taken from logdna setup screen>  
 
 # Sentry
 SENTRY_IO_DSN=<taken from sentry.io project settings>
@@ -35,7 +32,7 @@ SENTRY_IO_DSN=<taken from sentry.io project settings>
 ### 2. Generate bot token
 
 [https://discordjs.guide/preparations/setting-up-a-bot-application.html](https://discordjs.guide/preparations/setting-up-a-bot-application.html)
-Create your own discord application and then grab your bot token.  
+Create your own discord application and then grab your bot token.
 
 Retrieve the App's client ID
 ![](images/create_app.png)
