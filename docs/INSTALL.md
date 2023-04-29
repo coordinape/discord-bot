@@ -1,15 +1,5 @@
 # Install
 
-This discord bot development is platform agnostic. It can be installed locally on windows or unix systems where the discord is available.
-
-These tools can make development quick and are recommended:
-
-- [git CLI](https://git-scm.com) - version control system
-- [nodejs v16.16.0](https://nodejs.org/en/) - js runtime built on chrome's v8 engine
-- [n](https://github.com/tj/n) - easily change node versions
-- [iterm2](https://iterm2.com/) - enhanced terminal for macOS
-- [discord](https://discord.com/) - popular chat application used for gaming and organized communities
-
 ## Configuration Setup
 
 Before the bot is ready to run there are a few configuration items that should be done. First few steps can be done following
@@ -17,7 +7,9 @@ the [discord.js guide](https://discordjs.guide/#before-you-begin);
 
 ### 1. Create environment file
 
-Please create a `.env` with the keys below
+Please create a `.env` with the keys copied from .env.example.
+
+For these keys below
 
 ```
 DISCORD_BOT_TOKEN=<taken from discord bot applciation page>
@@ -28,6 +20,10 @@ DISCORD_BOT_APPLICATION_ID=<taken from discord application APPLICATION ID>
 SENTRY_IO_DSN=<taken from sentry.io project settings>
 
 ```
+
+you'll need to create bot on the Discord side following the Generate bot token step.
+
+TODO: add more instructions on this step.
 
 ### 2. Generate bot token
 

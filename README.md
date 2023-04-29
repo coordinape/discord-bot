@@ -1,13 +1,20 @@
-# Welcome to Caesar, the Coorinape Discord Bot
+# Coordinape Discord Bot
 
-With Web3 communities proliferating and thriving on Discord, Coordinape is
-bringing Circle assignment and Epoch alert functionality to Discord! CO Kong
-is developed for the purpose of automating Circle assignment, so you can
-spend less time signing up members and more time producing and building.
+Bringing Coordinape to Discord.
 
-## Caesar Development
+## Setting up a Discord Dev bot
+
+TODO: fill this out
+
+## Bot Development
+
+- Reqs: Have yarn 1.22.19 installed
+- Install packages with `yarn`
+
+Start server and backend processs
 
 ```
+yarn && yarn dev
 yarn && yarn serve:dev
 ```
 
@@ -23,24 +30,25 @@ In the generated file `src/app/api/zeus/index.ts`, add the following class
 
 ```typescript
 class HasuraWebSocket extends WebSocket {
-	constructor(address: string, protocols: string) {
-		super(address, protocols, {
-			headers: {
-				'authorization': process.env.DISCORD_BOT_AUTHORIZATION_HEADER || 'no_secret',
-				'x-hasura-role': 'discord-bot',
-			},
-		});
-	}
+  constructor(address: string, protocols: string) {
+    super(address, protocols, {
+      headers: {
+        authorization:
+          process.env.DISCORD_BOT_AUTHORIZATION_HEADER || "no_secret",
+        "x-hasura-role": "discord-bot",
+      },
+    });
+  }
 }
 ```
 
 and then use it as follows inside the `apiSubscription` function
 
 ```typescript
-  const client = createClient({
-    url: String(options[0]),
-    webSocketImpl: HasuraWebSocket,
-  });
+const client = createClient({
+  url: String(options[0]),
+  webSocketImpl: HasuraWebSocket,
+});
 ```
 
 833507b123dbd7102efb408766abe240d2a4df2b (branch `karelianpie:feat/trigger-discord-epoch-events`)
