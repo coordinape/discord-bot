@@ -18057,7 +18057,7 @@ export const ReturnTypes: Record<string,any> = {
 }
 
 export const Ops = {
-mutation: "mutation_root" as const,
-	query: "query_root" as const,
+query: "query_root" as const,
+	mutation: "mutation_root" as const,
 	subscription: "subscription_root" as const
 }
