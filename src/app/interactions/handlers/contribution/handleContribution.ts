@@ -25,7 +25,7 @@ export const SUBMIT_CONTRIBUTION_CANCEL_BUTTON: ComponentButton = {
 
 /**
  * Handle the contribution flow
- * 
+ *
  * @param ctx the command context
  */
 export async function handleContribution(ctx: CommandContext): Promise<void> {
@@ -53,7 +53,7 @@ export async function handleContribution(ctx: CommandContext): Promise<void> {
 			ephemeral: true,
 		});
 
-		
+
 	} catch (error) {
 		await ctx.send(errorMessageOptions({ handlerName: 'handleConfirmContribution', error }));
 		Log.error(error);
@@ -77,7 +77,7 @@ export async function handleContributionConfirm(ctx: ComponentContext) {
 		const { circle } = await getCircle({ channelId: ctx.channelID });
 
 		const apiKey = await findApiKey({ channelId: ctx.channelID });
-		
+
 		if (!apiKey) {
 			throw new Error('Api key not found!');
 		}
@@ -91,14 +91,14 @@ export async function handleContributionConfirm(ctx: ComponentContext) {
 		// Get the contribution from the message
 		const description = ctx.message.content.split('\n')[2].substring(2);
 
-		const { success } = await insertContributionsOne({ apiKey, userId, description, circleId: String(circle.id) });
-	
+		const { success } = await insertContributionsOne({ apiKey, userId,profileId, description, circleId: String(circle.id) });
+
 		if (!success) {
 			throw new Error('Error sending contribution!');
 		}
 
 		await ctx.send(`<@${ctx.user.id}> has posted a contribution:\n\n> ${description}`);
-	
+
 		return;
 	} catch (error) {
 		await ctx.send(errorMessageOptions({ handlerName: 'handleConfirmContribution', error }));
@@ -108,7 +108,7 @@ export async function handleContributionConfirm(ctx: ComponentContext) {
 
 export async function handleContributionCancel(ctx: ComponentContext) {
 	await disableAllParentComponents(ctx);
-	
+
 	await ctx.send(`<@${ctx.user.id}> your contribution was ignored`, { ephemeral: true });
 
 	return;
