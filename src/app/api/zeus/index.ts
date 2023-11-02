@@ -4661,7 +4661,8 @@ count?: [{	columns?: Array<ValueTypes["contributions_select_column"]> | undefine
 	id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
 	updated_at?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>,
 	user?: ValueTypes["users_obj_rel_insert_input"] | undefined | null | Variable<any, string>,
-	user_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>
+	user_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>,
+	profile_id?: ValueTypes["bigint"] | undefined | null | Variable<any, string>
 };
 	/** aggregate max on columns */
 ["contributions_max_fields"]: AliasType<{
