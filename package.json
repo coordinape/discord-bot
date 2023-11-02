@@ -1,6 +1,6 @@
 {
     "name": "co-kong",
-    "version": "1.0.0",
+    "version": "1.22.19",
     "description": "description here",
     "main": "app.ts",
     "private": true,
