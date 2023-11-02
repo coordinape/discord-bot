@@ -91,7 +91,7 @@ export async function handleContributionConfirm(ctx: ComponentContext) {
 		// Get the contribution from the message
 		const description = ctx.message.content.split('\n')[2].substring(2);
 
-		const { success } = await insertContributionsOne({ apiKey, userId,profileId, description, circleId: String(circle.id) });
+		const { success } = await insertContributionsOne({ apiKey, userId, profileId: String(profileId), description, circleId: String(circle.id) });
 
 		if (!success) {
 			throw new Error('Error sending contribution!');
