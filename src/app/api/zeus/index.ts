@@ -19637,7 +19637,8 @@ count?: [{	columns?: Array<ResolverInputTypes["contributions_select_column"]> | 
 	id?: ResolverInputTypes["bigint"] | undefined | null,
 	updated_at?: ResolverInputTypes["timestamptz"] | undefined | null,
 	user?: ResolverInputTypes["users_obj_rel_insert_input"] | undefined | null,
-	user_id?: ResolverInputTypes["bigint"] | undefined | null
+	user_id?: ResolverInputTypes["bigint"] | undefined | null,
+	profile_id?: ResolverInputTypes["bigint"] | undefined | null
 };
 	/** aggregate max on columns */
 ["contributions_max_fields"]: AliasType<{
@@ -34319,7 +34320,8 @@ export type ModelTypes = {
 	id?: ModelTypes["bigint"] | undefined,
 	updated_at?: ModelTypes["timestamptz"] | undefined,
 	user?: ModelTypes["users_obj_rel_insert_input"] | undefined,
-	user_id?: ModelTypes["bigint"] | undefined
+	user_id?: ModelTypes["bigint"] | undefined,
+	profile_id?: ModelTypes["bigint"] | undefined
 };
 	/** aggregate max on columns */
 ["contributions_max_fields"]: {
@@ -47671,7 +47673,8 @@ export type GraphQLTypes = {
 	id?: GraphQLTypes["bigint"] | undefined,
 	updated_at?: GraphQLTypes["timestamptz"] | undefined,
 	user?: GraphQLTypes["users_obj_rel_insert_input"] | undefined,
-	user_id?: GraphQLTypes["bigint"] | undefined
+	user_id?: GraphQLTypes["bigint"] | undefined,
+	profile_id?: GraphQLTypes["bigint"] | undefined
 };
 	/** aggregate max on columns */
 ["contributions_max_fields"]: {
